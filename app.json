@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "expo-template",
+    "slug": "expo-template",
+    "description": "",
+    "githubUrl": "https://github.com/mateuszpijanowski/expo-template",
+    "privacy": "public",
+    "version": "1.0.0",
+    "sdkVersion": "37.0.0",
+    "ios": {
+      "buildNumber": "1.0.0",
+      "supportsTablet": false,
+      "bundleIdentifier": "com.webStrong.expoTemplate"
+    },
+    "android": {
+      "package": "com.webStrong.expoTemplate",
+      "versionCode": 1
+    },
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "primaryColor": "#292b2c",
+    "orientation": "portrait",
+    "icon": "./src/assets/icon.png",
+    "splash": {
+      "image": "./src/assets/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#292b2c"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
