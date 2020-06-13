@@ -1,19 +1,19 @@
 {
   "expo": {
-    "name": "expo-template",
-    "slug": "expo-template",
+    "name": "Save Food",
+    "slug": "save-food",
     "description": "",
-    "githubUrl": "https://github.com/mateuszpijanowski/expo-template",
+    "githubUrl": "https://github.com/webstrongteam/save-food",
     "privacy": "public",
     "version": "1.0.0",
     "sdkVersion": "37.0.0",
     "ios": {
       "buildNumber": "1.0.0",
       "supportsTablet": false,
-      "bundleIdentifier": "com.webStrong.expoTemplate"
+      "bundleIdentifier": "com.webStrong.saveFood"
     },
     "android": {
-      "package": "com.webStrong.expoTemplate",
+      "package": "com.webStrong.saveFood",
       "versionCode": 1
     },
     "platforms": [
