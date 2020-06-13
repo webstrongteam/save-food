@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes';
 import {openDatabase} from 'expo-sqlite';
 
-const db = openDatabase('template.db');
+const db = openDatabase('savefood.db');
 
 export const onUpdateSettings = (settings) => {
     return {
@@ -28,6 +28,30 @@ export const changeLang = (value) => {
         db.transaction(
             tx => {
                 tx.executeSql('update settings set lang = ? where id = 0;', [value], () => {
+                    dispatch(initSettings())
+                });
+            }, (err) => console.log(err)
+        );
+    };
+};
+
+export const changeCurrency = (value) => {
+    return dispatch => {
+        db.transaction(
+            tx => {
+                tx.executeSql('update settings set currency = ? where id = 0;', [value], () => {
+                    dispatch(initSettings())
+                });
+            }, (err) => console.log(err)
+        );
+    };
+};
+
+export const changeNotificationCycle = (value) => {
+    return dispatch => {
+        db.transaction(
+            tx => {
+                tx.executeSql('update settings set notification_cycle = ? where id = 0;', [value], () => {
                     dispatch(initSettings())
                 });
             }, (err) => console.log(err)

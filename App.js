@@ -1,14 +1,18 @@
 import React, {Component} from 'react';
-import Spinner from './src/components/Spinner/Spinner';
 import {applyMiddleware, combineReducers, createStore} from 'redux';
+import {setCustomText} from 'react-native-global-props';
+import Spinner from './src/components/Spinner/Spinner';
+import Template from "./src/containers/Template/Template";
 import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
 import {initApp} from './src/db';
 import {loadAsync} from "expo-font";
 import Router from './src/router';
+import wastedFoodReducer from './src/store/reducers/wastedFood';
 import settingsReducer from './src/store/reducers/settings';
 
 const rootReducer = combineReducers({
+    wastedFood: wastedFoodReducer,
     settings: settingsReducer
 });
 
@@ -36,10 +40,18 @@ class App extends Component {
         // Hide yellow boxes
         console.disableYellowBox = true;
 
+        // Set default styles for all Text components.
+        const customTextProps = {
+            style: {fontFamily: 'Lato-Regular'}
+        };
+        setCustomText(customTextProps);
+
         return (
             ready ?
                 <Provider store={store}>
-                    <Router/>
+                    <Template>
+                        <Router/>
+                    </Template>
                 </Provider> :
                 <Spinner color='#000' size={64}/>
         );
