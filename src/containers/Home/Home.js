@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {ScrollView, Text, View} from "react-native";
+import {ScrollView, Text, TouchableOpacity, View} from "react-native";
 import styles from './Home.style';
 import Header from '../../components/Header/Header';
 import {LinearGradient} from "expo-linear-gradient";
+import {Icon} from "react-native-elements";
 
 class Home extends Component {
     render() {
@@ -10,7 +11,26 @@ class Home extends Component {
 
         return (
             <View style={styles.container}>
-                <Header/>
+                <Header
+                    leftComponent={
+                        <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
+                            <Icon color="#fff" size={25}
+                                  name='setting' style={{marginLeft: 20}}
+                                  type='antdesign'/>
+                        </TouchableOpacity>
+                    }
+                    rightComponent={
+                        <TouchableOpacity onPress={() => navigation.navigate('WastedFood')}>
+                            <View style={{flexDirection: 'row', alignItems: 'center', marginRight: 20}}>
+                                <Icon
+                                    size={25} name='trash-o'
+                                    type='font-awesome' color={"#fff"}
+                                />
+                                <Text style={{marginLeft: 5, color: '#fff'}}>(25 USD)</Text>
+                            </View>
+                        </TouchableOpacity>
+                    }
+                />
                 <LinearGradient
                     colors={['#4b8b1d', '#6cd015']}
                     style={styles.containerColor}
@@ -21,28 +41,30 @@ class Home extends Component {
                         Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                         Lorem Ipsum has been the industry's
                     </Text>
-                    <View style={styles.containerCenter}>
-                        <LinearGradient
-                            colors={['#f2f3f5', '#c4bfc3']}
-                            style={styles.circleOne}
-                        >
+                    <TouchableOpacity onPress={() => navigation.navigate('Scanner')}>
+                        <View style={styles.containerCenter}>
                             <LinearGradient
-                                colors={['#f8aa24', '#ec4f18']}
-                                style={styles.circleTwo}
+                                colors={['#f2f3f5', '#c4bfc3']}
+                                style={styles.circleOne}
                             >
                                 <LinearGradient
-                                    colors={['#f2f3f5', '#c4bfc3']}
-                                    style={styles.circleThree}
+                                    colors={['#f8aa24', '#ec4f18']}
+                                    style={styles.circleTwo}
                                 >
-                                    <Text style={styles.textScan}>Scan</Text>
+                                    <LinearGradient
+                                        colors={['#f2f3f5', '#c4bfc3']}
+                                        style={styles.circleThree}
+                                    >
+                                        <Text style={styles.textScan}>Scan</Text>
+                                    </LinearGradient>
                                 </LinearGradient>
                             </LinearGradient>
-                        </LinearGradient>
-                    </View>
+                        </View>
+                    </TouchableOpacity>
                     <View style={styles.shadow}>
                         <View style={styles.windowInformation}>
                             <View style={{flex: 4}}>
-                                <Text style={styles.textBlack}>Waste food</Text>
+                                <Text style={styles.textBlack}>Wasted food</Text>
                             </View>
                             <LinearGradient
                                 colors={['#af3462', '#bf3741']}
@@ -57,7 +79,7 @@ class Home extends Component {
                     <View style={styles.shadow}>
                         <View style={styles.windowInformation}>
                             <View style={{flex: 4}}>
-                                <Text style={styles.textBlack}>Waste money</Text>
+                                <Text style={styles.textBlack}>Wasted money</Text>
                             </View>
                             <LinearGradient
                                 start={{x: 1, y: 1}}
@@ -69,6 +91,7 @@ class Home extends Component {
                             </LinearGradient>
                         </View>
                     </View>
+                    <View style={{marginBottom: 50}}/>
                 </ScrollView>
             </View>
         );
