@@ -1,29 +1,29 @@
 import React from 'react';
-import {Text, View, TouchableOpacity} from "react-native";
-import {Icon} from "react-native-elements";
+import {Platform, View} from "react-native";
 
-const Header = () => (
+const Header = ({leftComponent, centerComponent, rightComponent, title = 'Save food'}) => (
     <View style={{
         position: 'absolute',
+        zIndex: 200,
         top: 0,
-        height:40,
-        width:'100%',
+        height: 40,
+        width: '100%',
         left: 0,
         flexDirection: 'row',
-        margin:30,
+        alignItems: 'center',
+        marginTop: Platform.OS === 'ios' ? 30 : 40,
+        marginBottom: 30,
         justifyContent: 'space-between'
     }}>
-        <TouchableOpacity onPress={() => this.props.onPress}>
-            <Icon color="#fff" size={25}
-                  name='setting'
-                  type='antdesign'/>
-        </TouchableOpacity>
-        <Text style={{
-            textAlign:'right',
-            fontSize:25,
-            marginRight:60,
-            color: '#fff'
-        }}>Save food</Text>
+        <View style={{flex: 1, alignItems: 'flex-start'}}>
+            {leftComponent ? leftComponent : <View/>  }
+        </View>
+        <View style={{flex: 1, alignItems: 'center'}}>
+            {centerComponent ? centerComponent : <View/>  }
+        </View>
+        <View style={{flex: 1, alignItems: 'flex-end'}}>
+            {rightComponent ? rightComponent : <View/>  }
+        </View>
     </View>
 );
 
