@@ -4,14 +4,16 @@ import {createStackNavigator} from 'react-navigation-stack';
 // Components
 import Start from "./containers/Start/Start";
 import Home from "./containers/Home/Home";
+import Scanner from "./containers/Scanner/Scanner";
 
 const MainNavigator = createStackNavigator(
     {
         Start: {screen: Start},
         Home: {screen: Home},
+        Scanner: {screen: Scanner}
     },
     {
-        initialRouteName: 'Start',
+        initialRouteName: 'Scanner',
         headerMode: 'none'
     },
 );
