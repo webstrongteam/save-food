@@ -4,7 +4,7 @@ import {Icon} from "react-native-elements";
 import styles from "../../containers/Home/Home.style";
 import {LinearGradient} from "expo-linear-gradient";
 
-const InfoWindow = ({color1='#f8f8f8', color2=['#f2a91e', '#e95c17'],title='none',val='none'}) => (
+const InfoWindow = ({color1 = '#f8f8f8', color2 = ['#f2a91e', '#e95c17'], title = 'none', val = 'none', colorTitle = '#000', onPress}) => (
     <View style={{
         width: '100%',
         height: 90,
@@ -30,6 +30,7 @@ const InfoWindow = ({color1='#f8f8f8', color2=['#f2a91e', '#e95c17'],title='none
                     textAlign: 'center',
                     justifyContent: 'center',
                     alignItems: 'center',
+                    color: colorTitle
                 }}>{title}</Text>
             </View>
             <LinearGradient
@@ -46,11 +47,18 @@ const InfoWindow = ({color1='#f8f8f8', color2=['#f2a91e', '#e95c17'],title='none
                     alignItems: 'center',
                 }}
             >
-                <Text style={{
-                    color: '#fff',
-                    fontSize: 28,
-                    textAlign: 'center',
-                }}>{val}</Text>
+                {onPress ? <TouchableOpacity onPress={()=>onPress()}>
+                        <Text style={{
+                            color: '#fff',
+                            fontSize: 28,
+                            textAlign: 'center',
+                        }}>{val}</Text>
+                    </TouchableOpacity>
+                    : <Text style={{
+                        color: '#fff',
+                        fontSize: 28,
+                        textAlign: 'center',
+                    }}>{val}</Text>}
             </LinearGradient>
         </View>
     </View>
