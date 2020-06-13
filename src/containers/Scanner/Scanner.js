@@ -1,18 +1,14 @@
 import React, {Component} from 'react';
-import {Button, Dimensions, Image, Text, View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import {BarCodeScanner} from 'expo-barcode-scanner';
-import axios from 'axios';
-import {LinearGradient} from "expo-linear-gradient";
-import InfoWindow from '../../components/InfoWindow/InfoWindow';
-import styles from "../Home/Home.style";
+import axios from "axios";
+import Spinner from "../../components/Spinner/Spinner";
+import {Icon} from "react-native-elements";
 
 class Scanner extends Component {
     state = {
         scanned: false,
-        permission: false,
-        image: '',
-        name: '',
-        quantity: ''
+        loading: false
     };
 
     componentDidMount() {
@@ -26,86 +22,51 @@ class Scanner extends Component {
     };
 
     handleBarCodeScanned = ({type, data}) => {
-        console.log(data);
-        axios.get(`https://world.openfoodfacts.org/api/v0/product/${data}.json`)
-            .then(res => {
-                const image = res.data.product.image_url;
-                const name = `${res.data.product.product_name} - ${res.data.product.brands}`;
-                const quantity = res.data.product.product_quantity + 'g';
+        this.setState({loading: true, scanned: true}, () => {
+            axios.get(`https://world.openfoodfacts.org/api/v0/product/${data}.json`)
+                .then(res => {
+                    const image = res.data.product.image_url;
+                    const name = `${res.data.product.product_name} - ${res.data.product.brands}`;
+                    const quantity = res.data.product.product_quantity + 'g';
 
-                this.setState({image, name, quantity, scanned: true});
-            })
-            .catch(err => {
-                console.log(err);
-            })
-    };
-
-    resetScan = () => {
-        this.setState({
-            scanned: false,
-            name: '',
-            image: '',
-            quantity: ''
-        })
+                    this.props.navigation.navigate('Food', {image, name, quantity});
+                    this.setState({loading: false})
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        });
     };
 
     render() {
-        const {scanned, image, name, quantity} = this.state;
-        const heightWindow = Dimensions.get('window').height;
+        const {scanned, loading} = this.state;
 
         return (
-            <>
-                <LinearGradient
-                    start={{x: 0, y: 0}}
-                    end={{x: 1, y: 1}}
-                    colors={['#f2f3f5', '#f2f3f5']}
-                    style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}>
-                    <LinearGradient
-                        colors={['#4b8b1d', '#6cd015']}
-                        style={{
-                            width: '200%',
-                            height: heightWindow * 0.7,
-                            left: '-30%',
-                            top: '-25%',
-                            backgroundColor: 'red',
-                            transform: [{skewY: '-30deg'}],
-                            position: 'absolute',
-                            zIndex: 0,
-                        }}
-                    />
-                    <LinearGradient style={{marginTop: 50, width: 230, height: 230}}
-                                    start={{x: 0, y: 0}}
-                                    end={{x: 1, y: 1}}
-                                    colors={['#f2f3f5', '#c4bfc3']}>
-                        <View style={{
-                            borderWidth: 2,
-                            borderColor: '#000',
-                            width: 204,
-                            height: 204,
-                            margin: 13,
-                            backgroundColor: '#000'
-                        }}>
-                            <Image
-                                style={{width: 200, height: 200, resizeMode: 'center'}}
-                                source={{uri: image}}
-                            />
-                        </View>
-                    </LinearGradient>
-                    <View style={{flex: 1, marginTop: 50, flexDirection: 'column'}}>
-                        <InfoWindow color1={'#f8f8f8'} color2={['#f2a91e', '#e95c17']} title={'Name'} val={name}/>
-                        <InfoWindow color1={'#f8f8f8'} color2={['#af3462', '#bf3741']} title={'Quantity'}
-                                    val={quantity}/>
-                        <InfoWindow color1={'#f8f8f8'} color2={['#af3462', '#bf3741']} title={'Name'} val={name}/>
-
-                    </View>
-                    {scanned && <Button title={'Tap to Scan Again'} onPress={this.resetScan}/>}
-                </LinearGradient>
-            </>
+            <View
+                style={{
+                    flex: 1,
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                    backgroundColor: '#292b2c'
+                }}>
+                <BarCodeScanner
+                    onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
+                    style={{width: '100%', height: '100%'}}
+                />
+                {loading &&
+                <View style={{position: 'absolute', width: '100%', height: '100%', left: 0, top: 0}}>
+                    <Spinner bgColor='transparency' color="#fff" size={64}/>
+                </View>
+                }
+                <View style={{position: 'absolute', top: 40, left: 20}}>
+                    <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+                        <Icon
+                            size={30} name='close'
+                            type='antdesign' color={"#fff"}
+                        />
+                    </TouchableOpacity>
+                </View>
+            </View>
         );
     }
 }

@@ -3,7 +3,7 @@ import {Platform, View} from "react-native";
 
 const Header = ({leftComponent, centerComponent, rightComponent, title = 'Save food'}) => (
     <View style={{
-        position: 'absolute',
+        position: 'relative',
         zIndex: 200,
         top: 0,
         height: 40,
@@ -12,17 +12,17 @@ const Header = ({leftComponent, centerComponent, rightComponent, title = 'Save f
         flexDirection: 'row',
         alignItems: 'center',
         marginTop: Platform.OS === 'ios' ? 30 : 40,
-        marginBottom: 30,
+        marginBottom: 10,
         justifyContent: 'space-between'
     }}>
         <View style={{flex: 1, alignItems: 'flex-start'}}>
-            {leftComponent ? leftComponent : <View/>  }
+            {leftComponent ? leftComponent : <View/>}
         </View>
         <View style={{flex: 1, alignItems: 'center'}}>
-            {centerComponent ? centerComponent : <View/>  }
+            {centerComponent ? centerComponent : <View/>}
         </View>
         <View style={{flex: 1, alignItems: 'flex-end'}}>
-            {rightComponent ? rightComponent : <View/>  }
+            {rightComponent ? rightComponent : <View/>}
         </View>
     </View>
 );

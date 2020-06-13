@@ -19,7 +19,7 @@ class Template extends Component {
         return (
             <View style={{flex: 1}}>
                 {this.state.loading ?
-                    <Spinner color='transparency' size={64}/> :
+                    <Spinner bgColor='transparency' size={64}/> :
                     <>
                         <StatusBar backgroundColor="rgba(0, 0, 0, 0.2)" translucent/>
                         {this.props.children}
