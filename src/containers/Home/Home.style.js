@@ -91,6 +91,5 @@ export default StyleSheet.create({
         transform:[{skewY:'-30deg'}],
         position:'absolute',
         zIndex:-1,
-
     }
 });
