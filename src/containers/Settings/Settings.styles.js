@@ -7,16 +7,10 @@ export default StyleSheet.create({
         flex: 1,
         flexDirection: 'column'
     },
-    exitContainer: {
-        position: 'absolute',
-        zIndex: 200, top: 40, right: 20
+    text: {
+        color:'#fff',
+        textAlign:'center',
+        fontSize:22,
+        margin:5
     },
-    content: {
-        marginTop: 25, marginBottom: 40
-    },
-    loading: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
 });
