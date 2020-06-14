@@ -22,6 +22,7 @@
     "react-native-elements": "^2.0.2",
     "react-native-gesture-handler": "~1.6.0",
     "react-native-global-props": "^1.1.5",
+    "react-native-modals": "^0.19.9",
     "react-native-safe-area-context": "0.7.3",
     "react-native-screens": "~2.2.0",
     "react-native-swipeable": "^0.6.0",
