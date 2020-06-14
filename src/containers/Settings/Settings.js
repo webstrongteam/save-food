@@ -14,7 +14,8 @@ class Settings extends Component {
         lang: 'en',
         currency: 'USD',
         notification_cycle: null,
-        overlay: false
+        overlay: false,
+        overlayType: null
     };
 
     componentDidMount() {
@@ -24,12 +25,12 @@ class Settings extends Component {
 
     changeLanguage = (lang) => {
         this.props.onChangeLang(lang);
-        this.setState({language: lang});
+        this.setState({language: lang, overlay: !this.state.overlay});
     };
 
     changeCurrency = (currency) => {
         this.props.onChangeCurrency(currency);
-        this.setState({currency: currency});
+        this.setState({currency: currency, overlay: !this.state.overlay});
     };
 
     changeNotificationCycle = (cycle) => {
@@ -37,8 +38,8 @@ class Settings extends Component {
         this.setState({cycle});
     };
 
-    setOverlay = () => {
-        this.setState({overlay: !this.state.overlay})
+    setOverlay = (val) => {
+        this.setState({overlay: !this.state.overlay, overlayType: val})
     }
 
     render() {
@@ -71,14 +72,27 @@ class Settings extends Component {
                     borderColor: '#4b8b1d',
                 }}>
                     <TouchableOpacity>
-                        <Text style={styles.text}>English</Text>
+                        {this.state.overlayType === 'Language' ?
+                            <>
+                                <TouchableOpacity><Text onPress={() => this.changeLanguage('English')}
+                                                        style={styles.text}>English</Text></TouchableOpacity>
+                                <TouchableOpacity><Text onPress={() => this.changeLanguage('Polish')}
+                                                        style={styles.text}>Polish</Text></TouchableOpacity>
+                            </> :
+                            <>
+                                <TouchableOpacity><Text onPress={() => this.changeCurrency('USD')}
+                                                        style={styles.text}>USD</Text></TouchableOpacity>
+                                <TouchableOpacity><Text onPress={() => this.changeCurrency('PLN')}
+                                                        style={styles.text}>PLN</Text></TouchableOpacity>
+                            </>
+                        }
                     </TouchableOpacity>
                 </Overlay>
                 <View style={{marginTop: 125, width: '100%'}}>
-                    <InfoWindow color1={'#292b2c'} color2={['#f2a91e', '#e95c17']} title={'Language'} val={'EN'}
-                                colorTitle={'#fff'} onPress={() => this.setOverlay()}/>
-                    <InfoWindow color1={'#292b2c'} color2={['#af3462', '#bf3741']} title={'Currency'} val={'USD'}
-                                colorTitle={'#fff'} onPress={() => this.setOverlay()}/>
+                    <InfoWindow color1={'#292b2c'} color2={['#f2a91e', '#e95c17']} title={'Language'} val={this.state.language}
+                                colorTitle={'#fff'} onPress={() => this.setOverlay('Language')}/>
+                    <InfoWindow color1={'#292b2c'} color2={['#af3462', '#bf3741']} title={'Currency'} val={this.state.currency}
+                                colorTitle={'#fff'} onPress={() => this.setOverlay('Currency')}/>
                 </View>
             </View>
         );
