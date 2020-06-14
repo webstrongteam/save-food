@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
-import {Dimensions, Image, ScrollView, View} from 'react-native';
-import {Button} from 'react-native-elements';
+import {Dimensions, Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {Button, Input, Slider} from 'react-native-elements';
 import {LinearGradient} from "expo-linear-gradient";
 import InfoWindow from '../../components/InfoWindow/InfoWindow';
 import Spinner from "../../components/Spinner/Spinner";
+import Modal from "../../components/Modal/Modal";
+
+import {connect} from 'react-redux';
 
 class Food extends Component {
     state = {
@@ -11,7 +14,13 @@ class Food extends Component {
         name: '',
         quantity: '',
         price: 0.00,
-        percent: '100%',
+        percent: 100,
+        savedDate: {},
+
+        showModal: false,
+        modalContent: null,
+        type: '',
+
         loading: true
     };
 
@@ -23,12 +32,57 @@ class Food extends Component {
         if (!name) name = 'Not found';
         if (!quantity) quantity = 'Not found';
 
-        this.setState({image, name, quantity, loading: false});
+        this.setState({
+            savedDate: {name, image, quantity, price: 0.00, percent: 100},
+            image, name, quantity, loading: false
+        });
     }
 
+    setContent = (type) => {
+        this.setState({
+            modalContent: (
+                <View style={{marginTop: 20, marginBottom: -20}}>
+                    <Input
+                        keyboardType={type === 'price' ? 'numeric' : 'default'}
+                        placeholder={this.state[type] + ''}
+                        onChangeText={(value) => {
+                            this.setState({
+                                [type]: type === 'price' ?
+                                    Math.abs(+(value.replace(',', '.'))) :
+                                    value
+                            })
+                        }}
+                    />
+                </View>
+            ),
+            showModal: true, type
+        })
+    };
+
+    saveChange = () => {
+        const {savedDate, type} = this.state;
+        savedDate[type] = this.state[type];
+
+        this.setState({savedDate, showModal: false});
+    };
+
+    cancelChange = () => {
+        const {savedDate, type} = this.state;
+
+        this.setState({[type]: savedDate[type], showModal: false});
+    };
+
+    toggleModal = (type) => {
+        if (!this.state.showModal) {
+            this.setContent(type);
+        } else {
+            this.setState({showModal: !this.state.showModal});
+        }
+    };
+
     render() {
-        const {image, name, quantity, percent, price, loading} = this.state;
-        const {navigation} = this.props;
+        const {showModal, modalContent, type, savedDate, image, percent, loading} = this.state;
+        const {navigation, currency} = this.props;
         const heightWindow = Dimensions.get('window').height;
 
         return (
@@ -58,6 +112,18 @@ class Food extends Component {
                                 zIndex: 0,
                             }}
                         />
+
+                        <Modal
+                            visible={showModal}
+                            toggleModal={this.toggleModal}
+                            title={`Change ${type}`}
+                            content={modalContent}
+                            buttons={[
+                                {text: 'Save', onPress: this.saveChange},
+                                {text: 'Cancel', onPress: this.cancelChange}
+                            ]}
+                        />
+
                         <View style={{flex: 1, width: '100%', justifyContent: 'center'}}>
                             <ScrollView>
                                 <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
@@ -68,23 +134,63 @@ class Food extends Component {
                                         />
                                     </View>
                                 </View>
-                                <View style={{flex: 1, marginTop: 30, flexDirection: 'column', marginBottom: 50}}>
-                                    <InfoWindow color1={'#f8f8f8'} color2={['#f2a91e', '#e95c17']} title={'Name'}
-                                                val={name}/>
-                                    <InfoWindow color1={'#f8f8f8'} color2={['#af3462', '#bf3741']} title={'Quantity'}
-                                                val={quantity}/>
-                                    <InfoWindow color1={'#f8f8f8'} color2={['#af3462', '#bf3741']} title={'Price'}
-                                                val={price}/>
-                                    <InfoWindow color1={'#f8f8f8'} color2={['#af3462', '#bf3741']} title={'Wasted part'}
-                                                val={percent}/>
+                                <View style={{flex: 1, marginTop: 30, flexDirection: 'column', marginBottom: 30}}>
+                                    <TouchableOpacity onPress={() => this.toggleModal('name')}>
+                                        <InfoWindow color1={'#f8f8f8'} color2={['#f2a91e', '#e95c17']} title={'Name'}
+                                                    val={savedDate.name}/>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => this.toggleModal('quantity')}>
+                                        <InfoWindow color1={'#f8f8f8'} color2={['#f2a91e', '#e95c17']}
+                                                    title={'Quantity'}
+                                                    val={savedDate.quantity}/>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => this.toggleModal('price')}>
+                                        <InfoWindow color1={'#f8f8f8'} color2={['#af3462', '#bf3741']} title={'Price'}
+                                                    val={`${savedDate.price} ${currency}`}/>
+                                    </TouchableOpacity>
+                                    <View style={{
+                                        flex: 1,
+                                        justifyContent: 'center',
+                                        marginLeft: 30,
+                                        marginRight: 30,
+                                        marginTop: 30
+                                    }}>
+                                        <Text style={{
+                                            textAlign: 'center',
+                                            color: '#292b2c',
+                                            fontFamily: 'Lato-Light',
+                                            fontSize: 16
+                                        }}>
+                                            What percentage of this food did you waste?
+                                        </Text>
+                                        <Slider
+                                            style={{width: '100%'}}
+                                            thumbTintColor='#292b2c'
+                                            minimumTrackTintColor="#3f3f3f"
+                                            maximumTrackTintColor="#b3b3b3"
+                                            minimumValue={1}
+                                            maximumValue={100}
+                                            value={percent}
+                                            onValueChange={value => this.setState({percent: value})}
+                                        />
+                                        <Text style={{
+                                            textAlign: 'center',
+                                            color: '#292b2c',
+                                            fontFamily: 'Lato-Bold',
+                                            fontSize: 16
+                                        }}>
+                                            {percent.toFixed(0)}%
+                                        </Text>
+                                    </View>
                                 </View>
                                 <View
                                     style={{flex: 1, flexDirection: 'row', marginBottom: 50, justifyContent: 'center'}}>
                                     <Button
                                         buttonStyle={{borderColor: '#4b8b1d', marginRight: 20}}
+                                        disabled={savedDate.price === 0}
                                         titleStyle={{
                                             color: '#4b8b1d',
-                                            fontSize: 20,
+                                            fontSize: 18,
                                             padding: 25,
                                             fontFamily: 'Lato-Light'
                                         }}
@@ -96,7 +202,7 @@ class Food extends Component {
                                         buttonStyle={{borderColor: '#af3462'}}
                                         titleStyle={{
                                             color: '#af3462',
-                                            fontSize: 20,
+                                            fontSize: 18,
                                             padding: 25,
                                             fontFamily: 'Lato-Light'
                                         }}
@@ -113,4 +219,10 @@ class Food extends Component {
     }
 }
 
-export default Food;
+const mapStateToProps = state => {
+    return {
+        currency: state.settings.currency
+    }
+};
+
+export default connect(mapStateToProps)(Food);
