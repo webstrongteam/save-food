@@ -10,7 +10,8 @@ const ButtonAdd = ({color = '#fff', onPresMinus, onPressAdd}, val) => (
         borderWidth: 1,
         flexDirection: 'row',
         borderRadius:2,
-        borderColor: color
+        borderColor: color,
+        opacity: 0.75
     }}>
         <TouchableOpacity onPress={() => onPresMinus()} style={{
             flex: 1,
@@ -33,7 +34,7 @@ const ButtonAdd = ({color = '#fff', onPresMinus, onPressAdd}, val) => (
            <Text style={{
                 flex: 1,
                 color: color,
-                fontSize: 20,
+                fontSize: 16,
                 textAlign: 'center',
                 justifyContent: 'center',
                 alignItems: 'center'

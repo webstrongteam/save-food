@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {Image, ScrollView, Text, TouchableHighlight, TouchableOpacity, View} from "react-native";
+import {Image, ScrollView, Text, TouchableOpacity, View} from "react-native";
+import {BlurView} from 'expo-blur';
 import styles from './List.style';
 import Header from '../../components/Header/Header';
 import {LinearGradient} from "expo-linear-gradient";
-import {Icon, CheckBox} from "react-native-elements";
+import {Button, CheckBox, Icon} from "react-native-elements";
 import Swipeable from 'react-native-swipeable';
 import ButtonAdd from '../../components/ButtonAdd/ButtonAdd';
 
@@ -13,11 +14,13 @@ class List extends Component {
         const rightButtons = [
             <TouchableOpacity style={styles.delete}>
                 <Icon
-                    size={40} name='delete'
-                    type='antdesign' color={'#fff'}/>
+                    style={{marginLeft: 10}}
+                    size={40} name='trash-o'
+                    type='font-awesome' color={'#fff'}/>
             </TouchableOpacity>,
         ];
         const list = [{name: 'pizza'}, {name: 'pizza', quantity: '22', percentage: '42', price: '200 PLN'}]
+
         return (
             <>
                 <LinearGradient
@@ -41,12 +44,7 @@ class List extends Component {
                     >
                         {list.map((item, i) => (
                             <Swipeable rightButtons={rightButtons}>
-                                <LinearGradient
-                                    colors={['#f8aa24', '#ec4f18']}
-                                    style={styles.listItem}
-                                    start={{x: 1, y: 1}}
-                                    end={{x: 0, y: 0}}
-                                >
+                                <BlurView style={styles.listItem} intensity={50} tint='dark'>
                                     <View style={{flex: 1}}>
                                         <CheckBox
                                             value={false}
@@ -64,25 +62,53 @@ class List extends Component {
                                         <ButtonAdd
                                             onPressAdd
                                             onPresMinus
-                                            val={'2'}/>
+                                            val={'2'}
+                                        />
                                     </View>
                                     <View style={{flex: 3}}>
                                         <Text style={{
-                                            fontSize: 22,
+                                            fontFamily: 'Lato-Bold',
+                                            fontSize: 20,
                                             color: '#fff',
                                             marginLeft: 10,
                                             marginBottom: 5,
-                                            marginTop: -20
+                                            marginTop: -30
                                         }}>Name {item.name}</Text>
-                                        <Text style={styles.text}>Quantity {item.quantity}</Text>
-                                        <Text style={styles.text}>Percentage {item.percentage}</Text>
+                                        <Text style={styles.text}>Quantity: {item.quantity}g</Text>
+                                        <Text style={styles.text}>Percentage: {item.percentage}%</Text>
                                     </View>
                                     <Text style={styles.priceText}>{item.price}</Text>
-                                </LinearGradient>
+                                </BlurView>
                             </Swipeable>
                         ))}
                     </View>
                 </ScrollView>
+                <View style={{
+                    position: 'absolute',
+                    width: '100%',
+                    bottom: 25,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 0
+                    },
+                    shadowOpacity: 0.2,
+                    shadowRadius: 5,
+                    elevation: 7
+                }}>
+                    <Button
+                        buttonStyle={{backgroundColor: '#4b8b1d'}}
+                        titleStyle={{
+                            color: '#fff',
+                            fontSize: 18,
+                            padding: 25,
+                            fontFamily: 'Lato-Light'
+                        }}
+                        title="Pay (25 USD)"
+                    />
+                </View>
             </>
         );
     }

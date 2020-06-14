@@ -46,7 +46,6 @@ export default StyleSheet.create({
         marginBottom: 10
     },
     container: {
-        backgroundColor: '#f9f9f9',
         height: heightWindow
     },
     windowInformation: {

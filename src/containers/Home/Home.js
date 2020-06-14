@@ -20,7 +20,7 @@ class Home extends Component {
                         </TouchableOpacity>
                     }
                     rightComponent={
-                        <TouchableOpacity onPress={() => navigation.navigate('WastedFood')}>
+                        <TouchableOpacity onPress={() => navigation.navigate('List')}>
                             <View style={{flexDirection: 'row', alignItems: 'center', marginRight: 20}}>
                                 <Icon
                                     size={25} name='trash-o'

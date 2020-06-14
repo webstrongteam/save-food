@@ -8,50 +8,52 @@ export default StyleSheet.create({
         borderRadius: 5,
         flexDirection: 'row',
         alignItems: 'center',
-        height:160,
+        height: 160,
         marginTop: 10,
         marginBottom: 10,
-        padding: 5,
+        padding: 5
+    },
+    checkbox: {
+        color: '#fff',
+        flex: 1
+    },
+    text: {
+        fontFamily: 'Lato-Light',
+        fontSize: 14,
+        color: '#fff',
+        marginLeft: 10,
+        marginBottom: 5
+    },
+    priceText: {
+        fontFamily: 'Lato-Bold',
+        position: 'absolute',
+        bottom: 16,
+        right: 10,
+        color: '#fff',
+        fontSize: 22
+    },
+    delete: {
+        height: 160,
+        borderRadius: 5,
+        marginTop: 10,
+        marginBottom: 10,
+        flexDirection: 'row',
+        padding: 10,
+        justifyContent: 'flex-start',
+        marginLeft: 10,
+        alignItems: 'center',
+        backgroundColor: '#dc3545'
+    },
+    container: {
+        padding: 10,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
             height: 0
         },
-        shadowOpacity: 0.5,
-        shadowRadius: 10,
+        shadowOpacity: 0.3,
+        shadowRadius: 5,
         elevation: 7
-    },
-    checkbox: {
-        color: '#6adeff',
-        flex: 1
-    },
-    text: {
-        fontSize: 16,
-        color: '#fff',
-        marginLeft: 10,
-        marginBottom:5
-    },
-    priceText:{
-        position:'absolute',
-        bottom:10,
-        right:30,
-        color:'#fff',
-        fontSize:24
-    },
-    delete:{
-        height:160,
-        borderRadius: 5,
-        marginTop: 10,
-        marginBottom: 10,
-        flexDirection: 'row',
-        padding:10,
-        justifyContent: 'flex-start',
-        marginLeft:10,
-        alignItems: 'center',
-        backgroundColor:'#dc3545'
-    },
-    container:{
-        padding: 10
     },
     containerColor: {
         width: '200%',
