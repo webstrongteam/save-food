@@ -5,27 +5,31 @@ import {LinearGradient} from "expo-linear-gradient";
 const InfoWindow = ({color1 = '#f8f8f8', color2 = ['#f2a91e', '#e95c17'], title = 'none', val = 'none', colorTitle = '#000', onPress}) => (
     <View style={{
         width: '100%',
-        height: 70,
+        height: 60,
+        marginTop: 15,
         justifyContent: 'center',
         alignItems: 'center'
     }}>
         <View style={{
             width: '90%',
-            marginTop: 10,
             flex: 1,
-            height: 80,
-            borderColor: color1,
-            borderWidth: 1,
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
             backgroundColor: color1,
-
+            shadowColor: "#000",
+            shadowOffset: {
+                width: 0,
+                height: 0
+            },
+            shadowOpacity: 0.3,
+            shadowRadius: 5,
+            elevation: 7
         }}>
             <View style={{flex: 5}}>
                 <Text style={{
                     fontFamily: 'Lato-Light',
-                    fontSize: 22,
+                    fontSize: 20,
                     textAlign: 'center',
                     justifyContent: 'center',
                     alignItems: 'center',
@@ -51,14 +55,14 @@ const InfoWindow = ({color1 = '#f8f8f8', color2 = ['#f2a91e', '#e95c17'], title 
                     {onPress ? <TouchableOpacity onPress={() => onPress()}>
                             <Text style={{
                                 color: '#fff',
-                                fontSize: 22,
+                                fontSize: 18,
                                 textAlign: 'center',
                                 fontFamily: 'Lato-Bold'
                             }}>{val}</Text>
                         </TouchableOpacity>
                         : <Text style={{
                             color: '#fff',
-                            fontSize: 22,
+                            fontSize: 18,
                             textAlign: 'center',
                             fontFamily: 'Lato-Bold'
                         }}>{val}</Text>}

@@ -40,7 +40,7 @@ class Settings extends Component {
 
     setOverlay = (val) => {
         this.setState({overlay: !this.state.overlay, overlayType: val})
-    }
+    };
 
     render() {
         const {navigation} = this.props;
@@ -60,7 +60,7 @@ class Settings extends Component {
                     centerComponent={
                         <Text style={{
                             textAlign: 'center',
-                            fontSize: 25,
+                            fontSize: 22,
                             color: '#fff'
                         }}>Settings</Text>
                     }
