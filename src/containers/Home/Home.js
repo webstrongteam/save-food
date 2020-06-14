@@ -41,8 +41,9 @@ class Home extends Component {
                         Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                         Lorem Ipsum has been the industry's
                     </Text>
-                    <TouchableOpacity onPress={() => navigation.navigate('Scanner')}>
-                        <View style={styles.containerCenter}>
+
+                    <View style={styles.containerCenter}>
+                        <TouchableOpacity onPress={() => navigation.navigate('Scanner')}>
                             <LinearGradient
                                 colors={['#f2f3f5', '#c4bfc3']}
                                 style={styles.circleOne}
@@ -59,11 +60,12 @@ class Home extends Component {
                                     </LinearGradient>
                                 </LinearGradient>
                             </LinearGradient>
-                        </View>
-                    </TouchableOpacity>
+                        </TouchableOpacity>
+                    </View>
+
                     <View style={styles.shadow}>
                         <View style={styles.windowInformation}>
-                            <View style={{flex: 4}}>
+                            <View style={{flex: 5}}>
                                 <Text style={styles.textBlack}>Wasted food</Text>
                             </View>
                             <LinearGradient
@@ -78,7 +80,7 @@ class Home extends Component {
                     </View>
                     <View style={styles.shadow}>
                         <View style={styles.windowInformation}>
-                            <View style={{flex: 4}}>
+                            <View style={{flex: 5}}>
                                 <Text style={styles.textBlack}>Wasted money</Text>
                             </View>
                             <LinearGradient

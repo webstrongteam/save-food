@@ -6,7 +6,7 @@ export default StyleSheet.create({
     circleOne: {
         height: 200,
         width: 200,
-        borderRadius: 1000,
+        borderRadius: 100,
         marginBottom: 20
     },
     circleTwo: {
@@ -14,14 +14,14 @@ export default StyleSheet.create({
         width: '80%',
         marginLeft: '10%',
         marginTop: '10%',
-        borderRadius: 1000,
+        borderRadius: 80,
     },
     circleThree: {
         height: '80%',
         width: '80%',
         marginLeft: '10%',
         marginTop: '10%',
-        borderRadius: 1000,
+        borderRadius: 60,
         justifyContent: 'center',
         alignItems: 'center',
 
@@ -35,7 +35,7 @@ export default StyleSheet.create({
         alignItems: 'center',
         fontSize: 20,
         marginTop: 20,
-        marginBottom: 20,
+        marginBottom: 30,
         marginLeft: 50,
         marginRight: 50,
         color: '#fff'
@@ -43,6 +43,7 @@ export default StyleSheet.create({
     containerCenter: {
         justifyContent: 'center',
         alignItems: 'center',
+        marginBottom: 10
     },
     container: {
         backgroundColor: '#f9f9f9',
@@ -52,14 +53,10 @@ export default StyleSheet.create({
         width: '100%',
         marginTop: 10,
         flex: 1,
-        height: 80,
-        borderColor: '#f9f9f9',
-        borderWidth: 1,
+        height: 70,
         flexDirection: 'row',
         justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#f8f8f8',
-
+        alignItems: 'center'
     },
     shadow: {
         width: '90%',
@@ -76,11 +73,13 @@ export default StyleSheet.create({
     },
     textWhite: {
         color: '#fff',
-        fontSize: 28,
+        fontFamily: 'Lato-Bold',
+        fontSize: 22,
         textAlign: 'center',
     },
     textBlack: {
         fontSize: 22,
+        fontFamily: 'Lato-Light',
         textAlign: 'center',
         justifyContent: 'center',
         alignItems: 'center',

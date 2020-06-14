@@ -1,13 +1,11 @@
 import React from 'react';
-import {Text, View, TouchableOpacity, ScrollView} from "react-native";
-import {Icon} from "react-native-elements";
-import styles from "../../containers/Home/Home.style";
+import {Text, TouchableOpacity, View} from "react-native";
 import {LinearGradient} from "expo-linear-gradient";
 
 const InfoWindow = ({color1 = '#f8f8f8', color2 = ['#f2a91e', '#e95c17'], title = 'none', val = 'none', colorTitle = '#000', onPress}) => (
     <View style={{
         width: '100%',
-        height: 90,
+        height: 70,
         justifyContent: 'center',
         alignItems: 'center'
     }}>
@@ -24,8 +22,9 @@ const InfoWindow = ({color1 = '#f8f8f8', color2 = ['#f2a91e', '#e95c17'], title 
             backgroundColor: color1,
 
         }}>
-            <View style={{flex: 4}}>
+            <View style={{flex: 5}}>
                 <Text style={{
+                    fontFamily: 'Lato-Light',
                     fontSize: 22,
                     textAlign: 'center',
                     justifyContent: 'center',
@@ -33,33 +32,38 @@ const InfoWindow = ({color1 = '#f8f8f8', color2 = ['#f2a91e', '#e95c17'], title 
                     color: colorTitle
                 }}>{title}</Text>
             </View>
-            <LinearGradient
-                start={{x: 1, y: 1}}
-                end={{x: 0, y: 0}}
-                colors={color2}
-                style={{
-                    borderLeftWidth: 1,
-                    flex: 5,
-                    height: '100%',
-                    borderBottomLeftRadius: 40,
-                    borderTopLeftRadius: 40,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                {onPress ? <TouchableOpacity onPress={()=>onPress()}>
-                        <Text style={{
+            <View style={{
+                borderBottomLeftRadius: 30,
+                borderTopLeftRadius: 30,
+                overflow: 'hidden',
+                flex: 5
+            }}>
+                <LinearGradient
+                    start={{x: 1, y: 1}}
+                    end={{x: 0, y: 0}}
+                    colors={color2}
+                    style={{
+                        height: '100%',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}
+                >
+                    {onPress ? <TouchableOpacity onPress={() => onPress()}>
+                            <Text style={{
+                                color: '#fff',
+                                fontSize: 22,
+                                textAlign: 'center',
+                                fontFamily: 'Lato-Bold'
+                            }}>{val}</Text>
+                        </TouchableOpacity>
+                        : <Text style={{
                             color: '#fff',
-                            fontSize: 28,
+                            fontSize: 22,
                             textAlign: 'center',
-                        }}>{val}</Text>
-                    </TouchableOpacity>
-                    : <Text style={{
-                        color: '#fff',
-                        fontSize: 28,
-                        textAlign: 'center',
-                    }}>{val}</Text>}
-            </LinearGradient>
+                            fontFamily: 'Lato-Bold'
+                        }}>{val}</Text>}
+                </LinearGradient>
+            </View>
         </View>
     </View>
 );
