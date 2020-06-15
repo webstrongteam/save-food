@@ -20,5 +20,6 @@
   "cancel": "Anuluj",
   "change_name": "Zmień nazwę",
   "change_quantity": "Zmień ilość",
-  "change_price": "Zmień cenę"
+  "change_price": "Zmień cenę",
+  "noData": "Brak danych"
 }

@@ -25,17 +25,35 @@ class Food extends Component {
     };
 
     componentDidMount() {
-        let image = this.props.navigation.getParam('image', false);
-        let name = this.props.navigation.getParam('name', false);
-        let quantity = this.props.navigation.getParam('quantity', false);
-
-        if (!name) name = 'Not found';
-        if (!quantity) quantity = 'Not found';
+        const {navigation, translations} = this.props;
+        let image = navigation.getParam('image', false);
+        let name = navigation.getParam('name', false);
+        let quantity = navigation.getParam('quantity', false);
+        
+        if (!name) name = translations.noData;
+        if (!quantity) quantity = translations.noData;
 
         this.setState({
             savedDate: {name, image, quantity, price: 0.00, percent: 100},
             image, name, quantity, loading: false
         });
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.translations !== prevProps.translations) {
+            if (this.state.name === 'No data') {
+                const {translations} = this.props;
+                const savedDate = this.state.savedDate;
+                savedDate.name = translations.noData;
+                this.setState({savedDate, name: translations.noData});
+            }
+            if (this.state.quantity === 'No data') {
+                const {translations} = this.props;
+                const savedDate = this.state.savedDate;
+                savedDate.quantity = translations.noData;
+                this.setState({savedDate, quantity: translations.noData});
+            }
+        }
     }
 
     setContent = (type) => {

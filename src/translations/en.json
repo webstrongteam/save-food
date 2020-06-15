@@ -20,5 +20,6 @@
   "cancel": "Cancel",
   "change_name": "Change name",
   "change_quantity": "Change quantity",
-  "change_price": "Change price"
+  "change_price": "Change price",
+  "noData": "No data"
 }

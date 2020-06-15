@@ -7,7 +7,7 @@ const modal = ({toggleModal, visible, title, buttons = [], bgColor = '#fff', con
         <Modal
             width={Dimensions.get('window').width - 50}
             visible={visible}
-            swipeDirection={['up', 'down']} // can be string or an array
+            swipeDirection={['up', 'down', 'left', 'right']} // can be string or an array
             swipeThreshold={200} // default 100
             onSwipeOut={toggleModal}
             onTouchOutside={toggleModal}
