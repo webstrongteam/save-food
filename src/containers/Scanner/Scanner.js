@@ -26,14 +26,16 @@ class Scanner extends Component {
             axios.get(`https://world.openfoodfacts.org/api/v0/product/${data}.json`)
                 .then(res => {
                     const image = res.data.product.image_url;
-                    const name = `${res.data.product.product_name} - ${res.data.product.brands}`;
-                    const quantity = res.data.product.product_quantity + 'g';
+                    const name = res.data.product.product_name;
+                    const quantity = res.data.product.product_quantity;
 
                     this.props.navigation.navigate('Food', {image, name, quantity});
-                    this.setState({loading: false})
+                    this.setState({loading: false});
                 })
                 .catch(err => {
                     console.log(err);
+                    this.props.navigation.navigate('Food', {image: null, name: null, quantity: null});
+                    this.setState({loading: false});
                 })
         });
     };

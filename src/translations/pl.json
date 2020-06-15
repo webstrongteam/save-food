@@ -21,5 +21,6 @@
   "change_name": "Zmień nazwę",
   "change_quantity": "Zmień ilość",
   "change_price": "Zmień cenę",
-  "noData": "Brak danych"
+  "noData": "Brak danych",
+  "takePhoto": "Zrób zdjęcie"
 }
