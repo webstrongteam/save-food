@@ -15,7 +15,10 @@ class Settings extends Component {
         currency: '',
         notification_cycle: null,
 
-        languages: [{short: 'en', name: 'English'}, {short: 'pl', name: 'Polish'}],
+        languages: [
+            {short: 'en', name: this.props.translations.english},
+            {short: 'pl', name: this.props.translations.polish}
+        ],
         currencyList: ['USD', 'PLN'],
 
         type: '',
@@ -34,9 +37,23 @@ class Settings extends Component {
         });
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.translations !== this.props.translations) {
+            const {translations, settings} = this.props;
+            const languages = [
+                {short: 'en', name: translations.english},
+                {short: 'pl', name: translations.polish}
+            ];
+
+            this.setState({
+                languages, showModal: false,
+                lang: languages.find(l => l.short === settings.lang.toLowerCase()).name,
+            })
+        }
+    }
+
     changeLanguage = (lang) => {
         this.props.onChangeLang(lang.short);
-        this.setState({language: lang.name, showModal: false});
     };
 
     changeCurrency = (currency) => {
@@ -107,7 +124,7 @@ class Settings extends Component {
 
     render() {
         const {showModal, modalContent, type, currency, lang} = this.state;
-        const {navigation} = this.props;
+        const {translations, navigation} = this.props;
 
         return (
             <View style={styles.container}>
@@ -126,24 +143,26 @@ class Settings extends Component {
                             textAlign: 'center',
                             fontSize: 22,
                             color: '#fff'
-                        }}>Settings</Text>
+                        }}>{translations.settings}</Text>
                     }
                 />
 
                 <Modal
                     visible={showModal}
                     toggleModal={this.toggleModal}
-                    title={`Select ${type}`}
+                    title={translations['select_' + type]}
                     content={modalContent}
                 />
 
                 <View style={{marginTop: 125, width: '100%'}}>
                     <TouchableOpacity onPress={() => this.toggleModal('language')}>
-                        <InfoWindow color1={'#292b2c'} color2={['#f2a91e', '#e95c17']} title={'Language'} val={lang}
+                        <InfoWindow color1={'#292b2c'} color2={['#f2a91e', '#e95c17']} title={translations.language}
+                                    val={lang}
                                     colorTitle={'#fff'}/>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => this.toggleModal('currency')}>
-                        <InfoWindow color1={'#292b2c'} color2={['#af3462', '#bf3741']} title={'Currency'} val={currency}
+                        <InfoWindow color1={'#292b2c'} color2={['#af3462', '#bf3741']} title={translations.currency}
+                                    val={currency}
                                     colorTitle={'#fff'}/>
                     </TouchableOpacity>
                 </View>
@@ -154,7 +173,8 @@ class Settings extends Component {
 
 const mapStateToProps = state => {
     return {
-        settings: state.settings
+        settings: state.settings,
+        translations: state.settings.translations
     }
 };
 const mapDispatchToProps = dispatch => {

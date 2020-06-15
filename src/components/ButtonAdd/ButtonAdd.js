@@ -3,7 +3,7 @@ import {Platform, Text, TouchableOpacity, View} from "react-native";
 import styles from "../../containers/List/List.style";
 import {Icon} from "react-native-elements";
 
-const ButtonAdd = ({color = '#fff', onPresMinus, onPressAdd}, val) => (
+const ButtonAdd = ({color = '#fff', onPresMinus, onPressAdd, value}) => (
     <View style={{
         width: 100,
         height: 25,
@@ -39,7 +39,7 @@ const ButtonAdd = ({color = '#fff', onPresMinus, onPressAdd}, val) => (
                 justifyContent: 'center',
                 alignItems: 'center'
             }}>
-                1
+               {value}
             </Text>
         </View>
         <TouchableOpacity onPress={() => onPressAdd()} style={{

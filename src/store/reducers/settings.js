@@ -1,7 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 import {updateObject} from '../../common/store';
-import en from "../../translations/en/en.json";
-import pl from "../../translations/pl/pl.json";
+import en from "../../translations/en.json";
+import pl from "../../translations/pl.json";
 
 const messages = {en, pl};
 

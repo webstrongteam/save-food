@@ -82,7 +82,7 @@ class Food extends Component {
 
     render() {
         const {showModal, modalContent, type, savedDate, image, percent, loading} = this.state;
-        const {navigation, currency} = this.props;
+        const {navigation, currency, translations} = this.props;
         const heightWindow = Dimensions.get('window').height;
 
         return (
@@ -116,11 +116,11 @@ class Food extends Component {
                         <Modal
                             visible={showModal}
                             toggleModal={this.toggleModal}
-                            title={`Change ${type}`}
+                            title={translations['change_' + type]}
                             content={modalContent}
                             buttons={[
-                                {text: 'Save', onPress: this.saveChange},
-                                {text: 'Cancel', onPress: this.cancelChange}
+                                {text: translations.save, onPress: this.saveChange},
+                                {text: translations.cancel, onPress: this.cancelChange}
                             ]}
                         />
 
@@ -136,16 +136,18 @@ class Food extends Component {
                                 </View>
                                 <View style={{flex: 1, marginTop: 30, flexDirection: 'column', marginBottom: 30}}>
                                     <TouchableOpacity onPress={() => this.toggleModal('name')}>
-                                        <InfoWindow color1={'#f8f8f8'} color2={['#f2a91e', '#e95c17']} title={'Name'}
+                                        <InfoWindow color1={'#f8f8f8'} color2={['#f2a91e', '#e95c17']}
+                                                    title={translations.name}
                                                     val={savedDate.name}/>
                                     </TouchableOpacity>
                                     <TouchableOpacity onPress={() => this.toggleModal('quantity')}>
                                         <InfoWindow color1={'#f8f8f8'} color2={['#f2a91e', '#e95c17']}
-                                                    title={'Quantity'}
+                                                    title={translations.quantity}
                                                     val={savedDate.quantity}/>
                                     </TouchableOpacity>
                                     <TouchableOpacity onPress={() => this.toggleModal('price')}>
-                                        <InfoWindow color1={'#f8f8f8'} color2={['#af3462', '#bf3741']} title={'Price'}
+                                        <InfoWindow color1={'#f8f8f8'} color2={['#af3462', '#bf3741']}
+                                                    title={translations.price}
                                                     val={`${savedDate.price} ${currency}`}/>
                                     </TouchableOpacity>
                                     <View style={{
@@ -161,7 +163,7 @@ class Food extends Component {
                                             fontFamily: 'Lato-Light',
                                             fontSize: 16
                                         }}>
-                                            What percentage of this food did you waste?
+                                            {translations.percentInfo}
                                         </Text>
                                         <Slider
                                             style={{width: '100%'}}
@@ -195,7 +197,7 @@ class Food extends Component {
                                             fontFamily: 'Lato-Light'
                                         }}
                                         type="outline"
-                                        title="Save"
+                                        title={translations.save}
                                     />
                                     <Button
                                         onPress={() => navigation.navigate('Home')}
@@ -207,7 +209,7 @@ class Food extends Component {
                                             fontFamily: 'Lato-Light'
                                         }}
                                         type="outline"
-                                        title="Cancel"
+                                        title={translations.cancel}
                                     />
                                 </View>
                             </ScrollView>
@@ -221,7 +223,8 @@ class Food extends Component {
 
 const mapStateToProps = state => {
     return {
-        currency: state.settings.currency
+        currency: state.settings.currency,
+        translations: state.settings.translations
     }
 };
 

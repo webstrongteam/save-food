@@ -8,18 +8,74 @@ import {Button, CheckBox, Icon} from "react-native-elements";
 import Swipeable from 'react-native-swipeable';
 import ButtonAdd from '../../components/ButtonAdd/ButtonAdd';
 
+import {connect} from 'react-redux';
+import * as actions from "../../store/actions";
+
 class List extends Component {
+    state = {
+        list: [
+            {
+                id: 1,
+                name: 'Burger',
+                quantity: 500,
+                percentage: 50,
+                price: 10
+            }, {
+                id: 2,
+                name: 'Pizza',
+                quantity: 22,
+                percentage: 42,
+                price: 20
+            }
+        ],
+        selectedItems: [],
+        amount: 0
+    };
+
+    getAmountOfItems = (id) => {
+        const {list} = this.state;
+        let amount = 0;
+
+        list.map(i => {
+            if (i.id === id) {
+                amount++;
+            }
+        });
+
+        return amount;
+    };
+
+    selectItem = (item) => {
+        let {amount, selectedItems} = this.state;
+        const checkSelectedItem = selectedItems.find(i => i === item.id);
+
+        if (checkSelectedItem) {
+            this.setState({
+                selectedItems: selectedItems.filter(i => i !== item.id),
+                amount: amount - item.price
+            });
+        } else {
+            selectedItems.push(item.id);
+            this.setState({
+                selectedItems,
+                amount: amount + item.price
+            });
+        }
+    };
+
+    removeItem = (id) => {
+
+    };
+
+    addFood = (item) => {
+    };
+
+    minusFood = (id) => {
+    };
+
     render() {
-        const {navigation} = this.props;
-        const rightButtons = [
-            <TouchableOpacity style={styles.delete}>
-                <Icon
-                    style={{marginLeft: 10}}
-                    size={40} name='trash-o'
-                    type='font-awesome' color={'#fff'}/>
-            </TouchableOpacity>,
-        ];
-        const list = [{name: 'pizza'}, {name: 'pizza', quantity: '22', percentage: '42', price: '200 PLN'}]
+        const {selectedItems, amount, list} = this.state;
+        const {currency, translations, navigation} = this.props;
 
         return (
             <>
@@ -38,17 +94,32 @@ class List extends Component {
                                 />
                             </TouchableOpacity>
                         }
+                        centerComponent={
+                            <Text style={{
+                                textAlign: 'center',
+                                fontSize: 22,
+                                color: '#fff'
+                            }}>{translations.foodList}</Text>
+                        }
+                        centerSize={6}
                     />
                     <View
                         style={styles.container}
                     >
                         {list.map((item, i) => (
-                            <Swipeable rightButtons={rightButtons}>
+                            <Swipeable key={i} rightButtons={[
+                                <TouchableOpacity onPress={() => this.removeItem(item.id)} style={styles.delete}>
+                                    <Icon
+                                        style={{marginLeft: 10}}
+                                        size={40} name='trash-o'
+                                        type='font-awesome' color={'#fff'}/>
+                                </TouchableOpacity>
+                            ]}>
                                 <BlurView style={styles.listItem} intensity={50} tint='dark'>
                                     <View style={{flex: 1}}>
                                         <CheckBox
-                                            value={false}
-                                            // onValueChange={() => this.setState({saveUserData: !this.state.saveUserData})}
+                                            checked={selectedItems.find(i => i === item.id)}
+                                            onPress={() => this.selectItem(item)}
                                             style={styles.checkbox}
                                             checkedColor={"#ea6700"}
                                             tintColors={{true: '#ea6700', false: '#ea6700'}}
@@ -60,9 +131,9 @@ class List extends Component {
                                             source={item.image ? {uri: item.image} : require('../../assets/not-found-image.png')}
                                         />
                                         <ButtonAdd
-                                            onPressAdd
-                                            onPresMinus
-                                            val={'2'}
+                                            onPressAdd={() => this.addFood(item)}
+                                            onPresMinus={() => this.minusFood(item.id)}
+                                            value='1'
                                         />
                                     </View>
                                     <View style={{flex: 3}}>
@@ -73,11 +144,11 @@ class List extends Component {
                                             marginLeft: 10,
                                             marginBottom: 5,
                                             marginTop: -30
-                                        }}>Name {item.name}</Text>
-                                        <Text style={styles.text}>Quantity: {item.quantity}g</Text>
-                                        <Text style={styles.text}>Percentage: {item.percentage}%</Text>
+                                        }}>{item.name}</Text>
+                                        <Text style={styles.text}>{translations.quantity}: {item.quantity}g</Text>
+                                        <Text style={styles.text}>{translations.percent}: {item.percentage}%</Text>
                                     </View>
-                                    <Text style={styles.priceText}>{item.price}</Text>
+                                    <Text style={styles.priceText}>{item.price} {currency}</Text>
                                 </BlurView>
                             </Swipeable>
                         ))}
@@ -106,7 +177,7 @@ class List extends Component {
                             padding: 25,
                             fontFamily: 'Lato-Light'
                         }}
-                        title="Pay (25 USD)"
+                        title={`${translations.pay} ${amount} ${currency}`}
                     />
                 </View>
             </>
@@ -114,4 +185,18 @@ class List extends Component {
     }
 }
 
-export default List;
+const mapStateToProps = state => {
+    return {
+        currency: state.settings.currency,
+        translations: state.settings.translations
+    }
+};
+const mapDispatchToProps = dispatch => {
+    return {
+        onChangeLang: (value) => dispatch(actions.changeLang(value)),
+        onChangeCurrency: (value) => dispatch(actions.changeCurrency(value)),
+        onChangeNotificationCycle: (value) => dispatch(actions.changeNotificationCycle(value))
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(List);

@@ -5,9 +5,11 @@ import Header from '../../components/Header/Header';
 import {LinearGradient} from "expo-linear-gradient";
 import {Icon} from "react-native-elements";
 
+import {connect} from "react-redux";
+
 class Home extends Component {
     render() {
-        const {navigation} = this.props;
+        const {translations, currency, navigation} = this.props;
 
         return (
             <View style={styles.container}>
@@ -26,10 +28,11 @@ class Home extends Component {
                                     size={25} name='trash-o'
                                     type='font-awesome' color={"#fff"}
                                 />
-                                <Text style={{marginLeft: 5, color: '#fff'}}>(25 USD)</Text>
+                                <Text style={{marginLeft: 5, color: '#fff'}}>(25 {currency})</Text>
                             </View>
                         </TouchableOpacity>
                     }
+                    rightSize={4}
                 />
                 <LinearGradient
                     colors={['#4b8b1d', '#6cd015']}
@@ -56,7 +59,7 @@ class Home extends Component {
                                         colors={['#f2f3f5', '#c4bfc3']}
                                         style={styles.circleThree}
                                     >
-                                        <Text style={styles.textScan}>Scan</Text>
+                                        <Text style={styles.textScan}>{translations.scan}</Text>
                                     </LinearGradient>
                                 </LinearGradient>
                             </LinearGradient>
@@ -66,7 +69,7 @@ class Home extends Component {
                     <View style={styles.shadow}>
                         <View style={styles.windowInformation}>
                             <View style={{flex: 5}}>
-                                <Text style={styles.textBlack}>Wasted food</Text>
+                                <Text style={styles.textBlack}>{translations.wastedFood}</Text>
                             </View>
                             <LinearGradient
                                 colors={['#af3462', '#bf3741']}
@@ -81,7 +84,7 @@ class Home extends Component {
                     <View style={styles.shadow}>
                         <View style={styles.windowInformation}>
                             <View style={{flex: 5}}>
-                                <Text style={styles.textBlack}>Wasted money</Text>
+                                <Text style={styles.textBlack}>{translations.wastedMoney}</Text>
                             </View>
                             <LinearGradient
                                 start={{x: 1, y: 1}}
@@ -89,7 +92,7 @@ class Home extends Component {
                                 colors={['#f2a91e', '#e95c17']}
                                 style={styles.windowInformationColor}
                             >
-                                <Text style={styles.textWhite}>255$</Text>
+                                <Text style={styles.textWhite}>255 {currency}</Text>
                             </LinearGradient>
                         </View>
                     </View>
@@ -100,4 +103,11 @@ class Home extends Component {
     }
 }
 
-export default Home;
+const mapStateToProps = state => {
+    return {
+        currency: state.settings.currency,
+        translations: state.settings.translations
+    }
+};
+
+export default connect(mapStateToProps)(Home);
