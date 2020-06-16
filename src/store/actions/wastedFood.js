@@ -50,6 +50,7 @@ export const saveFood = (food, callback = () => null) => {
                                        paid       = ?
                                    where id = ?;`, [food.name, food.image, food.quantity, food.price, food.percentage, food.paid, food.id], () => {
                         callback();
+                        dispatch(fetchWastedFood());
                     });
                 }, (err) => console.log(err)
             );
@@ -58,9 +59,23 @@ export const saveFood = (food, callback = () => null) => {
                 tx => {
                     tx.executeSql('insert into wasted_food (name, image, quantity, price, percentage, paid) values (?,?,?,?,?,?)', [food.name, food.image, food.quantity, food.price, food.percentage, food.paid], () => {
                         callback();
+                        dispatch(fetchWastedFood());
                     });
                 }, (err) => console.log(err)
             );
         }
     };
+};
+
+export const removeFood = (id, callback = () => null) => {
+    return dispatch => {
+        db.transaction(
+            tx => {
+                tx.executeSql('delete from wasted_food where id = ?', [id], () => {
+                    callback();
+                    dispatch(fetchWastedFood());
+                });
+            }, (err) => console.log(err)
+        );
+    }
 };

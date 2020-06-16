@@ -17,7 +17,7 @@ const MainNavigator = createStackNavigator(
         Settings: {screen: Settings}
     },
     {
-        initialRouteName: 'Home',
+        initialRouteName: 'Food',
         headerMode: 'none'
     },
 );
