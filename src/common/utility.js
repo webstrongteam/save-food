@@ -6,10 +6,8 @@ export const getResizeMode = (image, callback) => {
     Image.getSize(image, (width, height) => {
         if (width < height) {
             callback('contain');
-            this.setState({resizeMode: 'contain', loading: false})
         } else {
             callback('cover');
-            this.setState({resizeMode: 'cover', loading: false})
         }
     });
 };

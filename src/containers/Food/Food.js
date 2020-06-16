@@ -66,8 +66,13 @@ class Food extends Component {
         if (!name) name = translations.noData;
         if (!quantity) quantity = translations.noData;
 
-        if (id) { // Edit
+        if (!image || image === 'null') {
+            image = require('../../assets/not-found-image.png');
+        } else {
             image = {uri: image};
+        }
+
+        if (id) { // Edit
             const savedDate = {
                 image,
                 name: navigation.getParam('name', false),
@@ -80,30 +85,24 @@ class Food extends Component {
             };
             this.setState({
                 ...savedDate,
-                savedDate: savedDate,
-                loading: false
-            });
+                savedDate: savedDate
+            }, () => this.setResizeMode(image));
         } else { // New
-            if (!image) {
-                image = require('../../assets/not-found-image.png');
-                this.setState({
-                    savedDate: {name, image, quantity, price: 0.00, percent: 100},
-                    image, name, quantity, loading: false
-                });
-            } else {
-                image = {uri: image};
-                this.setState({
-                    savedDate: {name, image, quantity, price: 0.00, percent: 100},
-                    image, name, quantity
-                }, () => this.setResizeMode(image));
-            }
+            this.setState({
+                savedDate: {name, image, quantity, price: 0.00, percent: 100},
+                image, name, quantity
+            }, () => this.setResizeMode(image));
         }
     };
 
     setResizeMode = (image) => {
-        getResizeMode(image, (resizeMode) => {
-            this.setState({resizeMode, loading: false})
-        });
+        if (image.constructor.name === 'String') {
+            getResizeMode(image, (resizeMode) => {
+                this.setState({resizeMode, loading: false})
+            });
+        } else {
+            this.setState({loading: false})
+        }
     };
 
     setContent = (type) => {
@@ -111,7 +110,7 @@ class Food extends Component {
             modalContent: (
                 <View style={{marginTop: 20, marginBottom: -20}}>
                     <Input
-                        keyboardType={type === 'price' ? 'numeric' : 'default'}
+                        keyboardType={type === 'name' ? 'default' : 'numeric'}
                         placeholder={this.state[type] + ''}
                         onChangeText={(value) => {
                             this.setState({
@@ -169,7 +168,7 @@ class Food extends Component {
     saveFood = () => {
         const {image, name, quantity, price, percent, id, productQuantity} = this.state;
         this.props.onSaveFood({
-            image: image.uri,
+            image: image.constructor.name !== 'Object' ? 'null' : image.uri,
             name: name,
             paid: 0,
             id: id,

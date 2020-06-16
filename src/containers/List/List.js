@@ -20,7 +20,6 @@ class List extends Component {
 
     componentDidMount() {
         this.props.fetchWastedFood(foods => {
-            console.log(foods)
             this.setState({list: foods})
         })
     }
@@ -56,9 +55,9 @@ class List extends Component {
                 productQuantity: item.productQuantity + val
             }
         );
-        const newList = this.state.list
-        newList[index].productQuantity = item.productQuantity + val
-        this.setState({list: newList})
+        const newList = this.state.list;
+        newList[index].productQuantity = item.productQuantity + val;
+        this.setState({list: newList});
     };
 
     render() {
@@ -91,9 +90,7 @@ class List extends Component {
                         }
                         centerSize={6}
                     />
-                    <View
-                        style={styles.container}
-                    >
+                    <View style={styles.container}>
                         {list.length < 1
                             ? <Text style={styles.emptyList}>Empty list</Text>
                             : list.map((item, i) => (
@@ -129,7 +126,7 @@ class List extends Component {
                                         <View>
                                             <Image
                                                 style={{width: 100, height: 100, resizeMode: 'center'}}
-                                                source={{uri: item.image}}
+                                                source={item.image === 'null' ? require('../../assets/not-found-image.png') : {uri: item.image}}
                                             />
                                             <ButtonAdd
                                                 onPressAdd={() => this.addFood(item, 1)}
