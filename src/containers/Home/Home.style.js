@@ -48,28 +48,6 @@ export default StyleSheet.create({
     container: {
         height: heightWindow
     },
-    windowInformation: {
-        width: '100%',
-        marginTop: 10,
-        flex: 1,
-        height: 70,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    shadow: {
-        width: '90%',
-        marginLeft: '5%',
-    },
-    windowInformationColor: {
-        borderLeftWidth: 1,
-        flex: 5,
-        height: '100%',
-        borderBottomLeftRadius: 40,
-        borderTopLeftRadius: 40,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
     textWhite: {
         color: '#fff',
         fontFamily: 'Lato-Bold',

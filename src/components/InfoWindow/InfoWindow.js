@@ -2,10 +2,10 @@ import React from 'react';
 import {Text, View} from "react-native";
 import {LinearGradient} from "expo-linear-gradient";
 
-const InfoWindow = ({color1 = '#f8f8f8', color2 = ['#f2a91e', '#e95c17'], title = 'none', val = 'none', colorTitle = '#000'}) => (
+const InfoWindow = ({color1 = '#f8f8f8', color2 = ['#f2a91e', '#e95c17'], title = 'none', val = 'none', colorTitle = '#000',height=60}) => (
     <View style={{
         width: '100%',
-        height: 60,
+        height: height,
         marginTop: 15,
         justifyContent: 'center',
         alignItems: 'center'

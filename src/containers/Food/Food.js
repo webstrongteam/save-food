@@ -8,6 +8,7 @@ import Modal from "../../components/Modal/Modal";
 import {Camera} from 'expo-camera';
 
 import {connect} from 'react-redux';
+import * as actions from "../../store/actions";
 
 class Food extends Component {
     state = {
@@ -138,6 +139,18 @@ class Food extends Component {
         }
     };
 
+    saveFood=()=>{
+        const {image, name, quantity, price, percent} = this.state;
+        this.props.onSaveFood({
+            image: image,
+            name: name,
+            paid:0,
+            quantity: quantity,
+            price: price,
+            percentage: percent.toFixed(0),
+        });
+        this.props.navigation.navigate('Home')
+    }
     render() {
         const {showModal, showCamera, modalContent, resizeMode, type, savedDate, image, percent, loading} = this.state;
         const {navigation, currency, translations} = this.props;
@@ -310,6 +323,7 @@ class Food extends Component {
                                                         padding: 25,
                                                         fontFamily: 'Lato-Light'
                                                     }}
+                                                    onPress={() => this.saveFood()}
                                                     type="outline"
                                                     title={translations.save}
                                                 />
@@ -343,5 +357,9 @@ const mapStateToProps = state => {
         translations: state.settings.translations
     }
 };
-
-export default connect(mapStateToProps)(Food);
+const mapDispatchToProps = dispatch => {
+    return {
+        onSaveFood: (value) => dispatch(actions.saveFood(value)),
+    }
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Food);

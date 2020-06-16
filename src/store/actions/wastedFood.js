@@ -14,9 +14,9 @@ export const fetchWastedFood = (callback = () => null) => {
     return dispatch => {
         db.transaction(
             tx => {
-                tx.executeSql('select * from wasted_food where paid = 0;', [], (_, {rows}) => {
-                    callback(rows._array[0]);
-                    dispatch(onUpdateWastedFood(rows._array[0]));
+                tx.executeSql('select * from wasted_food where paid = 0 ;', [], (_, {rows}) => {
+                    callback(rows._array);
+                    dispatch(onUpdateWastedFood(rows._array));
                 });
             }, (err) => console.log(err)
         );
@@ -28,8 +28,8 @@ export const fetchAllWastedFood = (callback = () => null) => {
         db.transaction(
             tx => {
                 tx.executeSql('select * from wasted_food;', [], (_, {rows}) => {
-                    callback(rows._array[0]);
-                    dispatch(onUpdateWastedFood(rows._array[0]));
+                    callback(rows._array);
+                    dispatch(onUpdateWastedFood(rows._array));
                 });
             }, (err) => console.log(err)
         );

@@ -6,8 +6,29 @@ import {LinearGradient} from "expo-linear-gradient";
 import {Icon} from "react-native-elements";
 
 import {connect} from "react-redux";
+import * as actions from "../../store/actions";
+import InfoWindow from "../../components/InfoWindow/InfoWindow";
+
 
 class Home extends Component {
+    state = {
+        totalPrice: 0,
+        food: 0
+    }
+    componentDidMount = () => {
+        this.props.fetchAllWastedFood(
+            list => {
+                let price = 0;
+                let food = 0;
+                list.map((val) => {
+                    price += val.price;
+                    food += 1;
+                })
+                this.setState({totalPrice: price, food: food})
+            }
+        )
+    }
+
     render() {
         const {translations, currency, navigation} = this.props;
 
@@ -65,38 +86,12 @@ class Home extends Component {
                             </LinearGradient>
                         </TouchableOpacity>
                     </View>
-
-                    <View style={styles.shadow}>
-                        <View style={styles.windowInformation}>
-                            <View style={{flex: 5}}>
-                                <Text style={styles.textBlack}>{translations.wastedFood}</Text>
-                            </View>
-                            <LinearGradient
-                                colors={['#af3462', '#bf3741']}
-                                style={styles.windowInformationColor}
-                                start={{x: 0, y: 0}}
-                                end={{x: 1, y: 1}}
-                            >
-                                <Text style={styles.textWhite}>148</Text>
-                            </LinearGradient>
-                        </View>
-                    </View>
-                    <View style={styles.shadow}>
-                        <View style={styles.windowInformation}>
-                            <View style={{flex: 5}}>
-                                <Text style={styles.textBlack}>{translations.wastedMoney}</Text>
-                            </View>
-                            <LinearGradient
-                                start={{x: 1, y: 1}}
-                                end={{x: 0, y: 0}}
-                                colors={['#f2a91e', '#e95c17']}
-                                style={styles.windowInformationColor}
-                            >
-                                <Text style={styles.textWhite}>255 {currency}</Text>
-                            </LinearGradient>
-                        </View>
-                    </View>
-                    <View style={{marginBottom: 50}}/>
+                        <InfoWindow color1={'#f8f8f8'} color2={['#af3462', '#bf3741']}
+                                    title={translations.wastedFood}
+                                    val={`${this.state.food}`}/>
+                        <InfoWindow color1={'#f8f8f8'} color2={['#f2a91e', '#e95c17']}
+                                    title={translations.wastedMoney}
+                                    val={`${this.state.totalPrice} ${currency}`}/>
                 </ScrollView>
             </View>
         );
@@ -109,5 +104,9 @@ const mapStateToProps = state => {
         translations: state.settings.translations
     }
 };
-
-export default connect(mapStateToProps)(Home);
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchAllWastedFood: (value) => dispatch(actions.fetchAllWastedFood(value)),
+    }
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

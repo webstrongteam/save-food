@@ -13,21 +13,7 @@ import * as actions from "../../store/actions";
 
 class List extends Component {
     state = {
-        list: [
-            {
-                id: 1,
-                name: 'Burger',
-                quantity: 500,
-                percentage: 50,
-                price: 10
-            }, {
-                id: 2,
-                name: 'Pizza',
-                quantity: 22,
-                percentage: 42,
-                price: 20
-            }
-        ],
+        list: [],
         selectedItems: [],
         amount: 0
     };
@@ -64,7 +50,8 @@ class List extends Component {
     };
 
     removeItem = (id) => {
-
+        this.props.removeFood(id)
+        this.props.fetchWastedFood(foods => this.setState({list:foods}))
     };
 
     addFood = (item) => {
@@ -72,6 +59,10 @@ class List extends Component {
 
     minusFood = (id) => {
     };
+
+    componentDidMount() {
+        this.props.fetchWastedFood(foods => this.setState({list:foods}))
+    }
 
     render() {
         const {selectedItems, amount, list} = this.state;
@@ -193,9 +184,8 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
     return {
-        onChangeLang: (value) => dispatch(actions.changeLang(value)),
-        onChangeCurrency: (value) => dispatch(actions.changeCurrency(value)),
-        onChangeNotificationCycle: (value) => dispatch(actions.changeNotificationCycle(value))
+        fetchWastedFood: (value) => dispatch(actions.fetchWastedFood(value)),
+        removeFood: (value) => dispatch(actions.removeFood(value))
     }
 };
 
