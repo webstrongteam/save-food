@@ -139,18 +139,19 @@ class Food extends Component {
         }
     };
 
-    saveFood=()=>{
+    saveFood = () => {
         const {image, name, quantity, price, percent} = this.state;
         this.props.onSaveFood({
             image: image,
             name: name,
-            paid:0,
+            paid: 0,
             quantity: quantity,
             price: price,
             percentage: percent.toFixed(0),
         });
         this.props.navigation.navigate('Home')
     }
+
     render() {
         const {showModal, showCamera, modalContent, resizeMode, type, savedDate, image, percent, loading} = this.state;
         const {navigation, currency, translations} = this.props;

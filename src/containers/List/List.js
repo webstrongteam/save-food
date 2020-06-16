@@ -51,7 +51,7 @@ class List extends Component {
 
     removeItem = (id) => {
         this.props.removeFood(id)
-        this.props.fetchWastedFood(foods => this.setState({list:foods}))
+        this.props.fetchWastedFood(foods => this.setState({list: foods}))
     };
 
     addFood = (item) => {
@@ -61,7 +61,7 @@ class List extends Component {
     };
 
     componentDidMount() {
-        this.props.fetchWastedFood(foods => this.setState({list:foods}))
+        this.props.fetchWastedFood(foods => this.setState({list: foods}))
     }
 
     render() {
