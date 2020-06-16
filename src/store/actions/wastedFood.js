@@ -42,13 +42,14 @@ export const saveFood = (food, callback = () => null) => {
             db.transaction(
                 tx => {
                     tx.executeSql(`update wasted_food
-                                   set name       = ?,
-                                       image      = ?,
-                                       quantity   = ?,
-                                       price      = ?,
-                                       percentage = ?,
-                                       paid       = ?
-                                   where id = ?;`, [food.name, food.image, food.quantity, food.price, food.percentage, food.paid, food.id], () => {
+                                   set name            = ?,
+                                       image           = ?,
+                                       quantity        = ?,
+                                       price           = ?,
+                                       percentage      = ?,
+                                       productQuantity = ?,
+                                       paid            = ?
+                                   where id = ?;`, [food.name, food.image, food.quantity, food.price, food.percentage, food.productQuantity, food.paid, food.id], () => {
                         callback();
                         dispatch(fetchWastedFood());
                     });
@@ -57,7 +58,7 @@ export const saveFood = (food, callback = () => null) => {
         } else {
             db.transaction(
                 tx => {
-                    tx.executeSql('insert into wasted_food (name, image, quantity, price, percentage, paid) values (?,?,?,?,?,?)', [food.name, food.image, food.quantity, food.price, food.percentage, food.paid], () => {
+                    tx.executeSql('insert into wasted_food (name, image, quantity, price, percentage, productQuantity, paid) values (?,?,?,?,?,?,?)', [food.name, food.image, food.quantity, food.price, food.percentage, food.productQuantity, food.paid], () => {
                         callback();
                         dispatch(fetchWastedFood());
                     });

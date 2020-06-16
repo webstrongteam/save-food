@@ -54,10 +54,17 @@ class List extends Component {
         this.props.fetchWastedFood(foods => this.setState({list: foods}))
     };
 
-    addFood = (item) => {
-    };
-
-    minusFood = (id) => {
+    addFood = (item, val) => {
+        const index = this.state.list.indexOf(item)
+        this.props.onSaveFood(
+            {
+                ...item,
+                productQuantity: item.productQuantity + val
+            }
+        )
+        const newList = this.state.list
+        newList[index].productQuantity = item.productQuantity + val
+        this.setState({list: newList})
     };
 
     componentDidMount() {
@@ -97,52 +104,64 @@ class List extends Component {
                     <View
                         style={styles.container}
                     >
-                        {list.map((item, i) => (
-                            <Swipeable key={i} rightButtons={[
-                                <TouchableOpacity onPress={() => this.removeItem(item.id)} style={styles.delete}>
-                                    <Icon
-                                        style={{marginLeft: 10}}
-                                        size={40} name='trash-o'
-                                        type='font-awesome' color={'#fff'}/>
-                                </TouchableOpacity>
-                            ]}>
-                                <BlurView style={styles.listItem} intensity={50} tint='dark'>
-                                    <View style={{flex: 1}}>
-                                        <CheckBox
-                                            checked={selectedItems.find(i => i === item.id)}
-                                            onPress={() => this.selectItem(item)}
-                                            style={styles.checkbox}
-                                            checkedColor={"#ea6700"}
-                                            tintColors={{true: '#ea6700', false: '#ea6700'}}
-                                        />
-                                    </View>
-                                    <View>
-                                        <Image
-                                            style={{width: 100, height: 100, resizeMode: 'center'}}
-                                            source={item.image ? {uri: item.image} : require('../../assets/not-found-image.png')}
-                                        />
-                                        <ButtonAdd
-                                            onPressAdd={() => this.addFood(item)}
-                                            onPresMinus={() => this.minusFood(item.id)}
-                                            value='1'
-                                        />
-                                    </View>
-                                    <View style={{flex: 3}}>
-                                        <Text style={{
-                                            fontFamily: 'Lato-Bold',
-                                            fontSize: 20,
-                                            color: '#fff',
-                                            marginLeft: 10,
-                                            marginBottom: 5,
-                                            marginTop: -30
-                                        }}>{item.name}</Text>
-                                        <Text style={styles.text}>{translations.quantity}: {item.quantity}g</Text>
-                                        <Text style={styles.text}>{translations.percent}: {item.percentage}%</Text>
-                                    </View>
-                                    <Text style={styles.priceText}>{item.price} {currency}</Text>
-                                </BlurView>
-                            </Swipeable>
-                        ))}
+                        {list.length < 1
+                            ? <Text style={styles.emptyList}>Empty list</Text>
+                            : list.map((item, i) => (
+                                <Swipeable key={i} rightButtons={[
+                                    <>
+                                        <TouchableOpacity onPress={() => this.removeItem(item.id)}
+                                                          style={styles.delete}>
+                                            <Icon
+                                                style={{marginLeft: 10}}
+                                                size={40} name='trash-o'
+                                                type='font-awesome' color={'#fff'}/>
+                                        </TouchableOpacity>
+                                        {console.log(item)}
+                                        <TouchableOpacity onPress={() => navigation.navigate('Food',{...item,edit:true})}
+                                                          style={styles.edit}>
+                                            <Icon
+                                                style={{marginLeft: 10}}
+                                                size={40} name='edit'
+                                                type='font-awesome' color={'#fff'}/>
+                                        </TouchableOpacity></>
+                                ]}>
+                                    <BlurView style={styles.listItem} intensity={50} tint='dark'>
+                                        <View style={{flex: 1}}>
+                                            <CheckBox
+                                                checked={selectedItems.find(i => i === item.id)}
+                                                onPress={() => this.selectItem(item)}
+                                                style={styles.checkbox}
+                                                checkedColor={"#ea6700"}
+                                                tintColors={{true: '#ea6700', false: '#ea6700'}}
+                                            />
+                                        </View>
+                                        <View>
+                                            <Image
+                                                style={{width: 100, height: 100, resizeMode: 'center'}}
+                                                source={item.image && item.image !== "28.0" ? {uri: item.image} : require('../../assets/not-found-image.png')}
+                                            />
+                                            <ButtonAdd
+                                                onPressAdd={() => this.addFood(item, 1)}
+                                                onPresMinus={() => this.addFood(item, -1)}
+                                                value={item.productQuantity}
+                                            />
+                                        </View>
+                                        <View style={{flex: 3}}>
+                                            <Text style={{
+                                                fontFamily: 'Lato-Bold',
+                                                fontSize: 20,
+                                                color: '#fff',
+                                                marginLeft: 10,
+                                                marginBottom: 5,
+                                                marginTop: -30
+                                            }}>{item.name}</Text>
+                                            <Text style={styles.text}>{translations.quantity}: {item.quantity}g</Text>
+                                            <Text style={styles.text}>{translations.percent}: {item.percentage}%</Text>
+                                        </View>
+                                        <Text style={styles.priceText}>{item.price} {currency}</Text>
+                                    </BlurView>
+                                </Swipeable>
+                            ))}
                     </View>
                 </ScrollView>
                 <View style={{
@@ -162,6 +181,7 @@ class List extends Component {
                 }}>
                     <Button
                         buttonStyle={{backgroundColor: '#4b8b1d'}}
+                        disabled={amount === 0}
                         titleStyle={{
                             color: '#fff',
                             fontSize: 18,
@@ -185,7 +205,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         fetchWastedFood: (value) => dispatch(actions.fetchWastedFood(value)),
-        removeFood: (value) => dispatch(actions.removeFood(value))
+        removeFood: (value) => dispatch(actions.removeFood(value)),
+        onSaveFood: (value) => dispatch(actions.saveFood(value)),
     }
 };
 

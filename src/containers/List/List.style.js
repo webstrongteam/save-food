@@ -17,6 +17,11 @@ export default StyleSheet.create({
         color: '#fff',
         flex: 1
     },
+    emptyList: {
+        color: '#fff',
+        fontSize: 22,
+        textAlign:'center'
+    },
     text: {
         fontFamily: 'Lato-Light',
         fontSize: 14,
@@ -33,7 +38,19 @@ export default StyleSheet.create({
         fontSize: 22
     },
     delete: {
-        height: 160,
+        height: 75,
+        borderRadius: 5,
+        marginTop: 10,
+        marginBottom: 0,
+        flexDirection: 'row',
+        padding: 10,
+        justifyContent: 'flex-start',
+        marginLeft: 10,
+        alignItems: 'center',
+        backgroundColor: '#dc3545'
+    },
+    edit: {
+        height: 75,
         borderRadius: 5,
         marginTop: 10,
         marginBottom: 10,
@@ -42,7 +59,7 @@ export default StyleSheet.create({
         justifyContent: 'flex-start',
         marginLeft: 10,
         alignItems: 'center',
-        backgroundColor: '#dc3545'
+        backgroundColor: '#f8aa24'
     },
     container: {
         padding: 10,

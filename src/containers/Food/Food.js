@@ -12,11 +12,13 @@ import * as actions from "../../store/actions";
 
 class Food extends Component {
     state = {
+        id:null,
         image: '',
         name: '',
         quantity: '',
         price: 0.00,
         percent: 100,
+        productQuantity: 1,
         savedDate: {},
         resizeMode: 'cover',
         showCamera: false,
@@ -33,23 +35,44 @@ class Food extends Component {
         let image = navigation.getParam('image', false);
         let name = navigation.getParam('name', false);
         let quantity = navigation.getParam('quantity', false);
+        let edit = navigation.getParam('edit', false);
 
         if (!name) name = translations.noData;
         if (!quantity) quantity = translations.noData;
-
-        if (!image) {
-            image = require('../../assets/not-found-image.png');
+        if (edit) {
+            let image = navigation.getParam('image', false)
+            const savedDate={
+                image: image && image !== "28.0" ? image : require('../../assets/not-found-image.png'),
+                name: navigation.getParam('name', false),
+                paid: navigation.getParam('paid', false),
+                productQuantity: navigation.getParam('productQuantity', false),
+                quantity: navigation.getParam('quantity', false),
+                price: navigation.getParam('price', false),
+                percentage: navigation.getParam('percentage', false),
+                id: navigation.getParam('id', false),
+            }
             this.setState({
-                savedDate: {name, image, quantity, price: 0.00, percent: 100},
-                image, name, quantity, loading: false
+                ...savedDate,
+                savedDate: savedDate,
+                loading: false
             });
         } else {
-            image = {uri: image};
-            this.setState({
-                savedDate: {name, image, quantity, price: 0.00, percent: 100},
-                image, name, quantity
-            }, () => this.setResizeMode(image));
+            if (!image) {
+                image = require('../../assets/not-found-image.png');
+                this.setState({
+                    savedDate: {name, image, quantity, price: 0.00, percent: 100},
+                    image, name, quantity, loading: false
+                });
+            } else {
+                image = {uri: image};
+                this.setState({
+                    savedDate: {name, image, quantity, price: 0.00, percent: 100},
+                    image, name, quantity
+                }, () => this.setResizeMode(image));
+            }
         }
+
+
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -140,11 +163,13 @@ class Food extends Component {
     };
 
     saveFood = () => {
-        const {image, name, quantity, price, percent} = this.state;
+        const {image, name, quantity, price, percent, id, productQuantity} = this.state;
         this.props.onSaveFood({
             image: image,
             name: name,
             paid: 0,
+            id: id,
+            productQuantity: productQuantity,
             quantity: quantity,
             price: price,
             percentage: percent.toFixed(0),
