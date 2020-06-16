@@ -1,4 +1,4 @@
-import {NativeModules, Platform} from "react-native";
+import {AsyncStorage, NativeModules, Platform} from "react-native";
 import {openDatabase} from 'expo-sqlite';
 
 export const VERSION = '1.0.0'; // APP VERSION
@@ -45,6 +45,7 @@ export const initApp = (callback) => {
 
                 if (version !== VERSION) {
                     if (version.includes('_INIT')) {
+                        AsyncStorage.setItem('start', 'true');
                         tx.executeSql('UPDATE settings SET lang = ?, currency = ?, version = ? WHERE id = 0;', [getLocale().lang, getLocale().currency, VERSION], () => {
                             callback();
                         });
