@@ -18,9 +18,10 @@ export default StyleSheet.create({
         flex: 1
     },
     emptyList: {
-        color: '#fff',
+        fontFamily: 'Lato-Light',
+        color: '#ddd',
         fontSize: 22,
-        textAlign:'center'
+        textAlign: 'center'
     },
     text: {
         fontFamily: 'Lato-Light',

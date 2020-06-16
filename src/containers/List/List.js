@@ -18,18 +18,12 @@ class List extends Component {
         amount: 0
     };
 
-    getAmountOfItems = (id) => {
-        const {list} = this.state;
-        let amount = 0;
-
-        list.map(i => {
-            if (i.id === id) {
-                amount++;
-            }
-        });
-
-        return amount;
-    };
+    componentDidMount() {
+        this.props.fetchWastedFood(foods => {
+            console.log(foods)
+            this.setState({list: foods})
+        })
+    }
 
     selectItem = (item) => {
         let {amount, selectedItems} = this.state;
@@ -50,26 +44,22 @@ class List extends Component {
     };
 
     removeItem = (id) => {
-        this.props.removeFood(id)
+        this.props.removeFood(id);
         this.props.fetchWastedFood(foods => this.setState({list: foods}))
     };
 
     addFood = (item, val) => {
-        const index = this.state.list.indexOf(item)
+        const index = this.state.list.indexOf(item);
         this.props.onSaveFood(
             {
                 ...item,
                 productQuantity: item.productQuantity + val
             }
-        )
+        );
         const newList = this.state.list
         newList[index].productQuantity = item.productQuantity + val
         this.setState({list: newList})
     };
-
-    componentDidMount() {
-        this.props.fetchWastedFood(foods => this.setState({list: foods}))
-    }
 
     render() {
         const {selectedItems, amount, list} = this.state;
@@ -84,7 +74,7 @@ class List extends Component {
                 <ScrollView>
                     <Header
                         leftComponent={
-                            <TouchableOpacity onPress={() => navigation.goBack()}>
+                            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
                                 <Icon
                                     style={{marginTop: 5, marginLeft: 20}}
                                     size={25} name='arrowleft'
@@ -116,14 +106,15 @@ class List extends Component {
                                                 size={40} name='trash-o'
                                                 type='font-awesome' color={'#fff'}/>
                                         </TouchableOpacity>
-                                        {console.log(item)}
-                                        <TouchableOpacity onPress={() => navigation.navigate('Food',{...item,edit:true})}
-                                                          style={styles.edit}>
+                                        <TouchableOpacity
+                                            onPress={() => navigation.navigate('Food', {...item})}
+                                            style={styles.edit}>
                                             <Icon
                                                 style={{marginLeft: 10}}
                                                 size={40} name='edit'
                                                 type='font-awesome' color={'#fff'}/>
-                                        </TouchableOpacity></>
+                                        </TouchableOpacity>
+                                    </>
                                 ]}>
                                     <BlurView style={styles.listItem} intensity={50} tint='dark'>
                                         <View style={{flex: 1}}>
@@ -138,7 +129,7 @@ class List extends Component {
                                         <View>
                                             <Image
                                                 style={{width: 100, height: 100, resizeMode: 'center'}}
-                                                source={item.image && item.image !== "28.0" ? {uri: item.image} : require('../../assets/not-found-image.png')}
+                                                source={{uri: item.image}}
                                             />
                                             <ButtonAdd
                                                 onPressAdd={() => this.addFood(item, 1)}

@@ -5,6 +5,7 @@ import {LinearGradient} from "expo-linear-gradient";
 import InfoWindow from '../../components/InfoWindow/InfoWindow';
 import Spinner from "../../components/Spinner/Spinner";
 import Modal from "../../components/Modal/Modal";
+import {getResizeMode} from "../../common/utility";
 import {Camera} from 'expo-camera';
 
 import {connect} from 'react-redux';
@@ -12,7 +13,7 @@ import * as actions from "../../store/actions";
 
 class Food extends Component {
     state = {
-        id:null,
+        id: null,
         image: '',
         name: '',
         quantity: '',
@@ -31,48 +32,7 @@ class Food extends Component {
     };
 
     componentDidMount() {
-        const {navigation, translations} = this.props;
-        let image = navigation.getParam('image', false);
-        let name = navigation.getParam('name', false);
-        let quantity = navigation.getParam('quantity', false);
-        let edit = navigation.getParam('edit', false);
-
-        if (!name) name = translations.noData;
-        if (!quantity) quantity = translations.noData;
-        if (edit) {
-            let image = navigation.getParam('image', false)
-            const savedDate={
-                image: image && image !== "28.0" ? image : require('../../assets/not-found-image.png'),
-                name: navigation.getParam('name', false),
-                paid: navigation.getParam('paid', false),
-                productQuantity: navigation.getParam('productQuantity', false),
-                quantity: navigation.getParam('quantity', false),
-                price: navigation.getParam('price', false),
-                percentage: navigation.getParam('percentage', false),
-                id: navigation.getParam('id', false),
-            }
-            this.setState({
-                ...savedDate,
-                savedDate: savedDate,
-                loading: false
-            });
-        } else {
-            if (!image) {
-                image = require('../../assets/not-found-image.png');
-                this.setState({
-                    savedDate: {name, image, quantity, price: 0.00, percent: 100},
-                    image, name, quantity, loading: false
-                });
-            } else {
-                image = {uri: image};
-                this.setState({
-                    savedDate: {name, image, quantity, price: 0.00, percent: 100},
-                    image, name, quantity
-                }, () => this.setResizeMode(image));
-            }
-        }
-
-
+        this.setFood();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -90,15 +50,59 @@ class Food extends Component {
                 this.setState({savedDate, quantity: translations.noData});
             }
         }
+        if (this.props.navigation !== prevProps.navigation) {
+            this.setFood();
+        }
     }
 
-    setResizeMode = (image) => {
-        Image.getSize(image, (width, height) => {
-            if (width < height) {
-                this.setState({resizeMode: 'contain', loading: false})
+    setFood = () => {
+        const {navigation, translations} = this.props;
+
+        let id = navigation.getParam('id', false);
+        let image = navigation.getParam('image', false);
+        let name = navigation.getParam('name', false);
+        let quantity = navigation.getParam('quantity', false);
+
+        if (!name) name = translations.noData;
+        if (!quantity) quantity = translations.noData;
+
+        if (id) { // Edit
+            image = {uri: image};
+            const savedDate = {
+                image,
+                name: navigation.getParam('name', false),
+                paid: navigation.getParam('paid', false),
+                productQuantity: navigation.getParam('productQuantity', false),
+                quantity: navigation.getParam('quantity', false),
+                price: navigation.getParam('price', false),
+                percentage: navigation.getParam('percentage', false),
+                id: navigation.getParam('id', false),
+            };
+            this.setState({
+                ...savedDate,
+                savedDate: savedDate,
+                loading: false
+            });
+        } else { // New
+            if (!image) {
+                image = require('../../assets/not-found-image.png');
+                this.setState({
+                    savedDate: {name, image, quantity, price: 0.00, percent: 100},
+                    image, name, quantity, loading: false
+                });
             } else {
-                this.setState({resizeMode: 'cover', loading: false})
+                image = {uri: image};
+                this.setState({
+                    savedDate: {name, image, quantity, price: 0.00, percent: 100},
+                    image, name, quantity
+                }, () => this.setResizeMode(image));
             }
+        }
+    };
+
+    setResizeMode = (image) => {
+        getResizeMode(image, (resizeMode) => {
+            this.setState({resizeMode, loading: false})
         });
     };
 
@@ -165,7 +169,7 @@ class Food extends Component {
     saveFood = () => {
         const {image, name, quantity, price, percent, id, productQuantity} = this.state;
         this.props.onSaveFood({
-            image: image,
+            image: image.uri,
             name: name,
             paid: 0,
             id: id,
@@ -174,11 +178,11 @@ class Food extends Component {
             price: price,
             percentage: percent.toFixed(0),
         });
-        this.props.navigation.navigate('Home')
-    }
+        this.props.navigation.navigate('List');
+    };
 
     render() {
-        const {showModal, showCamera, modalContent, resizeMode, type, savedDate, image, percent, loading} = this.state;
+        const {showModal, showCamera, modalContent, resizeMode, type, savedDate, image, percent, id, loading} = this.state;
         const {navigation, currency, translations} = this.props;
         const heightWindow = Dimensions.get('window').height;
 
@@ -354,7 +358,7 @@ class Food extends Component {
                                                     title={translations.save}
                                                 />
                                                 <Button
-                                                    onPress={() => navigation.navigate('Home')}
+                                                    onPress={() => navigation.navigate(id ? 'List' : 'Home')}
                                                     buttonStyle={{borderColor: '#af3462'}}
                                                     titleStyle={{
                                                         color: '#af3462',
