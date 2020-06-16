@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {ScrollView, Text, TouchableOpacity, View} from "react-native";
+import {AsyncStorage, ScrollView, Text, TouchableOpacity, View} from "react-native";
 import styles from './Home.style';
 import Header from '../../components/Header/Header';
 import {LinearGradient} from "expo-linear-gradient";
@@ -12,10 +12,17 @@ import InfoWindow from "../../components/InfoWindow/InfoWindow";
 
 class Home extends Component {
     state = {
+        ready: false,
         totalPrice: 0,
         food: 0
-    }
-    componentDidMount = () => {
+    };
+
+    componentDidMount() {
+        if (AsyncStorage.getItem('start')) {
+            this.props.navigation.navigate('Start');
+        } else {
+            this.setState({ready: true});
+        }
         this.props.fetchAllWastedFood(
             list => {
                 let price = 0;
@@ -29,42 +36,50 @@ class Home extends Component {
         )
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.navigation !== prevProps.navigation) {
+            this.setState({ready: true});
+        }
+    }
+
     render() {
         const {translations, currency, navigation} = this.props;
 
         return (
-            <View style={styles.container}>
-                <Header
-                    leftComponent={
-                        <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
-                            <Icon color="#fff" size={25}
-                                  name='setting' style={{marginLeft: 20}}
-                                  type='antdesign'/>
-                        </TouchableOpacity>
-                    }
-                    rightComponent={
-                        <TouchableOpacity onPress={() => navigation.navigate('List')}>
-                            <View style={{flexDirection: 'row', alignItems: 'center', marginRight: 20}}>
-                                <Icon
-                                    size={25} name='trash-o'
-                                    type='font-awesome' color={"#fff"}
-                                />
-                                <Text style={{marginLeft: 5, color: '#fff'}}>(25 {currency})</Text>
-                            </View>
-                        </TouchableOpacity>
-                    }
-                    rightSize={4}
-                />
-                <LinearGradient
-                    colors={['#4b8b1d', '#6cd015']}
-                    style={styles.containerColor}
-                >
-                </LinearGradient>
-                <ScrollView>
-                    <Text style={styles.text}>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                        Lorem Ipsum has been the industry's
-                    </Text>
+            <>
+                {this.state.ready &&
+                <View style={styles.container}>
+                    <Header
+                        leftComponent={
+                            <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
+                                <Icon color="#fff" size={25}
+                                      name='setting' style={{marginLeft: 20}}
+                                      type='antdesign'/>
+                            </TouchableOpacity>
+                        }
+                        rightComponent={
+                            <TouchableOpacity onPress={() => navigation.navigate('List')}>
+                                <View style={{flexDirection: 'row', alignItems: 'center', marginRight: 20}}>
+                                    <Icon
+                                        size={25} name='trash-o'
+                                        type='font-awesome' color={"#fff"}
+                                    />
+                                    <Text style={{marginLeft: 5, color: '#fff'}}>(25 {currency})</Text>
+                                </View>
+                            </TouchableOpacity>
+                        }
+                        rightSize={4}
+                    />
+                    <LinearGradient
+                        colors={['#4b8b1d', '#6cd015']}
+                        style={styles.containerColor}
+                    >
+                    </LinearGradient>
+                    <ScrollView>
+                        <Text style={styles.text}>
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                            Lorem Ipsum has been the industry's
+                        </Text>
 
                     <View style={styles.containerCenter}>
                         <TouchableOpacity onPress={() => navigation.navigate('Scanner')}>

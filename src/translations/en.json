@@ -22,5 +22,15 @@
   "change_quantity": "Change quantity",
   "change_price": "Change price",
   "noData": "No data",
-  "takePhoto": "Take photo"
+  "takePhoto": "Take photo",
+  "startTitle": "Let's start saving food!",
+  "startSubtitle": "This application is created to help you saving food.",
+  "firstStepTitle": "First step",
+  "firstStepSubtitle": "Use Scan button to scan barcode from wasted food.",
+  "stepTwoTitle": "Step two",
+  "stepTwoSubtitle": "Check data and set product price and percent of wasted.",
+  "stepThreeTitle": "Step three",
+  "stepThreeSubtitle": "Add product to wested list and check what kind of food you buy too much.",
+  "lastStepTitle": "Last step (optional)",
+  "lastStepSubtitle": "Donate charity organization."
 }
