@@ -38,7 +38,9 @@
   },
   "devDependencies": {
     "babel-preset-expo": "~8.1.0",
-    "@babel/core": "^7.8.6"
+    "@babel/core": "^7.8.6",
+    "mem": ">=4.0.0",
+    "logkitty": ">=0.7.1"
   },
   "private": true
 }
