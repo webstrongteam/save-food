@@ -169,17 +169,14 @@ class Food extends Component {
     validate = () => {
         const {quantity, price} = this.state;
 
-        let error = false
-        if (isNaN(quantity) || quantity%1!==0) {
-            error = true
+        if (isNaN(quantity) || quantity % 1 !== 0) {
             alert('error')
         } else if (isNaN(price)) {
-            error = true
             alert('error')
-        } else if (!error){
+        } else {
             this.saveFood()
         }
-    }
+    };
 
     saveFood = () => {
         const {image, name, quantity, price, percent, id, productQuantity} = this.state;

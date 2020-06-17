@@ -7,11 +7,11 @@ import {LinearGradient} from "expo-linear-gradient";
 import {Button, CheckBox, Icon} from "react-native-elements";
 import Swipeable from 'react-native-swipeable';
 import ButtonAdd from '../../components/ButtonAdd/ButtonAdd';
+import {getResizeMode} from "../../common/utility";
+import Spinner from "../../components/Spinner/Spinner";
 
 import {connect} from 'react-redux';
 import * as actions from "../../store/actions";
-import {getResizeMode} from "../../common/utility";
-import Spinner from "../../components/Spinner/Spinner";
 
 class List extends Component {
     state = {
@@ -34,13 +34,13 @@ class List extends Component {
     initWastedList = () => {
         this.props.fetchWastedFood(foods => {
             const list = foods.map((val) => {
-                let {image} = val
+                let {image} = val;
                 if (!image || image === 'null') {
                     image = require('../../assets/not-found-image.png');
                 } else {
                     image = {uri: image};
                 }
-                let resize = 'cover'
+                let resize = 'cover';
                 if (image.constructor.name === 'String') {
                     getResizeMode(image, (resizeMode) => {
                         resize = resizeMode
@@ -50,10 +50,9 @@ class List extends Component {
                     ...val,
                     resizeMode: resize
                 })
-            })
+            });
             this.setState({
-                list: list,
-                loading: false
+                list, loading: false
             })
         })
     };
@@ -82,8 +81,8 @@ class List extends Component {
     };
 
     addFood = (item, val) => {
-        const add = item.productQuantity + val
-        let amountAdd = 0
+        const add = item.productQuantity + val;
+        let amountAdd = 0;
         if (add < 100 && add > 0) {
             if (this.state.selectedItems.length && this.state.selectedItems.reduce((_, currentValue) => {
                 if (currentValue === item.id) return (true)
@@ -132,7 +131,8 @@ class List extends Component {
                     centerSize={6}
                 />
                 {this.state.loading ?
-                    <Spinner bgColor='transparency' color='#000' size={64}/> : <ScrollView>
+                    <Spinner bgColor='transparency' color='#000' size={64}/> :
+                    <ScrollView>
                         <View style={styles.container}>
                             {list.length < 1 ?
                                 <View style={{marginTop: 20}}>
@@ -182,15 +182,16 @@ class List extends Component {
                                                 />
                                             </View>
                                             <View>
-                                                <Image
-                                                    style={{
-                                                        width: 100,
-                                                        height: 100,
-                                                        paddingBottom: 10,
-                                                        resizeMode: item.resizeMode
-                                                    }}
-                                                    source={item.image === 'null' ? require('../../assets/not-found-image.png') : {uri: item.image}}
-                                                />
+                                                <View style={{paddingBottom: 10}}>
+                                                    <Image
+                                                        style={{
+                                                            width: 100,
+                                                            height: 100,
+                                                            resizeMode: item.resizeMode
+                                                        }}
+                                                        source={item.image === 'null' ? require('../../assets/not-found-image.png') : {uri: item.image}}
+                                                    />
+                                                </View>
                                                 <ButtonAdd
                                                     onPressAdd={() => this.addFood(item, 1)}
                                                     onPresMinus={() => this.addFood(item, -1)}
@@ -214,9 +215,11 @@ class List extends Component {
                                             <Text style={styles.priceText}>{item.price} {currency}</Text>
                                         </BlurView>
                                     </Swipeable>
-                                ))}
+                                ))
+                            }
                         </View>
-                    </ScrollView>}
+                    </ScrollView>
+                }
                 <View style={{
                     position: 'absolute',
                     width: '100%',

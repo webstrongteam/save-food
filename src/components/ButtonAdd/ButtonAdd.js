@@ -1,6 +1,5 @@
 import React from 'react';
 import {Platform, Text, TouchableOpacity, View} from "react-native";
-import styles from "../../containers/List/List.style";
 import {Icon} from "react-native-elements";
 
 const ButtonAdd = ({color = '#fff', onPresMinus, onPressAdd, value}) => (
@@ -9,7 +8,7 @@ const ButtonAdd = ({color = '#fff', onPresMinus, onPressAdd, value}) => (
         height: 25,
         borderWidth: 1,
         flexDirection: 'row',
-        borderRadius:2,
+        borderRadius: 2,
         borderColor: color,
         opacity: 0.75
     }}>
@@ -28,11 +27,11 @@ const ButtonAdd = ({color = '#fff', onPresMinus, onPressAdd, value}) => (
             flex: 2,
             borderLeftWidth: 1,
             borderRightWidth: 1,
-            paddingTop:2,
+            paddingTop: Platform.OS === 'ios' ? 0 : 2,
             borderColor: color,
             justifyContent: 'center'
         }}>
-           <Text style={{
+            <Text style={{
                 flex: 1,
                 color: color,
                 fontSize: 16,
@@ -40,7 +39,7 @@ const ButtonAdd = ({color = '#fff', onPresMinus, onPressAdd, value}) => (
                 justifyContent: 'center',
                 alignItems: 'center'
             }}>
-               {value}
+                {value}
             </Text>
         </View>
         <TouchableOpacity onPress={() => onPressAdd()} style={{

@@ -65,6 +65,7 @@ export default StyleSheet.create({
     },
     container: {
         padding: 10,
+        marginBottom: 75,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
