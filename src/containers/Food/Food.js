@@ -7,6 +7,7 @@ import Spinner from "../../components/Spinner/Spinner";
 import Modal from "../../components/Modal/Modal";
 import {getResizeMode} from "../../common/utility";
 import {Camera} from 'expo-camera';
+import {alert} from '../../common/validation';
 
 import {connect} from 'react-redux';
 import * as actions from "../../store/actions";
@@ -164,6 +165,21 @@ class Food extends Component {
             });
         }
     };
+
+    validate = () => {
+        const {quantity, price} = this.state;
+
+        let error = false
+        if (isNaN(quantity) || quantity%1!==0) {
+            error = true
+            alert('error')
+        } else if (isNaN(price)) {
+            error = true
+            alert('error')
+        } else if (!error){
+            this.saveFood()
+        }
+    }
 
     saveFood = () => {
         const {image, name, quantity, price, percent, id, productQuantity} = this.state;
@@ -352,7 +368,7 @@ class Food extends Component {
                                                         padding: 25,
                                                         fontFamily: 'Lato-Light'
                                                     }}
-                                                    onPress={() => this.saveFood()}
+                                                    onPress={() => this.validate()}
                                                     type="outline"
                                                     title={translations.save}
                                                 />

@@ -28,6 +28,7 @@ const ButtonAdd = ({color = '#fff', onPresMinus, onPressAdd, value}) => (
             flex: 2,
             borderLeftWidth: 1,
             borderRightWidth: 1,
+            paddingTop:2,
             borderColor: color,
             justifyContent: 'center'
         }}>

@@ -33,7 +33,7 @@ export default StyleSheet.create({
     priceText: {
         fontFamily: 'Lato-Bold',
         position: 'absolute',
-        bottom: 16,
+        bottom: 12,
         right: 10,
         color: '#fff',
         fontSize: 22
