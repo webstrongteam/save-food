@@ -166,6 +166,14 @@ class Settings extends Component {
                                     colorTitle={'#fff'}/>
                     </TouchableOpacity>
                 </View>
+                <View style={{position: 'absolute', bottom: 20}}>
+                    <Text style={{fontSize: 12, color: '#ddd', textAlign: 'center', fontFamily: 'Lato-Light'}}>
+                        {translations.version}: {this.props.settings.version}
+                    </Text>
+                    <Text style={{fontSize: 12, color: '#ddd', textAlign: 'center', fontFamily: 'Lato-Light'}}>
+                        API: https://world.openfoodfacts.org
+                    </Text>
+                </View>
             </View>
         );
     }

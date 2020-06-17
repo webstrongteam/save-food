@@ -3,7 +3,9 @@ import {TouchableOpacity, View} from 'react-native';
 import {BarCodeScanner} from 'expo-barcode-scanner';
 import axios from "axios";
 import Spinner from "../../components/Spinner/Spinner";
-import {Icon} from "react-native-elements";
+import {Button, Icon} from "react-native-elements";
+
+import {connect} from "react-redux";
 
 class Scanner extends Component {
     state = {
@@ -33,7 +35,6 @@ class Scanner extends Component {
                     this.setState({loading: false});
                 })
                 .catch(err => {
-                    console.log(err);
                     this.props.navigation.navigate('Food', {image: null, name: null, quantity: null});
                     this.setState({loading: false});
                 })
@@ -68,9 +69,42 @@ class Scanner extends Component {
                         />
                     </TouchableOpacity>
                 </View>
+                <View style={{
+                    position: 'absolute',
+                    width: '100%',
+                    bottom: 30,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 0
+                    },
+                    shadowOpacity: 0.2,
+                    shadowRadius: 5,
+                    elevation: 7
+                }}>
+                    <Button
+                        onPress={() => this.props.navigation.navigate('Food')}
+                        buttonStyle={{backgroundColor: '#4b8b1d'}}
+                        titleStyle={{
+                            color: '#fff',
+                            fontSize: 18,
+                            padding: 25,
+                            fontFamily: 'Lato-Light'
+                        }}
+                        title={this.props.translations.addManually}
+                    />
+                </View>
             </View>
         );
     }
 }
 
-export default Scanner;
+const mapStateToProps = state => {
+    return {
+        translations: state.settings.translations
+    }
+};
+
+export default connect(mapStateToProps)(Scanner);

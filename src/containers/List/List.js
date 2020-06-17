@@ -22,6 +22,16 @@ class List extends Component {
     };
 
     componentDidMount() {
+        this.initWastedList();
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.refresh !== this.props.refresh) {
+            this.initWastedList();
+        }
+    }
+
+    initWastedList = () => {
         this.props.fetchWastedFood(foods => {
             const list = foods.map((val) => {
                 let {image} = val
@@ -30,15 +40,15 @@ class List extends Component {
                 } else {
                     image = {uri: image};
                 }
-                let resize='cover'
+                let resize = 'cover'
                 if (image.constructor.name === 'String') {
                     getResizeMode(image, (resizeMode) => {
-                        resize=resizeMode
+                        resize = resizeMode
                     });
                 }
                 return ({
                     ...val,
-                    resizeMode:resize
+                    resizeMode: resize
                 })
             })
             this.setState({
@@ -46,10 +56,10 @@ class List extends Component {
                 loading: false
             })
         })
-    }
+    };
 
     selectItem = (item) => {
-        let {amount, selectedItems} = this.state;
+        const {amount, selectedItems} = this.state;
         const checkSelectedItem = selectedItems.find(i => i === item.id);
 
         if (checkSelectedItem) {
@@ -75,9 +85,10 @@ class List extends Component {
         const add = item.productQuantity + val
         let amountAdd = 0
         if (add < 100 && add > 0) {
-            if(this.state.selectedItems.length && this.state.selectedItems.reduce((_,currentValue)=>{
-                if(currentValue===item.id) return(true)})){
-                amountAdd+=item.price*val
+            if (this.state.selectedItems.length && this.state.selectedItems.reduce((_, currentValue) => {
+                if (currentValue === item.id) return (true)
+            })) {
+                amountAdd += item.price * val
             }
             const index = this.state.list.indexOf(item);
             this.props.onSaveFood(
@@ -88,7 +99,7 @@ class List extends Component {
             );
             const newList = this.state.list;
             newList[index].productQuantity = add;
-            this.setState({list: newList,amount:this.state.amount+amountAdd});
+            this.setState({list: newList, amount: this.state.amount + amountAdd});
         }
     };
 
@@ -104,30 +115,30 @@ class List extends Component {
                 {this.state.loading ?
                     <Spinner color='#000' size={64}/> :
                     <>
+                        <Header
+                            leftComponent={
+                                <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+                                    <Icon
+                                        style={{marginTop: 5, marginLeft: 20}}
+                                        size={25} name='arrowleft'
+                                        type='antdesign' color={"#fff"}
+                                    />
+                                </TouchableOpacity>
+                            }
+                            centerComponent={
+                                <Text style={{
+                                    textAlign: 'center',
+                                    fontSize: 22,
+                                    color: '#fff'
+                                }}>{translations.foodList}</Text>
+                            }
+                            centerSize={6}
+                        />
                         <ScrollView>
-                            <Header
-                                leftComponent={
-                                    <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-                                        <Icon
-                                            style={{marginTop: 5, marginLeft: 20}}
-                                            size={25} name='arrowleft'
-                                            type='antdesign' color={"#fff"}
-                                        />
-                                    </TouchableOpacity>
-                                }
-                                centerComponent={
-                                    <Text style={{
-                                        textAlign: 'center',
-                                        fontSize: 22,
-                                        color: '#fff'
-                                    }}>{translations.foodList}</Text>
-                                }
-                                centerSize={6}
-                            />
                             <View style={styles.container}>
                                 {list.length < 1
-                                    ? <Text style={styles.emptyList}>Empty list</Text>
-                                    : list.map((item, i) => (
+                                    ? <ScrollView>
+                                        : list.map((item, i) => (
                                         <Swipeable key={i} rightButtons={[
                                             <>
                                                 <TouchableOpacity onPress={() => this.removeItem(item.id)}
@@ -159,7 +170,12 @@ class List extends Component {
                                                 </View>
                                                 <View>
                                                     <Image
-                                                        style={{width: 100, height: 100,marginBottom:10, resizeMode: item.resizeMode}}
+                                                        style={{
+                                                            width: 100,
+                                                            height: 100,
+                                                            marginBottom: 10,
+                                                            resizeMode: item.resizeMode
+                                                        }}
                                                         source={item.image === 'null' ? require('../../assets/not-found-image.png') : {uri: item.image}}
                                                     />
                                                     <ButtonAdd
@@ -185,57 +201,56 @@ class List extends Component {
                                                 <Text style={styles.priceText}>{item.price} {currency}</Text>
                                             </BlurView>
                                         </Swipeable>
-                                    ))}
-                            </View>
-                        </ScrollView>
-                        <View style={{
-                            position: 'absolute',
-                            width: '100%',
-                            bottom: 25,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            shadowColor: "#000",
-                            shadowOffset: {
-                                width: 0,
-                                height: 0
-                            },
-                            shadowOpacity: 0.2,
-                            shadowRadius: 5,
-                            elevation: 7
-                        }}>
-                            <Button
-                                buttonStyle={{backgroundColor: '#4b8b1d'}}
-                                disabled={amount === 0}
-                                titleStyle={{
-                                    color: '#fff',
-                                    fontSize: 18,
-                                    padding: 25,
-                                    fontFamily: 'Lato-Light'
-                                }}
-                                title={`${translations.pay} ${amount} ${currency}`}
-                            />
-                        </View>
-                    </>
-                }
-            </>
-        );
-    }
-}
+                                        ))}
+                                    </View>
+                                    < /ScrollView>
+                                    <View style={{
+                                        position: 'absolute',
+                                        width: '100%',
+                                        bottom: 25,
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        shadowColor: "#000",
+                                        shadowOffset: {
+                                            width: 0,
+                                            height: 0
+                                        },
+                                        shadowOpacity: 0.2,
+                                        shadowRadius: 5,
+                                        elevation: 7
+                                    }}>
+                                        <Button
+                                            buttonStyle={{backgroundColor: '#4b8b1d'}}
+                                            disabled={amount === 0}
+                                            titleStyle={{
+                                                color: '#fff',
+                                                fontSize: 18,
+                                                padding: 25,
+                                                fontFamily: 'Lato-Light'
+                                            }}
+                                            title={`${translations.pay} ${amount} ${currency}`}
+                                        />
+                                    </View>
+                                    < />
+                                }
+                            </>
+                            );
+                            }
+                            }
 
-const
-    mapStateToProps = state => {
-        return {
-            currency: state.settings.currency,
-            translations: state.settings.translations
-        }
-    };
-const
-    mapDispatchToProps = dispatch => {
-        return {
-            fetchWastedFood: (value) => dispatch(actions.fetchWastedFood(value)),
-            removeFood: (value) => dispatch(actions.removeFood(value)),
-            onSaveFood: (value) => dispatch(actions.saveFood(value)),
-        }
-    };
+                            const mapStateToProps = state => {
+                            return {
+                            currency: state.settings.currency,
+                            refresh: state.settings.refresh,
+                            translations: state.settings.translations
+                        }
+                        };
+                            const mapDispatchToProps = dispatch => {
+                            return {
+                            fetchWastedFood: (value) => dispatch(actions.fetchWastedFood(value)),
+                            removeFood: (value) => dispatch(actions.removeFood(value)),
+                            onSaveFood: (value) => dispatch(actions.saveFood(value)),
+                        }
+                        };
 
-export default connect(mapStateToProps, mapDispatchToProps)(List);
+                            export default connect(mapStateToProps, mapDispatchToProps)(List);

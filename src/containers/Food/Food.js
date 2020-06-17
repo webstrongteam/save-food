@@ -223,7 +223,7 @@ class Food extends Component {
                                     <View style={{
                                         position: 'absolute',
                                         width: '100%',
-                                        bottom: 25,
+                                        bottom: 30,
                                         justifyContent: 'center',
                                         alignItems: 'center',
                                         shadowColor: "#000",

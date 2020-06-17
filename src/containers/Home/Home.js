@@ -4,17 +4,17 @@ import styles from './Home.style';
 import Header from '../../components/Header/Header';
 import {LinearGradient} from "expo-linear-gradient";
 import {Icon} from "react-native-elements";
-
-import {connect} from "react-redux";
-import * as actions from "../../store/actions";
 import InfoWindow from "../../components/InfoWindow/InfoWindow";
 import Spinner from "../../components/Spinner/Spinner";
 
+import {connect} from "react-redux";
+import * as actions from "../../store/actions";
 
 class Home extends Component {
     state = {
         loading: true,
         totalPrice: 0,
+        unpaid: 0,
         food: 0
     };
 
@@ -22,38 +22,39 @@ class Home extends Component {
         if (await AsyncStorage.getItem('start') === 'true') {
             this.props.navigation.navigate('Start');
         } else {
-            this.props.fetchAllWastedFood(list => {
-                let price = 0;
-                let food = 0;
-                list.map((val) => {
-                    price += val.price;
-                    food += 1;
-                });
-                this.setState({totalPrice: price, food, loading: false});
-            });
+            this.setData();
         }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.navigation !== prevProps.navigation) {
-            this.props.fetchAllWastedFood(list => {
-                let price = 0;
-                let food = 0;
-                list.map((val) => {
-                    price += val.price;
-                    food += 1;
-                });
-                this.setState({totalPrice: price, food, loading: false});
-            });
+        if (this.props.navigation !== prevProps.navigation || this.props.refresh !== prevProps.refresh) {
+            this.setData();
         }
     }
 
+    setData = () => {
+        this.props.fetchAllWastedFood(list => {
+            let price = 0;
+            let unpaid = 0;
+            let food = 0;
+            list.map((val) => {
+                if (val.paid === 0) {
+                    unpaid += val.price;
+                }
+                price += val.price;
+                food += 1;
+            });
+            this.setState({totalPrice: price, unpaid, food, loading: false});
+        });
+    };
+
     render() {
+        const {totalPrice, unpaid, food, loading} = this.state;
         const {translations, currency, navigation} = this.props;
 
         return (
             <>
-                {this.state.loading ?
+                {loading ?
                     <Spinner size={64}/> :
                     <View style={styles.container}>
                         <Header
@@ -71,7 +72,7 @@ class Home extends Component {
                                             size={25} name='trash-o'
                                             type='font-awesome' color={"#fff"}
                                         />
-                                        <Text style={{marginLeft: 5, color: '#fff'}}>(25 {currency})</Text>
+                                        <Text style={{marginLeft: 5, color: '#fff'}}>({unpaid} {currency})</Text>
                                     </View>
                                 </TouchableOpacity>
                             }
@@ -110,10 +111,10 @@ class Home extends Component {
                             </View>
                             <InfoWindow color1={'#f8f8f8'} color2={['#af3462', '#bf3741']}
                                         title={translations.wastedFood}
-                                        val={`${this.state.food}`}/>
+                                        val={`${food}`}/>
                             <InfoWindow color1={'#f8f8f8'} color2={['#f2a91e', '#e95c17']}
                                         title={translations.wastedMoney}
-                                        val={`${this.state.totalPrice} ${currency}`}/>
+                                        val={`${totalPrice} ${currency}`}/>
                         </ScrollView>
                     </View>
                 }
@@ -124,6 +125,7 @@ class Home extends Component {
 
 const mapStateToProps = state => {
     return {
+        refresh: state.settings.refresh,
         currency: state.settings.currency,
         translations: state.settings.translations
     }
