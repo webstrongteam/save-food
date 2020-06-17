@@ -19,13 +19,23 @@ class List extends Component {
     };
 
     componentDidMount() {
-        this.props.fetchWastedFood(foods => {
-            this.setState({list: foods})
-        })
+        this.initWastedList();
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.refresh !== this.props.refresh) {
+            this.initWastedList();
+        }
+    }
+
+    initWastedList = () => {
+        this.props.fetchWastedFood(foods => {
+            this.setState({list: foods});
+        })
+    };
+
     selectItem = (item) => {
-        let {amount, selectedItems} = this.state;
+        const {amount, selectedItems} = this.state;
         const checkSelectedItem = selectedItems.find(i => i === item.id);
 
         if (checkSelectedItem) {
@@ -70,30 +80,45 @@ class List extends Component {
                     colors={['#4b8b1d', '#6cd015']}
                     style={styles.containerColor}
                 />
+                <Header
+                    leftComponent={
+                        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+                            <Icon
+                                style={{marginTop: 5, marginLeft: 20}}
+                                size={25} name='arrowleft'
+                                type='antdesign' color={"#fff"}
+                            />
+                        </TouchableOpacity>
+                    }
+                    centerComponent={
+                        <Text style={{
+                            textAlign: 'center',
+                            fontSize: 22,
+                            color: '#fff'
+                        }}>{translations.foodList}</Text>
+                    }
+                    centerSize={6}
+                />
                 <ScrollView>
-                    <Header
-                        leftComponent={
-                            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-                                <Icon
-                                    style={{marginTop: 5, marginLeft: 20}}
-                                    size={25} name='arrowleft'
-                                    type='antdesign' color={"#fff"}
-                                />
-                            </TouchableOpacity>
-                        }
-                        centerComponent={
-                            <Text style={{
-                                textAlign: 'center',
-                                fontSize: 22,
-                                color: '#fff'
-                            }}>{translations.foodList}</Text>
-                        }
-                        centerSize={6}
-                    />
                     <View style={styles.container}>
-                        {list.length < 1
-                            ? <Text style={styles.emptyList}>Empty list</Text>
-                            : list.map((item, i) => (
+                        {list.length < 1 ?
+                            <View style={{marginTop: 20}}>
+                                <Text style={styles.emptyList}>{translations.emptyList}</Text>
+                                <TouchableOpacity onPress={() => navigation.navigate('Scanner')}>
+                                    <Text style={{
+                                        ...styles.emptyList,
+                                        fontFamily: 'Lato-Regular'
+                                    }}>{translations.scanProduct}</Text>
+                                </TouchableOpacity>
+                                <Text style={styles.emptyList}>{translations.or}</Text>
+                                <TouchableOpacity onPress={() => navigation.navigate('Food')}>
+                                    <Text style={{
+                                        ...styles.emptyList,
+                                        fontFamily: 'Lato-Regular'
+                                    }}>{translations.addManually}</Text>
+                                </TouchableOpacity>
+                            </View> :
+                            list.map((item, i) => (
                                 <Swipeable key={i} rightButtons={[
                                     <>
                                         <TouchableOpacity onPress={() => this.removeItem(item.id)}
@@ -186,6 +211,7 @@ class List extends Component {
 
 const mapStateToProps = state => {
     return {
+        refresh: state.settings.refresh,
         currency: state.settings.currency,
         translations: state.settings.translations
     }
@@ -194,7 +220,7 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchWastedFood: (value) => dispatch(actions.fetchWastedFood(value)),
         removeFood: (value) => dispatch(actions.removeFood(value)),
-        onSaveFood: (value) => dispatch(actions.saveFood(value)),
+        onSaveFood: (value) => dispatch(actions.saveFood(value))
     }
 };
 

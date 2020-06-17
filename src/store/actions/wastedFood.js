@@ -3,10 +3,9 @@ import {openDatabase} from 'expo-sqlite';
 
 const db = openDatabase('savefood.db');
 
-export const onUpdateWastedFood = (wastedFood) => {
+export const onRefresh = () => {
     return {
-        type: actionTypes.UPDATE_WASTED_FOOD,
-        wastedFood
+        type: actionTypes.REFRESH
     }
 };
 
@@ -16,7 +15,6 @@ export const fetchWastedFood = (callback = () => null) => {
             tx => {
                 tx.executeSql('select * from wasted_food where paid = 0 ;', [], (_, {rows}) => {
                     callback(rows._array);
-                    dispatch(onUpdateWastedFood(rows._array));
                 });
             }, (err) => console.log(err)
         );
@@ -29,7 +27,6 @@ export const fetchAllWastedFood = (callback = () => null) => {
             tx => {
                 tx.executeSql('select * from wasted_food;', [], (_, {rows}) => {
                     callback(rows._array);
-                    dispatch(onUpdateWastedFood(rows._array));
                 });
             }, (err) => console.log(err)
         );
@@ -51,7 +48,7 @@ export const saveFood = (food, callback = () => null) => {
                                        paid            = ?
                                    where id = ?;`, [food.name, food.image, food.quantity, food.price, food.percentage, food.productQuantity, food.paid, food.id], () => {
                         callback();
-                        dispatch(fetchWastedFood());
+                        dispatch(onRefresh());
                     });
                 }, (err) => console.log(err)
             );
@@ -60,7 +57,7 @@ export const saveFood = (food, callback = () => null) => {
                 tx => {
                     tx.executeSql('insert into wasted_food (name, image, quantity, price, percentage, productQuantity, paid) values (?,?,?,?,?,?,?)', [food.name, food.image, food.quantity, food.price, food.percentage, food.productQuantity, food.paid], () => {
                         callback();
-                        dispatch(fetchWastedFood());
+                        dispatch(onRefresh());
                     });
                 }, (err) => console.log(err)
             );
@@ -74,7 +71,7 @@ export const removeFood = (id, callback = () => null) => {
             tx => {
                 tx.executeSql('delete from wasted_food where id = ?', [id], () => {
                     callback();
-                    dispatch(fetchWastedFood());
+                    dispatch(onRefresh());
                 });
             }, (err) => console.log(err)
         );

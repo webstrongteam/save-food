@@ -8,11 +8,9 @@ import thunk from 'redux-thunk';
 import {initApp} from './src/db';
 import {loadAsync} from "expo-font";
 import Router from './src/router';
-import wastedFoodReducer from './src/store/reducers/wastedFood';
 import settingsReducer from './src/store/reducers/settings';
 
 const rootReducer = combineReducers({
-    wastedFood: wastedFoodReducer,
     settings: settingsReducer
 });
 
