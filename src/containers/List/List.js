@@ -230,7 +230,7 @@ class List extends Component {
                                                     marginTop: -30
                                                 }}>{item.name}</Text>
                                                 <Text
-                                                    style={styles.text}>{translations.quantity}: {item.quantity}g</Text>
+                                                    style={styles.text}>{translations.quantity}: {item.quantity}</Text>
                                                 <Text
                                                     style={styles.text}>{translations.percent}: {item.percentage}%</Text>
                                             </View>

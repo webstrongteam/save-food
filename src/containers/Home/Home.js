@@ -125,12 +125,14 @@ class Home extends Component {
                                     </LinearGradient>
                                 </TouchableOpacity>
                             </View>
-                            <InfoWindow color1={'#f8f8f8'} color2={['#af3462', '#bf3741']}
-                                        title={translations.wastedFood}
-                                        val={`${food}`}/>
-                            <InfoWindow color1={'#f8f8f8'} color2={['#f2a91e', '#e95c17']}
-                                        title={translations.wastedMoney}
-                                        val={`${totalPrice} ${currency}`}/>
+                            <View style={{marginBottom: 30}}>
+                                <InfoWindow color1={'#f8f8f8'} color2={['#af3462', '#bf3741']}
+                                            title={translations.wastedFood}
+                                            val={`${food}`}/>
+                                <InfoWindow color1={'#f8f8f8'} color2={['#f2a91e', '#e95c17']}
+                                            title={translations.wastedMoney}
+                                            val={`${totalPrice} ${currency}`}/>
+                            </View>
                         </ScrollView>
                     </View>
                 }

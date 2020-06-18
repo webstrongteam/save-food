@@ -167,11 +167,9 @@ class Food extends Component {
     };
 
     validate = () => {
-        const {quantity, price} = this.state;
+        const {price} = this.state;
 
-        if (isNaN(quantity) || quantity % 1 !== 0) {
-            alert('error')
-        } else if (isNaN(price)) {
+        if (isNaN(price)) {
             alert('error')
         } else {
             this.saveFood()
@@ -307,7 +305,7 @@ class Food extends Component {
                                                 <TouchableOpacity onPress={() => this.toggleModal('quantity')}>
                                                     <InfoWindow color1={'#f8f8f8'} color2={['#f2a91e', '#e95c17']}
                                                                 title={translations.quantity}
-                                                                val={savedDate.quantity !== translations.noData ? savedDate.quantity + 'g' : savedDate.quantity}/>
+                                                                val={savedDate.quantity !== translations.noData ? savedDate.quantity : savedDate.quantity}/>
                                                 </TouchableOpacity>
                                                 <TouchableOpacity onPress={() => this.toggleModal('price')}>
                                                     <InfoWindow color1={'#f8f8f8'} color2={['#af3462', '#bf3741']}

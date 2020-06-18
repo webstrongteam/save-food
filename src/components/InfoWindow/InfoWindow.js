@@ -49,12 +49,13 @@ const InfoWindow = ({color1 = '#f8f8f8', color2 = ['#f2a91e', '#e95c17'], title 
                     style={{
                         height: '100%',
                         justifyContent: 'center',
-                        alignItems: 'center'
+                        alignItems: 'center',
                     }}
                 >
-                    <Text style={{
+                    <Text numberOfLines={1} style={{
                         color: '#fff',
-                        fontSize: 18,
+                        marginLeft: 5,
+                        fontSize: 16,
                         textAlign: 'center',
                         fontFamily: 'Lato-Bold'
                     }}>{val}</Text>
