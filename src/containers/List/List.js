@@ -18,7 +18,8 @@ class List extends Component {
         list: [],
         selectedItems: [],
         amount: 0,
-        loading: true
+        loading: true,
+        loadingAddFood:true
     };
 
     componentDidMount() {
@@ -81,24 +82,25 @@ class List extends Component {
     };
 
     addFood = (item, val) => {
-        const add = item.productQuantity + val;
-        let amountAdd = 0;
-        if (add < 100 && add > 0) {
-            if (this.state.selectedItems.length && this.state.selectedItems.reduce((_, currentValue) => {
-                if (currentValue === item.id) return (true)
-            })) {
-                amountAdd += item.price * val
-            }
-            const index = this.state.list.indexOf(item);
-            this.props.onSaveFood(
-                {
-                    ...item,
-                    productQuantity: add
+        if (this.state.loadingAddFood) {
+            this.setState({loadingAddFood:false});
+            const add = item.productQuantity + val;
+            let amountAdd = 0;
+            if (add < 100 && add > 0) {
+                if (this.state.selectedItems.length && this.state.selectedItems.find((val) => (val === item.id))) {
+                    amountAdd += item.price * val
                 }
-            );
-            const newList = this.state.list;
-            newList[index].productQuantity = add;
-            this.setState({list: newList, amount: this.state.amount + amountAdd});
+                const index = this.state.list.indexOf(item);
+                this.props.onSaveFood(
+                    {
+                        ...item,
+                        productQuantity: add
+                    }
+                );
+                const newList = this.state.list;
+                newList[index].productQuantity = add;
+                this.setState({list: newList, amount: this.state.amount + amountAdd,loadingAddFood:true});
+            }
         }
     };
 
@@ -212,7 +214,8 @@ class List extends Component {
                                                 <Text
                                                     style={styles.text}>{translations.percent}: {item.percentage}%</Text>
                                             </View>
-                                            <Text style={styles.priceText}>{item.price} {currency}</Text>
+                                            <Text
+                                                style={styles.priceText}>{item.price * item.productQuantity} {currency}</Text>
                                         </BlurView>
                                     </Swipeable>
                                 ))
