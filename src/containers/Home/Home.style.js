@@ -38,7 +38,8 @@ export default StyleSheet.create({
         marginBottom: 30,
         marginLeft: 50,
         marginRight: 50,
-        color: '#fff'
+        color: '#fff',
+        fontFamily: 'Lato-Light'
     },
     containerCenter: {
         justifyContent: 'center',
