@@ -19,7 +19,8 @@ class List extends Component {
         selectedItems: [],
         amount: 0,
         loading: true,
-        loadingAddFood:true
+        wait: false,
+        isSwiping: false
     };
 
     componentDidMount() {
@@ -30,6 +31,10 @@ class List extends Component {
         if (prevProps.refresh !== this.props.refresh) {
             this.initWastedList();
         }
+    }
+
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        return this.state !== nextState || this.props.refresh !== nextProps.refresh
     }
 
     initWastedList = () => {
@@ -58,56 +63,66 @@ class List extends Component {
         })
     };
 
-    selectItem = (item) => {
-        const {amount, selectedItems} = this.state;
-        const checkSelectedItem = selectedItems.find(i => i === item.id);
+    getAmount = (selectedItems = this.state.selectedItems) => {
+        return selectedItems.reduce((a, i) => a + i.price * i.productQuantity, 0);
+    };
+
+    selectItem = (item, onlyRemove = false) => {
+        const {selectedItems} = this.state;
+        const checkSelectedItem = selectedItems.find(i => i.id === item.id);
 
         if (checkSelectedItem) {
+            const newSelectedItems = selectedItems.filter(i => i.id !== item.id);
             this.setState({
-                selectedItems: selectedItems.filter(i => i !== item.id),
-                amount: amount - item.price * item.productQuantity
+                selectedItems: newSelectedItems,
+                amount: this.getAmount(newSelectedItems)
             });
-        } else {
-            selectedItems.push(item.id);
+        } else if (!onlyRemove) {
+            selectedItems.push(item);
             this.setState({
                 selectedItems,
-                amount: amount + item.price * item.productQuantity
+                amount: this.getAmount(selectedItems)
             });
         }
     };
 
     removeItem = (id) => {
         this.props.removeFood(id);
-        this.props.fetchWastedFood(foods => this.setState({list: foods}))
+        this.selectItem({id}, true);
+        this.props.fetchWastedFood(foods => {
+            this.setState({list: foods})
+        })
     };
 
     addFood = (item, val) => {
-        if (this.state.loadingAddFood) {
-            this.setState({loadingAddFood:false});
-            const add = item.productQuantity + val;
-            let amountAdd = 0;
-            if (add < 100 && add > 0) {
-                if (this.state.selectedItems.length && this.state.selectedItems.find((val) => (val === item.id))) {
-                    amountAdd += item.price * val
-                }
-                const index = this.state.list.indexOf(item);
-                this.props.onSaveFood(
-                    {
-                        ...item,
-                        productQuantity: add
+        if (!this.state.wait) {
+            this.setState({wait: true}, () => {
+                const quantity = item.productQuantity + val;
+                if (quantity < 100 && quantity > 0) {
+                    const {selectedItems} = this.state;
+                    let {amount} = this.state;
+
+                    const selectedIn = selectedItems.findIndex((val) => (val.id === item.id));
+                    if (selectedIn >= 0) {
+                        selectedItems[selectedIn].productQuantity = selectedItems[selectedIn].productQuantity + val;
+                        amount = this.getAmount(selectedItems);
                     }
-                );
-                const newList = this.state.list;
-                newList[index].productQuantity = add;
-                this.setState({list: newList, amount: this.state.amount + amountAdd});
-                setTimeout(()=>this.setState({loadingAddFood:true}),500)
-            }
+
+                    const index = this.state.list.indexOf(item);
+                    const newList = this.state.list;
+                    newList[index].productQuantity = quantity;
+                    this.props.onSaveFood({...item, productQuantity: quantity}, () => {
+                        this.setState({list: newList, amount, wait: false});
+                    });
+                }
+            })
         }
     };
 
     render() {
-        const {selectedItems, amount, list} = this.state;
+        const {selectedItems, amount, list, loading} = this.state;
         const {currency, translations, navigation} = this.props;
+
         return (
             <>
                 <LinearGradient
@@ -133,9 +148,9 @@ class List extends Component {
                     }
                     centerSize={6}
                 />
-                {this.state.loading ?
+                {loading ?
                     <Spinner bgColor='transparency' color='#000' size={64}/> :
-                    <ScrollView>
+                    <ScrollView scrollEnabled={!this.state.isSwiping}>
                         <View style={styles.container}>
                             {list.length < 1 ?
                                 <View style={{marginTop: 20}}>
@@ -155,29 +170,33 @@ class List extends Component {
                                     </TouchableOpacity>
                                 </View> :
                                 list.map((item, i) => (
-                                    <Swipeable key={i} rightButtons={[
-                                        <>
-                                            <TouchableOpacity onPress={() => this.removeItem(item.id)}
-                                                              style={styles.delete}>
-                                                <Icon
-                                                    style={{marginLeft: 10}}
-                                                    size={40} name='trash-o'
-                                                    type='font-awesome' color={'#fff'}/>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity
-                                                onPress={() => navigation.navigate('Food', {...item})}
-                                                style={styles.edit}>
-                                                <Icon
-                                                    style={{marginLeft: 10}}
-                                                    size={40} name='edit'
-                                                    type='font-awesome' color={'#fff'}/>
-                                            </TouchableOpacity>
-                                        </>
-                                    ]}>
+                                    <Swipeable
+                                        key={i}
+                                        onSwipeStart={() => this.setState({isSwiping: true})}
+                                        onSwipeRelease={() => this.setState({isSwiping: false})}
+                                        rightButtons={[
+                                            <>
+                                                <TouchableOpacity onPress={() => this.removeItem(item.id)}
+                                                                  style={styles.delete}>
+                                                    <Icon
+                                                        style={{marginLeft: 10}}
+                                                        size={40} name='trash-o'
+                                                        type='font-awesome' color={'#fff'}/>
+                                                </TouchableOpacity>
+                                                <TouchableOpacity
+                                                    onPress={() => navigation.navigate('Food', {...item})}
+                                                    style={styles.edit}>
+                                                    <Icon
+                                                        style={{marginLeft: 10}}
+                                                        size={40} name='edit'
+                                                        type='font-awesome' color={'#fff'}/>
+                                                </TouchableOpacity>
+                                            </>
+                                        ]}>
                                         <BlurView style={styles.listItem} intensity={50} tint='dark'>
                                             <View style={{flex: 1}}>
                                                 <CheckBox
-                                                    checked={selectedItems.find(i => i === item.id)}
+                                                    checked={!!selectedItems.find(i => i.id === item.id)}
                                                     onPress={() => this.selectItem(item)}
                                                     style={styles.checkbox}
                                                     checkedColor={"#ea6700"}
@@ -267,7 +286,7 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchWastedFood: (value) => dispatch(actions.fetchWastedFood(value)),
         removeFood: (value) => dispatch(actions.removeFood(value)),
-        onSaveFood: (value) => dispatch(actions.saveFood(value)),
+        onSaveFood: (value, callback) => dispatch(actions.saveFood(value, callback))
     }
 };
 

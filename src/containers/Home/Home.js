@@ -44,9 +44,9 @@ class Home extends Component {
             let food = 0;
             list.map((val) => {
                 if (val.paid === 0) {
-                    unpaid += val.price;
+                    unpaid += val.price * val.productQuantity;
                 }
-                price += val.price;
+                price += val.price * val.productQuantity;
                 food += 1;
             });
             this.setState({totalPrice: price, unpaid, food, fact: this.drawFact(), loading: false});
