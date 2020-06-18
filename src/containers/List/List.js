@@ -99,7 +99,8 @@ class List extends Component {
                 );
                 const newList = this.state.list;
                 newList[index].productQuantity = add;
-                this.setState({list: newList, amount: this.state.amount + amountAdd,loadingAddFood:true});
+                this.setState({list: newList, amount: this.state.amount + amountAdd});
+                setTimeout(()=>this.setState({loadingAddFood:true}),500)
             }
         }
     };
