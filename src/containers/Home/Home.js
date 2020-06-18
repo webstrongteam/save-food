@@ -6,16 +6,19 @@ import {LinearGradient} from "expo-linear-gradient";
 import {Icon} from "react-native-elements";
 import InfoWindow from "../../components/InfoWindow/InfoWindow";
 import Spinner from "../../components/Spinner/Spinner";
+import en_facts from "../../translations/en/facts";
+import pl_facts from "../../translations/pl/facts";
 
 import {connect} from "react-redux";
 import * as actions from "../../store/actions";
 
 class Home extends Component {
     state = {
-        loading: true,
         totalPrice: 0,
         unpaid: 0,
-        food: 0
+        food: 0,
+        fact: '',
+        loading: true
     };
 
     async componentDidMount() {
@@ -29,6 +32,8 @@ class Home extends Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.navigation !== prevProps.navigation || this.props.refresh !== prevProps.refresh) {
             this.setData();
+        } else if (this.props.lang !== prevProps.lang) {
+            this.setState({fact: this.drawFact()});
         }
     }
 
@@ -44,12 +49,24 @@ class Home extends Component {
                 price += val.price;
                 food += 1;
             });
-            this.setState({totalPrice: price, unpaid, food, loading: false});
+            this.setState({totalPrice: price, unpaid, food, fact: this.drawFact(), loading: false});
         });
     };
 
+    drawFact = () => {
+        const {lang} = this.props;
+        let facts;
+
+        if (lang === 'pl') facts = pl_facts;
+        else facts = en_facts;
+
+        const id = Math.floor(Math.random() * facts.length);
+
+        return facts[id];
+    };
+
     render() {
-        const {totalPrice, unpaid, food, loading} = this.state;
+        const {totalPrice, unpaid, food, fact, loading} = this.state;
         const {translations, currency, navigation} = this.props;
 
         return (
@@ -85,8 +102,7 @@ class Home extends Component {
                         </LinearGradient>
                         <ScrollView>
                             <Text style={styles.text}>
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                Lorem Ipsum has been the industry's
+                                {fact}
                             </Text>
 
                             <View style={styles.containerCenter}>
@@ -127,6 +143,7 @@ const mapStateToProps = state => {
     return {
         refresh: state.settings.refresh,
         currency: state.settings.currency,
+        lang: state.settings.lang,
         translations: state.settings.translations
     }
 };
