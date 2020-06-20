@@ -1,23 +1,15 @@
 import React from "react";
-import {
-    StyleSheet,
-    Text,
-    View,
-    TextInput,
-    TouchableOpacity,
-    ActivityIndicator,
-    Dimensions
-} from "react-native";
+import {ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import axios from 'axios';
-import { WebView } from "react-native-webview";
+import {WebView} from "react-native-webview";
 
 class Payment extends React.Component {
     state = {
         amount: 15,
         quantity: "0",
         screen: "product",
-        initUrl: "https://clever-heisenberg-df20b7.netlify.app/",
-        url: "https://clever-heisenberg-df20b7.netlify.app/payment-init",
+        initUrl: "https://savefood-payment.netlify.app/",
+        url: "https://savefood-payment.netlify.app/payment-init",
         loading: true
     };
 
@@ -30,7 +22,7 @@ class Payment extends React.Component {
             currency: 'PLN'
         };
 
-        await axios.post('http://192.168.1.6:3000/payment', data)
+        await axios.post('https://webstrong.pl/api/savefood/payment', data)
             .then(result => {
                 const sessionID = JSON.parse(result.data.body);
                 this.setState({
@@ -42,7 +34,7 @@ class Payment extends React.Component {
     }
 
     handleOrder() {
-        this.setState({ screen: "payment" });
+        this.setState({screen: "payment"});
     }
 
     _onNavigationStateChange(webViewState) {
@@ -51,11 +43,11 @@ class Payment extends React.Component {
         }
 
         if (webViewState.url === this.state.initUrl + "payment-success/") {
-            this.setState({ screen: "success" });
+            this.setState({screen: "success"});
         }
 
         if (webViewState.url === this.state.initUrl + "payment-failure/") {
-            this.setState({ screen: "failure" });
+            this.setState({screen: "failure"});
         }
     }
 
@@ -67,8 +59,8 @@ class Payment extends React.Component {
         }
 
         return (
-            <View style={{ flex: 1, marginTop: 50, backgroundColor: '#fff' }}>
-                <View style={{ flex: 2 }}>
+            <View style={{flex: 1, marginTop: 50, backgroundColor: '#fff'}}>
+                <View style={{flex: 2}}>
                     {loader && (
                         <View style={[styles.loader, styles.horizontal]}>
                             <ActivityIndicator
@@ -101,10 +93,10 @@ class Payment extends React.Component {
                     The price for today is € {this.state.amount},- per item
                 </Text>
                 <Text style={styles.quantity}>How many items do you want to buy?</Text>
-                <View style={{ flex: 1 }}>
+                <View style={{flex: 1}}>
                     <TextInput
                         style={styles.textInput}
-                        onChangeText={text => this.setState({ quantity: text })}
+                        onChangeText={text => this.setState({quantity: text})}
                         value={this.state.quantity}
                     />
                     <TouchableOpacity
@@ -127,13 +119,13 @@ class Payment extends React.Component {
             case "success":
                 return (
                     <View style={styles.container}>
-                        <Text style={{ fontSize: 25 }}>Payments Succeeded :)</Text>
+                        <Text style={{fontSize: 25}}>Payments Succeeded :)</Text>
                     </View>
                 );
             case "failure":
                 return (
                     <View style={styles.container}>
-                        <Text style={{ fontSize: 25 }}>Payments failed :(</Text>
+                        <Text style={{fontSize: 25}}>Payments failed :(</Text>
                     </View>
                 );
             default:
