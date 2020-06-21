@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Image, ScrollView, Text, TouchableOpacity, View} from "react-native";
+import {showMessage} from "react-native-flash-message";
 import {BlurView} from 'expo-blur';
 import styles from './List.style';
 import Header from '../../components/Header/Header';
@@ -23,21 +24,51 @@ class List extends Component {
         isSwiping: false
     };
 
-    componentDidMount() {
+    async componentDidMount() {
         this.initWastedList();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.refresh !== this.props.refresh) {
             this.initWastedList();
+        } else if (this.props.navigation !== prevProps.navigation) {
+            this.paidFood();
         }
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        return this.state !== nextState || this.props.refresh !== nextProps.refresh
+        return this.state !== nextState ||
+            this.props.refresh !== nextProps.refresh ||
+            this.props.navigation !== nextProps.navigation;
     }
 
-    initWastedList = () => {
+    paidFood = () => {
+        const ids = this.props.navigation.getParam('ids', null);
+        if (ids) {
+            this.setState({loading: true}, async () => {
+                await Promise.all(ids.map(id => {
+                    this.props.paidFood(id, () => {
+                        return Promise.resolve()
+                    })
+                }));
+                this.initWastedList(true);
+            })
+        }
+    };
+
+    showSimpleMessage = () => {
+        const message = {
+            message: "Płatność udana",
+            description: "Dziękujemy za wsparcie!",
+            type: "success",
+            icon: {icon: "success", position: "left"},
+            duration: 2500
+        };
+
+        showMessage(message);
+    };
+
+    initWastedList = (showMessage = false) => {
         this.props.fetchWastedFood(foods => {
             const list = foods.map((val) => {
                 let {image} = val;
@@ -58,7 +89,9 @@ class List extends Component {
                 })
             });
             this.setState({
-                list, loading: false
+                list, selectedItems: [], amount: 0, loading: false
+            }, () => {
+                if (showMessage) this.showSimpleMessage();
             })
         })
     };
@@ -267,6 +300,7 @@ class List extends Component {
                             padding: 25,
                             fontFamily: 'Lato-Light'
                         }}
+                        onPress={() => navigation.navigate('Payment', {ids: selectedItems.map(i => i.id), amount})}
                         title={`${translations.pay} ${amount} ${currency}`}
                     />
                 </View>
@@ -286,6 +320,7 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchWastedFood: (value) => dispatch(actions.fetchWastedFood(value)),
         removeFood: (value) => dispatch(actions.removeFood(value)),
+        paidFood: (id, callback) => dispatch(actions.paidFood(id, callback)),
         onSaveFood: (value, callback) => dispatch(actions.saveFood(value, callback))
     }
 };

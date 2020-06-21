@@ -2,7 +2,8 @@ export {
     fetchAllWastedFood,
     fetchWastedFood,
     saveFood,
-    removeFood
+    removeFood,
+    paidFood
 } from './wastedFood';
 
 export {

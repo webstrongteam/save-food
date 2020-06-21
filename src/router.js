@@ -21,7 +21,7 @@ const MainNavigator = createStackNavigator(
         Settings: {screen: Settings}
     },
     {
-        initialRouteName: 'Payment',
+        initialRouteName: 'Home',
         headerMode: 'none'
     },
 );

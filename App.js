@@ -9,6 +9,7 @@ import {initApp} from './src/db';
 import {loadAsync} from "expo-font";
 import Router from './src/router';
 import settingsReducer from './src/store/reducers/settings';
+import FlashMessage from "react-native-flash-message";
 
 const rootReducer = combineReducers({
     settings: settingsReducer
@@ -49,6 +50,7 @@ class App extends Component {
                 <Provider store={store}>
                     <Template>
                         <Router/>
+                        <FlashMessage style={{zIndex: 1000}} position="bottom" animated={true}/>
                     </Template>
                 </Provider> :
                 <Spinner color='#000' size={64}/>

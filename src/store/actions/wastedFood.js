@@ -65,6 +65,19 @@ export const saveFood = (food, callback = () => null) => {
     };
 };
 
+export const paidFood = (id, callback = () => null) => {
+    return dispatch => {
+        db.transaction(
+            tx => {
+                tx.executeSql('update wasted_food set paid = 1 where id = ?', [id], () => {
+                    callback();
+                    dispatch(onRefresh());
+                });
+            }, (err) => console.log(err)
+        );
+    }
+};
+
 export const removeFood = (id, callback = () => null) => {
     return dispatch => {
         db.transaction(
