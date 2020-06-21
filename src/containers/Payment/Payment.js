@@ -16,7 +16,7 @@ class Payment extends React.Component {
         amount: 0,
         name: 'saveFood',
         email: '',
-        currency: 'PLN',
+        currency: 'pln',
         screen: "product",
         charity: 'pajacyk',
         initUrl: "https://savefood-payment.netlify.app/",
@@ -28,17 +28,19 @@ class Payment extends React.Component {
         const {navigation} = this.props;
         const ids = navigation.getParam('ids', null);
         const amount = navigation.getParam('amount', 0);
-        const currency = this.props.currency;
+        const currency = this.props.currency.toLowerCase();
 
         this.setState({ids, amount, currency});
     }
 
     showSimpleMessage = () => {
+        const {translations} = this.props;
+
         const message = {
-            message: "Bład podczas płatności",
-            description: "Doszło do błędu podczas płatnośći. Spóbuj ponownie i upewnij się że podałeś poprawne dane.",
+            message: translations.paymentErrorTitle,
+            description: translations.paymentErrorDescription,
             type: "danger",
-            icon: { icon: "danger", position: "left" },
+            icon: {icon: "danger", position: "left"},
             duration: 5000
         };
 
@@ -46,11 +48,21 @@ class Payment extends React.Component {
     };
 
     async createPaymentSession() {
+        let paymentMethods;
+        if (this.state.currency === 'pln') {
+            paymentMethods = ["card", "p24"];
+        } else {
+            paymentMethods = ["card"];
+        }
+
         const data = {
+            title: this.props.translations.paymentTitle,
+            lang: this.props.lang,
             amount: this.state.amount,
             name: this.state.name,
             email: this.state.email,
-            currency: this.state.currency
+            currency: this.state.currency,
+            paymentMethods
         };
 
         await axios.post('https://webstrong.pl/api/savefood/payment', data)
@@ -61,7 +73,10 @@ class Payment extends React.Component {
                     loading: false
                 });
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log(err);
+                this.setState({screen: "product", loading: false}, this.showSimpleMessage);
+            });
     }
 
     _onNavigationStateChange(webViewState) {
@@ -103,6 +118,7 @@ class Payment extends React.Component {
 
     showProduct() {
         const {amount, currency, charity, email} = this.state;
+        const {translations} = this.props;
 
         return (
             <View style={{flex: 1, alignItems: 'center', backgroundColor: '#fff'}}>
@@ -119,7 +135,8 @@ class Payment extends React.Component {
                     }
                     centerComponent={
                         <Text style={{fontSize: 20, fontFamily: 'Lato-Light', color: '#000'}}>
-                            Razem: <Text style={{fontFamily: 'Lato-Regular'}}>{amount} {currency}</Text>
+                            {translations.together} <Text
+                            style={{fontFamily: 'Lato-Regular'}}>{amount} {currency.toUpperCase()}</Text>
                         </Text>
                     }
                 />
@@ -132,7 +149,7 @@ class Payment extends React.Component {
                             }}
                             autoCapitalize={"none"}
                             labelStyle={{fontFamily: 'Lato-Bold'}}
-                            label='Wpisz swój e-mail'
+                            label={translations.emailLabel}
                             keyboardType='email-address'
                             textContentType='emailAddress'
                             autoCompleteType='email'
@@ -143,7 +160,7 @@ class Payment extends React.Component {
                     </View>
                     <View style={{marginTop: 20}}>
                         <Text style={{fontSize: 20, fontFamily: 'Lato-Light', color: '#000'}}>
-                            Wybierz akcję charytatywną:
+                            {translations.chooseCharity}
                         </Text>
                     </View>
                     <View style={{marginTop: 40, marginBottom: 20}}>
@@ -168,8 +185,8 @@ class Payment extends React.Component {
                                 padding: 25,
                                 fontFamily: 'Lato-Light'
                             }}
-                            title="Przejdź do płatności"
-                            onPress={() => this.setState({screen: 'payment'})}/>
+                            title={translations.moveToPayment}
+                            onPress={() => this.setState({screen: 'payment', loading: true})}/>
                     </View>
                 </ScrollView>
             </View>
@@ -182,18 +199,6 @@ class Payment extends React.Component {
                 return this.showProduct();
             case "payment":
                 return this.startPayment();
-            case "success":
-                return (
-                    <View style={{flex: 1}}>
-                        <Text style={{fontSize: 25}}>Payments Succeeded :)</Text>
-                    </View>
-                );
-            case "failure":
-                return (
-                    <View style={{flex: 1}}>
-                        <Text style={{fontSize: 25}}>Payments failed :(</Text>
-                    </View>
-                );
             default:
                 break;
         }
@@ -203,6 +208,7 @@ class Payment extends React.Component {
 const mapStateToProps = state => {
     return {
         currency: state.settings.currency,
+        lang: state.settings.lang,
         translations: state.settings.translations
     }
 };

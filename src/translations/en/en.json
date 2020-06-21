@@ -37,5 +37,14 @@
   "stepThreeTitle": "Step three",
   "stepThreeSubtitle": "Add product to wested list and check what kind of food you buy too much.",
   "lastStepTitle": "Last step (optional)",
-  "lastStepSubtitle": "Donate charity organization."
+  "lastStepSubtitle": "Donate charity organization.",
+  "paymentTitle": "Support Pajacyk",
+  "paymentSuccessTitle": "Payment successful",
+  "paymentSuccessDescription": "Thank you for support!",
+  "paymentErrorTitle": "Error during payment",
+  "paymentErrorDescription": "There was an error during payment. Try again and make sure you have entered the correct data.",
+  "together": "Together:",
+  "chooseCharity": "Choose charity event:",
+  "moveToPayment": "Move to payment",
+  "emailLabel": "Enter your e-mail"
 }

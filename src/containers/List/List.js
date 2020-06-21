@@ -57,9 +57,11 @@ class List extends Component {
     };
 
     showSimpleMessage = () => {
+        const {translations} = this.props;
+
         const message = {
-            message: "Płatność udana",
-            description: "Dziękujemy za wsparcie!",
+            message: translations.paymentSuccessTitle,
+            description: translations.paymentSuccessDescription,
             type: "success",
             icon: {icon: "success", position: "left"},
             duration: 2500

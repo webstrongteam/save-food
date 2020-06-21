@@ -37,5 +37,14 @@
   "stepThreeTitle": "Krok trzeci",
   "stepThreeSubtitle": "Dodaj produkt do listy i sprawdzaj jakich produktów kupujesz za dużo.",
   "lastStepTitle": "Ostatni krok (opcjonalny)",
-  "lastStepSubtitle": "Wyślij pieniądze na organizację charytatywną."
+  "lastStepSubtitle": "Wyślij pieniądze na organizację charytatywną.",
+  "paymentTitle": "Wesprzyj Pajacyka",
+  "paymentSuccessTitle": "Płatność udana",
+  "paymentSuccessDescription": "Dziękujemy za wsparcie!",
+  "paymentErrorTitle": "Bład podczas płatności",
+  "paymentErrorDescription": "Doszło do błędu podczas płatnośći. Spróbuj ponownie i upewnij się że podałeś poprawne dane.",
+  "together": "Razem:",
+  "chooseCharity": "Wybierz akcję charytatywną:",
+  "moveToPayment": "Przejdź do płatności",
+  "emailLabel": "Wpisz swój e-mail"
 }
