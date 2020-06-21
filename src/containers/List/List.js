@@ -30,7 +30,9 @@ class List extends Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.refresh !== this.props.refresh) {
-            this.initWastedList();
+            this.setState({loading: true}, () => {
+                this.initWastedList();
+            })
         } else if (this.props.navigation !== prevProps.navigation) {
             this.paidFood();
         }
