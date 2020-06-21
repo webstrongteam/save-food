@@ -53,6 +53,7 @@ class List extends Component {
                         return Promise.resolve()
                     })
                 }));
+                this.props.onRefresh();
                 this.initWastedList(true);
             })
         }
@@ -325,6 +326,7 @@ const mapDispatchToProps = dispatch => {
         fetchWastedFood: (value) => dispatch(actions.fetchWastedFood(value)),
         removeFood: (value) => dispatch(actions.removeFood(value)),
         paidFood: (id, callback) => dispatch(actions.paidFood(id, callback)),
+        onRefresh: () => dispatch(actions.onRefresh()),
         onSaveFood: (value, callback) => dispatch(actions.saveFood(value, callback))
     }
 };

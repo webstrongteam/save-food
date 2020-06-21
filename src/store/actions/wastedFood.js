@@ -48,7 +48,6 @@ export const saveFood = (food, callback = () => null) => {
                                        paid            = ?
                                    where id = ?;`, [food.name, food.image, food.quantity, food.price, food.percentage, food.productQuantity, food.paid, food.id], () => {
                         callback();
-                        dispatch(onRefresh());
                     });
                 }, (err) => console.log(err)
             );
@@ -57,7 +56,6 @@ export const saveFood = (food, callback = () => null) => {
                 tx => {
                     tx.executeSql('insert into wasted_food (name, image, quantity, price, percentage, productQuantity, paid) values (?,?,?,?,?,?,?)', [food.name, food.image, food.quantity, food.price, food.percentage, food.productQuantity, food.paid], () => {
                         callback();
-                        dispatch(onRefresh());
                     });
                 }, (err) => console.log(err)
             );
@@ -71,7 +69,6 @@ export const paidFood = (id, callback = () => null) => {
             tx => {
                 tx.executeSql('update wasted_food set paid = 1 where id = ?', [id], () => {
                     callback();
-                    dispatch(onRefresh());
                 });
             }, (err) => console.log(err)
         );

@@ -188,6 +188,7 @@ class Food extends Component {
             price: price,
             percentage: percent.toFixed(0),
         });
+        this.props.onRefresh();
         this.props.navigation.navigate('List');
     };
 
@@ -400,6 +401,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onSaveFood: (value) => dispatch(actions.saveFood(value)),
+        onRefresh: () => dispatch(actions.onRefresh())
     }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Food);
