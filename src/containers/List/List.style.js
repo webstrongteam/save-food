@@ -64,7 +64,6 @@ export default StyleSheet.create({
         backgroundColor: '#f8aa24'
     },
     container: {
-        padding: 10,
         marginBottom: 75,
         shadowColor: "#000",
         shadowOffset: {

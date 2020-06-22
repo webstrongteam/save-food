@@ -174,7 +174,7 @@ class Settings extends Component {
                                     colorTitle={'#fff'}/>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.clear} onPress={() => this.clearTheDatabase()}>
-                        <Text style={{fontSize: 24, color: '#ddd', textAlign: 'center', fontFamily: 'Lato-Light'}}>
+                        <Text style={{fontSize: 22, color: '#ddd', textAlign: 'center', fontFamily: 'Lato-Light'}}>
                             {`${translations.clearTheDatabase}  `}
                         </Text>
                         <Icon

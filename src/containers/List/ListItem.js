@@ -26,6 +26,7 @@ class ListItem extends Component {
                 {list.map((item, i) => (
                     <ScrollView scrollEnabled={!this.state.isSwiping}>
                         <Swipeable
+                            style={{paddingLeft: 10, paddingRight: 10}}
                             key={i}
                             onSwipeStart={() => this.setState({isSwiping: true})}
                             onSwipeRelease={() => this.setState({isSwiping: false})}
