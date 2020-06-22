@@ -53,7 +53,7 @@ class Home extends Component {
                 moderateWaste += val.percentage
             });
             if (list.length)
-                moderateWaste = moderateWaste / list.length
+                moderateWaste = moderateWaste / list.length;
             this.setState({
                 moderateWaste: moderateWaste.toFixed(0),
                 totalPrice: price,

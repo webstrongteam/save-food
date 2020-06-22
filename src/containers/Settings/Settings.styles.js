@@ -18,6 +18,6 @@ export default StyleSheet.create({
         textAlign: 'center',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop:40
+        marginTop: 40
     }
 });

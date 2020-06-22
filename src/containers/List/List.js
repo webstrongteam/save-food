@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
-import {ScrollView, Text, TouchableOpacity, View} from "react-native";
+import {Image, ScrollView, Text, TouchableOpacity, View} from "react-native";
 import {showMessage} from "react-native-flash-message";
 import styles from './List.style';
-import ListItem from './ListItem';
 import Header from '../../components/Header/Header';
 import {LinearGradient} from "expo-linear-gradient";
-import {Button, Icon} from "react-native-elements";
+import {Button, CheckBox, Icon} from "react-native-elements";
 import {getResizeMode} from "../../common/utility";
 import Spinner from "../../components/Spinner/Spinner";
+import {BlurView} from "expo-blur";
+import ButtonAdd from "../../components/ButtonAdd/ButtonAdd";
+import Swipeable from "react-native-swipeable";
 
 import {connect} from 'react-redux';
 import * as actions from "../../store/actions";
@@ -17,6 +19,7 @@ class List extends Component {
         list: [],
         selectedItems: [],
         amount: 0,
+        isSwiping: false,
         loading: true,
         wait: false
     };
@@ -33,12 +36,6 @@ class List extends Component {
         } else if (this.props.navigation !== prevProps.navigation) {
             this.paidFood();
         }
-    }
-
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
-        return this.state !== nextState ||
-            this.props.refresh !== nextProps.refresh ||
-            this.props.navigation !== nextProps.navigation;
     }
 
     paidFood = () => {
@@ -153,7 +150,7 @@ class List extends Component {
     };
 
     render() {
-        const {selectedItems, amount, list, loading} = this.state;
+        const {isSwiping, selectedItems, amount, list, loading} = this.state;
         const {currency, translations, navigation} = this.props;
 
         return (
@@ -201,16 +198,79 @@ class List extends Component {
                                     }}>{translations.addManually}</Text>
                                 </TouchableOpacity>
                             </View> :
-                            <ListItem
-                                list={list}
-                                selectedItems={selectedItems}
-                                onSwipeStart={() => this.setState({isSwiping: true})}
-                                onSwipeRelease={() => this.setState({isSwiping: false})}
-                                removeItem={this.removeItem}
-                                selectItem={this.selectItem}
-                                addFood={this.addFood}
-                                navigation={navigation}
-                            />
+                            <ScrollView scrollEnabled={!isSwiping}>
+                                {list.map((item, i) => (
+                                    <Swipeable
+                                        key={i}
+                                        style={{paddingLeft: 10, paddingRight: 10}}
+                                        onSwipeStart={() => this.setState({isSwiping: true})}
+                                        onSwipeRelease={() => this.setState({isSwiping: false})}
+                                        rightButtons={[
+                                            <>
+                                                <TouchableOpacity onPress={() => this.removeItem(item.id)}
+                                                                  style={styles.delete}>
+                                                    <Icon
+                                                        style={{marginLeft: 10}}
+                                                        size={40} name='trash-o'
+                                                        type='font-awesome' color={'#fff'}/>
+                                                </TouchableOpacity>
+                                                <TouchableOpacity
+                                                    onPress={() => navigation.navigate('Food', {...item})}
+                                                    style={styles.edit}>
+                                                    <Icon
+                                                        style={{marginLeft: 10}}
+                                                        size={40} name='edit'
+                                                        type='font-awesome' color={'#fff'}/>
+                                                </TouchableOpacity>
+                                            </>
+                                        ]}>
+                                        <BlurView style={styles.listItem} intensity={50} tint='dark'>
+                                            <View style={{flex: 1}}>
+                                                <CheckBox
+                                                    checked={!!selectedItems.find(i => i.id === item.id)}
+                                                    onPress={() => this.selectItem(item)}
+                                                    style={styles.checkbox}
+                                                    checkedColor={"#ea6700"}
+                                                    tintColors={{true: '#ea6700', false: '#ea6700'}}
+                                                />
+                                            </View>
+                                            <View>
+                                                <View style={{paddingBottom: 10}}>
+                                                    <Image
+                                                        style={{
+                                                            width: 100,
+                                                            height: 100,
+                                                            resizeMode: item.resizeMode
+                                                        }}
+                                                        source={item.image === 'null' ? require('../../assets/not-found-image.png') : {uri: item.image}}
+                                                    />
+                                                </View>
+                                                <ButtonAdd
+                                                    onPressAdd={() => this.addFood(item, 1)}
+                                                    onPresMinus={() => this.addFood(item, -1)}
+                                                    value={item.productQuantity}
+                                                />
+                                            </View>
+                                            <View style={{flex: 3}}>
+                                                <Text style={{
+                                                    fontFamily: 'Lato-Bold',
+                                                    fontSize: 20,
+                                                    color: '#fff',
+                                                    marginLeft: 10,
+                                                    marginBottom: 5,
+                                                    marginTop: -30
+                                                }}>{item.name}</Text>
+                                                <Text
+                                                    style={styles.text}>{translations.quantity}: {item.quantity}</Text>
+                                                <Text
+                                                    style={styles.text}>{translations.percent}: {item.percentage}%</Text>
+                                            </View>
+                                            <Text
+                                                style={styles.priceText}>{item.price * item.productQuantity} {currency}</Text>
+                                        </BlurView>
+                                    </Swipeable>
+                                ))}
+                            </ScrollView>
                         }
                     </View>
                 }

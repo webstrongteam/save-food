@@ -145,7 +145,7 @@ class Payment extends React.Component {
                         <Input
                             leftIcon={{
                                 name: 'email',
-                                style: {opacity: '0.5'}
+                                style: {opacity: 0.5}
                             }}
                             autoCapitalize={"none"}
                             labelStyle={{fontFamily: 'Lato-Bold'}}

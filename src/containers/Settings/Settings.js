@@ -123,12 +123,12 @@ class Settings extends Component {
     };
 
     clearTheDatabase = () => {
-        this.props.fetchAllWastedFood((list)=>{
-            list.map((val)=>{
+        this.props.fetchAllWastedFood((list) => {
+            list.map((val) => {
                 this.props.removeFood(val.id)
             })
         })
-    }
+    };
 
     render() {
         const {showModal, modalContent, type, currency, lang} = this.state;
