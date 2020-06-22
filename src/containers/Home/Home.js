@@ -16,6 +16,7 @@ class Home extends Component {
     state = {
         totalPrice: 0,
         unpaid: 0,
+        moderateWaste: 0,
         food: 0,
         fact: '',
         loading: true
@@ -42,14 +43,25 @@ class Home extends Component {
             let price = 0;
             let unpaid = 0;
             let food = 0;
+            let moderateWaste = 0;
             list.map((val) => {
                 if (val.paid === 0) {
                     unpaid += val.price * val.productQuantity;
                 }
                 price += val.price * val.productQuantity;
                 food += 1;
+                moderateWaste += val.percentage
             });
-            this.setState({totalPrice: price, unpaid, food, fact: this.drawFact(), loading: false});
+            if (list.length)
+                moderateWaste = moderateWaste / list.length
+            this.setState({
+                moderateWaste: moderateWaste.toFixed(0),
+                totalPrice: price,
+                unpaid,
+                food,
+                fact: this.drawFact(),
+                loading: false
+            });
         });
     };
 
@@ -66,7 +78,7 @@ class Home extends Component {
     };
 
     render() {
-        const {totalPrice, unpaid, food, fact, loading} = this.state;
+        const {totalPrice, unpaid, food, fact, loading, moderateWaste} = this.state;
         const {translations, currency, navigation} = this.props;
 
         return (
@@ -132,6 +144,9 @@ class Home extends Component {
                                 <InfoWindow color1={'#f8f8f8'} color2={['#f2a91e', '#e95c17']}
                                             title={translations.wastedMoney}
                                             val={`${totalPrice} ${currency}`}/>
+                                <InfoWindow color1={'#f8f8f8'} color2={['#6cd015', '#4b8b1d']}
+                                            title={translations.moderateWaste}
+                                            val={`${moderateWaste} %`}/>
                             </View>
                         </ScrollView>
                     </View>

@@ -122,6 +122,14 @@ class Settings extends Component {
         }
     };
 
+    clearTheDatabase = () => {
+        this.props.fetchAllWastedFood((list)=>{
+            list.map((val)=>{
+                this.props.removeFood(val.id)
+            })
+        })
+    }
+
     render() {
         const {showModal, modalContent, type, currency, lang} = this.state;
         const {translations, navigation} = this.props;
@@ -165,6 +173,15 @@ class Settings extends Component {
                                     val={currency}
                                     colorTitle={'#fff'}/>
                     </TouchableOpacity>
+                    <TouchableOpacity style={styles.clear} onPress={() => this.clearTheDatabase()}>
+                        <Text style={{fontSize: 24, color: '#ddd', textAlign: 'center', fontFamily: 'Lato-Light'}}>
+                            {`${translations.clearTheDatabase}  `}
+                        </Text>
+                        <Icon
+                            size={25} name='trash-o'
+                            type='font-awesome' color={"#fff"}
+                        />
+                    </TouchableOpacity>
                 </View>
                 <View style={{position: 'absolute', bottom: 20}}>
                     <Text style={{fontSize: 12, color: '#ddd', textAlign: 'center', fontFamily: 'Lato-Light'}}>
@@ -189,7 +206,9 @@ const mapDispatchToProps = dispatch => {
     return {
         onChangeLang: (value) => dispatch(actions.changeLang(value)),
         onChangeCurrency: (value) => dispatch(actions.changeCurrency(value)),
-        onChangeNotificationCycle: (value) => dispatch(actions.changeNotificationCycle(value))
+        onChangeNotificationCycle: (value) => dispatch(actions.changeNotificationCycle(value)),
+        fetchAllWastedFood: (value) => dispatch(actions.fetchWastedFood(value)),
+        removeFood: (value) => dispatch(actions.removeFood(value))
     }
 };
 

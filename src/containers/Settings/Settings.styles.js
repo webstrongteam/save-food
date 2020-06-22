@@ -8,9 +8,16 @@ export default StyleSheet.create({
         flexDirection: 'column'
     },
     text: {
-        color:'#fff',
-        textAlign:'center',
-        fontSize:22,
-        margin:5
+        color: '#fff',
+        textAlign: 'center',
+        fontSize: 22,
+        margin: 5
     },
+    clear: {
+        flexDirection: 'row',
+        textAlign: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop:40
+    }
 });

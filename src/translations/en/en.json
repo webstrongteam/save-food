@@ -2,6 +2,8 @@
   "scan": "Scan",
   "wastedFood": "Wasted food",
   "wastedMoney": "Wasted money",
+  "moderateWaste": "Average waste",
+  "clearTheDatabase": "Clear the database",
   "foodList": "Wasted foods",
   "settings": "Settings",
   "language": "Language",

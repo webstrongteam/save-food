@@ -1,13 +1,11 @@
 import React, {Component} from 'react';
-import {Image, ScrollView, Text, TouchableOpacity, View} from "react-native";
+import {ScrollView, Text, TouchableOpacity, View} from "react-native";
 import {showMessage} from "react-native-flash-message";
-import {BlurView} from 'expo-blur';
 import styles from './List.style';
+import ListItem from './ListItem';
 import Header from '../../components/Header/Header';
 import {LinearGradient} from "expo-linear-gradient";
-import {Button, CheckBox, Icon} from "react-native-elements";
-import Swipeable from 'react-native-swipeable';
-import ButtonAdd from '../../components/ButtonAdd/ButtonAdd';
+import {Button, Icon} from "react-native-elements";
 import {getResizeMode} from "../../common/utility";
 import Spinner from "../../components/Spinner/Spinner";
 
@@ -20,8 +18,7 @@ class List extends Component {
         selectedItems: [],
         amount: 0,
         loading: true,
-        wait: false,
-        isSwiping: false
+        wait: false
     };
 
     async componentDidMount() {
@@ -133,26 +130,24 @@ class List extends Component {
     };
 
     addFood = (item, val) => {
-        if (!this.state.wait) {
+        const quantity = item.productQuantity + val;
+        if (!this.state.wait && quantity < 100 && quantity > 0) {
             this.setState({wait: true}, () => {
                 const quantity = item.productQuantity + val;
-                if (quantity < 100 && quantity > 0) {
-                    const {selectedItems} = this.state;
-                    let {amount} = this.state;
-
-                    const selectedIn = selectedItems.findIndex((val) => (val.id === item.id));
-                    if (selectedIn >= 0) {
-                        selectedItems[selectedIn].productQuantity = selectedItems[selectedIn].productQuantity + val;
-                        amount = this.getAmount(selectedItems);
-                    }
-
-                    const index = this.state.list.indexOf(item);
-                    const newList = this.state.list;
-                    newList[index].productQuantity = quantity;
-                    this.props.onSaveFood({...item, productQuantity: quantity}, () => {
-                        this.setState({list: newList, amount, wait: false});
-                    });
+                const {selectedItems} = this.state;
+                let {amount} = this.state;
+                const selectedIn = selectedItems.findIndex((val) => (val.id === item.id));
+                if (selectedIn >= 0) {
+                    selectedItems[selectedIn].productQuantity = selectedItems[selectedIn].productQuantity + val;
+                    amount = this.getAmount(selectedItems);
                 }
+
+                const index = this.state.list.indexOf(item);
+                const newList = this.state.list;
+                newList[index].productQuantity = quantity;
+                this.props.onSaveFood({...item, productQuantity: quantity}, () => {
+                    this.setState({list: newList, amount, wait: false});
+                });
             })
         }
     };
@@ -188,98 +183,36 @@ class List extends Component {
                 />
                 {loading ?
                     <Spinner bgColor='transparency' color='#000' size={64}/> :
-                    <ScrollView scrollEnabled={!this.state.isSwiping}>
-                        <View style={styles.container}>
-                            {list.length < 1 ?
-                                <View style={{marginTop: 20}}>
-                                    <Text style={styles.emptyList}>{translations.emptyList}</Text>
-                                    <TouchableOpacity onPress={() => navigation.navigate('Scanner')}>
-                                        <Text style={{
-                                            ...styles.emptyList,
-                                            fontFamily: 'Lato-Regular'
-                                        }}>{translations.scanProduct}</Text>
-                                    </TouchableOpacity>
-                                    <Text style={styles.emptyList}>{translations.or}</Text>
-                                    <TouchableOpacity onPress={() => navigation.navigate('Food')}>
-                                        <Text style={{
-                                            ...styles.emptyList,
-                                            fontFamily: 'Lato-Regular'
-                                        }}>{translations.addManually}</Text>
-                                    </TouchableOpacity>
-                                </View> :
-                                list.map((item, i) => (
-                                    <Swipeable
-                                        key={i}
-                                        onSwipeStart={() => this.setState({isSwiping: true})}
-                                        onSwipeRelease={() => this.setState({isSwiping: false})}
-                                        rightButtons={[
-                                            <>
-                                                <TouchableOpacity onPress={() => this.removeItem(item.id)}
-                                                                  style={styles.delete}>
-                                                    <Icon
-                                                        style={{marginLeft: 10}}
-                                                        size={40} name='trash-o'
-                                                        type='font-awesome' color={'#fff'}/>
-                                                </TouchableOpacity>
-                                                <TouchableOpacity
-                                                    onPress={() => navigation.navigate('Food', {...item})}
-                                                    style={styles.edit}>
-                                                    <Icon
-                                                        style={{marginLeft: 10}}
-                                                        size={40} name='edit'
-                                                        type='font-awesome' color={'#fff'}/>
-                                                </TouchableOpacity>
-                                            </>
-                                        ]}>
-                                        <BlurView style={styles.listItem} intensity={50} tint='dark'>
-                                            <View style={{flex: 1}}>
-                                                <CheckBox
-                                                    checked={!!selectedItems.find(i => i.id === item.id)}
-                                                    onPress={() => this.selectItem(item)}
-                                                    style={styles.checkbox}
-                                                    checkedColor={"#ea6700"}
-                                                    tintColors={{true: '#ea6700', false: '#ea6700'}}
-                                                />
-                                            </View>
-                                            <View>
-                                                <View style={{paddingBottom: 10}}>
-                                                    <Image
-                                                        style={{
-                                                            width: 100,
-                                                            height: 100,
-                                                            resizeMode: item.resizeMode
-                                                        }}
-                                                        source={item.image === 'null' ? require('../../assets/not-found-image.png') : {uri: item.image}}
-                                                    />
-                                                </View>
-                                                <ButtonAdd
-                                                    onPressAdd={() => this.addFood(item, 1)}
-                                                    onPresMinus={() => this.addFood(item, -1)}
-                                                    value={item.productQuantity}
-                                                />
-                                            </View>
-                                            <View style={{flex: 3}}>
-                                                <Text style={{
-                                                    fontFamily: 'Lato-Bold',
-                                                    fontSize: 20,
-                                                    color: '#fff',
-                                                    marginLeft: 10,
-                                                    marginBottom: 5,
-                                                    marginTop: -30
-                                                }}>{item.name}</Text>
-                                                <Text
-                                                    style={styles.text}>{translations.quantity}: {item.quantity}</Text>
-                                                <Text
-                                                    style={styles.text}>{translations.percent}: {item.percentage}%</Text>
-                                            </View>
-                                            <Text
-                                                style={styles.priceText}>{item.price * item.productQuantity} {currency}</Text>
-                                        </BlurView>
-                                    </Swipeable>
-                                ))
-                            }
-                        </View>
-                    </ScrollView>
+                    <View style={styles.container}>
+                        {list.length < 1 ?
+                            <View style={{marginTop: 20}}>
+                                <Text style={styles.emptyList}>{translations.emptyList}</Text>
+                                <TouchableOpacity onPress={() => navigation.navigate('Scanner')}>
+                                    <Text style={{
+                                        ...styles.emptyList,
+                                        fontFamily: 'Lato-Regular'
+                                    }}>{translations.scanProduct}</Text>
+                                </TouchableOpacity>
+                                <Text style={styles.emptyList}>{translations.or}</Text>
+                                <TouchableOpacity onPress={() => navigation.navigate('Food')}>
+                                    <Text style={{
+                                        ...styles.emptyList,
+                                        fontFamily: 'Lato-Regular'
+                                    }}>{translations.addManually}</Text>
+                                </TouchableOpacity>
+                            </View> :
+                            <ListItem
+                                list={list}
+                                selectedItems={selectedItems}
+                                onSwipeStart={() => this.setState({isSwiping: true})}
+                                onSwipeRelease={() => this.setState({isSwiping: false})}
+                                removeItem={this.removeItem}
+                                selectItem={this.selectItem}
+                                addFood={this.addFood}
+                                navigation={navigation}
+                            />
+                        }
+                    </View>
                 }
                 <View style={{
                     position: 'absolute',

@@ -19,7 +19,7 @@ const getLocale = () => {
 export const initDatabase = (callback) => {
     db.transaction(tx => {
         // tx.executeSql(
-        //     'DROP TABLE IF EXISTS wasted_food;'
+        //     'DROP TABLE IF EXISTS settings;'
         // );
         tx.executeSql(
             'create table if not exists wasted_food (id integer primary key not null, name text, image text, quantity integer, price integer, percentage integer, paid integer, productQuantity integer);'
@@ -36,7 +36,7 @@ export const initDatabase = (callback) => {
 };
 
 export const initApp = (callback) => {
-    //initDatabase();
+    // initDatabase();
     db.transaction(
         tx => {
             // CHECK CORRECTION APP VERSION AND UPDATE DB
