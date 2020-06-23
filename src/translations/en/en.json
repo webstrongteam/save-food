@@ -35,7 +35,7 @@
   "startTitle": "Let's start saving food!",
   "startSubtitle": "This application is created to help you saving food.",
   "firstStepTitle": "First step",
-  "firstStepSubtitle": "Use Scan button to scan barcode from wasted food.",
+  "firstStepSubtitle": "Use the Scan button to scan barcode from wasted food or add it manually.",
   "stepTwoTitle": "Step two",
   "stepTwoSubtitle": "Check data and set product price and percent of wasted.",
   "stepThreeTitle": "Step three",
