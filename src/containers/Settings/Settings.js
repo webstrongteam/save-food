@@ -8,6 +8,7 @@ import Modal from '../../components/Modal/Modal';
 
 import {connect} from 'react-redux';
 import * as actions from "../../store/actions";
+import {LinearGradient} from "expo-linear-gradient";
 
 class Settings extends Component {
     state = {
@@ -111,6 +112,19 @@ class Settings extends Component {
                 ),
                 showModal: true, type
             })
+        } else if (type === 'clearTheDatabase') {
+            this.setState({
+                modalContent: (
+                    <View>
+                        {
+                            <Text style={styles.clearTheDatabase}>
+                                {this.props.translations.clearTheDatabaseModal}
+                            </Text>
+                        }
+                    </View>
+                ),
+                showModal: true, type
+            })
         }
     };
 
@@ -154,12 +168,15 @@ class Settings extends Component {
                         }}>{translations.settings}</Text>
                     }
                 />
-
                 <Modal
                     visible={showModal}
                     toggleModal={this.toggleModal}
-                    title={translations['select_' + type]}
+                    title={type === 'clearTheDatabase' ? translations.clearTheDatabase : translations['select_' + type]}
                     content={modalContent}
+                    buttons={type === 'clearTheDatabase' ? [
+                        {text: translations.yes, onPress: this.clearTheDatabase},
+                        {text: translations.cancel, onPress: this.toggleModal}
+                    ]:[]}
                 />
 
                 <View style={{marginTop: 125, width: '100%'}}>
@@ -173,7 +190,7 @@ class Settings extends Component {
                                     val={currency}
                                     colorTitle={'#fff'}/>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.clear} onPress={() => this.clearTheDatabase()}>
+                    <TouchableOpacity style={styles.clear} onPress={() => this.toggleModal('clearTheDatabase')}>
                         <Text style={{fontSize: 22, color: '#ddd', textAlign: 'center', fontFamily: 'Lato-Light'}}>
                             {`${translations.clearTheDatabase}  `}
                         </Text>

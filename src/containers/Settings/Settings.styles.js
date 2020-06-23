@@ -19,5 +19,11 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 40
+    },
+    clearTheDatabase:{
+        textAlign: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontSize: 16,
     }
 });
