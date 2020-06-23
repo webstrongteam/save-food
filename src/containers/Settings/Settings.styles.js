@@ -21,9 +21,11 @@ export default StyleSheet.create({
         marginTop: 40
     },
     clearTheDatabase:{
+        marginTop: 15,
         textAlign: 'center',
         justifyContent: 'center',
         alignItems: 'center',
         fontSize: 16,
+        fontFamily: "Lato-Light"
     }
 });

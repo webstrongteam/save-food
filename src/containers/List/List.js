@@ -252,7 +252,7 @@ class List extends Component {
                                                 />
                                             </View>
                                             <View style={{flex: 3}}>
-                                                <Text style={{
+                                                <Text numberOfLines={2} style={{
                                                     fontFamily: 'Lato-Bold',
                                                     fontSize: 20,
                                                     color: '#fff',

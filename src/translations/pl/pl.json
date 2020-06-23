@@ -48,7 +48,7 @@
   "paymentSuccessDescription": "Dziękujemy za wsparcie!",
   "paymentErrorTitle": "Bład podczas płatności",
   "paymentErrorDescription": "Doszło do błędu podczas płatnośći. Spróbuj ponownie i upewnij się że podałeś poprawne dane.",
-  "together": "Razem:",
+  "amount": "Razem:",
   "chooseCharity": "Wybierz akcję charytatywną:",
   "moveToPayment": "Przejdź do płatności",
   "emailLabel": "Wpisz swój e-mail"

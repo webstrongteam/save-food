@@ -14,7 +14,7 @@
     },
     "android": {
       "package": "com.webStrong.saveFood",
-      "versionCode": 3
+      "versionCode": 4
     },
     "platforms": [
       "ios",

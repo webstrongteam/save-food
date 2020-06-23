@@ -45,11 +45,11 @@
   "paymentTitle": "Support Pajacyk",
   "paymentSuccessTitle": "Payment successful",
   "clearTheDatabaseSuccessTitle": "Clear successful",
-  "clearTheDatabaseSuccess": "The database has been cleaned",
+  "clearTheDatabaseSuccess": "The database has been cleaned.",
   "paymentSuccessDescription": "Thank you for support!",
   "paymentErrorTitle": "Error during payment",
   "paymentErrorDescription": "There was an error during payment. Try again and make sure you have entered the correct data.",
-  "together": "Together:",
+  "amount": "Amount:",
   "chooseCharity": "Choose charity event:",
   "moveToPayment": "Move to payment",
   "emailLabel": "Enter your e-mail"

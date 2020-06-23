@@ -5,11 +5,10 @@ import Header from '../../components/Header/Header';
 import styles from './Settings.styles';
 import InfoWindow from '../../components/InfoWindow/InfoWindow';
 import Modal from '../../components/Modal/Modal';
+import {showMessage} from "react-native-flash-message";
 
 import {connect} from 'react-redux';
 import * as actions from "../../store/actions";
-import {LinearGradient} from "expo-linear-gradient";
-import {showMessage} from "react-native-flash-message";
 
 class Settings extends Component {
     state = {
@@ -63,10 +62,10 @@ class Settings extends Component {
         this.setState({currency, showModal: false});
     };
 
-    changeNotificationCycle = (cycle) => {
-        this.props.onChangeNotificationCycle(cycle);
-        this.setState({cycle});
-    };
+    // changeNotificationCycle = (cycle) => {
+    //     this.props.onChangeNotificationCycle(cycle);
+    //     this.setState({cycle});
+    // };
 
     setContent = (type) => {
         const {lang, currency} = this.props.settings;
@@ -142,8 +141,7 @@ class Settings extends Component {
             list.map((val) => {
                 this.props.removeFood(val.id)
             })
-        })
-        this.props.onRefresh();
+        });
         this.showSimpleMessage();
         this.toggleModal();
     };
@@ -194,7 +192,7 @@ class Settings extends Component {
                     buttons={type === 'clearTheDatabase' ? [
                         {text: translations.yes, onPress: this.clearTheDatabase},
                         {text: translations.cancel, onPress: this.toggleModal}
-                    ]:[]}
+                    ] : []}
                 />
 
                 <View style={{marginTop: 125, width: '100%'}}>
@@ -242,9 +240,8 @@ const mapDispatchToProps = dispatch => {
         onChangeLang: (value) => dispatch(actions.changeLang(value)),
         onChangeCurrency: (value) => dispatch(actions.changeCurrency(value)),
         onChangeNotificationCycle: (value) => dispatch(actions.changeNotificationCycle(value)),
-        fetchAllWastedFood: (value) => dispatch(actions.fetchWastedFood(value)),
-        removeFood: (value) => dispatch(actions.removeFood(value)),
-        onRefresh: () => dispatch(actions.onRefresh())
+        fetchAllWastedFood: (value) => dispatch(actions.fetchAllWastedFood(value)),
+        removeFood: (value) => dispatch(actions.removeFood(value))
     }
 };
 

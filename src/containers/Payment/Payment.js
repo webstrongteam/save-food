@@ -135,7 +135,7 @@ class Payment extends React.Component {
                     }
                     centerComponent={
                         <Text style={{fontSize: 20, fontFamily: 'Lato-Light', color: '#000'}}>
-                            {translations.together} <Text
+                            {translations.amount} <Text
                             style={{fontFamily: 'Lato-Regular'}}>{amount} {currency.toUpperCase()}</Text>
                         </Text>
                     }
@@ -171,7 +171,7 @@ class Payment extends React.Component {
                                 borderWidth: charity === 'pajacyk' ? 1 : 0
                             }}>
                                 <Image style={{width: 100, height: 100, resizeMode: 'center'}}
-                                       source={require('../../assets/pajacyk.jpeg')}/>
+                                       source={require('../../assets/charities/pajacyk.jpeg')}/>
                             </View>
                         </TouchableOpacity>
                     </View>

@@ -39,7 +39,7 @@ export const initDatabase = (callback) => {
 };
 
 export const initApp = (callback) => {
-    // initDatabase();
+    //initDatabase();
     db.transaction(
         tx => {
             // CHECK CORRECTION APP VERSION AND UPDATE DB
