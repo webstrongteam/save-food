@@ -11,8 +11,8 @@ class Start extends Component {
                 backgroundColor: '#4b8b1d',
                 image: <Image style={{width: 200, height: 200}} source={
                     this.props.lang === 'pl' ?
-                        require('../../assets/icon.png') :
-                        require('../../assets/icon.png')}/>,
+                        require('../../assets/icon-circle.png') :
+                        require('../../assets/icon-circle.png')}/>,
                 title: this.props.translations.startTitle,
                 subtitle: this.props.translations.startSubtitle
             },
