@@ -9,6 +9,7 @@ import Modal from '../../components/Modal/Modal';
 import {connect} from 'react-redux';
 import * as actions from "../../store/actions";
 import {LinearGradient} from "expo-linear-gradient";
+import {showMessage} from "react-native-flash-message";
 
 class Settings extends Component {
     state = {
@@ -142,6 +143,23 @@ class Settings extends Component {
                 this.props.removeFood(val.id)
             })
         })
+        this.props.onRefresh();
+        this.showSimpleMessage();
+        this.toggleModal();
+    };
+
+    showSimpleMessage = () => {
+        const {translations} = this.props;
+
+        const message = {
+            message: translations.clearTheDatabaseSuccessTitle,
+            description: translations.clearTheDatabaseSuccess && translations.clearTheDatabaseSuccess,
+            type: "success",
+            icon: {icon: "success", position: "left"},
+            duration: 2500
+        };
+
+        showMessage(message);
     };
 
     render() {
@@ -225,7 +243,8 @@ const mapDispatchToProps = dispatch => {
         onChangeCurrency: (value) => dispatch(actions.changeCurrency(value)),
         onChangeNotificationCycle: (value) => dispatch(actions.changeNotificationCycle(value)),
         fetchAllWastedFood: (value) => dispatch(actions.fetchWastedFood(value)),
-        removeFood: (value) => dispatch(actions.removeFood(value))
+        removeFood: (value) => dispatch(actions.removeFood(value)),
+        onRefresh: () => dispatch(actions.onRefresh())
     }
 };
 

@@ -44,6 +44,7 @@
   "lastStepSubtitle": "Wyślij pieniądze na organizację charytatywną.",
   "paymentTitle": "Wesprzyj Pajacyka",
   "paymentSuccessTitle": "Płatność udana",
+  "clearTheDatabaseSuccessTitle": "Baza danych została wyczyszczona",
   "paymentSuccessDescription": "Dziękujemy za wsparcie!",
   "paymentErrorTitle": "Bład podczas płatności",
   "paymentErrorDescription": "Doszło do błędu podczas płatnośći. Spróbuj ponownie i upewnij się że podałeś poprawne dane.",

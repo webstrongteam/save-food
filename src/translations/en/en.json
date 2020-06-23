@@ -44,6 +44,8 @@
   "lastStepSubtitle": "Donate charity organization.",
   "paymentTitle": "Support Pajacyk",
   "paymentSuccessTitle": "Payment successful",
+  "clearTheDatabaseSuccessTitle": "Clear successful",
+  "clearTheDatabaseSuccess": "The database has been cleaned",
   "paymentSuccessDescription": "Thank you for support!",
   "paymentErrorTitle": "Error during payment",
   "paymentErrorDescription": "There was an error during payment. Try again and make sure you have entered the correct data.",
