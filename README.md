@@ -1,10 +1,10 @@
 <img align="right" width="145px" src="https://github.com/webstrongteam/save-food/blob/master/src/assets/icon-circle.png" alt="">
 
 # SaveFood - Let's start saving food!
-<a href="#" target="_blank"><img src="https://webstrong.pl/assets/templates/google_play_pl.png" width="150"/></a>
-<a href="#" target="_blank"><img src="https://webstrong.pl/assets/templates/apple_store_pl.png" width="150"/></a>
+<a href="#" target="_blank"><img src="https://webstrong.pl/assets/templates/google_play_en.png" width="150"/></a>
+<a href="#" target="_blank"><img src="https://webstrong.pl/assets/templates/apple_store_en.png" width="150"/></a>
 
-**SaveFood** this application was created to help you saving food. Make four steps every time you waste food and realize what you are buying too much and help in reduce starving in the world.
+**SaveFood** - this application was created to help you saving food. Make four steps every time you waste food and realize what you are buying too much and help in reduce starving in the world.
 
 ## Basic features  
   
