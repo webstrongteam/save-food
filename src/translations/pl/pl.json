@@ -3,8 +3,8 @@
   "wastedFood": "Zmarnowane jedzenie",
   "wastedMoney": "Zmarnowane pieniądze",
   "moderateWaste": "Średnie zmarnowanie",
-  "clearTheDatabase": "Wyczyść baze danych",
-  "clearTheDatabaseModal": "Czy napewno chcesz wyczyścić bazę danych?",
+  "clearTheDatabase": "Wyczyść bazę danych",
+  "clearTheDatabaseModal": "Czy na pewno chcesz wyczyścić bazę danych?",
   "foodList": "Zmarnowane produkty",
   "settings": "Ustawienia",
   "language": "Język",
@@ -51,5 +51,7 @@
   "amount": "Razem:",
   "chooseCharity": "Wybierz akcję charytatywną:",
   "moveToPayment": "Przejdź do płatności",
-  "emailLabel": "Wpisz swój e-mail"
+  "emailLabel": "Wpisz swój e-mail",
+  "pajacyk": "Pajacyk to program, w ramach którego Polska Akcja Humanitarna, od 1998 roku pomaga niedożywionym dzieciom. Pajacyk finansuje posiłki w szkołach i placówkach środowiskowych. Naszym celem jest by każde dziecko miało zapewniony codzienny, pełnowartościowy posiłek!",
+  "pajacykFooter": "Strona organizacji: https://www.pajacyk.pl/"
 }

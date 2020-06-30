@@ -116,11 +116,9 @@ class Settings extends Component {
             this.setState({
                 modalContent: (
                     <View>
-                        {
-                            <Text style={styles.clearTheDatabase}>
-                                {this.props.translations.clearTheDatabaseModal}
-                            </Text>
-                        }
+                        <Text style={styles.clearTheDatabase}>
+                            {this.props.translations.clearTheDatabaseModal}
+                        </Text>
                     </View>
                 ),
                 showModal: true, type

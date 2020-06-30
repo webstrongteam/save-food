@@ -1,11 +1,12 @@
 import React from "react";
-import {Image, ScrollView, StatusBar, Text, TouchableOpacity, View} from "react-native";
+import {ImageBackground, ScrollView, StatusBar, Text, TouchableOpacity, View} from "react-native";
 import {showMessage} from "react-native-flash-message";
 import Spinner from "../../components/Spinner/Spinner";
 import {Button, Icon, Input} from 'react-native-elements';
 import axios from 'axios';
 import {WebView} from "react-native-webview";
 import Header from "../../components/Header/Header";
+import Modal from "../../components/Modal/Modal";
 
 import {connect} from 'react-redux';
 import * as actions from "../../store/actions";
@@ -21,6 +22,9 @@ class Payment extends React.Component {
         charity: 'pajacyk',
         initUrl: "https://savefood-payment.netlify.app/",
         url: "https://savefood-payment.netlify.app/payment-init",
+        modalContent: null,
+        type: null,
+        showModal: false,
         loading: true
     };
 
@@ -45,6 +49,44 @@ class Payment extends React.Component {
         };
 
         showMessage(message);
+    };
+
+    setContent = (type) => {
+        this.setState({
+            modalContent: (
+                <View>
+                    <Text style={{
+                        marginTop: 15,
+                        textAlign: 'center',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        fontSize: 16,
+                        fontFamily: "Lato-Light"
+                    }}>
+                        {this.props.translations[type.toLowerCase()]}
+                    </Text>
+                    <Text style={{
+                        marginTop: 15,
+                        textAlign: 'center',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        fontSize: 12,
+                        fontFamily: "Lato-Light"
+                    }}>
+                        {this.props.translations[type.toLowerCase() + "Footer"]}
+                    </Text>
+                </View>
+            ),
+            showModal: true, type
+        })
+    };
+
+    toggleModal = (type) => {
+        if (!this.state.showModal) {
+            this.setContent(type);
+        } else {
+            this.setState({showModal: !this.state.showModal});
+        }
     };
 
     async createPaymentSession() {
@@ -117,7 +159,7 @@ class Payment extends React.Component {
     }
 
     showProduct() {
-        const {amount, currency, charity, email} = this.state;
+        const {amount, showModal, type, modalContent, currency, charity, email} = this.state;
         const {translations} = this.props;
 
         return (
@@ -140,6 +182,14 @@ class Payment extends React.Component {
                         </Text>
                     }
                 />
+
+                <Modal
+                    visible={showModal}
+                    toggleModal={this.toggleModal}
+                    title={type}
+                    content={modalContent}
+                />
+
                 <ScrollView style={{flex: 1, width: '100%'}} contentContainerStyle={{flex: 1, alignItems: 'center'}}>
                     <View style={{width: '80%', marginTop: 50}}>
                         <Input
@@ -170,8 +220,18 @@ class Payment extends React.Component {
                                 borderColor: '#4b8b1d',
                                 borderWidth: charity === 'pajacyk' ? 1 : 0
                             }}>
-                                <Image style={{width: 100, height: 100, resizeMode: 'center'}}
-                                       source={require('../../assets/charities/pajacyk.jpeg')}/>
+                                <ImageBackground style={{width: 100, height: 100, resizeMode: 'center'}}
+                                                 source={require('../../assets/charities/pajacyk.png')}>
+                                    <View style={{position: 'absolute', right: 0, top: 0}}>
+                                        <TouchableOpacity onPress={() => this.toggleModal('Pajacyk')}>
+                                            <Icon
+                                                style={{opacity: 0.5}}
+                                                size={23} name='info-outline'
+                                                type='material' color={"#000"}
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
+                                </ImageBackground>
                             </View>
                         </TouchableOpacity>
                     </View>
