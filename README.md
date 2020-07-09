@@ -32,8 +32,8 @@
 - Moment.JS <i>2.26.0</i>
 
 ### ToDo:
-- Testing
-- Add info modal for charity organizations
+- Update start screen
+- Publish
 
 ### WebStrong &copy;  
 

@@ -61,7 +61,7 @@ class Scanner extends Component {
                     <Spinner bgColor='transparency' color="#fff" size={64}/>
                 </View>
                 }
-                <View style={{position: 'absolute', top: 40, left: 20}}>
+                <View style={{position: 'absolute', top: 40, left: 20, zIndex: 20}}>
                     <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                         <Icon
                             size={30} name='close'
@@ -70,6 +70,25 @@ class Scanner extends Component {
                     </TouchableOpacity>
                 </View>
                 <View style={{
+                    position: 'absolute',
+                    width: '100%',
+                    height: '100%',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    zIndex: 10
+                }}>
+                    <View style={{
+                        borderBottomWidth: 180,
+                        borderTopWidth: 180,
+                        borderLeftWidth: 35,
+                        borderRightWidth: 35,
+                        borderColor: 'rgba(0,0,0,0.7)',
+                        width: '100%',
+                        height: '100%'
+                    }}/>
+                </View>
+                <View style={{
+                    zIndex: 20,
                     position: 'absolute',
                     width: '100%',
                     bottom: 30,
