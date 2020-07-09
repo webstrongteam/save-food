@@ -8,7 +8,7 @@
     "version": "1.0.0",
     "sdkVersion": "37.0.0",
     "ios": {
-      "buildNumber": "1.0.1",
+      "buildNumber": "1.0.2",
       "supportsTablet": false,
       "bundleIdentifier": "com.webStrong.saveFood",
       "infoPlist": {
@@ -17,7 +17,7 @@
     },
     "android": {
       "package": "com.webStrong.saveFood",
-      "versionCode": 4
+      "versionCode": 5
     },
     "platforms": [
       "ios",

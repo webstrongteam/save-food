@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {AsyncStorage, Image} from 'react-native';
+import {Image} from 'react-native';
 import Onboarding from 'react-native-onboarding-swiper';
 
 import {connect} from "react-redux";
@@ -17,42 +17,41 @@ class Start extends Component {
                 subtitle: this.props.translations.startSubtitle
             },
             {
-                backgroundColor: '#5bc0de',
-                image: <Image style={this.props.lang === 'pl' ? {width: 300, height: 265} : {width: 310, height: 220}}
-                              source={
-                                  this.props.lang === 'pl' ?
-                                      require('../../assets/steps_pl/1.jpg') :
-                                      require('../../assets/steps_en/1.jpg')}/>,
-                title: this.props.translations.firstStepTitle,
-                subtitle: this.props.translations.firstStepSubtitle
+                backgroundColor: '#4b8b1d',
+                image: <Image style={{width: '100%', height: '100%', resizeMode: 'stretch', marginTop: 110}} source={
+                    this.props.lang === 'pl' ?
+                        require('../../assets/steps_pl/1.jpg') :
+                        require('../../assets/steps_en/1.jpg')}/>,
+                title: '',
+                subtitle: ''
             },
             {
-                backgroundColor: '#f0ad4e',
-                image: <Image style={{width: 350, height: 175}} source={
+                backgroundColor: '#4b8b1d',
+                image: <Image style={{width: '100%', height: '100%', resizeMode: 'stretch', marginTop: 110}} source={
                     this.props.lang === 'pl' ?
                         require('../../assets/steps_pl/2.jpg') :
                         require('../../assets/steps_en/2.jpg')}/>,
-                title: this.props.translations.stepTwoTitle,
-                subtitle: this.props.translations.stepTwoSubtitle
+                title: '',
+                subtitle: ''
             },
             {
-                backgroundColor: '#fe6e58',
-                image: <Image style={{width: 310, height: 220}} source={
+                backgroundColor: '#4b8b1d',
+                image: <Image style={{width: '100%', height: '100%', resizeMode: 'stretch', marginTop: 110}} source={
                     this.props.lang === 'pl' ?
                         require('../../assets/steps_pl/3.jpg') :
                         require('../../assets/steps_en/3.jpg')}/>,
-                title: this.props.translations.stepThreeTitle,
-                subtitle: this.props.translations.stepThreeSubtitle
+                title: '',
+                subtitle: ''
             },
             {
-                backgroundColor: '#f7f7f7',
-                image: <Image style={{width: 350, height: 175}} source={
+                backgroundColor: '#4b8b1d',
+                image: <Image style={{width: '100%', height: '100%', resizeMode: 'stretch', marginTop: 110}} source={
                     this.props.lang === 'pl' ?
                         require('../../assets/steps_pl/4.jpg') :
                         require('../../assets/steps_en/4.jpg')}/>,
-                title: this.props.translations.lastStepTitle,
-                subtitle: this.props.translations.lastStepSubtitle
-            },
+                title: '',
+                subtitle: ''
+            }
         ]
     };
 

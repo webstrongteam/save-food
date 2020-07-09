@@ -80,8 +80,8 @@ class Scanner extends Component {
                     <View style={{
                         borderBottomWidth: 180,
                         borderTopWidth: 180,
-                        borderLeftWidth: 35,
-                        borderRightWidth: 35,
+                        borderLeftWidth: 45,
+                        borderRightWidth: 45,
                         borderColor: 'rgba(0,0,0,0.7)',
                         width: '100%',
                         height: '100%'

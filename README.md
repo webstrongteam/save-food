@@ -32,7 +32,6 @@
 - Moment.JS <i>2.26.0</i>
 
 ### ToDo:
-- Update start screen
 - Publish
 
 ### WebStrong &copy;  
