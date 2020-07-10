@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Image} from 'react-native';
+import {AsyncStorage, Image} from 'react-native';
 import Onboarding from 'react-native-onboarding-swiper';
 
 import {connect} from "react-redux";
