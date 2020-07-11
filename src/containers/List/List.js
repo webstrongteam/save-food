@@ -29,7 +29,7 @@ class List extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.refresh !== this.props.refresh) {
+        if (prevProps.refresh !== this.props.refresh && !this.state.wait) {
             this.setState({loading: true}, () => {
                 this.initWastedList();
             })
@@ -142,6 +142,7 @@ class List extends Component {
                 const newList = this.state.list;
                 newList[index].productQuantity = quantity;
                 this.props.onSaveFood({...item, productQuantity: quantity}, () => {
+                    this.props.onRefresh();
                     this.setState({list: newList, amount, wait: false});
                 });
             })
@@ -318,6 +319,7 @@ const mapDispatchToProps = dispatch => {
         fetchWastedFood: (value) => dispatch(actions.fetchWastedFood(value)),
         removeFood: (value) => dispatch(actions.removeFood(value)),
         paidFood: (id, callback) => dispatch(actions.paidFood(id, callback)),
+        onRefresh: () => dispatch(actions.onRefresh()),
         onSaveFood: (value, callback) => dispatch(actions.saveFood(value, callback))
     }
 };

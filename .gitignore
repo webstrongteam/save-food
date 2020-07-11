@@ -10,7 +10,7 @@ npm-debug.*
 *.orig.*
 web-build/
 web-report/
-#/src/config/*
+src/config/backendAuth.js
 
 # macOS
 .DS_Store

@@ -85,7 +85,14 @@ class Scanner extends Component {
                         borderColor: 'rgba(0,0,0,0.7)',
                         width: '100%',
                         height: '100%'
-                    }}/>
+                    }}>
+                        <View style={{
+                            borderWidth: 2,
+                            borderColor: '#4b8b1d',
+                            width: '100%',
+                            height: '100%'
+                        }}/>
+                    </View>
                 </View>
                 <View style={{
                     zIndex: 20,
