@@ -7,6 +7,7 @@ import axios from 'axios';
 import {WebView} from "react-native-webview";
 import Header from "../../components/Header/Header";
 import Modal from "../../components/Modal/Modal";
+import {auth} from '../../config/backendAuth';
 
 import {connect} from 'react-redux';
 import * as actions from "../../store/actions";
@@ -22,6 +23,7 @@ class Payment extends React.Component {
         charity: 'pajacyk',
         initUrl: "https://savefood-payment.netlify.app/",
         url: "https://savefood-payment.netlify.app/payment-init",
+        backendUrl: 'https://webstrong.pl',
         modalContent: null,
         type: null,
         showModal: false,
@@ -98,6 +100,7 @@ class Payment extends React.Component {
         }
 
         const data = {
+            auth,
             title: this.props.translations.paymentTitle,
             lang: this.props.lang,
             amount: this.state.amount,
@@ -107,7 +110,7 @@ class Payment extends React.Component {
             paymentMethods
         };
 
-        await axios.post('https://webstrong.pl/api/savefood/payment', data)
+        await axios.post(`${this.state.backendUrl}/api/savefood/payment`, data)
             .then(result => {
                 const sessionID = JSON.parse(result.data.body);
                 this.setState({
@@ -122,15 +125,26 @@ class Payment extends React.Component {
     }
 
     _onNavigationStateChange(webViewState) {
-        if (webViewState.url === this.state.initUrl + "payment-init") {
+        if (webViewState.url === this.state.initUrl + "payment-init") { // Payment init
             this.createPaymentSession();
         }
 
-        if (webViewState.url === this.state.initUrl + "payment-success") {
+        if (webViewState.url === this.state.initUrl + "payment-success") { // Payment success
+            const data = {
+                auth,
+                title: this.props.translations.paymentTitle,
+                lang: this.props.lang,
+                amount: this.state.amount,
+                name: this.state.name,
+                email: this.state.email,
+                currency: this.state.currency
+            };
+
+            axios.post(`${this.state.backendUrl}/api/savefood/payment-success`, data); // Send email after a successful payment
             this.props.navigation.navigate('List', {ids: this.state.ids});
         }
 
-        if (webViewState.url === this.state.initUrl + "payment-failure") {
+        if (webViewState.url === this.state.initUrl + "payment-failure") { // Payment failed
             this.setState({screen: "product"}, this.showSimpleMessage);
         }
     }
