@@ -1,5 +1,5 @@
 import React from "react";
-import {ImageBackground, ScrollView, StatusBar, Text, TouchableOpacity, View} from "react-native";
+import {ImageBackground, ScrollView, StatusBar, Text, TouchableOpacity, View, Platform} from "react-native";
 import {showMessage} from "react-native-flash-message";
 import Spinner from "../../components/Spinner/Spinner";
 import {Button, Icon, Input} from 'react-native-elements';
@@ -7,6 +7,7 @@ import axios from 'axios';
 import {WebView} from "react-native-webview";
 import Header from "../../components/Header/Header";
 import Modal from "../../components/Modal/Modal";
+import * as WebBrowser from 'expo-web-browser';
 import {auth} from '../../config/backendAuth';
 
 import {connect} from 'react-redux';
@@ -23,9 +24,10 @@ class Payment extends React.Component {
         charity: 'pajacyk',
         initUrl: "https://savefood-payment.netlify.app/",
         url: "https://savefood-payment.netlify.app/payment-init",
-        backendUrl: 'https://webstrong.pl',
+        backendUrl: 'http://192.168.1.7:3001',
         modalContent: null,
         type: null,
+        initPayment: false,
         showModal: false,
         loading: true
     };
@@ -91,7 +93,7 @@ class Payment extends React.Component {
         }
     };
 
-    async createPaymentSession() {
+    createPaymentSession() {
         let paymentMethods;
         if (this.state.currency === 'pln') {
             paymentMethods = ["card", "p24"];
@@ -110,51 +112,115 @@ class Payment extends React.Component {
             paymentMethods
         };
 
-        await axios.post(`${this.state.backendUrl}/api/savefood/payment`, data)
-            .then(result => {
-                const sessionID = JSON.parse(result.data.body);
-                this.setState({
-                    url: this.state.initUrl + "payment?session=" + sessionID.id,
-                    loading: false
+        if (Platform.OS === 'ios') {
+            this.iosPayment(data);
+        } else {
+            this.androidPayment(data);
+        }
+    }
+
+    iosPayment = (data) => {
+        axios.post('https://savefood-4de7b.firebaseio.com/payments.json', {
+            status: 'processed'
+        }).then(res => {
+            const paymentKey = res.data.name;
+            data.paymentKey = paymentKey;
+            axios.post(`${this.state.backendUrl}/api/savefood/payment`, data)
+                .then(async result => {
+                    const sessionID = JSON.parse(result.data.body);
+                    const url = `${this.state.initUrl}payment?session=${sessionID.id}`;
+
+                    WebBrowser.openBrowserAsync(url)
+                        .then((res) => {
+                            if (res.type === 'cancel') {
+                                this.paymentError(false);
+                            }
+                        })
+                        .catch(err => this.paymentError());
+
+                    this.checkingPaymentStatus(paymentKey);
+                })
+                .catch(err => {
+                    console.log(err);
+                    this.paymentError();
                 });
+        });
+    };
+
+    androidPayment = (data) => {
+        axios.post(`${this.state.backendUrl}/api/savefood/payment`, data)
+            .then(async result => {
+                const sessionID = JSON.parse(result.data.body);
+                const url = this.state.initUrl + "payment?session=" + sessionID.id;
+                this.setState({url, loading: false});
             })
             .catch(err => {
                 console.log(err);
-                this.setState({screen: "product", loading: false}, this.showSimpleMessage);
+                this.paymentError();
             });
-    }
+    };
+
+    checkingPaymentStatus = (paymentKey) => {
+        setTimeout(() => {
+            axios.get(`https://savefood-4de7b.firebaseio.com/payments/${paymentKey}.json`)
+                .then(res => {
+                    if (res.data.status === 'success') {
+                        WebBrowser.dismissBrowser();
+                        this.paymentSuccess();
+                    } else if (res.data.status === 'error') {
+                        WebBrowser.dismissBrowser();
+                        this.paymentError();
+                    } else {
+                        this.checkingPaymentStatus(paymentKey);
+                    }
+                })
+        }, 5000)
+    };
+
+    paymentSuccess = () => {
+        const data = {
+            auth,
+            title: this.props.translations.paymentTitle,
+            lang: this.props.lang,
+            amount: this.state.amount,
+            name: this.state.name,
+            email: this.state.email,
+            currency: this.state.currency
+        };
+
+        axios.post(`${this.state.backendUrl}/api/savefood/payment-success`, data); // Send email after a successful payment
+        this.props.navigation.navigate('List', {ids: this.state.ids});
+    };
+
+    paymentError = (error = true) => {
+        this.setState({
+            screen: "product",
+            url: "https://savefood-payment.netlify.app/payment-init",
+            initPayment: false,
+            loading: false
+        }, () => error && this.showSimpleMessage());
+    };
 
     _onNavigationStateChange(webViewState) {
         if (webViewState.url === this.state.initUrl + "payment-init") { // Payment init
-            this.createPaymentSession();
+            if (!this.state.initPayment) {
+                this.setState({initPayment: true}, () => {
+                    this.createPaymentSession();
+                })
+            }
         }
 
-        if (webViewState.url === this.state.initUrl + "payment-success") { // Payment success
-            const data = {
-                auth,
-                title: this.props.translations.paymentTitle,
-                lang: this.props.lang,
-                amount: this.state.amount,
-                name: this.state.name,
-                email: this.state.email,
-                currency: this.state.currency
-            };
-
-            axios.post(`${this.state.backendUrl}/api/savefood/payment-success`, data); // Send email after a successful payment
-            this.props.navigation.navigate('List', {ids: this.state.ids});
+        if (webViewState.url.includes("payment-success")) { // Payment success
+            this.paymentSuccess();
         }
 
-        if (webViewState.url === this.state.initUrl + "payment-failure") { // Payment failed
-            this.setState({screen: "product"}, this.showSimpleMessage);
+        if (webViewState.url.includes("payment-failure")) { // Payment failed
+            this.paymentError();
         }
     }
 
     startPayment() {
-        const loading = this.state.loading;
-        let url = this.state.url;
-        if (url === "") {
-            url = this.state.initUrl;
-        }
+        const {url, loading} = this.state;
 
         return (
             <View style={{flex: 1, backgroundColor: '#fff'}}>
@@ -163,9 +229,7 @@ class Payment extends React.Component {
                 <WebView
                     style={{marginTop: 20}}
                     mixedContentMode="never"
-                    source={{
-                        uri: url
-                    }}
+                    source={{uri: url}}
                     onNavigationStateChange={this._onNavigationStateChange.bind(this)}
                 />
             </View>
