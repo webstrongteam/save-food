@@ -36,6 +36,8 @@
   "startSubtitle": "Ta aplikacja została stworzona, żeby pomóc ci oszczędzać jedzenie.",
   "paymentTitle": "Wesprzyj Pajacyka",
   "paymentSuccessTitle": "Płatność udana",
+  "amountErrorTitle": "Za mała kwota",
+  "amountErrorDescription": "Minimalna kwota przelewu to 2 ",
   "clearTheDatabaseSuccessTitle": "Baza danych została wyczyszczona",
   "paymentSuccessDescription": "Dziękujemy za wsparcie!",
   "paymentErrorTitle": "Bład podczas płatności",

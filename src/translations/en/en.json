@@ -36,6 +36,8 @@
   "startSubtitle": "This application is created to help you saving food.",
   "paymentTitle": "Support Pajacyk",
   "paymentSuccessTitle": "Payment successful",
+  "amountErrorTitle": "Not enough amount",
+  "amountErrorDescription": "The minimum transfer amount is 2 ",
   "clearTheDatabaseSuccessTitle": "Clear successful",
   "clearTheDatabaseSuccess": "The database has been cleaned.",
   "paymentSuccessDescription": "Thank you for support!",

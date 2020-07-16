@@ -53,16 +53,28 @@ class List extends Component {
         }
     };
 
-    showSimpleMessage = () => {
-        const {translations} = this.props;
+    showSimpleMessage = (action) => {
+        const {translations, currency} = this.props;
 
-        const message = {
-            message: translations.paymentSuccessTitle,
-            description: translations.paymentSuccessDescription,
-            type: "success",
-            icon: {icon: "success", position: "left"},
-            duration: 2500
-        };
+        let message;
+
+        if (action === 'amountError') {
+            message = {
+                message: translations.amountErrorTitle,
+                description: translations.amountErrorDescription + currency,
+                type: "warning",
+                icon: {icon: "warning", position: "left"},
+                duration: 2500
+            };
+        } else if (action === 'success') {
+            message = {
+                message: translations.paymentSuccessTitle,
+                description: translations.paymentSuccessDescription,
+                type: "success",
+                icon: {icon: "success", position: "left"},
+                duration: 2500
+            };
+        }
 
         showMessage(message);
     };
@@ -90,7 +102,7 @@ class List extends Component {
             this.setState({
                 list, selectedItems: [], amount: 0, loading: false
             }, () => {
-                if (showMessage) this.showSimpleMessage();
+                if (showMessage) this.showSimpleMessage('success');
             })
         })
     };
@@ -147,6 +159,17 @@ class List extends Component {
                     this.setState({list: newList, amount, wait: false});
                 });
             })
+        }
+    };
+
+    startPayment = () => {
+        const {amount, selectedItems} = this.state;
+        const {navigation} = this.props;
+
+        if (amount < 2) {
+            this.showSimpleMessage('amountError');
+        } else {
+            navigation.navigate('Payment', {ids: selectedItems.map(i => i.id), amount})
         }
     };
 
@@ -299,7 +322,7 @@ class List extends Component {
                             padding: 25,
                             fontFamily: 'Lato-Light'
                         }}
-                        onPress={() => navigation.navigate('Payment', {ids: selectedItems.map(i => i.id), amount})}
+                        onPress={this.startPayment}
                         title={`${translations.pay} ${amount} ${currency}`}
                     />
                 </View>
