@@ -35,6 +35,7 @@ class List extends Component {
             })
         } else if (this.props.navigation !== prevProps.navigation) {
             this.paidFood();
+            this.props.onRefresh();
         }
     }
 

@@ -1,5 +1,6 @@
 import React from "react";
 import {ImageBackground, ScrollView, StatusBar, Text, TouchableOpacity, View, Platform} from "react-native";
+import openSocket from 'socket.io-client';
 import {showMessage} from "react-native-flash-message";
 import Spinner from "../../components/Spinner/Spinner";
 import {Button, Icon, Input} from 'react-native-elements';
@@ -13,6 +14,12 @@ import {auth} from '../../config/backendAuth';
 import {connect} from 'react-redux';
 import * as actions from "../../store/actions";
 
+const defaultData = {
+    initUrl: "https://savefood-payment.netlify.app/",
+    url: "https://savefood-payment.netlify.app/payment-init",
+    backendUrl: 'https://webstrong.pl'
+};
+
 class Payment extends React.Component {
     state = {
         ids: null,
@@ -22,11 +29,12 @@ class Payment extends React.Component {
         currency: 'pln',
         screen: "product",
         charity: 'pajacyk',
-        initUrl: "https://savefood-payment.netlify.app/",
-        url: "https://savefood-payment.netlify.app/payment-init",
-        backendUrl: 'http://192.168.1.7:3001',
+        initUrl: defaultData.initUrl,
+        url: defaultData.url,
+        backendUrl: defaultData.backendUrl,
         modalContent: null,
         type: null,
+        socketID: null,
         initPayment: false,
         showModal: false,
         loading: true
@@ -37,6 +45,10 @@ class Payment extends React.Component {
         const ids = navigation.getParam('ids', null);
         const amount = navigation.getParam('amount', 0);
         const currency = this.props.currency.toLowerCase();
+
+        if (Platform.OS === 'ios') {
+            this.checkingPaymentStatus();
+        }
 
         this.setState({ids, amount, currency});
     }
@@ -120,38 +132,29 @@ class Payment extends React.Component {
     }
 
     iosPayment = (data) => {
-        axios.post('https://savefood-4de7b.firebaseio.com/payments.json', {
-            status: 'processed'
-        }).then(res => {
-            const paymentKey = res.data.name;
-            data.paymentKey = paymentKey;
-            axios.post(`${this.state.backendUrl}/api/savefood/payment`, data)
-                .then(async result => {
-                    const sessionID = JSON.parse(result.data.body);
-                    const url = `${this.state.initUrl}payment?session=${sessionID.id}`;
+        data.socketID = this.state.socketID;
+        axios.post(`${this.state.backendUrl}/savefood/api/payment`, data)
+            .then(async result => {
+                const url = `${this.state.initUrl}payment?session=${result.data.id}`;
 
-                    WebBrowser.openBrowserAsync(url)
-                        .then((res) => {
-                            if (res.type === 'cancel') {
-                                this.paymentError(false);
-                            }
-                        })
-                        .catch(err => this.paymentError());
-
-                    this.checkingPaymentStatus(paymentKey);
-                })
-                .catch(err => {
-                    console.log(err);
-                    this.paymentError();
-                });
-        });
+                WebBrowser.openBrowserAsync(url)
+                    .then((res) => {
+                        if (res.type === 'cancel') {
+                            this.paymentError(false);
+                        }
+                    })
+                    .catch(err => this.paymentError());
+            })
+            .catch(err => {
+                console.log(err);
+                this.paymentError();
+            });
     };
 
     androidPayment = (data) => {
-        axios.post(`${this.state.backendUrl}/api/savefood/payment`, data)
+        axios.post(`${this.state.backendUrl}/savefood/api/payment`, data)
             .then(async result => {
-                const sessionID = JSON.parse(result.data.body);
-                const url = this.state.initUrl + "payment?session=" + sessionID.id;
+                const url = `${this.state.initUrl}payment?session=${result.data.id}`;
                 this.setState({url, loading: false});
             })
             .catch(err => {
@@ -160,21 +163,22 @@ class Payment extends React.Component {
             });
     };
 
-    checkingPaymentStatus = (paymentKey) => {
-        setTimeout(() => {
-            axios.get(`https://savefood-4de7b.firebaseio.com/payments/${paymentKey}.json`)
-                .then(res => {
-                    if (res.data.status === 'success') {
-                        WebBrowser.dismissBrowser();
-                        this.paymentSuccess();
-                    } else if (res.data.status === 'error') {
-                        WebBrowser.dismissBrowser();
-                        this.paymentError();
-                    } else {
-                        this.checkingPaymentStatus(paymentKey);
-                    }
-                })
-        }, 5000)
+    checkingPaymentStatus = () => {
+        const socket = openSocket(this.state.backendUrl);
+
+        socket.on('connect', () => {
+            this.setState({socketID: socket.id});
+        });
+
+        socket.on('payment', data => {
+            if (data.status === 'success') {
+                WebBrowser.dismissBrowser();
+                this.paymentSuccess();
+            } else {
+                WebBrowser.dismissBrowser();
+                this.paymentError();
+            }
+        });
     };
 
     paymentSuccess = () => {
@@ -188,14 +192,14 @@ class Payment extends React.Component {
             currency: this.state.currency
         };
 
-        axios.post(`${this.state.backendUrl}/api/savefood/payment-success`, data); // Send email after a successful payment
+        axios.post(`${this.state.backendUrl}/savefood/api/send-email`, data); // Send email after a successful payment
         this.props.navigation.navigate('List', {ids: this.state.ids});
     };
 
     paymentError = (error = true) => {
         this.setState({
             screen: "product",
-            url: "https://savefood-payment.netlify.app/payment-init",
+            url: defaultData.url,
             initPayment: false,
             loading: false
         }, () => error && this.showSimpleMessage());
