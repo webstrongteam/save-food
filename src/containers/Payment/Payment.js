@@ -272,7 +272,10 @@ class Payment extends React.Component {
                     content={modalContent}
                 />
 
-                <ScrollView style={{flex: 1, width: '100%'}} contentContainerStyle={{flex: 1, alignItems: 'center'}}>
+                <ScrollView
+                    style={{flex: 1, width: '100%'}}
+                    contentContainerStyle={{flex: 1, alignItems: 'center'}}
+                >
                     <View style={{width: '80%', marginTop: 50}}>
                         <Input
                             leftIcon={{

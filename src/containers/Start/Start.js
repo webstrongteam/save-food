@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {AsyncStorage, Image} from 'react-native';
 import Onboarding from 'react-native-onboarding-swiper';
+import styles from './Start.style';
 
 import {connect} from "react-redux";
 
@@ -18,7 +19,7 @@ class Start extends Component {
             },
             {
                 backgroundColor: '#4b8b1d',
-                image: <Image style={{width: '100%', height: '100%', resizeMode: 'stretch', marginTop: 110}} source={
+                image: <Image style={styles.stepContainer} source={
                     this.props.lang === 'pl' ?
                         require('../../assets/steps_pl/1.jpg') :
                         require('../../assets/steps_en/1.jpg')}/>,
@@ -27,7 +28,7 @@ class Start extends Component {
             },
             {
                 backgroundColor: '#4b8b1d',
-                image: <Image style={{width: '100%', height: '100%', resizeMode: 'stretch', marginTop: 110}} source={
+                image: <Image style={styles.stepContainer} source={
                     this.props.lang === 'pl' ?
                         require('../../assets/steps_pl/2.jpg') :
                         require('../../assets/steps_en/2.jpg')}/>,
@@ -36,7 +37,7 @@ class Start extends Component {
             },
             {
                 backgroundColor: '#4b8b1d',
-                image: <Image style={{width: '100%', height: '100%', resizeMode: 'stretch', marginTop: 110}} source={
+                image: <Image style={styles.stepContainer} source={
                     this.props.lang === 'pl' ?
                         require('../../assets/steps_pl/3.jpg') :
                         require('../../assets/steps_en/3.jpg')}/>,
@@ -45,7 +46,7 @@ class Start extends Component {
             },
             {
                 backgroundColor: '#4b8b1d',
-                image: <Image style={{width: '100%', height: '100%', resizeMode: 'stretch', marginTop: 110}} source={
+                image: <Image style={styles.stepContainer} source={
                     this.props.lang === 'pl' ?
                         require('../../assets/steps_pl/4.jpg') :
                         require('../../assets/steps_en/4.jpg')}/>,

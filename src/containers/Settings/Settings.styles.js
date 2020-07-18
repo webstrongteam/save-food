@@ -20,12 +20,34 @@ export default StyleSheet.create({
         alignItems: 'center',
         marginTop: 40
     },
-    clearTheDatabase:{
+    clearText: {
+        fontSize: 22,
+        color: '#ddd',
+        textAlign: 'center',
+        fontFamily: 'Lato-Light'
+    },
+    clearTheDatabase: {
         marginTop: 15,
         textAlign: 'center',
         justifyContent: 'center',
         alignItems: 'center',
         fontSize: 16,
         fontFamily: "Lato-Light"
+    },
+    footerContainer: {
+        position: 'absolute',
+        bottom: 20
+    },
+    versionText: {
+        fontSize: 12,
+        color: '#ddd',
+        textAlign: 'center',
+        fontFamily: 'Lato-Light'
+    },
+    apiText: {
+        fontSize: 12,
+        color: '#ddd',
+        textAlign: 'center',
+        fontFamily: 'Lato-Light'
     }
 });

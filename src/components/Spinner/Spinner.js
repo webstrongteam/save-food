@@ -4,14 +4,9 @@ import {ActivityIndicator, Platform, View} from "react-native";
 const spinner = ({size, color, bgColor}) => {
     let setSize;
     if (size) {
-        if (size > 32 && Platform.OS === 'ios') {
-            setSize = 'large'
-        } else {
-            setSize = size
-        }
-    } else {
-        setSize = 18
-    }
+        if (size > 32 && Platform.OS === 'ios') setSize = 'large';
+        else setSize = size;
+    } else setSize = 18;
 
     return (
         <View style={{

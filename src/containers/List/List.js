@@ -166,11 +166,7 @@ class List extends Component {
         const {amount, selectedItems} = this.state;
         const {navigation} = this.props;
 
-        if (amount < 2) {
-            this.showSimpleMessage('amountError');
-        } else {
-            navigation.navigate('Payment', {ids: selectedItems.map(i => i.id), amount})
-        }
+        navigation.navigate('Payment', {ids: selectedItems.map(i => i.id), amount});
     };
 
     render() {
@@ -276,14 +272,7 @@ class List extends Component {
                                                 />
                                             </View>
                                             <View style={{flex: 3}}>
-                                                <Text numberOfLines={2} style={{
-                                                    fontFamily: 'Lato-Bold',
-                                                    fontSize: 20,
-                                                    color: '#fff',
-                                                    marginLeft: 10,
-                                                    marginBottom: 5,
-                                                    marginTop: -30
-                                                }}>{item.name}</Text>
+                                                <Text numberOfLines={2} style={styles.nameText}>{item.name}</Text>
                                                 <Text
                                                     style={styles.text}>{translations.quantity}: {item.quantity}</Text>
                                                 <Text
@@ -298,33 +287,21 @@ class List extends Component {
                         }
                     </View>
                 }
-                <View style={{
-                    position: 'absolute',
-                    width: '100%',
-                    bottom: 25,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    shadowColor: "#000",
-                    shadowOffset: {
-                        width: 0,
-                        height: 0
-                    },
-                    shadowOpacity: 0.2,
-                    shadowRadius: 5,
-                    elevation: 7
-                }}>
-                    <Button
-                        buttonStyle={{backgroundColor: '#4b8b1d'}}
-                        disabled={amount === 0}
-                        titleStyle={{
-                            color: '#fff',
-                            fontSize: 18,
-                            padding: 25,
-                            fontFamily: 'Lato-Light'
-                        }}
-                        onPress={this.startPayment}
-                        title={`${translations.pay} ${amount} ${currency}`}
-                    />
+                <View style={styles.paymentButton}>
+                    <TouchableOpacity onPress={() => this.showSimpleMessage('amountError')}>
+                        <Button
+                            buttonStyle={{backgroundColor: '#4b8b1d'}}
+                            disabled={amount < 2}
+                            titleStyle={{
+                                color: '#fff',
+                                fontSize: 18,
+                                padding: 25,
+                                fontFamily: 'Lato-Light'
+                            }}
+                            onPress={this.startPayment}
+                            title={`${translations.pay} ${amount} ${currency}`}
+                        />
+                    </TouchableOpacity>
                 </View>
             </>
         );

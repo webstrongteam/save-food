@@ -7,7 +7,9 @@ import Spinner from "../../components/Spinner/Spinner";
 import Modal from "../../components/Modal/Modal";
 import {getResizeMode} from "../../common/utility";
 import {Camera} from 'expo-camera';
-import {alert} from '../../common/validation';
+import {showMessage} from "react-native-flash-message";
+import Header from "../../components/Header/Header";
+import styles from "./Food.style";
 
 import {connect} from 'react-redux';
 import * as actions from "../../store/actions";
@@ -166,13 +168,25 @@ class Food extends Component {
         }
     };
 
-    validate = () => {
-        const {price} = this.state;
+    showSimpleMessage = () => {
+        const {translations} = this.props;
 
-        if (isNaN(price)) {
-            alert('error')
+        const message = {
+            message: translations.noPriceTitle,
+            description: translations.noPriceDescription,
+            type: "warning",
+            icon: {icon: "warning", position: "left"},
+            duration: 2500
+        };
+
+        showMessage(message);
+    };
+
+    checkValid = () => {
+        if (this.state.price === 0) {
+            this.showSimpleMessage();
         } else {
-            this.saveFood()
+            this.saveFood();
         }
     };
 
@@ -216,21 +230,7 @@ class Food extends Component {
                                             type='antdesign' color={"#fff"}
                                         />
                                     </TouchableOpacity>
-                                    <View style={{
-                                        position: 'absolute',
-                                        width: '100%',
-                                        bottom: 30,
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        shadowColor: "#000",
-                                        shadowOffset: {
-                                            width: 0,
-                                            height: 0
-                                        },
-                                        shadowOpacity: 0.2,
-                                        shadowRadius: 5,
-                                        elevation: 7
-                                    }}>
+                                    <View style={styles.takePhotoButton}>
                                         <Button
                                             onPress={this.takePicture}
                                             buttonStyle={{backgroundColor: '#4b8b1d'}}
@@ -248,24 +248,31 @@ class Food extends Component {
                                     start={{x: 0, y: 0}}
                                     end={{x: 1, y: 1}}
                                     colors={['#f2f3f5', '#f2f3f5']}
-                                    style={{
-                                        flex: 1,
-                                        flexDirection: 'column',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                    }}>
+                                    style={styles.linearGradient1}>
                                     <LinearGradient
                                         colors={['#4b8b1d', '#6cd015']}
-                                        style={{
-                                            width: '200%',
-                                            height: heightWindow * 0.7,
-                                            left: '-30%',
-                                            top: '-30%',
-                                            backgroundColor: 'red',
-                                            transform: [{skewY: '-30deg'}],
-                                            position: 'absolute',
-                                            zIndex: 0,
-                                        }}
+                                        style={styles.linearGradient2}
+                                    />
+
+                                    <Header
+                                        leftComponent={
+                                            <TouchableOpacity onPress={() => navigation.goBack()}>
+                                                <Icon
+                                                    style={{marginTop: 5, marginLeft: 20}}
+                                                    size={25} name='arrowleft'
+                                                    type='antdesign' color={"#fff"}
+                                                />
+                                            </TouchableOpacity>
+                                        }
+                                        centerComponent={
+                                            <Text style={{
+                                                textAlign: 'center',
+                                                fontSize: 22,
+                                                color: '#fff'
+                                            }}>
+                                                {id ? translations.editFood : translations.newFood}
+                                            </Text>
+                                        }
                                     />
 
                                     <Modal
@@ -283,7 +290,7 @@ class Food extends Component {
                                         <ScrollView>
                                             <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
                                                 <TouchableOpacity onPress={this.toggleCamera}>
-                                                    <View style={{width: 200, height: 200, marginTop: 50}}>
+                                                    <View style={{width: 200, height: 200, marginTop: 30}}>
                                                         <Image
                                                             style={{width: 200, height: 200, resizeMode}}
                                                             source={image}
@@ -291,13 +298,7 @@ class Food extends Component {
                                                     </View>
                                                 </TouchableOpacity>
                                             </View>
-                                            <View
-                                                style={{
-                                                    flex: 1,
-                                                    marginTop: 30,
-                                                    flexDirection: 'column',
-                                                    marginBottom: 30
-                                                }}>
+                                            <View style={styles.infoWindowsContainer}>
                                                 <TouchableOpacity onPress={() => this.toggleModal('name')}>
                                                     <InfoWindow color1={'#f8f8f8'} color2={['#f2a91e', '#e95c17']}
                                                                 title={translations.name}
@@ -313,19 +314,8 @@ class Food extends Component {
                                                                 title={translations.price}
                                                                 val={`${savedDate.price} ${currency}`}/>
                                                 </TouchableOpacity>
-                                                <View style={{
-                                                    flex: 1,
-                                                    justifyContent: 'center',
-                                                    marginLeft: 30,
-                                                    marginRight: 30,
-                                                    marginTop: 30
-                                                }}>
-                                                    <Text style={{
-                                                        textAlign: 'center',
-                                                        color: '#292b2c',
-                                                        fontFamily: 'Lato-Light',
-                                                        fontSize: 16
-                                                    }}>
+                                                <View style={styles.sliderContainer}>
+                                                    <Text style={styles.percentInfo}>
                                                         {translations.percentInfo}
                                                     </Text>
                                                     <Slider
@@ -338,48 +328,26 @@ class Food extends Component {
                                                         value={percent}
                                                         onValueChange={value => this.setState({percent: value})}
                                                     />
-                                                    <Text style={{
-                                                        textAlign: 'center',
-                                                        color: '#292b2c',
-                                                        fontFamily: 'Lato-Bold',
-                                                        fontSize: 16
-                                                    }}>
+                                                    <Text style={styles.percent}>
                                                         {percent.toFixed(0)}%
                                                     </Text>
                                                 </View>
                                             </View>
-                                            <View
-                                                style={{
-                                                    flex: 1,
-                                                    flexDirection: 'row',
-                                                    marginBottom: 50,
-                                                    justifyContent: 'center'
-                                                }}>
-                                                <Button
-                                                    buttonStyle={{borderColor: '#4b8b1d', marginRight: 20}}
-                                                    disabled={savedDate.price === 0}
-                                                    titleStyle={{
-                                                        color: '#4b8b1d',
-                                                        fontSize: 18,
-                                                        padding: 25,
-                                                        fontFamily: 'Lato-Light'
-                                                    }}
-                                                    onPress={() => this.validate()}
-                                                    type="outline"
-                                                    title={translations.save}
-                                                />
-                                                <Button
-                                                    onPress={() => navigation.navigate(id ? 'List' : 'Home')}
-                                                    buttonStyle={{borderColor: '#af3462'}}
-                                                    titleStyle={{
-                                                        color: '#af3462',
-                                                        fontSize: 18,
-                                                        padding: 25,
-                                                        fontFamily: 'Lato-Light'
-                                                    }}
-                                                    type="outline"
-                                                    title={translations.cancel}
-                                                />
+                                            <View style={styles.saveContainer}>
+                                                <TouchableOpacity onPress={this.checkValid}>
+                                                    <Button
+                                                        buttonStyle={{borderColor: '#4b8b1d', width: '100%'}}
+                                                        disabled={savedDate.price === 0}
+                                                        titleStyle={{
+                                                            color: '#4b8b1d',
+                                                            fontSize: 18,
+                                                            fontFamily: 'Lato-Light'
+                                                        }}
+                                                        onPress={this.saveFood}
+                                                        type="outline"
+                                                        title={translations.save}
+                                                    />
+                                                </TouchableOpacity>
                                             </View>
                                         </ScrollView>
                                     </View>

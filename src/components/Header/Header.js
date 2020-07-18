@@ -1,7 +1,7 @@
 import React from 'react';
 import {Platform, View} from "react-native";
 
-const Header = ({leftComponent, centerComponent, rightComponent, leftSize = 1, centerSize = 3, rightSize = 1}) => (
+const Header = ({leftComponent, centerComponent, rightComponent, leftSize = 1, centerSize = 3, rightSize = 1, bgColor}) => (
     <View style={{
         position: 'relative',
         zIndex: 200,
@@ -13,7 +13,8 @@ const Header = ({leftComponent, centerComponent, rightComponent, leftSize = 1, c
         alignItems: 'center',
         marginTop: Platform.OS === 'ios' ? 30 : 40,
         marginBottom: 10,
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        backgroundColor: bgColor ? bgColor : 'transparency'
     }}>
         <View style={{flex: leftSize, alignItems: 'flex-start'}}>
             {leftComponent ? leftComponent : <View/>}

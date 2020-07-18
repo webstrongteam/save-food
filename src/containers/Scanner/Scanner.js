@@ -4,6 +4,7 @@ import {BarCodeScanner} from 'expo-barcode-scanner';
 import axios from "axios";
 import Spinner from "../../components/Spinner/Spinner";
 import {Button, Icon} from "react-native-elements";
+import styles from "./Scanner.style";
 
 import {connect} from "react-redux";
 
@@ -45,23 +46,17 @@ class Scanner extends Component {
         const {scanned, loading} = this.state;
 
         return (
-            <View
-                style={{
-                    flex: 1,
-                    flexDirection: 'column',
-                    justifyContent: 'flex-end',
-                    backgroundColor: '#292b2c'
-                }}>
+            <View style={styles.container}>
                 <BarCodeScanner
                     onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
                     style={{width: '100%', height: '100%'}}
                 />
                 {loading &&
-                <View style={{position: 'absolute', width: '100%', height: '100%', left: 0, top: 0}}>
+                <View style={styles.loading}>
                     <Spinner bgColor='transparency' color="#fff" size={64}/>
                 </View>
                 }
-                <View style={{position: 'absolute', top: 40, left: 20, zIndex: 20}}>
+                <View style={styles.backIcon}>
                     <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                         <Icon
                             size={30} name='close'
@@ -69,47 +64,12 @@ class Scanner extends Component {
                         />
                     </TouchableOpacity>
                 </View>
-                <View style={{
-                    position: 'absolute',
-                    width: '100%',
-                    height: '100%',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    zIndex: 10
-                }}>
-                    <View style={{
-                        borderBottomWidth: 180,
-                        borderTopWidth: 180,
-                        borderLeftWidth: 45,
-                        borderRightWidth: 45,
-                        borderColor: 'rgba(0,0,0,0.7)',
-                        width: '100%',
-                        height: '100%'
-                    }}>
-                        <View style={{
-                            borderWidth: 2,
-                            borderColor: '#4b8b1d',
-                            width: '100%',
-                            height: '100%'
-                        }}/>
+                <View style={styles.scannerBoxContainer}>
+                    <View style={styles.scannerBox}>
+                        <View style={styles.scannerBoxBorder}/>
                     </View>
                 </View>
-                <View style={{
-                    zIndex: 20,
-                    position: 'absolute',
-                    width: '100%',
-                    bottom: 30,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    shadowColor: "#000",
-                    shadowOffset: {
-                        width: 0,
-                        height: 0
-                    },
-                    shadowOpacity: 0.2,
-                    shadowRadius: 5,
-                    elevation: 7
-                }}>
+                <View style={styles.addManuallyButton}>
                     <Button
                         onPress={() => this.props.navigation.navigate('Food')}
                         buttonStyle={{backgroundColor: '#4b8b1d'}}

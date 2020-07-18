@@ -83,5 +83,28 @@ export default StyleSheet.create({
         transform: [{skewY: '-30deg'}],
         position: 'absolute',
         zIndex: -1,
+    },
+    nameText: {
+        fontFamily: 'Lato-Bold',
+        fontSize: 20,
+        color: '#fff',
+        marginLeft: 10,
+        marginBottom: 5,
+        marginTop: -30
+    },
+    paymentButton: {
+        position: 'absolute',
+        width: '100%',
+        bottom: 25,
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 0
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 5,
+        elevation: 7
     }
 });

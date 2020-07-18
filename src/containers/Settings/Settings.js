@@ -205,7 +205,7 @@ class Settings extends Component {
                                     colorTitle={'#fff'}/>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.clear} onPress={() => this.toggleModal('clearTheDatabase')}>
-                        <Text style={{fontSize: 22, color: '#ddd', textAlign: 'center', fontFamily: 'Lato-Light'}}>
+                        <Text style={styles.clearText}>
                             {`${translations.clearTheDatabase}  `}
                         </Text>
                         <Icon
@@ -214,11 +214,11 @@ class Settings extends Component {
                         />
                     </TouchableOpacity>
                 </View>
-                <View style={{position: 'absolute', bottom: 20}}>
-                    <Text style={{fontSize: 12, color: '#ddd', textAlign: 'center', fontFamily: 'Lato-Light'}}>
+                <View style={styles.footerContainer}>
+                    <Text style={styles.versionText}>
                         {translations.version}: {this.props.settings.version}
                     </Text>
-                    <Text style={{fontSize: 12, color: '#ddd', textAlign: 'center', fontFamily: 'Lato-Light'}}>
+                    <Text style={styles.apiText}>
                         API: https://world.openfoodfacts.org
                     </Text>
                 </View>

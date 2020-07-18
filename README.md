@@ -4,7 +4,9 @@
 <a href="#" target="_blank"><img src="https://webstrong.pl/assets/templates/google_play_en.png" width="150"/></a>
 <a href="#" target="_blank"><img src="https://webstrong.pl/assets/templates/apple_store_en.png" width="150"/></a>
 
-**SaveFood** - this application was created to help you saving food. Make four steps every time you waste food and realize what you are buying too much and help in reduce starving in the world.
+**SaveFood** - application available on Android and iOS devices designed to help you save food. The purpose of this application is to tell the user how much food he wastes and how can help reduce world hunger.
+
+<p align="center"><img src="https://webstrong.pl/assets/SaveFood/promo/en/sf-promo-fullhd-en.jpg" width="500px" /></p>
 
 ## Basic features  
   
@@ -31,12 +33,9 @@
 - React Native Webview <i>8.1.1</i>
 - Moment.JS <i>2.26.0</i>
 
-### ToDo:
-- Publish
-
 ### WebStrong &copy;  
 
 This application was created by **WebStrong Team** <br />
-> **Google Play:**  <br />
-> **Apple Store:**  <br />
+> **Google Play:** https://play.google.com/store/apps/details?id=com.webStrong.saveFood <br />
+> **Apple Store:** https://apps.apple.com/us/app/id1520027228 <br />
 > **Expo:** https://expo.io/@mateuszpijanowski/save-food
