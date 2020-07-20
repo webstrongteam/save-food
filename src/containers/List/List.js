@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Image, ScrollView, Text, TouchableOpacity, View} from "react-native";
+import {Image, ScrollView, Text, TouchableOpacity, View, Animated} from "react-native";
 import {showMessage} from "react-native-flash-message";
 import styles from './List.style';
 import Header from '../../components/Header/Header';
@@ -18,6 +18,7 @@ class List extends Component {
     state = {
         list: [],
         selectedItems: [],
+        moveButton: new Animated.Value(100),
         amount: 0,
         isSwiping: false,
         loading: true,
@@ -36,6 +37,12 @@ class List extends Component {
         } else if (this.props.navigation !== prevProps.navigation) {
             this.paidFood();
             this.props.onRefresh();
+        } else if (this.state.selectedItems !== prevState.selectedItems) {
+            if (this.state.selectedItems.length) {
+                this.showButton();
+            } else {
+                this.hideButton();
+            }
         }
     }
 
@@ -111,6 +118,20 @@ class List extends Component {
         return selectedItems.reduce((a, i) => a + i.price * i.productQuantity, 0);
     };
 
+    hideButton = () => {
+        Animated.timing(this.state.moveButton, {
+            toValue: 100,
+            duration: 250
+        }).start()
+    };
+
+    showButton = () => {
+        Animated.timing(this.state.moveButton, {
+            toValue: -25,
+            duration: 250
+        }).start()
+    };
+
     selectItem = (item, onlyRemove = false) => {
         const {selectedItems} = this.state;
         const checkSelectedItem = selectedItems.find(i => i.id === item.id);
@@ -122,10 +143,10 @@ class List extends Component {
                 amount: this.getAmount(newSelectedItems)
             });
         } else if (!onlyRemove) {
-            selectedItems.push(item);
+            const newSelectedItems = selectedItems.concat(item);
             this.setState({
-                selectedItems,
-                amount: this.getAmount(selectedItems)
+                selectedItems: newSelectedItems,
+                amount: this.getAmount(newSelectedItems)
             });
         }
     };
@@ -287,22 +308,29 @@ class List extends Component {
                         }
                     </View>
                 }
-                <View style={styles.paymentButton}>
-                    <TouchableOpacity onPress={() => this.showSimpleMessage('amountError')}>
-                        <Button
-                            buttonStyle={{backgroundColor: '#4b8b1d'}}
-                            disabled={amount < 2}
-                            titleStyle={{
-                                color: '#fff',
-                                fontSize: 18,
-                                padding: 25,
-                                fontFamily: 'Lato-Light'
-                            }}
-                            onPress={this.startPayment}
-                            title={`${translations.pay} ${amount} ${currency}`}
-                        />
-                    </TouchableOpacity>
-                </View>
+                <Animated.View style={{
+                    transform: [{translateY: this.state.moveButton}],
+                    position: 'absolute',
+                    width: '100%',
+                    bottom: 0
+                }}>
+                    <View style={styles.paymentButton}>
+                        <TouchableOpacity onPress={() => this.showSimpleMessage('amountError')}>
+                            <Button
+                                buttonStyle={{backgroundColor: '#4b8b1d'}}
+                                disabled={amount < 2}
+                                titleStyle={{
+                                    color: '#fff',
+                                    fontSize: 18,
+                                    padding: 25,
+                                    fontFamily: 'Lato-Light'
+                                }}
+                                onPress={this.startPayment}
+                                title={`${translations.pay} ${amount} ${currency}`}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                </Animated.View>
             </>
         );
     }

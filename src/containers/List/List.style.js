@@ -93,9 +93,6 @@ export default StyleSheet.create({
         marginTop: -30
     },
     paymentButton: {
-        position: 'absolute',
-        width: '100%',
-        bottom: 25,
         justifyContent: 'center',
         alignItems: 'center',
         shadowColor: "#000",

@@ -5,10 +5,10 @@
     "description": "This application is created to help you saving food.",
     "githubUrl": "https://github.com/webstrongteam/save-food",
     "privacy": "public",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "sdkVersion": "37.0.0",
     "ios": {
-      "buildNumber": "1.0.8",
+      "buildNumber": "1.0.9",
       "supportsTablet": false,
       "bundleIdentifier": "com.webStrong.saveFood",
       "infoPlist": {
@@ -17,7 +17,7 @@
     },
     "android": {
       "package": "com.webStrong.saveFood",
-      "versionCode": 108
+      "versionCode": 109
     },
     "platforms": [
       "ios",
