@@ -1,8 +1,8 @@
 <img align="right" width="145px" src="https://github.com/webstrongteam/save-food/blob/master/src/assets/icon-circle.png" alt="">
 
 # SaveFood - Let's start saving food!
-<a href="#" target="_blank"><img src="https://webstrong.pl/assets/templates/google_play_en.png" width="150"/></a>
-<a href="#" target="_blank"><img src="https://webstrong.pl/assets/templates/apple_store_en.png" width="150"/></a>
+<a href="#" target="_blank"><img src="https://webstrong.pl/assets/templates/google_play_en.png" height="50"/></a>
+<a href="#" target="_blank"><img src="https://webstrong.pl/assets/templates/apple_store_en.png" height="50"/></a>
 
 **SaveFood** - application available on Android and iOS devices designed to help you save food. The purpose of this application is to tell the user how much food he wastes and how can help reduce world hunger.
 
@@ -14,6 +14,8 @@
 - Saving food with name, quantity, price and percent of waste
 - Manually adding foods to wasted list
 - Donating equivalent price of wasted food to charity organization
+- Support English and Polish languages
+- Support USD and PLN currency
 
 ## Technologies  
 **SaveFood** was created together with:
