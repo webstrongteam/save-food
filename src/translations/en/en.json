@@ -23,6 +23,7 @@
   "price": "Price",
   "percentInfo": "What percentage of this food did you waste?",
   "save": "Save",
+  "confirm": "Confirm",
   "cancel": "Cancel",
   "change_name": "Change name",
   "change_quantity": "Change quantity",
@@ -52,5 +53,7 @@
   "moveToPayment": "Move to payment",
   "emailLabel": "Enter your e-mail",
   "pajacyk": "Pajacyk is a program under which the Polish Humanitarian Organization has been helping malnourished children since 1998. Pajacyk finances meals in schools and community facilities. Our goal is for every child to have a full-fledged daily meal!",
-  "pajacykFooter": "Organization web page: https://www.pajacyk.pl/"
+  "pajacykFooter": "Organization web page: https://www.pajacyk.pl/",
+  "commissionTitle": "Commission",
+  "commission": "Remember that the commission for the payment intermediary will be deducted from the amount you have transferred. For this reason, we encourage you to manually donate on the selected organization."
 }

@@ -10,6 +10,7 @@ import Header from "../../components/Header/Header";
 import Modal from "../../components/Modal/Modal";
 import * as WebBrowser from 'expo-web-browser';
 import {auth} from '../../config/backendAuth';
+import styles from './Payment.style';
 
 import {connect} from 'react-redux';
 import * as actions from "../../store/actions";
@@ -37,6 +38,7 @@ class Payment extends React.Component {
         socketID: null,
         initPayment: false,
         showModal: false,
+        modalButtons: [],
         loading: true
     };
 
@@ -68,33 +70,42 @@ class Payment extends React.Component {
     };
 
     setContent = (type) => {
-        this.setState({
-            modalContent: (
-                <View>
-                    <Text style={{
-                        marginTop: 15,
-                        textAlign: 'center',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        fontSize: 16,
-                        fontFamily: "Lato-Light"
-                    }}>
-                        {this.props.translations[type.toLowerCase()]}
-                    </Text>
-                    <Text style={{
-                        marginTop: 15,
-                        textAlign: 'center',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        fontSize: 12,
-                        fontFamily: "Lato-Light"
-                    }}>
-                        {this.props.translations[type.toLowerCase() + "Footer"]}
-                    </Text>
-                </View>
-            ),
-            showModal: true, type
-        })
+        const {translations} = this.props;
+
+        if (type === 'commission') {
+            this.setState({
+                modalContent: (
+                    <View>
+                        <Text style={styles.modalMessage}>
+                            {translations[type]}
+                        </Text>
+                    </View>
+                ),
+                modalButtons: [
+                    {
+                        text: translations.confirm,
+                        onPress: () => this.setState({screen: 'payment', loading: true, showModal: false})
+                    }, {
+                        text: translations.cancel,
+                        onPress: () => this.setState({showModal: false})
+                    }
+                ], showModal: true, type: translations[type + 'Title']
+            })
+        } else {
+            this.setState({
+                modalContent: (
+                    <View>
+                        <Text style={styles.modalMessage}>
+                            {translations[type.toLowerCase()]}
+                        </Text>
+                        <Text style={styles.modalFooterMessage}>
+                            {translations[type.toLowerCase() + "Footer"]}
+                        </Text>
+                    </View>
+                ),
+                showModal: true, type, modalButtons: []
+            })
+        }
     };
 
     toggleModal = (type) => {
@@ -241,7 +252,7 @@ class Payment extends React.Component {
     }
 
     showProduct() {
-        const {amount, showModal, type, modalContent, currency, charity, email} = this.state;
+        const {amount, currency, charity, email} = this.state;
         const {translations} = this.props;
 
         return (
@@ -263,13 +274,6 @@ class Payment extends React.Component {
                             style={{fontFamily: 'Lato-Regular'}}>{amount} {currency.toUpperCase()}</Text>
                         </Text>
                     }
-                />
-
-                <Modal
-                    visible={showModal}
-                    toggleModal={this.toggleModal}
-                    title={type}
-                    content={modalContent}
                 />
 
                 <ScrollView
@@ -331,7 +335,7 @@ class Payment extends React.Component {
                                 fontFamily: 'Lato-Light'
                             }}
                             title={translations.moveToPayment}
-                            onPress={() => this.setState({screen: 'payment', loading: true})}/>
+                            onPress={() => this.toggleModal('commission')}/>
                     </View>
                 </ScrollView>
             </View>
@@ -339,14 +343,28 @@ class Payment extends React.Component {
     }
 
     render() {
-        switch (this.state.screen) {
-            case "product":
+        const {showModal, type, screen, modalContent, modalButtons} = this.state;
+
+        const switchComponents = () => {
+            if (screen === 'product') {
                 return this.showProduct();
-            case "payment":
+            } else if (screen === 'payment') {
                 return this.startPayment();
-            default:
-                break;
+            }
         }
+
+        return (
+            <>
+                <Modal
+                    visible={showModal}
+                    toggleModal={this.toggleModal}
+                    buttons={modalButtons}
+                    title={type}
+                    content={modalContent}
+                />
+                {switchComponents()}
+            </>
+        )
     }
 }
 

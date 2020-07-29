@@ -169,4 +169,5 @@ const mapDispatchToProps = dispatch => {
         fetchAllWastedFood: (value) => dispatch(actions.fetchAllWastedFood(value)),
     }
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

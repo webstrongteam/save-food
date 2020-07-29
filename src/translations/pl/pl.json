@@ -22,6 +22,7 @@
   "price": "Cena",
   "percentInfo": "Jaki prcent tego jedzenia zmarnowałeś?",
   "save": "Zapisz",
+  "confirm": "Ok",
   "cancel": "Anuluj",
   "change_name": "Zmień nazwę",
   "change_quantity": "Zmień ilość",
@@ -51,5 +52,7 @@
   "moveToPayment": "Przejdź do płatności",
   "emailLabel": "Wpisz swój e-mail",
   "pajacyk": "Pajacyk to program, w ramach którego Polska Akcja Humanitarna, od 1998 roku pomaga niedożywionym dzieciom. Pajacyk finansuje posiłki w szkołach i placówkach środowiskowych. Naszym celem jest by każde dziecko miało zapewniony codzienny, pełnowartościowy posiłek!",
-  "pajacykFooter": "Strona organizacji: https://www.pajacyk.pl/"
+  "pajacykFooter": "Strona organizacji: https://www.pajacyk.pl/",
+  "commissionTitle": "Prowizja",
+  "commission": "Pamiętaj, że z kwoty, którą przekażesz, zostanie odciągnięta prowizja dla pośrednika płatności. Z tego powodu zachęcamy do ręcznego przekazywania datków na wybraną organizację."
 }
