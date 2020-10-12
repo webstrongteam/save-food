@@ -283,7 +283,7 @@ class List extends Component {
                                                             height: 100,
                                                             resizeMode: item.resizeMode
                                                         }}
-                                                        source={item.image === 'null' ? require('../../assets/not-found-image.png') : {uri: item.image}}
+                                                        source={item.image ? require('../../assets/fast-food-outline.png') : {uri: item.image}}
                                                     />
                                                 </View>
                                                 <ButtonAdd
@@ -326,7 +326,7 @@ class List extends Component {
                                     fontFamily: 'Lato-Light'
                                 }}
                                 onPress={this.startPayment}
-                                title={`${translations.pay} ${amount} ${currency}`}
+                                title={`${translations.pay} ${amount} ${currency} ${amount < 2 ? "(minimum 2 "+currency+")":""}`}
                             />
                         </TouchableOpacity>
                     </View>

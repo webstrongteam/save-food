@@ -1,9 +1,9 @@
 import React from "react";
-import {ImageBackground, ScrollView, StatusBar, Text, TouchableOpacity, View, Platform} from "react-native";
+import {ImageBackground, ScrollView, StatusBar, Text, TouchableOpacity, View, Platform, Linking} from "react-native";
 import openSocket from 'socket.io-client';
 import {showMessage} from "react-native-flash-message";
 import Spinner from "../../components/Spinner/Spinner";
-import {Button, Icon, Input} from 'react-native-elements';
+import {Button, CheckBox, Icon, Input} from 'react-native-elements';
 import axios from 'axios';
 import {WebView} from "react-native-webview";
 import Header from "../../components/Header/Header";
@@ -11,6 +11,8 @@ import Modal from "../../components/Modal/Modal";
 import * as WebBrowser from 'expo-web-browser';
 import {auth} from '../../config/backendAuth';
 import styles from './Payment.style';
+import {validateEmail} from '../../common/validation'
+import pajacyk from "../../assets/pajacyk.png";
 
 import {connect} from 'react-redux';
 import * as actions from "../../store/actions";
@@ -38,6 +40,8 @@ class Payment extends React.Component {
         socketID: null,
         initPayment: false,
         showModal: false,
+        errorEmail: '',
+        checkedStatuse: false,
         modalButtons: [],
         loading: true
     };
@@ -98,9 +102,16 @@ class Payment extends React.Component {
                         <Text style={styles.modalMessage}>
                             {translations[type.toLowerCase()]}
                         </Text>
-                        <Text style={styles.modalFooterMessage}>
-                            {translations[type.toLowerCase() + "Footer"]}
-                        </Text>
+                        <View style={styles.inline}>
+                            <Text style={styles.modalFooterMessage}>
+                                {translations[type.toLowerCase() + "Footer"]}
+                            </Text>
+                            <TouchableOpacity onPress={() => Linking.openURL('https://www.pajacyk.pl/')}>
+                                <Text style={styles.modalFooterMessage}>
+                                    https://www.pajacyk.pl/
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 ),
                 showModal: true, type, modalButtons: []
@@ -216,6 +227,24 @@ class Payment extends React.Component {
         }, () => error && this.showSimpleMessage());
     };
 
+    validationEmail = () => {
+        const {email} = this.state
+        const {translations} = this.props;
+        if (email.length < 1) {
+            this.setState({
+                errorEmail: translations.emptyEmail,
+            })
+        } else if (!validateEmail(email)) {
+            this.setState({
+                errorEmail: translations.wrongEmail,
+            })
+        } else {
+            this.setState({
+                errorEmail: '',
+            })
+        }
+    }
+
     _onNavigationStateChange(webViewState) {
         if (webViewState.url === this.state.initUrl + "payment-init") { // Payment init
             if (!this.state.initPayment) {
@@ -252,7 +281,7 @@ class Payment extends React.Component {
     }
 
     showProduct() {
-        const {amount, currency, charity, email} = this.state;
+        const {amount, currency, charity, email, errorEmail, checkedStatuse} = this.state;
         const {translations} = this.props;
 
         return (
@@ -280,7 +309,7 @@ class Payment extends React.Component {
                     style={{flex: 1, width: '100%'}}
                     contentContainerStyle={{flex: 1, alignItems: 'center'}}
                 >
-                    <View style={{width: '80%', marginTop: 50}}>
+                    <View style={{width: '80%', marginTop: 45,marginBottom:-10}}>
                         <Input
                             leftIcon={{
                                 name: 'email',
@@ -294,40 +323,73 @@ class Payment extends React.Component {
                             autoCompleteType='email'
                             inputStyle={{fontFamily: 'Lato-Light'}}
                             placeholder='E-mail'
-                            onChangeText={(value) => this.setState({email: value})}
+                            // onChangeText={(value) => this.setState({email: value})}
+
+                            value={this.state.email}
+                            onChange={(e) =>
+                                this.setState(
+                                    {email: e.nativeEvent.text},
+                                    this.validationEmail,
+                                )
+                            }
+                            onBlur={() =>
+                                this.validationEmail()
+                            }
+                            // onKeyDown={this.handleKeyDown}
                         />
                     </View>
-                    <View style={{marginTop: 20}}>
+                    <Text style={{fontSize: 20, fontFamily: 'Lato-Light', color: '#dc3545'}}>
+                        {errorEmail}
+                    </Text>
+                    <View style={{marginTop: errorEmail === '' ? 15 : 19.8}}>
                         <Text style={{fontSize: 20, fontFamily: 'Lato-Light', color: '#000'}}>
                             {translations.chooseCharity}
                         </Text>
-                    </View>
-                    <View style={{marginTop: 40, marginBottom: 20}}>
-                        <TouchableOpacity onPress={() => this.setState({charity: 'pajacyk'})}>
-                            <View style={{
-                                padding: 5,
-                                borderColor: '#4b8b1d',
-                                borderWidth: charity === 'pajacyk' ? 1 : 0
+                        <TouchableOpacity onPress={() => this.toggleModal('Pajacyk')}>
+                            <Text style={{
+                                fontSize: 20,
+                                fontFamily: 'Lato-Bold',
+                                color: '#4d6999',
+                                textAlign: 'center',
+                                marginBottom: 20
                             }}>
-                                <ImageBackground style={{width: 100, height: 100, resizeMode: 'center'}}
-                                                 source={require('../../assets/charities/pajacyk.png')}>
-                                    <View style={{position: 'absolute', right: 0, top: 0}}>
-                                        <TouchableOpacity onPress={() => this.toggleModal('Pajacyk')}>
-                                            <Icon
-                                                style={{opacity: 0.5}}
-                                                size={23} name='info-outline'
-                                                type='material' color={"#000"}
-                                            />
-                                        </TouchableOpacity>
-                                    </View>
-                                </ImageBackground>
-                            </View>
+                                "Pajacyk"
+                            </Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={{marginTop: 20, marginBottom: 50}}>
+                    <ImageBackground source={pajacyk} style={styles.image}/>
+                    <View style={styles.inline}>
+                        <View style={styles.checkStatuse}>
+                            <CheckBox
+                                onPress={() => this.setState({checkedStatuse: !checkedStatuse})}
+                                checked={checkedStatuse}
+                                checkedColor={"#4b8b1d"}
+                                tintColors={{true: '#ea6700', false: '#ea6700'}}
+                            />
+                        </View>
+                        <View style={styles.statuse}>
+                            <Text style={styles.textStatuse}>
+                                {translations.statuseFirst}
+                            </Text>
+                            <TouchableOpacity onPress={() => Linking.openURL('https://www.pajacyk.pl/')}>
+                                <Text style={styles.href}>
+                                    {translations.statuseSecond}
+                                </Text>
+                            </TouchableOpacity>
+                            <Text style={styles.textStatuse}>
+                                {translations.statuseThird}
+                            </Text>
+                            <TouchableOpacity onPress={() => Linking.openURL('https://www.pajacyk.pl/')}>
+                                <Text style={styles.href}>
+                                    {translations.statuseFourth}
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    <View style={{marginTop: 20, marginBottom: 20}}>
                         <Button
                             buttonStyle={{backgroundColor: '#4b8b1d'}}
-                            disabled={email === ''}
+                            disabled={errorEmail !== '' || email === '' || !checkedStatuse}
                             titleStyle={{
                                 color: '#fff',
                                 fontSize: 18,
@@ -337,6 +399,12 @@ class Payment extends React.Component {
                             title={translations.moveToPayment}
                             onPress={() => this.toggleModal('commission')}/>
                     </View>
+                    <Text style={{fontSize: 14, fontFamily: 'Lato-Light', color: '#dc3545', textAlign: 'center'}}>
+                        *
+                        <Text style={{fontSize: 14, fontFamily: 'Lato-Light', color: '#000', textAlign: 'center'}}>
+                            {translations.commissionText}
+                        </Text>
+                    </Text>
                 </ScrollView>
             </View>
         );

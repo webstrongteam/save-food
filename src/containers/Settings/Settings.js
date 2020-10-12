@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View, Linking} from 'react-native';
 import {Icon, ListItem} from 'react-native-elements';
 import Header from '../../components/Header/Header';
 import styles from './Settings.styles';
@@ -218,9 +218,16 @@ class Settings extends Component {
                     <Text style={styles.versionText}>
                         {translations.version}: {this.props.settings.version}
                     </Text>
+                    <TouchableOpacity onPress={() => Linking.openURL('https://world.openfoodfacts.org')}>
                     <Text style={styles.apiText}>
                         API: https://world.openfoodfacts.org
                     </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => Linking.openURL('https://webstrong.pl/')}>
+                        <Text style={styles.apiText}>
+                            {translations.authors}: https://webstrong.pl/
+                        </Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         );
