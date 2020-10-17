@@ -91,7 +91,7 @@ class List extends Component {
             const list = foods.map((val) => {
                 let {image} = val;
                 if (!image || image === 'null') {
-                    image = require('../../assets/not-found-image.png');
+                    image = require('../../assets/fast-food-outline.png');
                 } else {
                     image = {uri: image};
                 }
@@ -240,70 +240,76 @@ class List extends Component {
                                 </TouchableOpacity>
                             </View> :
                             <ScrollView scrollEnabled={!isSwiping}>
-                                {list.map((item, i) => (
-                                    <Swipeable
-                                        key={i}
-                                        style={{paddingLeft: 10, paddingRight: 10}}
-                                        onSwipeStart={() => this.setState({isSwiping: true})}
-                                        onSwipeRelease={() => this.setState({isSwiping: false})}
-                                        rightButtons={[
-                                            <>
-                                                <TouchableOpacity onPress={() => this.removeItem(item.id)}
-                                                                  style={styles.delete}>
-                                                    <Icon
-                                                        style={{marginLeft: 10}}
-                                                        size={40} name='trash-o'
-                                                        type='font-awesome' color={'#fff'}/>
-                                                </TouchableOpacity>
-                                                <TouchableOpacity
-                                                    onPress={() => navigation.navigate('Food', {...item})}
-                                                    style={styles.edit}>
-                                                    <Icon
-                                                        style={{marginLeft: 10}}
-                                                        size={40} name='edit'
-                                                        type='font-awesome' color={'#fff'}/>
-                                                </TouchableOpacity>
-                                            </>
-                                        ]}>
-                                        <BlurView style={styles.listItem} intensity={50} tint='dark'>
-                                            <View style={{flex: 1}}>
-                                                <CheckBox
-                                                    checked={!!selectedItems.find(i => i.id === item.id)}
-                                                    onPress={() => this.selectItem(item)}
-                                                    style={styles.checkbox}
-                                                    checkedColor={"#ea6700"}
-                                                    tintColors={{true: '#ea6700', false: '#ea6700'}}
-                                                />
-                                            </View>
-                                            <View>
-                                                <View style={{paddingBottom: 10}}>
-                                                    <Image
-                                                        style={{
-                                                            width: 100,
-                                                            height: 100,
-                                                            resizeMode: item.resizeMode
-                                                        }}
-                                                        source={item.image ? require('../../assets/fast-food-outline.png') : {uri: item.image}}
+                                {list.map((item, i) => {
+                                    return(
+                                        <Swipeable
+                                            key={i}
+                                            style={{paddingLeft: 10, paddingRight: 10}}
+                                            onSwipeStart={() => this.setState({isSwiping: true})}
+                                            onSwipeRelease={() => this.setState({isSwiping: false})}
+                                            rightButtons={[
+                                                <>
+                                                    <TouchableOpacity onPress={() => this.removeItem(item.id)}
+                                                                      style={styles.delete}>
+                                                        <Icon
+                                                            style={{marginLeft: 10}}
+                                                            size={40} name='trash-o'
+                                                            type='font-awesome' color={'#fff'}/>
+                                                    </TouchableOpacity>
+                                                    <TouchableOpacity
+                                                        onPress={() => navigation.navigate('Food', {...item})}
+                                                        style={styles.edit}>
+                                                        <Icon
+                                                            style={{marginLeft: 10}}
+                                                            size={40} name='edit'
+                                                            type='font-awesome' color={'#fff'}/>
+                                                    </TouchableOpacity>
+                                                </>
+                                            ]}>
+                                            <BlurView style={styles.listItem} intensity={50} tint='dark'>
+                                                <View style={{flex: 1}}>
+                                                    <CheckBox
+                                                        checked={!!selectedItems.find(i => i.id === item.id)}
+                                                        onPress={() => this.selectItem(item)}
+                                                        style={styles.checkbox}
+                                                        checkedColor={"#ea6700"}
+                                                        tintColors={{true: '#ea6700', false: '#ea6700'}}
                                                     />
                                                 </View>
-                                                <ButtonAdd
-                                                    onPressAdd={() => this.addFood(item, 1)}
-                                                    onPresMinus={() => this.addFood(item, -1)}
-                                                    value={item.productQuantity}
-                                                />
-                                            </View>
-                                            <View style={{flex: 3}}>
-                                                <Text numberOfLines={2} style={styles.nameText}>{item.name}</Text>
+                                                <View>
+                                                    <View style={{paddingBottom: 10}}>
+                                                        <Image
+                                                            style={{
+                                                                width: 100,
+                                                                height: 100,
+                                                                resizeMode: item.resizeMode
+                                                            }}
+                                                            onError={(ev)=>{
+                                                                ev.target.src ='../../assets/fast-food-outline.png'
+                                                            }
+                                                            }
+                                                            source={item.image ==='null' ? require('../../assets/fast-food-outline.png') : {uri: item.image}}
+                                                        />
+                                                    </View>
+                                                    <ButtonAdd
+                                                        onPressAdd={() => this.addFood(item, 1)}
+                                                        onPresMinus={() => this.addFood(item, -1)}
+                                                        value={item.productQuantity}
+                                                    />
+                                                </View>
+                                                <View style={{flex: 3}}>
+                                                    <Text numberOfLines={2} style={styles.nameText}>{item.name}</Text>
+                                                    <Text
+                                                        style={styles.text}>{translations.quantity}: {item.quantity}</Text>
+                                                    <Text
+                                                        style={styles.text}>{translations.percent}: {item.percentage}%</Text>
+                                                </View>
                                                 <Text
-                                                    style={styles.text}>{translations.quantity}: {item.quantity}</Text>
-                                                <Text
-                                                    style={styles.text}>{translations.percent}: {item.percentage}%</Text>
-                                            </View>
-                                            <Text
-                                                style={styles.priceText}>{item.price * item.productQuantity} {currency}</Text>
-                                        </BlurView>
-                                    </Swipeable>
-                                ))}
+                                                    style={styles.priceText}>{item.price * item.productQuantity} {currency}</Text>
+                                            </BlurView>
+                                        </Swipeable>
+                                    )
+                                })}
                             </ScrollView>
                         }
                     </View>
