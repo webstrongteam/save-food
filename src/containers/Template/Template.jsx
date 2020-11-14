@@ -12,7 +12,7 @@ class Template extends Component {
 		this.props.onInitSettings()
 	}
 
-	componentDidUpdate(prevProps, prevState, snapshot) {
+	componentDidUpdate(prevProps) {
 		if (this.props.settings !== prevProps.settings) {
 			this.setState({ loading: false })
 		}

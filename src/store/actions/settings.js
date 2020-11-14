@@ -19,6 +19,7 @@ export const initSettings = (callback = () => null) => {
 					dispatch(onUpdateSettings(rows._array[0]))
 				})
 			},
+			// eslint-disable-next-line no-console
 			(err) => console.log(err),
 		)
 	}
@@ -32,6 +33,7 @@ export const changeLang = (value) => {
 					dispatch(initSettings())
 				})
 			},
+			// eslint-disable-next-line no-console
 			(err) => console.log(err),
 		)
 	}
@@ -45,6 +47,7 @@ export const changeCurrency = (value) => {
 					dispatch(initSettings())
 				})
 			},
+			// eslint-disable-next-line no-console
 			(err) => console.log(err),
 		)
 	}
@@ -58,6 +61,7 @@ export const changeNotificationCycle = (value) => {
 					dispatch(initSettings())
 				})
 			},
+			// eslint-disable-next-line no-console
 			(err) => console.log(err),
 		)
 	}

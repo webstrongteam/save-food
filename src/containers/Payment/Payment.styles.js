@@ -19,14 +19,12 @@ export default StyleSheet.create({
 	},
 	inline: {
 		flexDirection: 'row',
-		justifyContent: 'center',
-		flexWrap: 'wrap',
 	},
 	statuse: {
 		flexDirection: 'row',
 		flexWrap: 'wrap',
-		marginRight: 40,
-		flex: 5,
+		flex: 1,
+		marginLeft: 8,
 	},
 	textStatuse: {
 		display: 'flex',
@@ -36,7 +34,6 @@ export default StyleSheet.create({
 	},
 	checkStatuse: {
 		display: 'flex',
-		marginLeft: 20,
 		flex: 1,
 	},
 	href: {
@@ -46,7 +43,7 @@ export default StyleSheet.create({
 	image: {
 		width: 100,
 		height: 100,
-		marginBottom: 40,
+		marginBottom: 30,
 		fontFamily: 'Lato-Light',
 	},
 })

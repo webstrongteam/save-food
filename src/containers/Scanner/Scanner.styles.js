@@ -7,6 +7,10 @@ export default StyleSheet.create({
 		justifyContent: 'flex-end',
 		backgroundColor: '#292b2c',
 	},
+	barCodeScanner: {
+		width: '100%',
+		height: '100%',
+	},
 	loading: {
 		position: 'absolute',
 		width: '100%',
@@ -44,7 +48,7 @@ export default StyleSheet.create({
 		width: '100%',
 		height: '100%',
 	},
-	addManuallyButton: {
+	addManuallyButtonWrapper: {
 		zIndex: 20,
 		position: 'absolute',
 		width: '100%',
@@ -59,5 +63,14 @@ export default StyleSheet.create({
 		shadowOpacity: 0.2,
 		shadowRadius: 5,
 		elevation: 7,
+	},
+	addManuallyButtonTitle: {
+		color: '#fff',
+		fontSize: 18,
+		padding: 25,
+		fontFamily: 'Lato-Light',
+	},
+	addManuallyButton: {
+		backgroundColor: '#4b8b1d',
 	},
 })

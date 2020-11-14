@@ -10,33 +10,35 @@ export const onRefresh = () => {
 }
 
 export const fetchWastedFood = (callback = () => null) => {
-	return (dispatch) => {
+	return () => {
 		db.transaction(
 			(tx) => {
 				tx.executeSql('select * from wasted_food where paid = 0 ;', [], (_, { rows }) => {
 					callback(rows._array)
 				})
 			},
+			// eslint-disable-next-line no-console
 			(err) => console.log(err),
 		)
 	}
 }
 
 export const fetchAllWastedFood = (callback = () => null) => {
-	return (dispatch) => {
+	return () => {
 		db.transaction(
 			(tx) => {
 				tx.executeSql('select * from wasted_food;', [], (_, { rows }) => {
 					callback(rows._array)
 				})
 			},
+			// eslint-disable-next-line no-console
 			(err) => console.log(err),
 		)
 	}
 }
 
 export const saveFood = (food, callback = () => null) => {
-	return (dispatch) => {
+	return () => {
 		if (food.id) {
 			db.transaction(
 				(tx) => {
@@ -65,6 +67,7 @@ export const saveFood = (food, callback = () => null) => {
 						},
 					)
 				},
+				// eslint-disable-next-line no-console
 				(err) => console.log(err),
 			)
 		} else {
@@ -86,6 +89,7 @@ export const saveFood = (food, callback = () => null) => {
 						},
 					)
 				},
+				// eslint-disable-next-line no-console
 				(err) => console.log(err),
 			)
 		}
@@ -93,13 +97,14 @@ export const saveFood = (food, callback = () => null) => {
 }
 
 export const paidFood = (id, callback = () => null) => {
-	return (dispatch) => {
+	return () => {
 		db.transaction(
 			(tx) => {
 				tx.executeSql('update wasted_food set paid = 1 where id = ?', [id], () => {
 					callback()
 				})
 			},
+			// eslint-disable-next-line no-console
 			(err) => console.log(err),
 		)
 	}
@@ -114,6 +119,7 @@ export const removeFood = (id, callback = () => null) => {
 					dispatch(onRefresh())
 				})
 			},
+			// eslint-disable-next-line no-console
 			(err) => console.log(err),
 		)
 	}

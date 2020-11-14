@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
-import { AsyncStorage, ScrollView, Text, TouchableOpacity, View } from 'react-native'
-import styles from './Home.style'
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 import Header from '../../components/Header/Header'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Icon } from 'react-native-elements'
 import InfoWindow from '../../components/InfoWindow/InfoWindow'
 import Spinner from '../../components/Spinner/Spinner'
+import styles from './Home.styles'
+
 import en_facts from '../../translations/en/facts'
 import pl_facts from '../../translations/pl/facts'
 
@@ -30,7 +32,7 @@ class Home extends Component {
 		}
 	}
 
-	componentDidUpdate(prevProps, prevState, snapshot) {
+	componentDidUpdate(prevProps) {
 		if (
 			this.props.navigation !== prevProps.navigation ||
 			this.props.refresh !== prevProps.refresh
@@ -96,22 +98,16 @@ class Home extends Component {
 										color='#fff'
 										size={25}
 										name='setting'
-										style={{ marginLeft: 20 }}
+										style={styles.leftHeaderIcon}
 										type='antdesign'
 									/>
 								</TouchableOpacity>
 							}
 							rightComponent={
 								<TouchableOpacity onPress={() => navigation.navigate('List')}>
-									<View
-										style={{
-											flexDirection: 'row',
-											alignItems: 'center',
-											marginRight: 20,
-										}}
-									>
-										<Icon size={25} name='trash-o' type='font-awesome' color="#fff" />
-										<Text style={{ marginLeft: 5, color: '#fff' }}>
+									<View style={styles.rightHeaderContainer}>
+										<Icon size={25} name='trash-o' type='font-awesome' color='#fff' />
+										<Text style={styles.rightHeaderText}>
 											({unpaid} {currency})
 										</Text>
 									</View>
@@ -119,10 +115,8 @@ class Home extends Component {
 							}
 							rightSize={4}
 						/>
-						<LinearGradient
-							colors={['#4b8b1d', '#6cd015']}
-							style={styles.containerColor}
-						/>
+
+						<LinearGradient colors={['#4b8b1d', '#6cd015']} style={styles.containerColor} />
 						<ScrollView>
 							<Text style={styles.text}>{fact}</Text>
 
@@ -137,21 +131,21 @@ class Home extends Component {
 									</LinearGradient>
 								</TouchableOpacity>
 							</View>
-							<View style={{ marginBottom: 30 }}>
+							<View style={styles.infoWindowWrapper}>
 								<InfoWindow
-									color1="#f8f8f8"
+									color1='#f8f8f8'
 									color2={['#af3462', '#bf3741']}
 									title={translations.wastedFood}
 									val={`${food}`}
 								/>
 								<InfoWindow
-									color1="#f8f8f8"
+									color1='#f8f8f8'
 									color2={['#f2a91e', '#e95c17']}
 									title={translations.wastedMoney}
 									val={`${totalPrice} ${currency}`}
 								/>
 								<InfoWindow
-									color1="#f8f8f8"
+									color1='#f8f8f8'
 									color2={['#6cd015', '#4b8b1d']}
 									title={translations.moderateWaste}
 									val={`${moderateWaste} %`}

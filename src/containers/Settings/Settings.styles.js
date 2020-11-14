@@ -1,11 +1,24 @@
 import { StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
+	leftHeaderIcon: {
+		marginTop: 5,
+		marginLeft: 20,
+	},
+	headerTitle: {
+		textAlign: 'center',
+		fontSize: 22,
+		color: '#fff',
+	},
 	container: {
 		backgroundColor: '#292b2c',
 		alignItems: 'center',
 		flex: 1,
 		flexDirection: 'column',
+	},
+	settingsWrapper: {
+		marginTop: 125,
+		width: '100%',
 	},
 	text: {
 		color: '#fff',
@@ -44,7 +57,7 @@ export default StyleSheet.create({
 		textAlign: 'center',
 		fontFamily: 'Lato-Light',
 	},
-	apiText: {
+	linkText: {
 		fontSize: 12,
 		color: '#ddd',
 		textAlign: 'center',

@@ -3,6 +3,15 @@ import { Dimensions, StyleSheet } from 'react-native'
 const heightWindow = Dimensions.get('window').height
 
 export default StyleSheet.create({
+	leftHeaderIcon: {
+		marginTop: 5,
+		marginLeft: 20,
+	},
+	headerTitle: {
+		textAlign: 'center',
+		fontSize: 22,
+		color: '#fff',
+	},
 	listItem: {
 		width: '100%',
 		borderRadius: 5,
@@ -16,13 +25,6 @@ export default StyleSheet.create({
 	checkbox: {
 		color: '#fff',
 		flex: 1,
-	},
-	emptyList: {
-		opacity: 0.75,
-		fontFamily: 'Lato-Light',
-		color: '#fff',
-		fontSize: 22,
-		textAlign: 'center',
 	},
 	text: {
 		fontFamily: 'Lato-Light',
@@ -38,6 +40,10 @@ export default StyleSheet.create({
 		right: 10,
 		color: '#fff',
 		fontSize: 22,
+	},
+	swipeable: {
+		paddingLeft: 10,
+		paddingRight: 10,
 	},
 	delete: {
 		height: 75,
@@ -62,6 +68,22 @@ export default StyleSheet.create({
 		marginLeft: 10,
 		alignItems: 'center',
 		backgroundColor: '#f8aa24',
+	},
+	icon: {
+		marginLeft: 10,
+	},
+	checkboxWrapper: {
+		flex: 1,
+	},
+	imageWrapper: {
+		paddingBottom: 10,
+	},
+	image: {
+		width: 100,
+		height: 100,
+	},
+	productDetails: {
+		flex: 3,
 	},
 	container: {
 		marginBottom: 75,
@@ -92,7 +114,12 @@ export default StyleSheet.create({
 		marginBottom: 5,
 		marginTop: -30,
 	},
-	paymentButton: {
+	paymentButtonContainer: {
+		position: 'absolute',
+		width: '100%',
+		bottom: 0,
+	},
+	paymentButtonWrapper: {
 		justifyContent: 'center',
 		alignItems: 'center',
 		shadowColor: '#000',
@@ -103,5 +130,14 @@ export default StyleSheet.create({
 		shadowOpacity: 0.2,
 		shadowRadius: 5,
 		elevation: 7,
+	},
+	paymentButton: {
+		backgroundColor: '#4b8b1d',
+	},
+	paymentButtonTitle: {
+		color: '#fff',
+		fontSize: 18,
+		padding: 25,
+		fontFamily: 'Lato-Light',
 	},
 })

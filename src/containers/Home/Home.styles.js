@@ -3,6 +3,18 @@ import { Dimensions, StyleSheet } from 'react-native'
 const heightWindow = Dimensions.get('window').height
 
 export default StyleSheet.create({
+	leftHeaderIcon: {
+		marginLeft: 20,
+	},
+	rightHeaderContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		marginRight: 20,
+	},
+	rightHeaderText: {
+		marginLeft: 5,
+		color: '#fff',
+	},
 	circleOne: {
 		height: 200,
 		width: 200,
@@ -70,5 +82,8 @@ export default StyleSheet.create({
 		transform: [{ skewY: '-30deg' }],
 		position: 'absolute',
 		zIndex: -1,
+	},
+	infoWindowWrapper: {
+		marginBottom: 30,
 	},
 })

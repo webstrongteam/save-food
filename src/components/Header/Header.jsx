@@ -1,5 +1,6 @@
 import React from 'react'
-import { Platform, View } from 'react-native'
+import { View } from 'react-native'
+import styles from './Header.styles'
 
 const Header = ({
 	leftComponent,
@@ -12,18 +13,8 @@ const Header = ({
 }) => (
 	<View
 		style={{
-			position: 'relative',
-			zIndex: 200,
-			top: 0,
-			height: 40,
-			width: '100%',
-			left: 0,
-			flexDirection: 'row',
-			alignItems: 'center',
-			marginTop: Platform.OS === 'ios' ? 30 : 40,
-			marginBottom: 10,
-			justifyContent: 'space-between',
 			backgroundColor: bgColor ? bgColor : 'transparency',
+			...styles.container,
 		}}
 	>
 		<View style={{ flex: leftSize, alignItems: 'flex-start' }}>

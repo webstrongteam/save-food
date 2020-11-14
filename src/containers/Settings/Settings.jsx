@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { Text, TouchableOpacity, View, Linking } from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native'
+import * as WebBrowser from 'expo-web-browser'
 import { Icon, ListItem } from 'react-native-elements'
 import Header from '../../components/Header/Header'
-import styles from './Settings.styles'
 import InfoWindow from '../../components/InfoWindow/InfoWindow'
 import Modal from '../../components/Modal/Modal'
 import { showMessage } from 'react-native-flash-message'
+import styles from './Settings.styles'
 
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions'
@@ -14,7 +15,6 @@ class Settings extends Component {
 	state = {
 		lang: '',
 		currency: '',
-		notification_cycle: null,
 
 		languages: [
 			{ short: 'en', name: this.props.translations.english },
@@ -29,16 +29,15 @@ class Settings extends Component {
 
 	componentDidMount() {
 		const { languages, currencyList } = this.state
-		const { lang, currency, notification_cycle } = this.props.settings
+		const { lang, currency } = this.props.settings
 
 		this.setState({
 			lang: languages.find((l) => l.short === lang.toLowerCase()).name,
 			currency: currencyList.find((c) => c === currency),
-			notification_cycle,
 		})
 	}
 
-	componentDidUpdate(prevProps, prevState, snapshot) {
+	componentDidUpdate(prevProps) {
 		if (prevProps.translations !== this.props.translations) {
 			const { translations, settings } = this.props
 			const languages = [
@@ -136,7 +135,7 @@ class Settings extends Component {
 		}
 	}
 
-	clearTheDatabase = () => {
+	clearDatabase = () => {
 		this.props.fetchAllWastedFood((list) => {
 			list.map((val) => {
 				this.props.removeFood(val.id)
@@ -170,26 +169,17 @@ class Settings extends Component {
 					leftComponent={
 						<TouchableOpacity onPress={() => navigation.goBack()}>
 							<Icon
-								style={{ marginTop: 5, marginLeft: 20 }}
+								style={styles.leftHeaderIcon}
 								size={25}
 								name='arrowleft'
 								type='antdesign'
-								color="#fff"
+								color='#fff'
 							/>
 						</TouchableOpacity>
 					}
-					centerComponent={
-						<Text
-							style={{
-								textAlign: 'center',
-								fontSize: 22,
-								color: '#fff',
-							}}
-						>
-							{translations.settings}
-						</Text>
-					}
+					centerComponent={<Text style={styles.headerTitle}>{translations.settings}</Text>}
 				/>
+
 				<Modal
 					visible={showModal}
 					toggleModal={this.toggleModal}
@@ -202,30 +192,30 @@ class Settings extends Component {
 					buttons={
 						type === 'clearTheDatabase'
 							? [
-									{ text: translations.yes, onPress: this.clearTheDatabase },
+									{ text: translations.yes, onPress: this.clearDatabase },
 									{ text: translations.cancel, onPress: this.toggleModal },
 							  ]
 							: []
 					}
 				/>
 
-				<View style={{ marginTop: 125, width: '100%' }}>
+				<View style={styles.settingsWrapper}>
 					<TouchableOpacity onPress={() => this.toggleModal('language')}>
 						<InfoWindow
-							color1="#292b2c"
+							color1='#292b2c'
 							color2={['#f2a91e', '#e95c17']}
 							title={translations.language}
 							val={lang}
-							colorTitle="#fff"
+							colorTitle='#fff'
 						/>
 					</TouchableOpacity>
 					<TouchableOpacity onPress={() => this.toggleModal('currency')}>
 						<InfoWindow
-							color1="#292b2c"
+							color1='#292b2c'
 							color2={['#af3462', '#bf3741']}
 							title={translations.currency}
 							val={currency}
-							colorTitle="#fff"
+							colorTitle='#fff'
 						/>
 					</TouchableOpacity>
 					<TouchableOpacity
@@ -233,18 +223,21 @@ class Settings extends Component {
 						onPress={() => this.toggleModal('clearTheDatabase')}
 					>
 						<Text style={styles.clearText}>{`${translations.clearTheDatabase}  `}</Text>
-						<Icon size={25} name='trash-o' type='font-awesome' color="#fff" />
+						<Icon size={25} name='trash-o' type='font-awesome' color='#fff' />
 					</TouchableOpacity>
 				</View>
+
 				<View style={styles.footerContainer}>
 					<Text style={styles.versionText}>
 						{translations.version}: {this.props.settings.version}
 					</Text>
-					<TouchableOpacity onPress={() => Linking.openURL('https://world.openfoodfacts.org')}>
-						<Text style={styles.apiText}>API: https://world.openfoodfacts.org</Text>
+					<TouchableOpacity
+						onPress={() => WebBrowser.openBrowserAsync('https://world.openfoodfacts.org')}
+					>
+						<Text style={styles.linkText}>API: https://world.openfoodfacts.org</Text>
 					</TouchableOpacity>
-					<TouchableOpacity onPress={() => Linking.openURL('https://webstrong.pl/')}>
-						<Text style={styles.apiText}>{translations.authors}: https://webstrong.pl/</Text>
+					<TouchableOpacity onPress={() => WebBrowser.openBrowserAsync('https://webstrong.pl/')}>
+						<Text style={styles.linkText}>{translations.authors}: https://webstrong.pl/</Text>
 					</TouchableOpacity>
 				</View>
 			</View>
@@ -262,7 +255,6 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		onChangeLang: (value) => dispatch(actions.changeLang(value)),
 		onChangeCurrency: (value) => dispatch(actions.changeCurrency(value)),
-		onChangeNotificationCycle: (value) => dispatch(actions.changeNotificationCycle(value)),
 		fetchAllWastedFood: (value) => dispatch(actions.fetchAllWastedFood(value)),
 		removeFood: (value) => dispatch(actions.removeFood(value)),
 	}

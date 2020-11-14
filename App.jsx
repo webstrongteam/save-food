@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
+import { LogBox } from 'react-native'
+import FlashMessage from 'react-native-flash-message'
+import thunk from 'redux-thunk'
 import { applyMiddleware, combineReducers, createStore } from 'redux'
+import { Provider } from 'react-redux'
+import { loadAsync } from 'expo-font'
 import { setCustomText } from 'react-native-global-props'
+import Router from './src/router'
 import Spinner from './src/components/Spinner/Spinner'
 import Template from './src/containers/Template/Template'
-import { Provider } from 'react-redux'
-import thunk from 'redux-thunk'
-import { initApp } from './src/db'
-import { loadAsync } from 'expo-font'
-import Router from './src/router'
 import settingsReducer from './src/store/reducers/settings'
-import FlashMessage from 'react-native-flash-message'
+import { initApp } from './src/db'
 
 const rootReducer = combineReducers({
 	settings: settingsReducer,
@@ -27,6 +28,12 @@ class App extends Component {
 			'Lato-Bold': require('./src/assets/fonts/Lato-Bold.ttf'),
 		})
 
+		// Set default styles for all Text components.
+		const customTextProps = {
+			style: { fontFamily: 'Lato-Regular' },
+		}
+		setCustomText(customTextProps)
+
 		initApp(() => {
 			this.setState({ ready: true })
 		})
@@ -35,13 +42,7 @@ class App extends Component {
 	render() {
 		const { ready } = this.state
 		// Hide yellow boxes
-		console.disableYellowBox = true
-
-		// Set default styles for all Text components.
-		const customTextProps = {
-			style: { fontFamily: 'Lato-Regular' },
-		}
-		setCustomText(customTextProps)
+		LogBox.ignoreAllLogs(true)
 
 		return ready ? (
 			<Provider store={store}>

@@ -34,8 +34,15 @@
 - React Native Modals <i>0.19.9</i>
 - React Native Onboarding Swiper <i>1.1.1</i>
 - React Native Swipeable <i>1.1.1</i>
-- React Native Webview <i>8.1.1</i>
-- Moment.JS <i>2.26.0</i>
+
+## ToDo
+
+- payment fixes
+- add google analytics
+- move payment page to webstrong server
+- Update README
+- Add license
+- add new privacy policy
 
 ### WebStrong &copy;
 

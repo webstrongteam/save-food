@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
 import { Image, ScrollView, Text, TouchableOpacity, View, Animated } from 'react-native'
+import { BlurView } from 'expo-blur'
 import { showMessage } from 'react-native-flash-message'
-import styles from './List.style'
-import Header from '../../components/Header/Header'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Button, CheckBox, Icon } from 'react-native-elements'
+import Swipeable from 'react-native-swipeable'
+import Header from '../../components/Header/Header'
 import { getResizeMode } from '../../common/utility'
 import Spinner from '../../components/Spinner/Spinner'
-import { BlurView } from 'expo-blur'
 import ButtonAdd from '../../components/ButtonAdd/ButtonAdd'
-import Swipeable from 'react-native-swipeable'
+import EmptyList from './EmptyList/EmptyList'
+import styles from './List.styles'
 
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions'
@@ -29,7 +30,7 @@ class List extends Component {
 		this.initWastedList()
 	}
 
-	componentDidUpdate(prevProps, prevState, snapshot) {
+	componentDidUpdate(prevProps, prevState) {
 		if (prevProps.refresh !== this.props.refresh && !this.state.wait) {
 			this.setState({ loading: true }, () => {
 				this.initWastedList()
@@ -130,6 +131,7 @@ class List extends Component {
 		Animated.timing(this.state.moveButton, {
 			toValue: 100,
 			duration: 250,
+			useNativeDriver: true,
 		}).start()
 	}
 
@@ -137,6 +139,7 @@ class List extends Component {
 		Animated.timing(this.state.moveButton, {
 			toValue: -25,
 			duration: 250,
+			useNativeDriver: true,
 		}).start()
 	}
 
@@ -171,9 +174,10 @@ class List extends Component {
 		const quantity = item.productQuantity + val
 		if (!this.state.wait && quantity < 100 && quantity > 0) {
 			this.setState({ wait: true }, () => {
-				const quantity = item.productQuantity + val
 				const { selectedItems } = this.state
 				let { amount } = this.state
+				const quantity = item.productQuantity + val
+
 				const selectedIn = selectedItems.findIndex((val) => val.id === item.id)
 				if (selectedIn >= 0) {
 					selectedItems[selectedIn].productQuantity =
@@ -184,6 +188,7 @@ class List extends Component {
 				const index = this.state.list.indexOf(item)
 				const newList = this.state.list
 				newList[index].productQuantity = quantity
+
 				this.props.onSaveFood({ ...item, productQuantity: quantity }, () => {
 					this.props.onRefresh()
 					this.setState({ list: newList, amount, wait: false })
@@ -213,25 +218,15 @@ class List extends Component {
 					leftComponent={
 						<TouchableOpacity onPress={() => navigation.navigate('Home')}>
 							<Icon
-								style={{ marginTop: 5, marginLeft: 20 }}
+								style={styles.leftHeaderIcon}
 								size={25}
 								name='arrowleft'
 								type='antdesign'
-								color="#fff"
+								color='#fff'
 							/>
 						</TouchableOpacity>
 					}
-					centerComponent={
-						<Text
-							style={{
-								textAlign: 'center',
-								fontSize: 22,
-								color: '#fff',
-							}}
-						>
-							{translations.foodList}
-						</Text>
-					}
+					centerComponent={<Text style={styles.headerTitle}>{translations.foodList}</Text>}
 					centerSize={6}
 				/>
 				{loading ? (
@@ -239,37 +234,14 @@ class List extends Component {
 				) : (
 					<View style={styles.container}>
 						{list.length < 1 ? (
-							<View style={{ marginTop: 20 }}>
-								<Text style={styles.emptyList}>{translations.emptyList}</Text>
-								<TouchableOpacity onPress={() => navigation.navigate('Scanner')}>
-									<Text
-										style={{
-											...styles.emptyList,
-											fontFamily: 'Lato-Regular',
-										}}
-									>
-										{translations.scanProduct}
-									</Text>
-								</TouchableOpacity>
-								<Text style={styles.emptyList}>{translations.or}</Text>
-								<TouchableOpacity onPress={() => navigation.navigate('Food')}>
-									<Text
-										style={{
-											...styles.emptyList,
-											fontFamily: 'Lato-Regular',
-										}}
-									>
-										{translations.addManually}
-									</Text>
-								</TouchableOpacity>
-							</View>
+							<EmptyList translations={translations} navigation={navigation} />
 						) : (
 							<ScrollView scrollEnabled={!isSwiping}>
 								{list.map((item, i) => {
 									return (
 										<Swipeable
 											key={i}
-											style={{ paddingLeft: 10, paddingRight: 10 }}
+											style={styles.swipeable}
 											onSwipeStart={() => this.setState({ isSwiping: true })}
 											onSwipeRelease={() => this.setState({ isSwiping: false })}
 											rightButtons={[
@@ -279,11 +251,11 @@ class List extends Component {
 														style={styles.delete}
 													>
 														<Icon
-															style={{ marginLeft: 10 }}
+															style={styles.icon}
 															size={40}
 															name='trash-o'
 															type='font-awesome'
-															color="#fff"
+															color='#fff'
 														/>
 													</TouchableOpacity>
 													<TouchableOpacity
@@ -291,33 +263,32 @@ class List extends Component {
 														style={styles.edit}
 													>
 														<Icon
-															style={{ marginLeft: 10 }}
+															style={styles.icon}
 															size={40}
 															name='edit'
 															type='font-awesome'
-															color="#fff"
+															color='#fff'
 														/>
 													</TouchableOpacity>
 												</>,
 											]}
 										>
 											<BlurView style={styles.listItem} intensity={50} tint='dark'>
-												<View style={{ flex: 1 }}>
+												<View style={styles.checkboxWrapper}>
 													<CheckBox
 														checked={!!selectedItems.find((i) => i.id === item.id)}
 														onPress={() => this.selectItem(item)}
 														style={styles.checkbox}
-														checkedColor="#ea6700"
+														checkedColor='#ea6700'
 														tintColors={{ true: '#ea6700', false: '#ea6700' }}
 													/>
 												</View>
 												<View>
-													<View style={{ paddingBottom: 10 }}>
+													<View style={styles.imageWrapper}>
 														<Image
 															style={{
-																width: 100,
-																height: 100,
 																resizeMode: item.resizeMode,
+																...styles.image,
 															}}
 															onError={(ev) => {
 																ev.target.src = '../../assets/fast-food-outline.png'
@@ -331,11 +302,11 @@ class List extends Component {
 													</View>
 													<ButtonAdd
 														onPressAdd={() => this.addFood(item, 1)}
-														onPresMinus={() => this.addFood(item, -1)}
+														onPressMinus={() => this.addFood(item, -1)}
 														value={item.productQuantity}
 													/>
 												</View>
-												<View style={{ flex: 3 }}>
+												<View style={styles.productDetails}>
 													<Text numberOfLines={2} style={styles.nameText}>
 														{item.name}
 													</Text>
@@ -357,25 +328,19 @@ class List extends Component {
 						)}
 					</View>
 				)}
+
 				<Animated.View
 					style={{
 						transform: [{ translateY: this.state.moveButton }],
-						position: 'absolute',
-						width: '100%',
-						bottom: 0,
+						...styles.paymentButtonContainer,
 					}}
 				>
-					<View style={styles.paymentButton}>
+					<View style={styles.paymentButtonWrapper}>
 						<TouchableOpacity onPress={() => this.showSimpleMessage('amountError')}>
 							<Button
-								buttonStyle={{ backgroundColor: '#4b8b1d' }}
+								buttonStyle={styles.paymentButton}
+								titleStyle={styles.paymentButtonTitle}
 								disabled={amount < 2}
-								titleStyle={{
-									color: '#fff',
-									fontSize: 18,
-									padding: 25,
-									fontFamily: 'Lato-Light',
-								}}
 								onPress={this.startPayment}
 								title={`${translations.pay} ${amount} ${currency} ${
 									amount < 2 ? '(minimum 2 ' + currency + ')' : ''

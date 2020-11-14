@@ -3,7 +3,16 @@ import { Dimensions, StyleSheet } from 'react-native'
 const heightWindow = Dimensions.get('window').height
 
 export default StyleSheet.create({
-	takePhotoButton: {
+	camera: {
+		width: '100%',
+		height: '100%',
+	},
+	toggleCamera: {
+		position: 'absolute',
+		top: 40,
+		left: 20,
+	},
+	takePhotoButtonWrapper: {
 		position: 'absolute',
 		width: '100%',
 		bottom: 30,
@@ -17,6 +26,15 @@ export default StyleSheet.create({
 		shadowOpacity: 0.2,
 		shadowRadius: 5,
 		elevation: 7,
+	},
+	takeFoodButton: {
+		backgroundColor: '#4b8b1d',
+	},
+	takeFoodButtonTitle: {
+		color: '#fff',
+		fontSize: 18,
+		padding: 25,
+		fontFamily: 'Lato-Light',
 	},
 	linearGradient1: {
 		flex: 1,
@@ -34,6 +52,34 @@ export default StyleSheet.create({
 		position: 'absolute',
 		zIndex: 0,
 	},
+	backIcon: {
+		marginTop: 5,
+		marginLeft: 20,
+	},
+	headerTitle: {
+		textAlign: 'center',
+		fontSize: 22,
+		color: '#fff',
+	},
+	contentWrapper: {
+		flex: 1,
+		width: '100%',
+		justifyContent: 'center',
+	},
+	imageContainer: {
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'center',
+	},
+	imageWrapper: {
+		width: 200,
+		height: 200,
+		marginTop: 30,
+	},
+	image: {
+		width: 200,
+		height: 200,
+	},
 	infoWindowsContainer: {
 		flex: 1,
 		marginTop: 30,
@@ -47,6 +93,13 @@ export default StyleSheet.create({
 		marginRight: 30,
 		marginTop: 30,
 	},
+	slider: {
+		width: '100%',
+	},
+	sliderThumbStyle: {
+		width: 28,
+		height: 28,
+	},
 	percentInfo: {
 		textAlign: 'center',
 		color: '#292b2c',
@@ -59,10 +112,19 @@ export default StyleSheet.create({
 		fontFamily: 'Lato-Bold',
 		fontSize: 16,
 	},
-	saveContainer: {
+	saveButtonContainer: {
 		flex: 1,
 		marginBottom: 50,
 		flexDirection: 'row',
 		justifyContent: 'center',
+	},
+	saveButton: {
+		borderColor: '#4b8b1d',
+		width: '100%',
+	},
+	saveButtonTitle: {
+		color: '#4b8b1d',
+		fontSize: 18,
+		fontFamily: 'Lato-Light',
 	},
 })

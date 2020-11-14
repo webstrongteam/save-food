@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { AsyncStorage, Image } from 'react-native'
+import { Image } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 import Onboarding from 'react-native-onboarding-swiper'
-import styles from './Start.style'
+import styles from './Start.styles'
 
 import { connect } from 'react-redux'
 
@@ -12,7 +13,7 @@ class Start extends Component {
 				backgroundColor: '#4b8b1d',
 				image: (
 					<Image
-						style={{ width: 200, height: 200 }}
+						style={styles.firstStepContainer}
 						source={
 							this.props.lang === 'pl'
 								? require('../../assets/icon-circle.png')

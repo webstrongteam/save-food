@@ -1,7 +1,7 @@
 import { AsyncStorage, NativeModules, Platform } from 'react-native'
 import { openDatabase } from 'expo-sqlite'
 
-export const VERSION = '1.0.0' // APP VERSION
+export const VERSION = '1.1.0' // APP VERSION
 const db = openDatabase('savefood.db', VERSION)
 
 const getLocale = () => {
@@ -39,6 +39,7 @@ export const initDatabase = (callback) => {
 				},
 			)
 		},
+		// eslint-disable-next-line no-console
 		(err) => console.log(err),
 	)
 }
@@ -52,7 +53,7 @@ export const initApp = (callback) => {
 				'select * from settings',
 				[],
 				(_, { rows }) => {
-					const {version} = rows._array[0]
+					const { version } = rows._array[0]
 
 					if (version !== VERSION) {
 						if (version.includes('_INIT')) {
@@ -75,6 +76,7 @@ export const initApp = (callback) => {
 				() => initDatabase(callback),
 			)
 		},
+		// eslint-disable-next-line no-console
 		(err) => console.log(err),
 	)
 }

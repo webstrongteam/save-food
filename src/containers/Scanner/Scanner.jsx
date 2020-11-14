@@ -4,7 +4,7 @@ import { BarCodeScanner } from 'expo-barcode-scanner'
 import axios from 'axios'
 import Spinner from '../../components/Spinner/Spinner'
 import { Button, Icon } from 'react-native-elements'
-import styles from './Scanner.style'
+import styles from './Scanner.styles'
 
 import { connect } from 'react-redux'
 
@@ -15,16 +15,10 @@ class Scanner extends Component {
 	}
 
 	componentDidMount() {
-		this.getPermission()
+		BarCodeScanner.requestPermissionsAsync()
 	}
 
-	getPermission = async () => {
-		const { status } = await BarCodeScanner.requestPermissionsAsync()
-
-		this.setState({ permission: status === 'granted' })
-	}
-
-	handleBarCodeScanned = ({ type, data }) => {
+	handleBarCodeScanned = ({ data }) => {
 		this.setState({ loading: true, scanned: true }, () => {
 			axios
 				.get(`https://world.openfoodfacts.org/api/v0/product/${data}.json`)
@@ -36,7 +30,7 @@ class Scanner extends Component {
 					this.props.navigation.navigate('Food', { image, name, quantity })
 					this.setState({ loading: false })
 				})
-				.catch((err) => {
+				.catch(() => {
 					this.props.navigation.navigate('Food', {
 						image: null,
 						name: null,
@@ -49,12 +43,13 @@ class Scanner extends Component {
 
 	render() {
 		const { scanned, loading } = this.state
+		const { navigation } = this.props
 
 		return (
 			<View style={styles.container}>
 				<BarCodeScanner
 					onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
-					style={{ width: '100%', height: '100%' }}
+					style={styles.barCodeScanner}
 				/>
 				{loading && (
 					<View style={styles.loading}>
@@ -62,8 +57,8 @@ class Scanner extends Component {
 					</View>
 				)}
 				<View style={styles.backIcon}>
-					<TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-						<Icon size={30} name='close' type='antdesign' color="#fff" />
+					<TouchableOpacity onPress={() => navigation.goBack()}>
+						<Icon size={30} name='close' type='antdesign' color='#fff' />
 					</TouchableOpacity>
 				</View>
 				<View style={styles.scannerBoxContainer}>
@@ -71,16 +66,11 @@ class Scanner extends Component {
 						<View style={styles.scannerBoxBorder} />
 					</View>
 				</View>
-				<View style={styles.addManuallyButton}>
+				<View style={styles.addManuallyButtonWrapper}>
 					<Button
-						onPress={() => this.props.navigation.navigate('Food')}
-						buttonStyle={{ backgroundColor: '#4b8b1d' }}
-						titleStyle={{
-							color: '#fff',
-							fontSize: 18,
-							padding: 25,
-							fontFamily: 'Lato-Light',
-						}}
+						onPress={() => navigation.navigate('Food')}
+						buttonStyle={styles.addManuallyButton}
+						titleStyle={styles.addManuallyButtonTitle}
 						title={this.props.translations.addManually}
 					/>
 				</View>
