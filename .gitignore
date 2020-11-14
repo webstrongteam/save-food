@@ -1,16 +1,10 @@
 node_modules/**/*
-.expo/*
-npm-debug.*
+.expo*
 /.idea/*
+/firebase/*
+npm-debug.*
+/src/config/auth.js
 *.jks
-*.p8
 *.p12
 *.key
 *.mobileprovision
-*.orig.*
-web-build/
-web-report/
-src/config/backendAuth.js
-
-# macOS
-.DS_Store

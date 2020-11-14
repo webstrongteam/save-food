@@ -1,15 +1,10 @@
 export {
-    fetchAllWastedFood,
-    fetchWastedFood,
-    saveFood,
-    removeFood,
-    paidFood,
-    onRefresh
-} from './wastedFood';
+	fetchAllWastedFood,
+	fetchWastedFood,
+	saveFood,
+	removeFood,
+	paidFood,
+	onRefresh,
+} from './wastedFood'
 
-export {
-    initSettings,
-    changeCurrency,
-    changeLang,
-    changeNotificationCycle
-} from './settings';
+export { initSettings, changeCurrency, changeLang, changeNotificationCycle } from './settings'

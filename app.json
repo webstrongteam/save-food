@@ -1,41 +1,38 @@
 {
-  "expo": {
-    "name": "Save Food",
-    "slug": "save-food",
-    "description": "This application is created to help you saving food.",
-    "githubUrl": "https://github.com/webstrongteam/save-food",
-    "privacy": "public",
-    "version": "1.0.1",
-    "sdkVersion": "37.0.0",
-    "ios": {
-      "buildNumber": "1.0.10",
-      "supportsTablet": false,
-      "bundleIdentifier": "com.webStrong.saveFood",
-      "infoPlist": {
-        "NSCameraUsageDescription": "This app uses the camera to scan products barcodes and taking photo of products."
-      }
-    },
-    "android": {
-      "package": "com.webStrong.saveFood",
-      "versionCode": 110
-    },
-    "platforms": [
-      "ios",
-      "android"
-    ],
-    "primaryColor": "#4b8b1d",
-    "orientation": "portrait",
-    "icon": "./src/assets/icon.png",
-    "splash": {
-      "image": "./src/assets/splash.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#4b8b1d"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ]
-  }
+	"expo": {
+		"name": "Save Food",
+		"slug": "save-food",
+		"description": "This application is created to help you saving food.",
+		"githubUrl": "https://github.com/webstrongteam/save-food",
+		"privacy": "public",
+		"version": "1.1.0",
+		"ios": {
+			"buildNumber": "1.1.0",
+			"bundleIdentifier": "com.webStrong.saveFood",
+			"supportsTablet": false,
+			"googleServicesFile": "./firebase/GoogleService-Info.plist",
+			"infoPlist": {
+				"NSCameraUsageDescription": "This app uses the camera to scan products barcodes and taking photo of products."
+			}
+		},
+		"android": {
+			"permissions": [],
+			"package": "com.webStrong.saveFood",
+			"versionCode": 110,
+			"googleServicesFile": "./firebase/google-services.json"
+		},
+		"platforms": ["ios", "android"],
+		"primaryColor": "#4b8b1d",
+		"orientation": "portrait",
+		"icon": "./src/assets/icon.png",
+		"splash": {
+			"image": "./src/assets/splash.png",
+			"resizeMode": "cover",
+			"backgroundColor": "#4b8b1d"
+		},
+		"updates": {
+			"fallbackToCacheTimeout": 0
+		},
+		"assetBundlePatterns": ["**/*"]
+	}
 }
