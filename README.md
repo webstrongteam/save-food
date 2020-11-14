@@ -12,8 +12,8 @@
 ## Basic features
 
 - Scanning product barcode
-- Saving food with name, quantity, price and percent of waste
-- Manually adding foods to wasted list
+- Saving food with a name, quantity, price and percent of waste
+- Manually adding foods to waste list
 - Donating equivalent price of wasted food to charity organization
 - Support English and Polish languages
 - Support USD and PLN currency
@@ -38,8 +38,8 @@
 ## ToDo
 
 - payment fixes
-- add google analytics
 - move payment page to webstrong server
+- add google analytics
 - Update README
 - Add license
 - add new privacy policy
@@ -48,4 +48,4 @@
 
 This application was created by **WebStrong Team** <br />
 
-> **Google Play:** https://play.google.com/store/apps/details?id=com.webStrong.saveFood <br /> > **Apple Store:** https://apps.apple.com/us/app/id1520027228 <br /> > **Expo:** https://expo.io/@mateuszpijanowski/save-food
+> **Google Play:** https://play.google.com/store/apps/details?id=com.webStrong.saveFood <br /> **Apple Store:** https://apps.apple.com/us/app/id1520027228 <br /> **Expo:** https://expo.io/@mateuszpijanowski/save-food

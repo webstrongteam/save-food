@@ -122,6 +122,7 @@ class Payment extends React.Component {
 				WebBrowser.openBrowserAsync(url)
 					.then((res) => {
 						if (res.type === 'cancel') {
+							// Don't remove it
 						}
 					})
 					.catch(() => this.showErrorMessage())
