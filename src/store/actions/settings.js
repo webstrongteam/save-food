@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes'
+import * as Analytics from 'expo-firebase-analytics'
 import { openDatabase } from 'expo-sqlite'
 
 const db = openDatabase('savefood.db')
@@ -30,6 +31,10 @@ export const changeLang = (value) => {
 		db.transaction(
 			(tx) => {
 				tx.executeSql('update settings set lang = ? where id = 0;', [value], () => {
+					Analytics.logEvent('updatedLang', {
+						name: 'settingsAction',
+					})
+
 					dispatch(initSettings())
 				})
 			},
@@ -44,6 +49,10 @@ export const changeCurrency = (value) => {
 		db.transaction(
 			(tx) => {
 				tx.executeSql('update settings set currency = ? where id = 0;', [value], () => {
+					Analytics.logEvent('updatedCurrency', {
+						name: 'settingsAction',
+					})
+
 					dispatch(initSettings())
 				})
 			},
@@ -58,6 +67,10 @@ export const changeNotificationCycle = (value) => {
 		db.transaction(
 			(tx) => {
 				tx.executeSql('update settings set notification_cycle = ? where id = 0;', [value], () => {
+					Analytics.logEvent('updatedNotification', {
+						name: 'settingsAction',
+					})
+
 					dispatch(initSettings())
 				})
 			},

@@ -39,7 +39,6 @@
 
 - payment fixes
 - move payment page to webstrong server
-- add google analytics
 - Update README
 - Add license
 - add new privacy policy

@@ -61,10 +61,10 @@ class Food extends Component {
 	setFood = () => {
 		const { navigation, translations } = this.props
 
-		let id = navigation.getParam('id', false)
-		let image = navigation.getParam('image', false)
-		let name = navigation.getParam('name', false)
-		let quantity = navigation.getParam('quantity', false)
+		let id = navigation.getParam('id', null)
+		let image = navigation.getParam('image', null)
+		let name = navigation.getParam('name', null)
+		let quantity = navigation.getParam('quantity', null)
 
 		if (!name) name = translations.noData
 		if (!quantity) quantity = translations.noData

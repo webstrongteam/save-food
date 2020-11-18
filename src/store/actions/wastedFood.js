@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes'
 import { openDatabase } from 'expo-sqlite'
+import * as Analytics from 'expo-firebase-analytics'
 
 const db = openDatabase('savefood.db')
 
@@ -63,6 +64,10 @@ export const saveFood = (food, callback = () => null) => {
 							food.id,
 						],
 						() => {
+							Analytics.logEvent('updatedFood', {
+								name: 'wastedFoodAction',
+							})
+
 							callback()
 						},
 					)
@@ -85,6 +90,10 @@ export const saveFood = (food, callback = () => null) => {
 							food.paid,
 						],
 						() => {
+							Analytics.logEvent('savedFood', {
+								name: 'wastedFoodAction',
+							})
+
 							callback()
 						},
 					)
@@ -101,6 +110,10 @@ export const paidFood = (id, callback = () => null) => {
 		db.transaction(
 			(tx) => {
 				tx.executeSql('update wasted_food set paid = 1 where id = ?', [id], () => {
+					Analytics.logEvent('paidFood', {
+						name: 'wastedFoodAction',
+					})
+
 					callback()
 				})
 			},
@@ -115,6 +128,10 @@ export const removeFood = (id, callback = () => null) => {
 		db.transaction(
 			(tx) => {
 				tx.executeSql('delete from wasted_food where id = ?', [id], () => {
+					Analytics.logEvent('removedFood', {
+						name: 'wastedFoodAction',
+					})
+
 					callback()
 					dispatch(onRefresh())
 				})

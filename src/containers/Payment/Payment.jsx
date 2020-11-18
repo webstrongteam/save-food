@@ -7,18 +7,16 @@ import axios from 'axios'
 import Header from '../../components/Header/Header'
 import Modal from '../../components/Modal/Modal'
 import * as WebBrowser from 'expo-web-browser'
-import { auth } from '../../config/backendAuth'
+import { auth } from '../../config/auth'
 import { validateEmail } from '../../common/validation'
 import pajacyk from '../../assets/pajacyk.png'
 import styles from './Payment.styles'
 
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions'
+import * as Analytics from 'expo-firebase-analytics'
 
-const defaultData = {
-	initUrl: 'https://savefood-payment.netlify.app/',
-	backendUrl: 'https://webstrong.pl',
-}
+const apiUrl = 'https://webstrong.pl/savefood'
 
 class Payment extends React.Component {
 	state = {
@@ -27,8 +25,6 @@ class Payment extends React.Component {
 		name: 'saveFood',
 		email: null,
 		currency: 'pln',
-		initUrl: defaultData.initUrl,
-		backendUrl: defaultData.backendUrl,
 		modalContent: null,
 		type: null,
 		socketID: null,
@@ -49,8 +45,13 @@ class Payment extends React.Component {
 		this.setState({ ids, amount, currency })
 	}
 
-	showErrorMessage = () => {
+	showErrorMessage = (err) => {
 		const { translations } = this.props
+
+		Analytics.logEvent('paymentFailed', {
+			component: 'Payment',
+			error: err,
+		})
 
 		const message = {
 			message: translations.paymentErrorTitle,
@@ -113,11 +114,15 @@ class Payment extends React.Component {
 	}
 
 	startPayment = (data) => {
+		Analytics.logEvent('startPayment', {
+			component: 'Payment',
+		})
+
 		data.socketID = this.state.socketID
 		axios
-			.post(`${this.state.backendUrl}/savefood/api/payment`, data)
+			.post(`${apiUrl}/api/payment`, data)
 			.then(async (result) => {
-				const url = `${this.state.initUrl}payment?session=${result.data.id}`
+				const url = `${apiUrl}payment?session=${result.data.id}`
 
 				WebBrowser.openBrowserAsync(url)
 					.then((res) => {
@@ -125,10 +130,10 @@ class Payment extends React.Component {
 							// Don't remove it
 						}
 					})
-					.catch(() => this.showErrorMessage())
+					.catch((err) => this.showErrorMessage(err))
 			})
-			.catch(() => {
-				this.showErrorMessage()
+			.catch((err) => {
+				this.showErrorMessage(err)
 			})
 	}
 
@@ -145,7 +150,7 @@ class Payment extends React.Component {
 				this.paymentSuccess()
 			} else {
 				WebBrowser.dismissBrowser()
-				this.showErrorMessage()
+				this.showErrorMessage('dismiss')
 			}
 		})
 	}
@@ -161,7 +166,7 @@ class Payment extends React.Component {
 			currency: this.state.currency,
 		}
 
-		axios.post(`${this.state.backendUrl}/savefood/api/send-email`, data) // Send email after a successful payment
+		axios.post(`${apiUrl}/api/send-email`, data) // Send email after a successful payment
 		this.props.navigation.navigate('List', { ids: this.state.ids })
 	}
 
@@ -172,6 +177,7 @@ class Payment extends React.Component {
 	validationEmail = () => {
 		const { email } = this.state
 		const { translations } = this.props
+
 		if (email.length < 1) {
 			this.setState({
 				errorEmail: translations.emptyEmail,

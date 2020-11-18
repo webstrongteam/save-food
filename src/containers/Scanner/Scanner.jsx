@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { BarCodeScanner } from 'expo-barcode-scanner'
+import * as Analytics from 'expo-firebase-analytics'
 import axios from 'axios'
 import Spinner from '../../components/Spinner/Spinner'
 import { Button, Icon } from 'react-native-elements'
@@ -27,16 +28,26 @@ class Scanner extends Component {
 					const name = res.data.product.product_name
 					const quantity = res.data.product.product_quantity
 
-					this.props.navigation.navigate('Food', { image, name, quantity })
+					Analytics.logEvent('scannedFood', {
+						component: 'Scanner',
+					})
+
+					if (!image && !name && !quantity) {
+						Analytics.logEvent('missingProduct', {
+							component: 'Scanner',
+						})
+					}
+
 					this.setState({ loading: false })
+					this.props.navigation.navigate('Food', { image, name, quantity })
 				})
 				.catch(() => {
+					this.setState({ loading: false })
 					this.props.navigation.navigate('Food', {
 						image: null,
 						name: null,
 						quantity: null,
 					})
-					this.setState({ loading: false })
 				})
 		})
 	}

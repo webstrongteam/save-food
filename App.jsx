@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { LogBox } from 'react-native'
+import * as Analytics from 'expo-firebase-analytics'
 import FlashMessage from 'react-native-flash-message'
 import thunk from 'redux-thunk'
 import { applyMiddleware, combineReducers, createStore } from 'redux'
@@ -35,6 +36,10 @@ class App extends Component {
 		setCustomText(customTextProps)
 
 		initApp(() => {
+			Analytics.logEvent('successStartedApp', {
+				name: 'startedApp',
+			})
+
 			this.setState({ ready: true })
 		})
 	}

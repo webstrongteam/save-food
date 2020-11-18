@@ -76,15 +76,13 @@ class Settings extends Component {
 					<View>
 						{this.state.languages.map((item, i) => (
 							<TouchableOpacity key={i} onPress={() => this.changeLanguage(item)}>
-								<ListItem
-									title={item.name}
-									bottomDivider
-									chevron
-									containerStyle={{ backgroundColor: 'transparency' }}
-									titleStyle={{
-										color: item.short === lang ? '#4b8b1d' : '#000',
-									}}
-								/>
+								<ListItem bottomDivider>
+									<ListItem.Content>
+										<ListItem.Title style={{ color: item.short === lang ? '#4b8b1d' : '#000' }}>
+											{item.name}
+										</ListItem.Title>
+									</ListItem.Content>
+								</ListItem>
 							</TouchableOpacity>
 						))}
 					</View>
@@ -98,13 +96,13 @@ class Settings extends Component {
 					<View>
 						{this.state.currencyList.map((item, i) => (
 							<TouchableOpacity key={i} onPress={() => this.changeCurrency(item)}>
-								<ListItem
-									title={item}
-									bottomDivider
-									chevron
-									containerStyle={{ backgroundColor: 'transparency' }}
-									titleStyle={{ color: item === currency ? '#4b8b1d' : '#000' }}
-								/>
+								<ListItem bottomDivider>
+									<ListItem.Content>
+										<ListItem.Title style={{ color: item === currency ? '#4b8b1d' : '#000' }}>
+											{item}
+										</ListItem.Title>
+									</ListItem.Content>
+								</ListItem>
 							</TouchableOpacity>
 						))}
 					</View>
