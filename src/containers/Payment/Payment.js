@@ -41,7 +41,7 @@ class Payment extends React.Component {
         initPayment: false,
         showModal: false,
         errorEmail: '',
-        checkedStatuse: false,
+        checkedStatus: false,
         modalButtons: [],
         loading: true
     };
@@ -281,7 +281,7 @@ class Payment extends React.Component {
     }
 
     showProduct() {
-        const {amount, currency, charity, email, errorEmail, checkedStatuse} = this.state;
+        const {amount, currency, email, errorEmail, checkedStatus} = this.state;
         const {translations} = this.props;
 
         return (
@@ -298,7 +298,7 @@ class Payment extends React.Component {
                         </TouchableOpacity>
                     }
                     centerComponent={
-                        <Text style={{fontSize: 20, fontFamily: 'Lato-Light', color: '#000'}}>
+                        <Text style={styles.amountText}>
                             {translations.amount} <Text
                             style={{fontFamily: 'Lato-Regular'}}>{amount} {currency.toUpperCase()}</Text>
                         </Text>
@@ -309,7 +309,7 @@ class Payment extends React.Component {
                     style={{flex: 1, width: '100%'}}
                     contentContainerStyle={{flex: 1, alignItems: 'center'}}
                 >
-                    <View style={{width: '80%', marginTop: 45,marginBottom:-10}}>
+                    <View style={styles.validationContainer}>
                         <Input
                             leftIcon={{
                                 name: 'email',
@@ -329,7 +329,6 @@ class Payment extends React.Component {
                             onChange={(e) =>
                                 this.setState(
                                     {email: e.nativeEvent.text},
-                                    this.validationEmail,
                                 )
                             }
                             onBlur={() =>
@@ -338,70 +337,54 @@ class Payment extends React.Component {
                             // onKeyDown={this.handleKeyDown}
                         />
                     </View>
-                    <Text style={{fontSize: 20, fontFamily: 'Lato-Light', color: '#dc3545'}}>
+                    <Text style={styles.errorEmail}>
                         {errorEmail}
                     </Text>
                     <View style={{marginTop: errorEmail === '' ? 15 : 19.8}}>
-                        <Text style={{fontSize: 20, fontFamily: 'Lato-Light', color: '#000'}}>
+                        <Text style={styles.chooseCharity}>
                             {translations.chooseCharity}
                         </Text>
                         <TouchableOpacity onPress={() => this.toggleModal('Pajacyk')}>
-                            <Text style={{
-                                fontSize: 20,
-                                fontFamily: 'Lato-Bold',
-                                color: '#4d6999',
-                                textAlign: 'center',
-                                marginBottom: 20
-                            }}>
+                            <Text style={styles.pajacykText}>
                                 "Pajacyk"
                             </Text>
                         </TouchableOpacity>
                     </View>
                     <ImageBackground source={pajacyk} style={styles.image}/>
                     <View style={styles.inline}>
-                        <View style={styles.checkStatuse}>
+                        <View style={styles.checkStatus}>
                             <CheckBox
-                                onPress={() => this.setState({checkedStatuse: !checkedStatuse})}
-                                checked={checkedStatuse}
+                                onPress={() => this.setState({checkedStatus: !checkedStatus})}
+                                checked={checkedStatus}
                                 checkedColor={"#4b8b1d"}
                                 tintColors={{true: '#ea6700', false: '#ea6700'}}
                             />
                         </View>
-                        <View style={styles.statuse}>
-                            <Text style={styles.textStatuse}>
-                                {translations.statuseFirst}
+                        <View style={styles.status}>
+                            <Text style={styles.textStatus}>
+                                {translations.statusFirst}
                             </Text>
-                            <TouchableOpacity onPress={() => Linking.openURL('https://www.pajacyk.pl/')}>
+                            <TouchableOpacity onPress={() => Linking.openURL('https://stripe.com')}>
                                 <Text style={styles.href}>
-                                    {translations.statuseSecond}
+                                    {translations.statusSecond}
                                 </Text>
                             </TouchableOpacity>
-                            <Text style={styles.textStatuse}>
-                                {translations.statuseThird}
+                            <Text style={styles.textStatus}>
+                                {translations.statusThird}
                             </Text>
-                            <TouchableOpacity onPress={() => Linking.openURL('https://www.pajacyk.pl/')}>
-                                <Text style={styles.href}>
-                                    {translations.statuseFourth}
-                                </Text>
-                            </TouchableOpacity>
                         </View>
                     </View>
-                    <View style={{marginTop: 20, marginBottom: 20}}>
+                    <View style={styles.buttonContainer}>
                         <Button
                             buttonStyle={{backgroundColor: '#4b8b1d'}}
-                            disabled={errorEmail !== '' || email === '' || !checkedStatuse}
-                            titleStyle={{
-                                color: '#fff',
-                                fontSize: 18,
-                                padding: 25,
-                                fontFamily: 'Lato-Light'
-                            }}
+                            disabled={errorEmail !== '' || email === '' || !checkedStatus}
+                            titleStyle={styles.buttonTitle}
                             title={translations.moveToPayment}
                             onPress={() => this.toggleModal('commission')}/>
                     </View>
-                    <Text style={{fontSize: 14, fontFamily: 'Lato-Light', color: '#dc3545', textAlign: 'center'}}>
+                    <Text style={styles.commissionTextStar}>
                         *
-                        <Text style={{fontSize: 14, fontFamily: 'Lato-Light', color: '#000', textAlign: 'center'}}>
+                        <Text style={styles.commissionText}>
                             {translations.commissionText}
                         </Text>
                     </Text>
