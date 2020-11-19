@@ -20,19 +20,19 @@ export default StyleSheet.create({
 	inline: {
 		flexDirection: 'row',
 	},
-	statuse: {
+	status: {
 		flexDirection: 'row',
 		flexWrap: 'wrap',
 		flex: 1,
 		marginLeft: 8,
 	},
-	textStatuse: {
+	textStatus: {
 		display: 'flex',
 		textAlign: 'left',
 		fontSize: 15,
 		fontFamily: 'Lato-Light',
 	},
-	checkStatuse: {
+	checkStatus: {
 		display: 'flex',
 		flex: 1,
 	},
@@ -46,4 +46,54 @@ export default StyleSheet.create({
 		marginBottom: 30,
 		fontFamily: 'Lato-Light',
 	},
+	buttonContainer: {
+		marginTop: 20,
+		marginBottom: 20
+	},
+	buttonTitle: {
+		color: '#fff',
+		fontSize: 18,
+		padding: 25,
+		fontFamily: 'Lato-Light'
+	},
+	pajacykText: {
+		fontSize: 20,
+		fontFamily: 'Lato-Bold',
+		color: '#4d6999',
+		textAlign: 'center',
+		marginBottom: 20,
+		marginTop: 10,
+
+	},
+	errorEmail: {
+		fontSize: 16,
+		fontFamily: 'Lato-Light',
+		color: '#dc3545'
+	},
+	chooseCharity: {
+		fontSize: 20,
+		fontFamily: 'Lato-Light',
+		color: '#000',
+		textAlign: 'center'
+	},
+	contentScrollView: {
+		marginLeft: 20,
+		marginRight: 20,
+		alignItems: 'center'
+	},
+	inputContainer: {
+		width: '100%',
+		marginTop: 30,
+		marginBottom: -10
+	},
+	container:{
+		flex: 1,
+		alignItems: 'center',
+		backgroundColor: '#fff'
+	},
+	headerCenterComponent:{
+		fontSize: 20,
+		fontFamily: 'Lato-Light',
+		color: '#000'
+	}
 })

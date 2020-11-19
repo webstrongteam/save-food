@@ -208,7 +208,7 @@ class Payment extends React.Component {
 		const { translations, navigation } = this.props
 
 		return (
-			<View style={{ flex: 1, alignItems: 'center', backgroundColor: '#fff' }}>
+			<View style={styles.container}>
 				<StatusBar barStyle='dark-content' />
 
 				<Modal
@@ -232,7 +232,7 @@ class Payment extends React.Component {
 						</TouchableOpacity>
 					}
 					centerComponent={
-						<Text style={{ fontSize: 20, fontFamily: 'Lato-Light', color: '#000' }}>
+						<Text style={styles.headerCenterComponent}>
 							<Text>{translations.amount} </Text>
 							<Text style={{ fontFamily: 'Lato-Regular' }}>
 								{amount} {currency.toUpperCase()}
@@ -243,9 +243,9 @@ class Payment extends React.Component {
 
 				<ScrollView
 					style={{ flex: 1, width: '100%' }}
-					contentContainerStyle={{ marginLeft: 20, marginRight: 20, alignItems: 'center' }}
+					contentContainerStyle={styles.contentScrollView}
 				>
-					<View style={{ width: '100%', marginTop: 30, marginBottom: -10 }}>
+					<View style={styles.inputContainer}>
 						<Input
 							leftIcon={{
 								name: 'email',
@@ -259,30 +259,23 @@ class Payment extends React.Component {
 							autoCompleteType='email'
 							inputStyle={{ fontFamily: 'Lato-Light' }}
 							placeholder='E-mail'
-							onChangeText={(value) => this.setState({ email: value }, this.validationEmail)}
+							onChangeText={(value) => this.setState({ email: value })}
 							onBlur={() => this.validationEmail()}
 							value={email}
 						/>
 					</View>
-					<Text style={{ fontSize: 16, fontFamily: 'Lato-Light', color: '#dc3545' }}>
+					<Text style={styles.errorEmail}>
 						{errorEmail}
 					</Text>
 					<View style={{ marginTop: errorEmail === '' ? 0 : 20 }}>
 						<Text
-							style={{ fontSize: 20, textAlign: 'center', fontFamily: 'Lato-Light', color: '#000' }}
+							style={styles.chooseCharity}
 						>
 							{translations.chooseCharity}
 						</Text>
 						<TouchableOpacity onPress={this.openCharityPage}>
 							<Text
-								style={{
-									fontSize: 20,
-									fontFamily: 'Lato-Bold',
-									color: '#4d6999',
-									textAlign: 'center',
-									marginBottom: 20,
-									marginTop: 10,
-								}}
+								style={styles.pajacykText}
 							>
 								&quot;Pajacyk&quot;
 							</Text>
@@ -290,30 +283,35 @@ class Payment extends React.Component {
 					</View>
 					<ImageBackground source={pajacyk} style={styles.image} />
 					<View style={styles.inline}>
-						<View style={styles.checkStatuse}>
+						<View style={styles.checkStatus}>
 							<CheckBox
 								onPress={() => this.setState({ checkedStatus: !checkedStatus })}
 								checked={checkedStatus}
 								checkedColor='#4b8b1d'
 								tintColors={{ true: '#ea6700', false: '#ea6700' }}
 								title={
-									<View style={styles.statuse}>
-										<Text style={styles.textStatuse}>{translations.statuseThird}</Text>
+									<View style={styles.status}>
+										<Text style={styles.textStatus}>
+											{translations.statusFirst}
+										</Text>
+										<TouchableOpacity onPress={() => Linking.openURL('https://stripe.com')}>
+											<Text style={styles.href}>
+												{translations.statusSecond}
+											</Text>
+										</TouchableOpacity>
+										<Text style={styles.textStatus}>
+											{translations.statusThird}
+										</Text>
 									</View>
 								}
 							/>
 						</View>
 					</View>
-					<View style={{ marginTop: 20, marginBottom: 20 }}>
+					<View style={styles.buttonContainer}>
 						<Button
 							buttonStyle={{ backgroundColor: '#4b8b1d' }}
-							disabled={errorEmail !== '' || email === '' || !checkedStatus}
-							titleStyle={{
-								color: '#fff',
-								fontSize: 18,
-								padding: 25,
-								fontFamily: 'Lato-Light',
-							}}
+							disabled={errorEmail !== '' || !email || !checkedStatus}
+							titleStyle={styles.buttonTitle}
 							title={translations.moveToPayment}
 							onPress={this.showModal}
 						/>
