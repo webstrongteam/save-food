@@ -44,7 +44,7 @@
   "paymentErrorTitle": "Error during payment",
   "paymentErrorDescription": "There was an error during payment. Try again and make sure you have entered the correct data.",
   "amount": "Amount:",
-  "chooseCharity": "The donation will be donated to a charity ",
+  "charity": "The donation will be donated to a charity ",
   "moveToPayment": "Move to payment",
   "emailLabel": "Enter your e-mail",
   "pajacyk": "Pajacyk is a program under which the Polish Humanitarian Organization has been helping malnourished children since 1998. Pajacyk finances meals in schools and community facilities. Our goal is for every child to have a full-fledged daily meal!",
@@ -52,9 +52,6 @@
   "authors": "Authors",
   "emptyEmail": "E-mail is required",
   "wrongEmail": "E-mail is incorrect",
-  "statusFirst": "Wyrażam zgodę na przekazanie mojego adresu e-mail pośrednikowi płatności",
-  "statusSecond": "Stripe",
-  "statusThird": ".",
-  "commissionText": "The donated amount will be reduced by the Stripe payment commission",
+  "status": "Wyrażam zgodę na przekazanie mojego adresu e-mail pośrednikowi płatności ",
   "commission": "Remember that the commission for the payment intermediary will be deducted from the amount you have transferred. For this reason, we encourage you to manually donate on the selected organization."
 }

@@ -70,7 +70,7 @@ export default StyleSheet.create({
 		fontFamily: 'Lato-Light',
 		color: '#dc3545'
 	},
-	chooseCharity: {
+	charity: {
 		fontSize: 20,
 		fontFamily: 'Lato-Light',
 		color: '#000',
@@ -95,5 +95,13 @@ export default StyleSheet.create({
 		fontSize: 20,
 		fontFamily: 'Lato-Light',
 		color: '#000'
+	},
+	icon:{
+		marginTop: 5,
+		marginLeft: 20
+	},
+	scrollView:{
+		flex: 1,
+		width: '100%'
 	}
 })

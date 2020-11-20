@@ -223,7 +223,7 @@ class Payment extends React.Component {
 					leftComponent={
 						<TouchableOpacity onPress={() => navigation.goBack()}>
 							<Icon
-								style={{ marginTop: 5, marginLeft: 20 }}
+								style={style.icon}
 								size={25}
 								name='arrowleft'
 								type='antdesign'
@@ -242,7 +242,7 @@ class Payment extends React.Component {
 				/>
 
 				<ScrollView
-					style={{ flex: 1, width: '100%' }}
+					style={style.scrollView}
 					contentContainerStyle={styles.contentScrollView}
 				>
 					<View style={styles.inputContainer}>
@@ -269,9 +269,9 @@ class Payment extends React.Component {
 					</Text>
 					<View style={{ marginTop: errorEmail === '' ? 0 : 20 }}>
 						<Text
-							style={styles.chooseCharity}
+							style={styles.charity}
 						>
-							{translations.chooseCharity}
+							{translations.charity}
 						</Text>
 						<TouchableOpacity onPress={this.openCharityPage}>
 							<Text
@@ -292,15 +292,15 @@ class Payment extends React.Component {
 								title={
 									<View style={styles.status}>
 										<Text style={styles.textStatus}>
-											{translations.statusFirst}
+											{translations.status}
 										</Text>
-										<TouchableOpacity onPress={() => Linking.openURL('https://stripe.com')}>
+										<TouchableOpacity onPress={() => WebBrowser.openBrowserAsync('https://stripe.com')}>
 											<Text style={styles.href}>
-												{translations.statusSecond}
+												Stripe
 											</Text>
 										</TouchableOpacity>
 										<Text style={styles.textStatus}>
-											{translations.statusThird}
+											.
 										</Text>
 									</View>
 								}
