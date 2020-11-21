@@ -11,6 +11,7 @@ import config from '../../config/config'
 import { validateEmail } from '../../common/validation'
 import Header from '../../components/Header/Header'
 import Modal from '../../components/Modal/Modal'
+import Spinner from '../../components/Spinner/Spinner'
 import pajacyk from '../../assets/pajacyk.png'
 import styles from './Payment.styles'
 
@@ -31,6 +32,7 @@ class Payment extends React.Component {
 		errorEmail: '',
 		checkedStatus: false,
 		modalButtons: [],
+		loading: false,
 	}
 
 	componentDidMount() {
@@ -60,6 +62,7 @@ class Payment extends React.Component {
 			duration: 5000,
 		}
 
+		this.setState({ loading: false })
 		showMessage(message)
 	}
 
@@ -76,8 +79,7 @@ class Payment extends React.Component {
 				{
 					text: translations.confirm,
 					onPress: () => {
-						this.createPaymentSession()
-						this.setState({ showModal: false })
+						this.setState({ showModal: false, loading: true }, () => this.createPaymentSession())
 					},
 				},
 				{
@@ -126,14 +128,12 @@ class Payment extends React.Component {
 				WebBrowser.openBrowserAsync(url)
 					.then((res) => {
 						if (res.type === 'cancel') {
-							// Don't remove it
+							this.setState({ loading: false })
 						}
 					})
 					.catch((err) => this.showErrorMessage(err))
 			})
-			.catch((err) => {
-				this.showErrorMessage(err)
-			})
+			.catch((err) => this.showErrorMessage(err))
 	}
 
 	checkingPaymentStatus = () => {
@@ -203,6 +203,7 @@ class Payment extends React.Component {
 			email,
 			errorEmail,
 			checkedStatus,
+			loading,
 		} = this.state
 		const { translations, navigation } = this.props
 
@@ -218,106 +219,117 @@ class Payment extends React.Component {
 					content={modalContent}
 				/>
 
-				<Header
-					leftComponent={
-						<TouchableOpacity onPress={() => navigation.goBack()}>
-							<Icon
-								style={{ marginTop: 5, marginLeft: 20 }}
-								size={25}
-								name='arrowleft'
-								type='antdesign'
-								color='#000'
-							/>
-						</TouchableOpacity>
-					}
-					centerComponent={
-						<Text style={{ fontSize: 20, fontFamily: 'Lato-Light', color: '#000' }}>
-							<Text>{translations.amount} </Text>
-							<Text style={{ fontFamily: 'Lato-Regular' }}>
-								{amount} {currency.toUpperCase()}
-							</Text>
-						</Text>
-					}
-				/>
+				{loading ? (
+					<Spinner size={64} color='#000' />
+				) : (
+					<>
+						<Header
+							leftComponent={
+								<TouchableOpacity onPress={() => navigation.goBack()}>
+									<Icon
+										style={{ marginTop: 5, marginLeft: 20 }}
+										size={25}
+										name='arrowleft'
+										type='antdesign'
+										color='#000'
+									/>
+								</TouchableOpacity>
+							}
+							centerComponent={
+								<Text style={{ fontSize: 20, fontFamily: 'Lato-Light', color: '#000' }}>
+									<Text>{translations.amount} </Text>
+									<Text style={{ fontFamily: 'Lato-Regular' }}>
+										{amount} {currency.toUpperCase()}
+									</Text>
+								</Text>
+							}
+						/>
 
-				<ScrollView
-					style={{ flex: 1, width: '100%' }}
-					contentContainerStyle={{ marginLeft: 20, marginRight: 20, alignItems: 'center' }}
-				>
-					<View style={{ width: '100%', marginTop: 30, marginBottom: -10 }}>
-						<Input
-							leftIcon={{
-								name: 'email',
-								style: { opacity: 0.5 },
-							}}
-							autoCapitalize='none'
-							labelStyle={{ fontFamily: 'Lato-Bold' }}
-							label={translations.emailLabel}
-							keyboardType='email-address'
-							textContentType='emailAddress'
-							autoCompleteType='email'
-							inputStyle={{ fontFamily: 'Lato-Light' }}
-							placeholder='E-mail'
-							onChangeText={(value) => this.setState({ email: value }, this.validationEmail)}
-							onBlur={() => this.validationEmail()}
-							value={email}
-						/>
-					</View>
-					<Text style={{ fontSize: 16, fontFamily: 'Lato-Light', color: '#dc3545' }}>
-						{errorEmail}
-					</Text>
-					<View style={{ marginTop: errorEmail === '' ? 0 : 20 }}>
-						<Text
-							style={{ fontSize: 20, textAlign: 'center', fontFamily: 'Lato-Light', color: '#000' }}
+						<ScrollView
+							style={{ flex: 1, width: '100%' }}
+							contentContainerStyle={{ marginLeft: 20, marginRight: 20, alignItems: 'center' }}
 						>
-							{translations.chooseCharity}
-						</Text>
-						<TouchableOpacity onPress={this.openCharityPage}>
-							<Text
-								style={{
-									fontSize: 20,
-									fontFamily: 'Lato-Bold',
-									color: '#4d6999',
-									textAlign: 'center',
-									marginBottom: 20,
-									marginTop: 10,
-								}}
-							>
-								&quot;Pajacyk&quot;
+							<View style={{ width: '100%', marginTop: 30, marginBottom: -10 }}>
+								<Input
+									leftIcon={{
+										name: 'email',
+										style: { opacity: 0.5 },
+									}}
+									autoCapitalize='none'
+									labelStyle={{ fontFamily: 'Lato-Bold' }}
+									label={translations.emailLabel}
+									keyboardType='email-address'
+									textContentType='emailAddress'
+									autoCompleteType='email'
+									inputStyle={{ fontFamily: 'Lato-Light' }}
+									placeholder='E-mail'
+									onChangeText={(value) => this.setState({ email: value }, this.validationEmail)}
+									onBlur={() => this.validationEmail()}
+									value={email}
+								/>
+							</View>
+							<Text style={{ fontSize: 16, fontFamily: 'Lato-Light', color: '#dc3545' }}>
+								{errorEmail}
 							</Text>
-						</TouchableOpacity>
-					</View>
-					<ImageBackground source={pajacyk} style={styles.image} />
-					<View style={styles.inline}>
-						<View style={styles.checkStatuse}>
-							<CheckBox
-								onPress={() => this.setState({ checkedStatus: !checkedStatus })}
-								checked={checkedStatus}
-								checkedColor='#4b8b1d'
-								tintColors={{ true: '#ea6700', false: '#ea6700' }}
-								title={
-									<View style={styles.statuse}>
-										<Text style={styles.textStatuse}>{translations.statuseThird}</Text>
-									</View>
-								}
-							/>
-						</View>
-					</View>
-					<View style={{ marginTop: 20, marginBottom: 20 }}>
-						<Button
-							buttonStyle={{ backgroundColor: '#4b8b1d' }}
-							disabled={errorEmail !== '' || email === '' || !checkedStatus}
-							titleStyle={{
-								color: '#fff',
-								fontSize: 18,
-								padding: 25,
-								fontFamily: 'Lato-Light',
-							}}
-							title={translations.moveToPayment}
-							onPress={this.showModal}
-						/>
-					</View>
-				</ScrollView>
+							<View style={{ marginTop: errorEmail === '' ? 0 : 20 }}>
+								<Text
+									style={{
+										fontSize: 20,
+										textAlign: 'center',
+										fontFamily: 'Lato-Light',
+										color: '#000',
+									}}
+								>
+									{translations.chooseCharity}
+								</Text>
+								<TouchableOpacity onPress={this.openCharityPage}>
+									<Text
+										style={{
+											fontSize: 20,
+											fontFamily: 'Lato-Bold',
+											color: '#4d6999',
+											textAlign: 'center',
+											marginBottom: 20,
+											marginTop: 10,
+										}}
+									>
+										&quot;Pajacyk&quot;
+									</Text>
+								</TouchableOpacity>
+							</View>
+							<ImageBackground source={pajacyk} style={styles.image} />
+							<View style={styles.inline}>
+								<View style={styles.checkStatuse}>
+									<CheckBox
+										onPress={() => this.setState({ checkedStatus: !checkedStatus })}
+										checked={checkedStatus}
+										checkedColor='#4b8b1d'
+										tintColors={{ true: '#ea6700', false: '#ea6700' }}
+										title={
+											<View style={styles.statuse}>
+												<Text style={styles.textStatuse}>{translations.statuseThird}</Text>
+											</View>
+										}
+									/>
+								</View>
+							</View>
+							<View style={{ marginTop: 20, marginBottom: 20 }}>
+								<Button
+									buttonStyle={{ backgroundColor: '#4b8b1d' }}
+									disabled={errorEmail !== '' || email === '' || !checkedStatus}
+									titleStyle={{
+										color: '#fff',
+										fontSize: 18,
+										padding: 25,
+										fontFamily: 'Lato-Light',
+									}}
+									title={translations.moveToPayment}
+									onPress={this.showModal}
+								/>
+							</View>
+						</ScrollView>
+					</>
+				)}
 			</View>
 		)
 	}
