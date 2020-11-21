@@ -4,19 +4,18 @@ import openSocket from 'socket.io-client'
 import { showMessage } from 'react-native-flash-message'
 import { Button, CheckBox, Icon, Input } from 'react-native-elements'
 import axios from 'axios'
-import Header from '../../components/Header/Header'
-import Modal from '../../components/Modal/Modal'
+import * as Analytics from 'expo-firebase-analytics'
 import * as WebBrowser from 'expo-web-browser'
 import { auth } from '../../config/auth'
+import config from '../../config/config'
 import { validateEmail } from '../../common/validation'
+import Header from '../../components/Header/Header'
+import Modal from '../../components/Modal/Modal'
 import pajacyk from '../../assets/pajacyk.png'
 import styles from './Payment.styles'
 
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions'
-import * as Analytics from 'expo-firebase-analytics'
-
-const apiUrl = 'https://webstrong.pl/savefood'
 
 class Payment extends React.Component {
 	state = {
@@ -50,7 +49,7 @@ class Payment extends React.Component {
 
 		Analytics.logEvent('paymentFailed', {
 			component: 'Payment',
-			error: err,
+			error: err.message,
 		})
 
 		const message = {
@@ -120,9 +119,9 @@ class Payment extends React.Component {
 
 		data.socketID = this.state.socketID
 		axios
-			.post(`${apiUrl}/api/payment`, data)
+			.post(`${config.API_URL}/payment`, data)
 			.then(async (result) => {
-				const url = `${apiUrl}payment?session=${result.data.id}`
+				const url = `${config.PAYMENT_URL}/payment?session=${result.data.id}`
 
 				WebBrowser.openBrowserAsync(url)
 					.then((res) => {
@@ -138,7 +137,7 @@ class Payment extends React.Component {
 	}
 
 	checkingPaymentStatus = () => {
-		const socket = openSocket(this.state.backendUrl)
+		const socket = openSocket(config.WS_URL)
 
 		socket.on('connect', () => {
 			this.setState({ socketID: socket.id })
@@ -166,12 +165,12 @@ class Payment extends React.Component {
 			currency: this.state.currency,
 		}
 
-		axios.post(`${apiUrl}/api/send-email`, data) // Send email after a successful payment
+		axios.post(`${config.API_URL}/send-email`, data) // Send email after a successful payment
 		this.props.navigation.navigate('List', { ids: this.state.ids })
 	}
 
 	openCharityPage = () => {
-		WebBrowser.openBrowserAsync('https://www.pajacyk.pl/')
+		WebBrowser.openBrowserAsync(config.PAJACYK_URL)
 	}
 
 	validationEmail = () => {

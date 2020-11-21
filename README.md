@@ -37,8 +37,8 @@
 
 ## ToDo
 
+- new wasted food list
 - payment fixes
-- move payment page to webstrong server
 - Update README
 - Add license
 - add new privacy policy
