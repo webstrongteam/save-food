@@ -218,82 +218,93 @@ class Payment extends React.Component {
 					title={type}
 					content={modalContent}
 				/>
-
-				<Header
-					leftComponent={
-						<TouchableOpacity onPress={() => navigation.goBack()}>
-							<Icon style={styles.icon} size={25} name='arrowleft' type='antdesign' color='#000' />
-						</TouchableOpacity>
-					}
-					centerComponent={
-						<Text style={styles.headerCenterComponent}>
-							<Text>{translations.amount} </Text>
-							<Text style={styles.amount}>
-								{amount} {currency.toUpperCase()}
-							</Text>
-						</Text>
-					}
-				/>
-
-				<ScrollView style={styles.scrollView} contentContainerStyle={styles.contentScrollView}>
-					<View style={styles.inputContainer}>
-						<Input
-							leftIcon={{
-								name: 'email',
-								style: styles.leftIconInput,
-							}}
-							autoCapitalize='none'
-							labelStyle={styles.labelStyleInput}
-							label={translations.emailLabel}
-							keyboardType='email-address'
-							textContentType='emailAddress'
-							autoCompleteType='email'
-							inputStyle={styles.inputStyle}
-							placeholder='E-mail'
-							onChangeText={(value) => this.setState({ email: value })}
-							onBlur={() => this.validationEmail()}
-							value={email}
+				{loading ? (
+					<Spinner size={64} color='#000' />
+				) : (
+					<>
+						<Header
+							leftComponent={
+								<TouchableOpacity onPress={() => navigation.goBack()}>
+									<Icon
+										style={styles.icon}
+										size={25}
+										name='arrowleft'
+										type='antdesign'
+										color='#000'
+									/>
+								</TouchableOpacity>
+							}
+							centerComponent={
+								<Text style={styles.headerCenterComponent}>
+									<Text>{translations.amount} </Text>
+									<Text style={styles.amount}>
+										{amount} {currency.toUpperCase()}
+									</Text>
+								</Text>
+							}
 						/>
-					</View>
-					<Text style={styles.errorEmail}>{errorEmail}</Text>
-					<View style={{ marginTop: errorEmail === '' ? 0 : 20 }}>
-						<Text style={styles.charity}>{translations.charity}</Text>
-						<TouchableOpacity onPress={this.openCharityPage}>
-							<Text style={styles.pajacykText}>&quot;Pajacyk&quot;</Text>
-						</TouchableOpacity>
-					</View>
-					<ImageBackground source={pajacyk} style={styles.image} />
-					<View style={styles.inline}>
-						<View style={styles.checkPermission}>
-							<CheckBox
-								onPress={() => this.setState({ checkedStatus: !checkedStatus })}
-								checked={checkedStatus}
-								checkedColor='#4b8b1d'
-								tintColors={{ true: '#ea6700', false: '#ea6700' }}
-								title={
-									<View style={styles.permission}>
-										<Text style={styles.textPermission}>{translations.permission}</Text>
-										<TouchableOpacity
-											onPress={() => WebBrowser.openBrowserAsync('https://stripe.com')}
-										>
-											<Text style={styles.href}>Stripe</Text>
-										</TouchableOpacity>
-										<Text style={styles.textPermission}>.</Text>
-									</View>
-								}
-							/>
-						</View>
-					</View>
-					<View style={styles.buttonContainer}>
-						<Button
-							buttonStyle={{ backgroundColor: '#4b8b1d' }}
-							disabled={errorEmail !== '' || !email || !checkedStatus}
-							titleStyle={styles.buttonTitle}
-							title={translations.moveToPayment}
-							onPress={this.showModal}
-						/>
-					</View>
-				</ScrollView>
+
+						<ScrollView style={styles.scrollView} contentContainerStyle={styles.contentScrollView}>
+							<View style={styles.inputContainer}>
+								<Input
+									leftIcon={{
+										name: 'email',
+										style: styles.leftIconInput,
+									}}
+									autoCapitalize='none'
+									labelStyle={styles.labelStyleInput}
+									label={translations.emailLabel}
+									keyboardType='email-address'
+									textContentType='emailAddress'
+									autoCompleteType='email'
+									inputStyle={styles.inputStyle}
+									placeholder='E-mail'
+									onChangeText={(value) => this.setState({ email: value })}
+									onBlur={() => this.validationEmail()}
+									value={email}
+								/>
+							</View>
+							<Text style={styles.errorEmail}>{errorEmail}</Text>
+							<View style={{ marginTop: errorEmail === '' ? 0 : 20 }}>
+								<Text style={styles.charity}>{translations.charity}</Text>
+								<TouchableOpacity onPress={this.openCharityPage}>
+									<Text style={styles.pajacykText}>&quot;Pajacyk&quot;</Text>
+								</TouchableOpacity>
+							</View>
+							<ImageBackground source={pajacyk} style={styles.image} />
+							<View style={styles.inline}>
+								<View style={styles.checkPermission}>
+									<CheckBox
+										onPress={() => this.setState({ checkedStatus: !checkedStatus })}
+										checked={checkedStatus}
+										checkedColor='#4b8b1d'
+										tintColors={{ true: '#ea6700', false: '#ea6700' }}
+										title={
+											<View style={styles.permission}>
+												<Text style={styles.textPermission}>{translations.permission}</Text>
+												<TouchableOpacity
+													onPress={() => WebBrowser.openBrowserAsync('https://stripe.com')}
+												>
+													<Text style={styles.href}>Stripe</Text>
+												</TouchableOpacity>
+												<Text style={styles.textPermission}>.</Text>
+											</View>
+										}
+									/>
+								</View>
+							</View>
+							<View style={styles.buttonContainer}>
+								<Button
+									buttonStyle={{ backgroundColor: '#4b8b1d' }}
+									disabled={errorEmail !== '' || !email || !checkedStatus}
+									titleStyle={styles.buttonTitle}
+									title={translations.moveToPayment}
+									onPress={this.showModal}
+								/>
+							</View>
+						</ScrollView>
+					</>
+				)}
 			</View>
 		)
 	}
