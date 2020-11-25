@@ -20,19 +20,19 @@ export default StyleSheet.create({
 	inline: {
 		flexDirection: 'row',
 	},
-	status: {
+	permission: {
 		flexDirection: 'row',
 		flexWrap: 'wrap',
 		flex: 1,
 		marginLeft: 8,
 	},
-	textStatus: {
+	textPermission: {
 		display: 'flex',
 		textAlign: 'left',
 		fontSize: 15,
 		fontFamily: 'Lato-Light',
 	},
-	checkStatus: {
+	checkPermission: {
 		display: 'flex',
 		flex: 1,
 	},
@@ -48,13 +48,13 @@ export default StyleSheet.create({
 	},
 	buttonContainer: {
 		marginTop: 20,
-		marginBottom: 20
+		marginBottom: 20,
 	},
 	buttonTitle: {
 		color: '#fff',
 		fontSize: 18,
 		padding: 25,
-		fontFamily: 'Lato-Light'
+		fontFamily: 'Lato-Light',
 	},
 	pajacykText: {
 		fontSize: 20,
@@ -63,45 +63,56 @@ export default StyleSheet.create({
 		textAlign: 'center',
 		marginBottom: 20,
 		marginTop: 10,
-
 	},
 	errorEmail: {
 		fontSize: 16,
 		fontFamily: 'Lato-Light',
-		color: '#dc3545'
+		color: '#dc3545',
 	},
 	charity: {
 		fontSize: 20,
 		fontFamily: 'Lato-Light',
 		color: '#000',
-		textAlign: 'center'
+		textAlign: 'center',
 	},
 	contentScrollView: {
 		marginLeft: 20,
 		marginRight: 20,
-		alignItems: 'center'
+		alignItems: 'center',
 	},
 	inputContainer: {
 		width: '100%',
 		marginTop: 30,
-		marginBottom: -10
+		marginBottom: -10,
 	},
-	container:{
+	container: {
 		flex: 1,
 		alignItems: 'center',
-		backgroundColor: '#fff'
+		backgroundColor: '#fff',
 	},
-	headerCenterComponent:{
+	headerCenterComponent: {
 		fontSize: 20,
 		fontFamily: 'Lato-Light',
-		color: '#000'
+		color: '#000',
 	},
-	icon:{
+	icon: {
 		marginTop: 5,
-		marginLeft: 20
+		marginLeft: 20,
 	},
-	scrollView:{
+	scrollView: {
 		flex: 1,
-		width: '100%'
-	}
+		width: '100%',
+	},
+	amount: {
+		fontFamily: 'Lato-Regular',
+	},
+	leftIconInput: {
+		opacity: 0.5,
+	},
+	labelStyleInput: {
+		fontFamily: 'Lato-Bold',
+	},
+	inputStyle: {
+		fontFamily: 'Lato-Light',
+	},
 })
