@@ -38,6 +38,10 @@
 ## ToDo
 
 - new wasted food list
+    - Add selected value to DB
+    - Fix button when it hides
+    - Modal alert when user try delete product
+    - Add "Tap to change" text on the default product icon
 - payment fixes
 - Update README
 - Add license

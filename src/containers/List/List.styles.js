@@ -3,6 +3,67 @@ import { Dimensions, StyleSheet } from 'react-native'
 const heightWindow = Dimensions.get('window').height
 
 export default StyleSheet.create({
+	listItem: {
+		flex: 1,
+		width: '100%',
+		flexDirection: 'column',
+	},
+	details: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+	},
+	leftElement: {
+		flex: 1,
+		flexDirection: 'row',
+		alignItems: 'center'
+	},
+	priceWrapper: {
+		flexDirection: 'row',
+		alignItems: 'center'
+	},
+	quantityText: {
+		marginLeft: 8,
+		fontSize: 14,
+		fontFamily: 'Lato-Light',
+		color: '#a4a4a4'
+	},
+	rightElement: {
+		flexDirection: 'column',
+		borderWidth: 1,
+		borderColor: '#ddd',
+		borderRadius: 12,
+	},
+	quantityAddIcon: {
+		padding: 8,
+		borderBottomWidth: 1,
+		borderBottomColor: "#ddd"
+	},
+	quantityMinusIcon: {
+		padding: 8,
+	},
+	priceContainer: {
+		flexDirection: 'row',
+		alignItems: 'center'
+	},
+	deleteProductIcon: {
+		marginRight: 12
+	},
+	productName: {
+		color: "#000",
+		fontSize: 16,
+		marginBottom: 8
+	},
+	footer: {
+		flex: 1,
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		borderTopWidth: 1,
+		borderTopColor: '#ddd',
+		paddingTop: 8,
+		marginTop: 16,
+	},
 	leftHeaderIcon: {
 		marginTop: 5,
 		marginLeft: 20,
@@ -12,34 +73,19 @@ export default StyleSheet.create({
 		fontSize: 22,
 		color: '#fff',
 	},
-	listItem: {
-		width: '100%',
-		borderRadius: 5,
-		flexDirection: 'row',
-		alignItems: 'center',
-		height: 160,
-		marginTop: 10,
-		marginBottom: 10,
-		padding: 5,
-	},
 	checkbox: {
 		color: '#fff',
-		flex: 1,
+		padding: 0,
 	},
 	text: {
 		fontFamily: 'Lato-Light',
 		fontSize: 14,
-		color: '#fff',
-		marginLeft: 10,
-		marginBottom: 5,
+		color: '#000',
 	},
 	priceText: {
 		fontFamily: 'Lato-Bold',
-		position: 'absolute',
-		bottom: 12,
-		right: 10,
-		color: '#fff',
-		fontSize: 22,
+		color: '#000',
+		fontSize: 20,
 	},
 	swipeable: {
 		paddingLeft: 10,
@@ -79,22 +125,15 @@ export default StyleSheet.create({
 		paddingBottom: 10,
 	},
 	image: {
-		width: 100,
-		height: 100,
+		width: 80,
+		height: 80,
+		marginRight: 8
 	},
 	productDetails: {
 		flex: 3,
 	},
 	container: {
-		marginBottom: 75,
-		shadowColor: '#000',
-		shadowOffset: {
-			width: 0,
-			height: 0,
-		},
-		shadowOpacity: 0.3,
-		shadowRadius: 5,
-		elevation: 7,
+		flex: 1,
 	},
 	containerColor: {
 		width: '200%',
@@ -140,4 +179,14 @@ export default StyleSheet.create({
 		padding: 25,
 		fontFamily: 'Lato-Light',
 	},
+	shadow: {
+		shadowColor: '#000',
+		shadowOffset: {
+			width: 0,
+			height: 0,
+		},
+		shadowOpacity: 0.2,
+		shadowRadius: 5,
+		elevation: 7,
+	}
 })

@@ -70,8 +70,8 @@ class Food extends Component {
 		if (!quantity) quantity = translations.noData
 
 		if (!image || image === 'null') {
-			image = require('../../assets/fast-food-outline.png')
-		} else {
+			image = require('../../assets/common/dish_colors.png')
+		} else if (!image.uri) {
 			image = { uri: image }
 		}
 

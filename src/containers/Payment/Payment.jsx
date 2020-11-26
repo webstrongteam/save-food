@@ -12,7 +12,7 @@ import { validateEmail } from '../../common/validation'
 import Header from '../../components/Header/Header'
 import Modal from '../../components/Modal/Modal'
 import Spinner from '../../components/Spinner/Spinner'
-import pajacyk from '../../assets/pajacyk.png'
+import pajacyk from '../../assets/common/pajacyk.png'
 import styles from './Payment.styles'
 
 import { connect } from 'react-redux'

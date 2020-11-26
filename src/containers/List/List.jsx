@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
-import { Image, ScrollView, Text, TouchableOpacity, View, Animated } from 'react-native'
-import { BlurView } from 'expo-blur'
+import { Image, Text, TouchableOpacity, FlatList, RefreshControl, View, Animated } from 'react-native'
 import { showMessage } from 'react-native-flash-message'
 import { LinearGradient } from 'expo-linear-gradient'
-import { Button, CheckBox, Icon } from 'react-native-elements'
-import Swipeable from 'react-native-swipeable'
+import { Button, CheckBox, Icon, ListItem } from 'react-native-elements'
 import Header from '../../components/Header/Header'
 import { getResizeMode } from '../../common/utility'
 import Spinner from '../../components/Spinner/Spinner'
-import ButtonAdd from '../../components/ButtonAdd/ButtonAdd'
 import EmptyList from './EmptyList/EmptyList'
 import styles from './List.styles'
 
@@ -21,6 +18,7 @@ class List extends Component {
 		selectedItems: [],
 		moveButton: new Animated.Value(100),
 		amount: 0,
+		visibleData: 8,
 		isSwiping: false,
 		loading: true,
 		wait: false,
@@ -90,22 +88,16 @@ class List extends Component {
 	}
 
 	initWastedList = (showMessage = false) => {
-		this.props.fetchWastedFood((foods) => {
-			const list = foods.map((val) => {
-				let { image } = val
-				if (!image || image === 'null') {
-					image = require('../../assets/fast-food-outline.png')
-				} else {
-					image = { uri: image }
-				}
+		this.props.fetchWastedFood((items) => {
+			const list = items.map((item) => {
 				let resize = 'cover'
-				if (image.constructor.name === 'String') {
-					getResizeMode(image, (resizeMode) => {
+				if (item.image.constructor.name === 'String') {
+					getResizeMode(item.image, (resizeMode) => {
 						resize = resizeMode
 					})
 				}
 				return {
-					...val,
+					...item,
 					resizeMode: resize,
 				}
 			})
@@ -113,6 +105,7 @@ class List extends Component {
 				{
 					list,
 					selectedItems: [],
+					visibleData: 8,
 					amount: 0,
 					loading: false,
 				},
@@ -170,7 +163,7 @@ class List extends Component {
 		})
 	}
 
-	addFood = (item, val) => {
+	addFoodQuantity = (item, val) => {
 		const quantity = item.productQuantity + val
 		if (!this.state.wait && quantity < 100 && quantity > 0) {
 			this.setState({ wait: true }, () => {
@@ -197,6 +190,13 @@ class List extends Component {
 		}
 	}
 
+	loadNextData = () => {
+		const { visibleData, list } = this.state
+		if (visibleData < list.length) {
+			this.setState({ visibleData: visibleData + 8 })
+		}
+	}
+
 	startPayment = () => {
 		const { amount, selectedItems } = this.state
 		const { navigation } = this.props
@@ -207,8 +207,91 @@ class List extends Component {
 		})
 	}
 
+	renderItemRow = ({ item }) => {
+		const {selectedItems} = this.state
+		const { translations, navigation, currency } = this.props
+
+		return (
+				<ListItem
+					containerStyle={{
+						...styles.shadow,
+						marginRight: 20,
+						marginLeft: 20,
+						marginTop: 20,
+					}}
+				>
+					<ListItem.Content>
+						<TouchableOpacity style={styles.listItem} onPress={() => navigation.navigate('Food', { ...item })}>
+							<View style={styles.details}>
+								<View style={styles.leftElement}>
+									<Image
+										style={{
+											resizeMode: item.resizeMode,
+											...styles.image,
+										}}
+										onError={(ev) => {
+											ev.target.src = '../../assets/common/dish.svg'
+										}}
+										source={
+											!item.image || item.image === 'null'
+												? require('../../assets/common/dish.png')
+												: { uri: item.image }
+										}
+									/>
+									<View style={styles.productDetails}>
+										<Text numberOfLines={2} style={styles.productName}>
+											{item.name}
+										</Text>
+										<Text style={styles.text}>
+											{translations.quantity}: {item.quantity}
+										</Text>
+										<Text style={styles.text}>
+											{translations.percent}: {item.percentage}%
+										</Text>
+									</View>
+								</View>
+
+								<View style={styles.rightElement}>
+									<TouchableOpacity onPress={() => this.addFoodQuantity(item, 1)} style={styles.button}>
+										<Icon size={22} style={styles.quantityAddIcon} name='add' type='material' />
+									</TouchableOpacity>
+									<TouchableOpacity onPress={() => this.addFoodQuantity(item, -1)} style={styles.button}>
+										<Icon size={22} style={styles.quantityMinusIcon} name='minus' type='entypo' />
+									</TouchableOpacity>
+								</View>
+							</View>
+
+							<View style={styles.footer}>
+								<View style={styles.priceContainer}>
+									<CheckBox
+										checked={!!selectedItems.find((i) => i.id === item.id)}
+										onPress={() => this.selectItem(item)}
+										containerStyle={styles.checkbox}
+										checkedColor='#4b8b1d'
+									/>
+									<View style={styles.priceWrapper}>
+										<Text style={styles.priceText}>
+											{item.price * item.productQuantity} {currency}
+										</Text>
+										{item.productQuantity > 1 &&
+										<Text style={styles.quantityText}>
+											({item.price} {currency} x{item.productQuantity})
+										</Text>
+										}
+									</View>
+								</View>
+								<TouchableOpacity onPress={() => this.removeItem(item.id)} >
+								<Icon size={22} style={styles.deleteProductIcon} color='#d9534f' name='trash' type='font-awesome-5' />
+								</TouchableOpacity>
+							</View>
+						</TouchableOpacity>
+					</ListItem.Content>
+				</ListItem>
+		)
+	}
+
 	render() {
-		const { isSwiping, selectedItems, amount, list, loading } = this.state
+		const { isSwiping, selectedItems, amount, visibleData, list, loading } = this.state
 		const { currency, translations, navigation } = this.props
 
 		return (
@@ -229,105 +312,35 @@ class List extends Component {
 					centerComponent={<Text style={styles.headerTitle}>{translations.foodList}</Text>}
 					centerSize={6}
 				/>
-				{loading ? (
-					<Spinner bgColor='transparency' color='#000' size={64} />
-				) : (
-					<View style={styles.container}>
-						{list.length < 1 ? (
+
+				<View style={styles.container}>
+					<FlatList
+						keyboardShouldPersistTaps='always'
+						keyboardDismissMode='interactive'
+						scrollEventThrottle={16}
+						refreshControl={
+							<RefreshControl
+								refreshing={loading}
+								tintColor='#fff'
+								onRefresh={this.initWastedList}
+							/>
+						}
+						ListEmptyComponent={
 							<EmptyList translations={translations} navigation={navigation} />
-						) : (
-							<ScrollView scrollEnabled={!isSwiping}>
-								{list.map((item, i) => {
-									return (
-										<Swipeable
-											key={i}
-											style={styles.swipeable}
-											onSwipeStart={() => this.setState({ isSwiping: true })}
-											onSwipeRelease={() => this.setState({ isSwiping: false })}
-											rightButtons={[
-												<>
-													<TouchableOpacity
-														onPress={() => this.removeItem(item.id)}
-														style={styles.delete}
-													>
-														<Icon
-															style={styles.icon}
-															size={40}
-															name='trash-o'
-															type='font-awesome'
-															color='#fff'
-														/>
-													</TouchableOpacity>
-													<TouchableOpacity
-														onPress={() => navigation.navigate('Food', { ...item })}
-														style={styles.edit}
-													>
-														<Icon
-															style={styles.icon}
-															size={40}
-															name='edit'
-															type='font-awesome'
-															color='#fff'
-														/>
-													</TouchableOpacity>
-												</>,
-											]}
-										>
-											<BlurView style={styles.listItem} intensity={50} tint='dark'>
-												<View style={styles.checkboxWrapper}>
-													<CheckBox
-														checked={!!selectedItems.find((i) => i.id === item.id)}
-														onPress={() => this.selectItem(item)}
-														style={styles.checkbox}
-														checkedColor='#ea6700'
-														tintColors={{ true: '#ea6700', false: '#ea6700' }}
-													/>
-												</View>
-												<View>
-													<View style={styles.imageWrapper}>
-														<Image
-															style={{
-																resizeMode: item.resizeMode,
-																...styles.image,
-															}}
-															onError={(ev) => {
-																ev.target.src = '../../assets/fast-food-outline.png'
-															}}
-															source={
-																item.image === 'null'
-																	? require('../../assets/fast-food-outline.png')
-																	: { uri: item.image }
-															}
-														/>
-													</View>
-													<ButtonAdd
-														onPressAdd={() => this.addFood(item, 1)}
-														onPressMinus={() => this.addFood(item, -1)}
-														value={item.productQuantity}
-													/>
-												</View>
-												<View style={styles.productDetails}>
-													<Text numberOfLines={2} style={styles.nameText}>
-														{item.name}
-													</Text>
-													<Text style={styles.text}>
-														{translations.quantity}: {item.quantity}
-													</Text>
-													<Text style={styles.text}>
-														{translations.percent}: {item.percentage}%
-													</Text>
-												</View>
-												<Text style={styles.priceText}>
-													{item.price * item.productQuantity} {currency}
-												</Text>
-											</BlurView>
-										</Swipeable>
-									)
-								})}
-							</ScrollView>
-						)}
-					</View>
-				)}
+						}
+						data={list}
+						initialNumToRender={8}
+						onEndReachedThreshold={0.2}
+						onEndReached={this.loadNextData}
+						renderItem={this.renderItemRow}
+						keyExtractor={(item) => `${item.id}`}
+						onRefresh={this.initWastedList}
+						refreshing={loading}
+						ListFooterComponent={
+							list.length > visibleData ? <Spinner /> : <View style={{ marginBottom: 90 }} />
+						}
+					/>
+				</View>
 
 				<Animated.View
 					style={{
