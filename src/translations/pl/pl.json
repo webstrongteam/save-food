@@ -30,6 +30,8 @@
 	"or": "lub",
 	"addManually": "Dodaj produkt ręcznie",
 	"version": "Wersja",
+	"deleteProduct": "Usuń produkt",
+	"deleteProductDescription": "Czy na pewno chcesz usunąć ten produkt?",
 	"startTitle": "Zacznij oszczędzać jedzenie!",
 	"startSubtitle": "Ta aplikacja została stworzona, aby pomóc Ci w oszczędzaniu jedzenia.\n\n",
 	"paymentTitle": "Wesprzyj Pajacyka",

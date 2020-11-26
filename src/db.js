@@ -1,5 +1,6 @@
-import { AsyncStorage, NativeModules, Platform } from 'react-native'
+import { NativeModules, Platform } from 'react-native'
 import { openDatabase } from 'expo-sqlite'
+import AsyncStorage from '@react-native-community/async-storage'
 
 export const VERSION = '1.1.0' // APP VERSION
 const db = openDatabase('savefood.db', VERSION)
@@ -22,11 +23,8 @@ export const initDatabase = (callback) => {
 			// tx.executeSql(
 			//     'DROP TABLE IF EXISTS wasted_food;'
 			// );
-			// tx.executeSql(
-			//     'DROP TABLE IF EXISTS settings;'
-			// );
 			tx.executeSql(
-				'create table if not exists wasted_food (id integer primary key not null, name text, image text, quantity integer, price integer, percentage integer, paid integer, productQuantity integer);',
+				'create table if not exists wasted_food (id integer primary key not null, name text, image text, quantity integer, price integer, percentage integer, paid integer, productQuantity integer, selected integer DEFAULT 1);',
 			)
 			tx.executeSql(
 				'create table if not exists settings (id integer primary key not null, lang text, currency text, notification_cycle integer, version text);',
@@ -45,7 +43,7 @@ export const initDatabase = (callback) => {
 }
 
 export const initApp = (callback) => {
-	//initDatabase();
+	// initDatabase();
 	db.transaction(
 		(tx) => {
 			// CHECK CORRECTION APP VERSION AND UPDATE DB

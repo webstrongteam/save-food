@@ -30,6 +30,8 @@
 	"or": "or",
 	"addManually": "Add product manually",
 	"version": "Version",
+	"deleteProduct": "Delete product",
+	"deleteProductDescription": "Do you really want to delete this product?",
 	"startTitle": "Let's start saving food!",
 	"startSubtitle": "This application is created to help you saving food.",
 	"paymentTitle": "Support Pajacyk",

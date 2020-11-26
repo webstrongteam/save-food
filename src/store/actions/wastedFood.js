@@ -1,14 +1,7 @@
-import * as actionTypes from './actionTypes'
 import { openDatabase } from 'expo-sqlite'
 import * as Analytics from 'expo-firebase-analytics'
 
 const db = openDatabase('savefood.db')
-
-export const onRefresh = () => {
-	return {
-		type: actionTypes.REFRESH,
-	}
-}
 
 export const fetchWastedFood = (callback = () => null) => {
 	return () => {
@@ -51,7 +44,8 @@ export const saveFood = (food, callback = () => null) => {
                                        price           = ?,
                                        percentage      = ?,
                                        productQuantity = ?,
-                                       paid            = ?
+																			 paid            = ?,
+                                       selected        = ?
                                    where id = ?;`,
 						[
 							food.name,
@@ -61,6 +55,7 @@ export const saveFood = (food, callback = () => null) => {
 							food.percentage,
 							food.productQuantity,
 							food.paid,
+							food.selected,
 							food.id,
 						],
 						() => {
@@ -105,6 +100,20 @@ export const saveFood = (food, callback = () => null) => {
 	}
 }
 
+export const selectFood = (id, selected, callback = () => null) => {
+	return () => {
+		db.transaction(
+			(tx) => {
+				tx.executeSql('update wasted_food set selected = ? where id = ?', [selected, id], () => {
+					callback()
+				})
+			},
+			// eslint-disable-next-line no-console
+			(err) => console.log(err),
+		)
+	}
+}
+
 export const paidFood = (id, callback = () => null) => {
 	return () => {
 		db.transaction(
@@ -124,7 +133,7 @@ export const paidFood = (id, callback = () => null) => {
 }
 
 export const removeFood = (id, callback = () => null) => {
-	return (dispatch) => {
+	return () => {
 		db.transaction(
 			(tx) => {
 				tx.executeSql('delete from wasted_food where id = ?', [id], () => {
@@ -133,7 +142,6 @@ export const removeFood = (id, callback = () => null) => {
 					})
 
 					callback()
-					dispatch(onRefresh())
 				})
 			},
 			// eslint-disable-next-line no-console

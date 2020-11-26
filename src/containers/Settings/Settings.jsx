@@ -181,11 +181,7 @@ class Settings extends Component {
 				<Modal
 					visible={showModal}
 					toggleModal={this.toggleModal}
-					title={
-						type === 'clearTheDatabase'
-							? translations.clearTheDatabase
-							: translations['select_' + type]
-					}
+					title={type === 'clearTheDatabase' ? translations.clearTheDatabase : translations[type]}
 					content={modalContent}
 					buttons={
 						type === 'clearTheDatabase'

@@ -3,6 +3,7 @@ export {
 	fetchWastedFood,
 	saveFood,
 	removeFood,
+	selectFood,
 	paidFood,
 	onRefresh,
 } from './wastedFood'

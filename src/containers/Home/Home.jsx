@@ -33,10 +33,7 @@ class Home extends Component {
 	}
 
 	componentDidUpdate(prevProps) {
-		if (
-			this.props.navigation !== prevProps.navigation ||
-			this.props.refresh !== prevProps.refresh
-		) {
+		if (this.props.navigation !== prevProps.navigation) {
 			this.setData()
 		} else if (this.props.lang !== prevProps.lang) {
 			this.setState({ fact: this.drawFact() })
@@ -59,10 +56,10 @@ class Home extends Component {
 			})
 			if (list.length) moderateWaste = moderateWaste / list.length
 			this.setState({
-				moderateWaste: moderateWaste.toFixed(0),
-				totalPrice: price,
-				unpaid,
 				food,
+				moderateWaste: moderateWaste.toFixed(0),
+				totalPrice: price.toFixed(2),
+				unpaid: unpaid.toFixed(2),
 				fact: this.drawFact(),
 				loading: false,
 			})

@@ -119,13 +119,24 @@ class Food extends Component {
 	}
 
 	setContent = (type) => {
+		const { translations } = this.props
+
 		this.setState({
 			modalContent: (
 				<View style={{ marginTop: 20, marginBottom: -20 }}>
 					<Input
 						keyboardType={type === 'name' ? 'default' : 'numeric'}
-						placeholder={this.state[type] + ''}
+						placeholder={`${this.state[type]}`}
+						defaultValue={
+							this.state[type] && this.state[type] !== translations.noData
+								? `${this.state[type]}`
+								: undefined
+						}
 						onChangeText={(value) => {
+							if (type === 'price' && value.length > 4) {
+								return
+							}
+
 							this.setState({
 								[type]: type === 'price' ? Math.abs(+value.replace(',', '.')) : value,
 							})
@@ -214,8 +225,7 @@ class Food extends Component {
 			price: price,
 			percentage: percent.toFixed(0),
 		})
-		this.props.onRefresh()
-		this.props.navigation.navigate('List')
+		this.props.navigation.navigate('List', {})
 	}
 
 	render() {
@@ -291,7 +301,7 @@ class Food extends Component {
 								<Modal
 									visible={showModal}
 									toggleModal={this.toggleModal}
-									title={translations['change_' + type]}
+									title={translations[type]}
 									content={modalContent}
 									buttons={[
 										{ text: translations.save, onPress: this.saveChange },
@@ -385,7 +395,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		onSaveFood: (value) => dispatch(actions.saveFood(value)),
-		onRefresh: () => dispatch(actions.onRefresh()),
 	}
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Food)

@@ -13,20 +13,28 @@ export default StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 	},
+	deleteProductDescription: {
+		marginTop: 15,
+		textAlign: 'center',
+		justifyContent: 'center',
+		alignItems: 'center',
+		fontSize: 16,
+		fontFamily: 'Lato-Light',
+	},
 	leftElement: {
 		flex: 1,
 		flexDirection: 'row',
-		alignItems: 'center'
+		alignItems: 'center',
 	},
 	priceWrapper: {
 		flexDirection: 'row',
-		alignItems: 'center'
+		alignItems: 'center',
 	},
 	quantityText: {
 		marginLeft: 8,
 		fontSize: 14,
 		fontFamily: 'Lato-Light',
-		color: '#a4a4a4'
+		color: '#a4a4a4',
 	},
 	rightElement: {
 		flexDirection: 'column',
@@ -37,22 +45,26 @@ export default StyleSheet.create({
 	quantityAddIcon: {
 		padding: 8,
 		borderBottomWidth: 1,
-		borderBottomColor: "#ddd"
+		borderBottomColor: '#ddd',
 	},
 	quantityMinusIcon: {
 		padding: 8,
 	},
 	priceContainer: {
 		flexDirection: 'row',
-		alignItems: 'center'
+		alignItems: 'center',
 	},
 	deleteProductIcon: {
-		marginRight: 12
+		marginRight: 12,
 	},
 	productName: {
-		color: "#000",
+		color: '#000',
 		fontSize: 16,
-		marginBottom: 8
+		marginBottom: 8,
+	},
+	productDetails: {
+		flex: 1,
+		marginRight: 8,
 	},
 	footer: {
 		flex: 1,
@@ -127,10 +139,7 @@ export default StyleSheet.create({
 	image: {
 		width: 80,
 		height: 80,
-		marginRight: 8
-	},
-	productDetails: {
-		flex: 3,
+		marginRight: 8,
 	},
 	container: {
 		flex: 1,
@@ -188,5 +197,5 @@ export default StyleSheet.create({
 		shadowOpacity: 0.2,
 		shadowRadius: 5,
 		elevation: 7,
-	}
+	},
 })
