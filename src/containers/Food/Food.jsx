@@ -5,10 +5,10 @@ import { LinearGradient } from 'expo-linear-gradient'
 import InfoWindow from '../../components/InfoWindow/InfoWindow'
 import Spinner from '../../components/Spinner/Spinner'
 import Modal from '../../components/Modal/Modal'
-import { getResizeMode } from '../../common/utility'
 import { Camera } from 'expo-camera'
 import { showMessage } from 'react-native-flash-message'
 import Header from '../../components/Header/Header'
+import { exitIcon, shadow } from '../../common/styles'
 import styles from './Food.styles'
 
 import { connect } from 'react-redux'
@@ -24,7 +24,6 @@ class Food extends Component {
 		percent: 100,
 		productQuantity: 1,
 		savedDate: {},
-		resizeMode: 'cover',
 		showCamera: false,
 
 		showModal: false,
@@ -70,7 +69,7 @@ class Food extends Component {
 		if (!quantity) quantity = translations.noData
 
 		if (!image || image === 'null') {
-			image = require('../../assets/common/dish_colors.png')
+			image = require('../../assets/common/dish.png')
 		} else if (!image.uri) {
 			image = { uri: image }
 		}
@@ -87,34 +86,20 @@ class Food extends Component {
 				percentage: navigation.getParam('percentage', false),
 				id: navigation.getParam('id', false),
 			}
-			this.setState(
-				{
-					...savedDate,
-					savedDate: savedDate,
-				},
-				() => this.setResizeMode(image),
-			)
-		} else {
-			// New
-			this.setState(
-				{
-					savedDate: { name, image, quantity, price: 0.0, percent: 100 },
-					image,
-					name,
-					quantity,
-				},
-				() => this.setResizeMode(image),
-			)
-		}
-	}
-
-	setResizeMode = (image) => {
-		if (image.constructor.name === 'String') {
-			getResizeMode(image, (resizeMode) => {
-				this.setState({ resizeMode, loading: false })
+			this.setState({
+				...savedDate,
+				savedDate: savedDate,
+				loading: false,
 			})
 		} else {
-			this.setState({ loading: false })
+			// New
+			this.setState({
+				savedDate: { name, image, quantity, price: 0.0, percent: 100 },
+				image,
+				name,
+				quantity,
+				loading: false,
+			})
 		}
 	}
 
@@ -170,22 +155,22 @@ class Food extends Component {
 		}
 	}
 
-	toggleCamera = () => {
-		this.setState({ showCamera: !this.state.showCamera })
+	toggleCamera = async () => {
+		const { status } = await Camera.requestPermissionsAsync()
+
+		if (status === 'granted') {
+			this.setState({ showCamera: !this.state.showCamera })
+		}
 	}
 
 	takePicture = async () => {
 		if (this.camera) {
 			await this.camera.takePictureAsync({
 				onPictureSaved: (photo) => {
-					this.setState(
-						{
-							image: { uri: photo.uri },
-							showCamera: false,
-							loading: true,
-						},
-						() => this.setResizeMode(photo.uri),
-					)
+					this.setState({
+						image: { uri: photo.uri },
+						showCamera: false,
+					})
 				},
 			})
 		}
@@ -233,7 +218,6 @@ class Food extends Component {
 			showModal,
 			showCamera,
 			modalContent,
-			resizeMode,
 			type,
 			savedDate,
 			image,
@@ -252,16 +236,16 @@ class Food extends Component {
 						{showCamera ? (
 							<Camera
 								style={styles.camera}
-								ratio='1:1'
+								ratio='16:9'
 								type={Camera.Constants.Type.back}
 								ref={(ref) => {
 									this.camera = ref
 								}}
 							>
-								<TouchableOpacity style={styles.toggleCamera} onPress={this.toggleCamera}>
+								<TouchableOpacity style={exitIcon} onPress={this.toggleCamera}>
 									<Icon size={30} name='close' type='antdesign' color='#fff' />
 								</TouchableOpacity>
-								<View style={styles.takePhotoButtonWrapper}>
+								<View style={{ ...styles.takePhotoButtonWrapper, ...shadow }}>
 									<Button
 										onPress={this.takePicture}
 										buttonStyle={styles.takeFoodButton}
@@ -314,7 +298,11 @@ class Food extends Component {
 										<View style={styles.imageContainer}>
 											<TouchableOpacity onPress={this.toggleCamera}>
 												<View style={styles.imageWrapper}>
-													<Image style={{ resizeMode, ...styles.image }} source={image} />
+													<Image style={styles.image} source={image} />
+
+													<View style={styles.tapImage}>
+														<Text style={styles.tapImageText}>{translations.tapToChange}</Text>
+													</View>
 												</View>
 											</TouchableOpacity>
 										</View>

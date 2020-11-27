@@ -1,6 +1,7 @@
 import React from 'react'
 import { Text, View } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
+import { shadow } from '../../common/styles'
 import styles from './InfoWindow.styles'
 
 const InfoWindow = ({
@@ -21,6 +22,7 @@ const InfoWindow = ({
 			style={{
 				backgroundColor: color1,
 				...styles.wrapper,
+				...shadow,
 			}}
 		>
 			<View style={styles.titleWrapper}>

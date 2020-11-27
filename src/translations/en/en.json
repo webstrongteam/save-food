@@ -29,6 +29,7 @@
 	"scanProduct": "Scan product",
 	"or": "or",
 	"addManually": "Add product manually",
+	"tapToChange": "Tap to change image",
 	"version": "Version",
 	"deleteProduct": "Delete product",
 	"deleteProductDescription": "Do you really want to delete this product?",
@@ -55,5 +56,6 @@
 	"emptyEmail": "E-mail is required",
 	"wrongEmail": "E-mail is incorrect",
 	"permission": "Wyrażam zgodę na przekazanie mojego adresu e-mail pośrednikowi płatności ",
+	"commissionTitle": "Commission",
 	"commission": "Remember that the commission for the payment intermediary will be deducted from the amount you have transferred. For this reason, we encourage you to manually donate on the selected organization."
 }

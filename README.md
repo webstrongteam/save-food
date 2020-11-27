@@ -39,8 +39,9 @@
 
 - new wasted food list
   - Fix button when it hides
-  - Add "Tap to change" text on the default product icon
-- payment fixes
+  - Android: payment not working
+- create and add new screens in Start page
+- global cleanup styles
 - Update README
 - Add license
 - add new privacy policy

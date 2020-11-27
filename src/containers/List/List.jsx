@@ -20,6 +20,7 @@ import styles from './List.styles'
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions'
 import Modal from '../../components/Modal/Modal'
+import { shadow } from '../../common/styles'
 
 class List extends Component {
 	state = {
@@ -206,7 +207,7 @@ class List extends Component {
 		return (
 			<ListItem
 				containerStyle={{
-					...styles.shadow,
+					...shadow,
 					marginRight: 20,
 					marginLeft: 20,
 					marginTop: 20,
@@ -367,6 +368,7 @@ class List extends Component {
 					style={{
 						transform: [{ translateY: this.state.moveButton }],
 						...styles.paymentButtonContainer,
+						...shadow,
 					}}
 				>
 					<View style={styles.paymentButtonWrapper}>

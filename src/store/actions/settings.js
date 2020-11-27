@@ -79,3 +79,17 @@ export const changeNotificationCycle = (value) => {
 		)
 	}
 }
+
+export const changeEmail = (email) => {
+	return (dispatch) => {
+		db.transaction(
+			(tx) => {
+				tx.executeSql('update settings set email = ? where id = 0;', [email], () => {
+					dispatch(initSettings())
+				})
+			},
+			// eslint-disable-next-line no-console
+			(err) => console.log(err),
+		)
+	}
+}

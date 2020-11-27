@@ -93,7 +93,14 @@ class Start extends Component {
 	}
 
 	render() {
-		return <Onboarding showSkip={false} onDone={this.doneBtnHandle} pages={this.state.pages} />
+		return (
+			<Onboarding
+				showSkip={false}
+				containerStyles={styles.imageContainer}
+				onDone={this.doneBtnHandle}
+				pages={this.state.pages}
+			/>
+		)
 	}
 }
 

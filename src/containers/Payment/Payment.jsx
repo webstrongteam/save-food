@@ -23,10 +23,9 @@ class Payment extends React.Component {
 		ids: null,
 		amount: 0,
 		name: 'saveFood',
-		email: null,
+		email: this.props.email,
 		currency: 'pln',
 		modalContent: null,
-		type: null,
 		socketID: null,
 		showModal: false,
 		errorEmail: '',
@@ -67,29 +66,31 @@ class Payment extends React.Component {
 	}
 
 	showModal = () => {
-		const { translations } = this.props
+		const { translations, onUpdateEmail } = this.props
 
-		this.setState({
-			modalContent: (
-				<View>
-					<Text style={styles.modalMessage}>{translations.commission}</Text>
-				</View>
-			),
-			modalButtons: [
-				{
-					text: translations.confirm,
-					onPress: () => {
-						this.setState({ showModal: false, loading: true }, () => this.createPaymentSession())
+		this.setState(
+			{
+				modalContent: (
+					<View>
+						<Text style={styles.modalMessage}>{translations.commission}</Text>
+					</View>
+				),
+				modalButtons: [
+					{
+						text: translations.confirm,
+						onPress: () => {
+							this.setState({ showModal: false, loading: true }, () => this.createPaymentSession())
+						},
 					},
-				},
-				{
-					text: translations.cancel,
-					onPress: () => this.setState({ showModal: false }),
-				},
-			],
-			showModal: true,
-			type: translations.commissionTitle,
-		})
+					{
+						text: translations.cancel,
+						onPress: () => this.setState({ showModal: false }),
+					},
+				],
+				showModal: true,
+			},
+			() => onUpdateEmail(this.state.email),
+		)
 	}
 
 	createPaymentSession = () => {
@@ -126,10 +127,8 @@ class Payment extends React.Component {
 				const url = `${config.PAYMENT_URL}/payment?session=${result.data.id}`
 
 				WebBrowser.openBrowserAsync(url)
-					.then((res) => {
-						if (res.type === 'cancel') {
-							this.setState({ loading: false })
-						}
+					.then(() => {
+						this.setState({ loading: false })
 					})
 					.catch((err) => this.showErrorMessage(err))
 			})
@@ -195,7 +194,6 @@ class Payment extends React.Component {
 	render() {
 		const {
 			showModal,
-			type,
 			modalContent,
 			modalButtons,
 			amount,
@@ -215,9 +213,10 @@ class Payment extends React.Component {
 					visible={showModal}
 					toggleModal={() => this.setState({ showModal: false })}
 					buttons={modalButtons}
-					title={type}
+					title={translations.commissionTitle}
 					content={modalContent}
 				/>
+
 				{loading ? (
 					<Spinner size={64} color='#000' />
 				) : (
@@ -313,12 +312,14 @@ class Payment extends React.Component {
 const mapStateToProps = (state) => {
 	return {
 		currency: state.settings.currency,
+		email: state.settings.email,
 		lang: state.settings.lang,
 		translations: state.settings.translations,
 	}
 }
 const mapDispatchToProps = (dispatch) => {
 	return {
+		onUpdateEmail: (email) => dispatch(actions.changeEmail(email)),
 		onSaveFood: (value) => dispatch(actions.saveFood(value)),
 	}
 }

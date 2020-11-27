@@ -139,7 +139,11 @@ export default StyleSheet.create({
 	image: {
 		width: 80,
 		height: 80,
-		marginRight: 8,
+		resizeMode: 'cover',
+		borderRadius: 100,
+		borderWidth: 2,
+		borderColor: '#4b8b1d',
+		marginRight: 12,
 	},
 	container: {
 		flex: 1,
@@ -170,14 +174,6 @@ export default StyleSheet.create({
 	paymentButtonWrapper: {
 		justifyContent: 'center',
 		alignItems: 'center',
-		shadowColor: '#000',
-		shadowOffset: {
-			width: 0,
-			height: 0,
-		},
-		shadowOpacity: 0.2,
-		shadowRadius: 5,
-		elevation: 7,
 	},
 	paymentButton: {
 		backgroundColor: '#4b8b1d',
@@ -187,15 +183,5 @@ export default StyleSheet.create({
 		fontSize: 18,
 		padding: 25,
 		fontFamily: 'Lato-Light',
-	},
-	shadow: {
-		shadowColor: '#000',
-		shadowOffset: {
-			width: 0,
-			height: 0,
-		},
-		shadowOpacity: 0.2,
-		shadowRadius: 5,
-		elevation: 7,
 	},
 })

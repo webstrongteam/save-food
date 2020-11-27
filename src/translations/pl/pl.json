@@ -29,6 +29,7 @@
 	"scanProduct": "Zeskanuj produkt",
 	"or": "lub",
 	"addManually": "Dodaj produkt ręcznie",
+	"tapToChange": "Kliknij, by zmienić zdjęcie",
 	"version": "Wersja",
 	"deleteProduct": "Usuń produkt",
 	"deleteProductDescription": "Czy na pewno chcesz usunąć ten produkt?",
@@ -54,5 +55,6 @@
 	"emptyEmail": "Adres e-mail jest wymagany",
 	"wrongEmail": "Adres e-mail jest niepoprawny",
 	"permission": "Wyrażam zgodę na przekazanie mojego adresu e-mail pośrednikowi płatności ",
+	"commissionTitle": "Prowizja",
 	"commission": "Pamiętaj, że z kwoty, którą przekażesz, zostanie odciągnięta prowizja dla pośrednika płatności. Z tego powodu zachęcamy do ręcznego przekazywania datków na wybraną organizację."
 }

@@ -27,11 +27,11 @@ export const initDatabase = (callback) => {
 				'create table if not exists wasted_food (id integer primary key not null, name text, image text, quantity integer, price integer, percentage integer, paid integer, productQuantity integer, selected integer DEFAULT 1);',
 			)
 			tx.executeSql(
-				'create table if not exists settings (id integer primary key not null, lang text, currency text, notification_cycle integer, version text);',
+				'create table if not exists settings (id integer primary key not null, lang text, currency text, notification_cycle integer, email text, version text);',
 			)
 			tx.executeSql(
-				'INSERT OR IGNORE INTO settings (id, lang, currency, notification_cycle, version) values (0, ?, ?, ?, ?);',
-				[getLocale().lang, getLocale().currency, 0, VERSION + '_INIT'],
+				'INSERT OR IGNORE INTO settings (id, lang, currency, notification_cycle, email, version) values (0, ?, ?, ?, ?, ?);',
+				[getLocale().lang, getLocale().currency, 0, '', VERSION + '_INIT'],
 				() => {
 					initApp(callback)
 				},

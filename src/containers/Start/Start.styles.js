@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
+	imageContainer: {},
 	firstStepContainer: {
 		width: 200,
 		height: 200,
@@ -8,7 +9,7 @@ export default StyleSheet.create({
 	stepContainer: {
 		width: '100%',
 		height: '100%',
-		resizeMode: 'stretch',
+		resizeMode: 'contain',
 		marginTop: 110,
 	},
 })

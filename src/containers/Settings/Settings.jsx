@@ -165,7 +165,7 @@ class Settings extends Component {
 			<View style={styles.container}>
 				<Header
 					leftComponent={
-						<TouchableOpacity onPress={() => navigation.goBack()}>
+						<TouchableOpacity onPress={() => navigation.navigate('Home', {})}>
 							<Icon
 								style={styles.leftHeaderIcon}
 								size={25}

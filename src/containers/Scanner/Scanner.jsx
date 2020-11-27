@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View, Platform } from 'react-native'
 import { BarCodeScanner } from 'expo-barcode-scanner'
 import * as Analytics from 'expo-firebase-analytics'
 import axios from 'axios'
 import Spinner from '../../components/Spinner/Spinner'
 import { Button, Icon } from 'react-native-elements'
+import { exitIcon, shadow } from '../../common/styles'
 import styles from './Scanner.styles'
 
 import { connect } from 'react-redux'
@@ -39,11 +40,11 @@ class Scanner extends Component {
 					}
 
 					this.setState({ loading: false })
-					this.props.navigation.navigate('Food', { image, name, quantity })
+					this.props.navigation.replace('Food', { image, name, quantity })
 				})
 				.catch(() => {
 					this.setState({ loading: false })
-					this.props.navigation.navigate('Food', {
+					this.props.navigation.replace('Food', {
 						image: null,
 						name: null,
 						quantity: null,
@@ -55,10 +56,12 @@ class Scanner extends Component {
 	render() {
 		const { scanned, loading } = this.state
 		const { navigation } = this.props
+		const os = Platform.OS
 
 		return (
 			<View style={styles.container}>
 				<BarCodeScanner
+					ratio='16:9'
 					onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
 					style={styles.barCodeScanner}
 				/>
@@ -67,19 +70,21 @@ class Scanner extends Component {
 						<Spinner bgColor='transparency' color='#fff' size={64} />
 					</View>
 				)}
-				<View style={styles.backIcon}>
+				<View style={exitIcon}>
 					<TouchableOpacity onPress={() => navigation.goBack()}>
 						<Icon size={30} name='close' type='antdesign' color='#fff' />
 					</TouchableOpacity>
 				</View>
-				<View style={styles.scannerBoxContainer}>
-					<View style={styles.scannerBox}>
-						<View style={styles.scannerBoxBorder} />
+				{os === 'ios' && (
+					<View style={styles.scannerBoxContainer}>
+						<View style={styles.scannerBox}>
+							<View style={styles.scannerBoxBorder} />
+						</View>
 					</View>
-				</View>
-				<View style={styles.addManuallyButtonWrapper}>
+				)}
+				<View style={{ ...styles.addManuallyButtonWrapper, ...shadow }}>
 					<Button
-						onPress={() => navigation.navigate('Food')}
+						onPress={() => navigation.replace('Food')}
 						buttonStyle={styles.addManuallyButton}
 						titleStyle={styles.addManuallyButtonTitle}
 						title={this.props.translations.addManually}

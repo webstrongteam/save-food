@@ -7,10 +7,23 @@ export default StyleSheet.create({
 		width: '100%',
 		height: '100%',
 	},
-	toggleCamera: {
+	tapImage: {
 		position: 'absolute',
-		top: 40,
-		left: 20,
+		width: '100%',
+		justifyContent: 'center',
+		backgroundColor: 'rgba(0,0,0,0.3)',
+		borderRadius: 100,
+		alignItems: 'center',
+		height: '100%',
+		left: 0,
+		top: 0,
+	},
+	tapImageText: {
+		color: '#fff',
+		fontSize: 16,
+		padding: 24,
+		fontFamily: 'Lato-Light',
+		textAlign: 'center',
 	},
 	takePhotoButtonWrapper: {
 		position: 'absolute',
@@ -18,14 +31,6 @@ export default StyleSheet.create({
 		bottom: 30,
 		justifyContent: 'center',
 		alignItems: 'center',
-		shadowColor: '#000',
-		shadowOffset: {
-			width: 0,
-			height: 0,
-		},
-		shadowOpacity: 0.2,
-		shadowRadius: 5,
-		elevation: 7,
 	},
 	takeFoodButton: {
 		backgroundColor: '#4b8b1d',
@@ -79,6 +84,10 @@ export default StyleSheet.create({
 	image: {
 		width: 200,
 		height: 200,
+		resizeMode: 'cover',
+		borderRadius: 100,
+		borderWidth: 4,
+		borderColor: '#000',
 	},
 	infoWindowsContainer: {
 		flex: 1,

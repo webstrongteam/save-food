@@ -3,6 +3,8 @@ import { StyleSheet } from 'react-native'
 export default StyleSheet.create({
 	container: {
 		flex: 1,
+		width: '100%',
+		height: '100%',
 		flexDirection: 'column',
 		justifyContent: 'flex-end',
 		backgroundColor: '#292b2c',
@@ -55,14 +57,6 @@ export default StyleSheet.create({
 		bottom: 30,
 		justifyContent: 'center',
 		alignItems: 'center',
-		shadowColor: '#000',
-		shadowOffset: {
-			width: 0,
-			height: 0,
-		},
-		shadowOpacity: 0.2,
-		shadowRadius: 5,
-		elevation: 7,
 	},
 	addManuallyButtonTitle: {
 		color: '#fff',
