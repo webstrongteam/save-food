@@ -64,7 +64,7 @@ export const initApp = (callback) => {
 								},
 							)
 						} else {
-							//const versionID = +version.split('.').join("");
+							// const versionID = +version.split('.').join("");
 							tx.executeSql('UPDATE settings SET version = ? WHERE id = 0;', [VERSION], () => {
 								callback()
 							})

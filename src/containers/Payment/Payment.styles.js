@@ -1,6 +1,18 @@
 import { StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
+	webviewContainer: {
+		flex: 1,
+		backgroundColor: '#fff',
+	},
+	webview: {
+		marginTop: 40,
+	},
+	container: {
+		flex: 1,
+		alignItems: 'center',
+		backgroundColor: '#fff',
+	},
 	modalMessage: {
 		marginTop: 15,
 		textAlign: 'center',
@@ -9,60 +21,37 @@ export default StyleSheet.create({
 		fontSize: 16,
 		fontFamily: 'Lato-Light',
 	},
-	modalFooterMessage: {
-		marginTop: 15,
-		textAlign: 'center',
-		justifyContent: 'center',
-		alignItems: 'center',
-		fontSize: 12,
-		fontFamily: 'Lato-Light',
+	headerIcon: {
+		marginTop: 5,
+		marginLeft: 20,
 	},
-	inline: {
-		flexDirection: 'row',
-	},
-	permission: {
-		flexDirection: 'row',
-		flexWrap: 'wrap',
-		flex: 1,
-		marginLeft: 8,
-	},
-	textPermission: {
-		display: 'flex',
-		textAlign: 'left',
-		fontSize: 15,
-		fontFamily: 'Lato-Light',
-	},
-	checkPermission: {
-		display: 'flex',
-		flex: 1,
-	},
-	href: {
-		color: '#4d6999',
-		fontFamily: 'Lato-Bold',
-	},
-	image: {
-		width: 100,
-		height: 100,
-		marginBottom: 30,
-		fontFamily: 'Lato-Light',
-	},
-	buttonContainer: {
-		marginTop: 20,
-		marginBottom: 20,
-	},
-	buttonTitle: {
-		color: '#fff',
-		fontSize: 18,
-		padding: 25,
-		fontFamily: 'Lato-Light',
-	},
-	pajacykText: {
+	headerCenterComponent: {
 		fontSize: 20,
+		fontFamily: 'Lato-Light',
+		color: '#000',
+	},
+	scrollView: {
+		flex: 1,
+		width: '100%',
+	},
+	scrollViewContent: {
+		marginLeft: 20,
+		marginRight: 20,
+		alignItems: 'center',
+	},
+	inputContainer: {
+		width: '100%',
+		marginTop: 30,
+		marginBottom: -10,
+	},
+	leftIconInput: {
+		opacity: 0.5,
+	},
+	labelStyleInput: {
 		fontFamily: 'Lato-Bold',
-		color: '#4d6999',
-		textAlign: 'center',
-		marginBottom: 20,
-		marginTop: 10,
+	},
+	inputStyle: {
+		fontFamily: 'Lato-Light',
 	},
 	errorEmail: {
 		fontSize: 16,
@@ -75,44 +64,52 @@ export default StyleSheet.create({
 		color: '#000',
 		textAlign: 'center',
 	},
-	contentScrollView: {
-		marginLeft: 20,
-		marginRight: 20,
-		alignItems: 'center',
-	},
-	inputContainer: {
-		width: '100%',
-		marginTop: 30,
-		marginBottom: -10,
-	},
-	container: {
-		flex: 1,
-		alignItems: 'center',
-		backgroundColor: '#fff',
-	},
-	headerCenterComponent: {
+	charityText: {
 		fontSize: 20,
-		fontFamily: 'Lato-Light',
-		color: '#000',
+		fontFamily: 'Lato-Bold',
+		color: '#4d6999',
+		textAlign: 'center',
+		marginBottom: 20,
+		marginTop: 10,
 	},
-	icon: {
-		marginTop: 5,
-		marginLeft: 20,
+	charityImage: {
+		width: 100,
+		height: 100,
+		marginBottom: 30,
 	},
-	scrollView: {
+	inline: {
+		flexDirection: 'row',
+	},
+	checkPermission: {
+		display: 'flex',
 		flex: 1,
-		width: '100%',
 	},
-	amount: {
-		fontFamily: 'Lato-Regular',
+	permission: {
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+		flex: 1,
+		marginLeft: 8,
 	},
-	leftIconInput: {
-		opacity: 0.5,
+	permissionText: {
+		textAlign: 'left',
+		fontSize: 15,
+		fontFamily: 'Lato-Light',
 	},
-	labelStyleInput: {
+	href: {
+		color: '#4d6999',
 		fontFamily: 'Lato-Bold',
 	},
-	inputStyle: {
+	buttonContainer: {
+		marginTop: 20,
+		marginBottom: 20,
+	},
+	buttonStyle: {
+		backgroundColor: '#4b8b1d',
+	},
+	buttonTitle: {
+		color: '#fff',
+		fontSize: 18,
+		padding: 25,
 		fontFamily: 'Lato-Light',
 	},
 })

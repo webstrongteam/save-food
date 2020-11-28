@@ -82,83 +82,81 @@ class Home extends Component {
 		const { totalPrice, unpaid, food, fact, loading, moderateWaste } = this.state
 		const { translations, currency, navigation } = this.props
 
+		if (loading) {
+			return <Spinner size={64} />
+		}
+
 		return (
-			<>
-				{loading ? (
-					<Spinner size={64} />
-				) : (
-					<View style={styles.container}>
-						<Header
-							leftComponent={
-								<TouchableOpacity onPress={() => navigation.navigate('Settings')}>
-									<Icon
-										color='#fff'
-										size={25}
-										name='setting'
-										style={styles.leftHeaderIcon}
-										type='antdesign'
-									/>
-								</TouchableOpacity>
-							}
-							rightComponent={
-								<TouchableOpacity onPress={() => navigation.navigate('List')}>
-									<View style={styles.rightHeaderContainer}>
-										<Icon size={25} name='trash-o' type='font-awesome' color='#fff' />
-										<Text style={styles.rightHeaderText}>
-											({unpaid} {currency})
-										</Text>
-									</View>
-								</TouchableOpacity>
-							}
-							rightSize={4}
-						/>
+			<View style={styles.container}>
+				<Header
+					leftComponent={
+						<TouchableOpacity onPress={() => navigation.navigate('Settings')}>
+							<Icon
+								color='#fff'
+								size={25}
+								name='setting'
+								style={styles.leftHeaderIcon}
+								type='antdesign'
+							/>
+						</TouchableOpacity>
+					}
+					rightComponent={
+						<TouchableOpacity onPress={() => navigation.navigate('List')}>
+							<View style={styles.rightHeaderContainer}>
+								<Icon size={25} name='trash-o' type='font-awesome' color='#fff' />
+								<Text style={styles.rightHeaderText}>
+									({unpaid} {currency})
+								</Text>
+							</View>
+						</TouchableOpacity>
+					}
+					rightSize={4}
+				/>
 
-						<LinearGradient colors={['#4b8b1d', '#6cd015']} style={styles.containerColor} />
-						<ScrollView>
-							<Text style={styles.text}>{fact}</Text>
+				<LinearGradient colors={['#4b8b1d', '#6cd015']} style={styles.containerColor} />
+				<ScrollView>
+					<Text style={styles.text}>{fact}</Text>
 
-							<View style={styles.containerCenter}>
-								<TouchableOpacity onPress={() => navigation.navigate('Scanner')}>
-									<LinearGradient colors={['#f2f3f5', '#c4bfc3']} style={styles.circleOne}>
-										<LinearGradient colors={['#f8aa24', '#ec4f18']} style={styles.circleTwo}>
-											<LinearGradient colors={['#f2f3f5', '#c4bfc3']} style={styles.circleThree}>
-												<Text style={styles.textScan}>{translations.scan}</Text>
-											</LinearGradient>
-										</LinearGradient>
+					<View style={styles.containerCenter}>
+						<TouchableOpacity onPress={() => navigation.navigate('Scanner')}>
+							<LinearGradient colors={['#f2f3f5', '#c4bfc3']} style={styles.circleOne}>
+								<LinearGradient colors={['#f8aa24', '#ec4f18']} style={styles.circleTwo}>
+									<LinearGradient colors={['#f2f3f5', '#c4bfc3']} style={styles.circleThree}>
+										<Text style={styles.textScan}>{translations.scan}</Text>
 									</LinearGradient>
-								</TouchableOpacity>
-							</View>
-							<View style={styles.infoWindowWrapper}>
-								<InfoWindow
-									color1='#f8f8f8'
-									color2={['#af3462', '#bf3741']}
-									title={translations.wastedFood}
-									val={`${food}`}
-								/>
-								<InfoWindow
-									color1='#f8f8f8'
-									color2={['#f2a91e', '#e95c17']}
-									title={translations.wastedMoney}
-									val={`${totalPrice} ${currency}`}
-								/>
-								<InfoWindow
-									color1='#f8f8f8'
-									color2={['#6cd015', '#4b8b1d']}
-									title={translations.moderateWaste}
-									val={`${moderateWaste} %`}
-								/>
-							</View>
-						</ScrollView>
+								</LinearGradient>
+							</LinearGradient>
+						</TouchableOpacity>
 					</View>
-				)}
-			</>
+
+					<View style={styles.infoWindowWrapper}>
+						<InfoWindow
+							color1='#f8f8f8'
+							color2={['#af3462', '#bf3741']}
+							title={translations.wastedFood}
+							val={`${food}`}
+						/>
+						<InfoWindow
+							color1='#f8f8f8'
+							color2={['#f2a91e', '#e95c17']}
+							title={translations.wastedMoney}
+							val={`${totalPrice} ${currency}`}
+						/>
+						<InfoWindow
+							color1='#f8f8f8'
+							color2={['#6cd015', '#4b8b1d']}
+							title={translations.moderateWaste}
+							val={`${moderateWaste} %`}
+						/>
+					</View>
+				</ScrollView>
+			</View>
 		)
 	}
 }
 
 const mapStateToProps = (state) => {
 	return {
-		refresh: state.settings.refresh,
 		currency: state.settings.currency,
 		lang: state.settings.lang,
 		translations: state.settings.translations,

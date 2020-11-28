@@ -209,14 +209,10 @@ class Payment extends React.Component {
 
 		if (paymentUrl) {
 			return (
-				<View style={{ flex: 1, backgroundColor: '#fff' }}>
+				<View style={styles.webviewContainer}>
 					<StatusBar barStyle='dark-content' />
 
-					<WebView
-						style={{ marginTop: 40 }}
-						mixedContentMode='never'
-						source={{ uri: paymentUrl }}
-					/>
+					<WebView style={styles.webview} mixedContentMode='never' source={{ uri: paymentUrl }} />
 				</View>
 			)
 		}
@@ -241,7 +237,7 @@ class Payment extends React.Component {
 							leftComponent={
 								<TouchableOpacity onPress={() => navigation.goBack()}>
 									<Icon
-										style={styles.icon}
+										style={styles.headerIcon}
 										size={25}
 										name='arrowleft'
 										type='antdesign'
@@ -252,14 +248,14 @@ class Payment extends React.Component {
 							centerComponent={
 								<Text style={styles.headerCenterComponent}>
 									<Text>{translations.amount} </Text>
-									<Text style={styles.amount}>
+									<Text>
 										{amount} {currency.toUpperCase()}
 									</Text>
 								</Text>
 							}
 						/>
 
-						<ScrollView style={styles.scrollView} contentContainerStyle={styles.contentScrollView}>
+						<ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollViewContent}>
 							<View style={styles.inputContainer}>
 								<Input
 									leftIcon={{
@@ -279,14 +275,18 @@ class Payment extends React.Component {
 									value={email}
 								/>
 							</View>
-							<Text style={styles.errorEmail}>{errorEmail}</Text>
-							<View style={{ marginTop: errorEmail === '' ? 0 : 20 }}>
+							<Text style={{ marginBottom: errorEmail === '' ? 0 : 20, ...styles.errorEmail }}>
+								{errorEmail}
+							</Text>
+
+							<View>
 								<Text style={styles.charity}>{translations.charity}</Text>
 								<TouchableOpacity onPress={this.openCharityPage}>
-									<Text style={styles.pajacykText}>&quot;Pajacyk&quot;</Text>
+									<Text style={styles.charityText}>&quot;Pajacyk&quot;</Text>
 								</TouchableOpacity>
 							</View>
-							<ImageBackground source={pajacyk} style={styles.image} />
+							<ImageBackground source={pajacyk} style={styles.charityImage} />
+
 							<View style={styles.inline}>
 								<View style={styles.checkPermission}>
 									<CheckBox
@@ -296,13 +296,13 @@ class Payment extends React.Component {
 										tintColors={{ true: '#ea6700', false: '#ea6700' }}
 										title={
 											<View style={styles.permission}>
-												<Text style={styles.textPermission}>{translations.permission}</Text>
+												<Text style={styles.permissionText}>{translations.permission}</Text>
 												<TouchableOpacity
 													onPress={() => WebBrowser.openBrowserAsync('https://stripe.com')}
 												>
 													<Text style={styles.href}>Stripe</Text>
 												</TouchableOpacity>
-												<Text style={styles.textPermission}>.</Text>
+												<Text style={styles.permissionText}>.</Text>
 											</View>
 										}
 									/>
@@ -310,9 +310,9 @@ class Payment extends React.Component {
 							</View>
 							<View style={styles.buttonContainer}>
 								<Button
-									buttonStyle={{ backgroundColor: '#4b8b1d' }}
-									disabled={errorEmail !== '' || !email || !checkedStatus}
+									buttonStyle={styles.buttonStyle}
 									titleStyle={styles.buttonTitle}
+									disabled={errorEmail !== '' || !email || !checkedStatus}
 									title={translations.moveToPayment}
 									onPress={this.showModal}
 								/>

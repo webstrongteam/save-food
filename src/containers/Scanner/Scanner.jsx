@@ -65,16 +65,19 @@ class Scanner extends Component {
 					onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
 					style={styles.barCodeScanner}
 				/>
+
 				{loading && (
 					<View style={styles.loading}>
 						<Spinner bgColor='transparency' color='#fff' size={64} />
 					</View>
 				)}
+
 				<View style={exitIcon}>
 					<TouchableOpacity onPress={() => navigation.goBack()}>
 						<Icon size={30} name='close' type='antdesign' color='#fff' />
 					</TouchableOpacity>
 				</View>
+
 				{os === 'ios' && (
 					<View style={styles.scannerBoxContainer}>
 						<View style={styles.scannerBox}>
@@ -82,6 +85,7 @@ class Scanner extends Component {
 						</View>
 					</View>
 				)}
+
 				<View style={{ ...styles.addManuallyButtonWrapper, ...shadow }}>
 					<Button
 						onPress={() => navigation.replace('Food')}

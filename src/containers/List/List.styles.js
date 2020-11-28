@@ -3,6 +3,41 @@ import { Dimensions, StyleSheet } from 'react-native'
 const heightWindow = Dimensions.get('window').height
 
 export default StyleSheet.create({
+	containerColor: {
+		width: '200%',
+		height: heightWindow * 0.7,
+		left: '-30%',
+		top: '-25%',
+		backgroundColor: 'red',
+		transform: [{ skewY: '-30deg' }],
+		position: 'absolute',
+		zIndex: -1,
+	},
+	leftHeaderIcon: {
+		marginTop: 5,
+		marginLeft: 20,
+	},
+	headerTitle: {
+		textAlign: 'center',
+		fontSize: 22,
+		color: '#fff',
+	},
+	deleteProductDescription: {
+		marginTop: 15,
+		textAlign: 'center',
+		justifyContent: 'center',
+		alignItems: 'center',
+		fontSize: 16,
+		fontFamily: 'Lato-Light',
+	},
+	container: {
+		flex: 1,
+	},
+	listItemContainer: {
+		marginRight: 20,
+		marginLeft: 20,
+		marginTop: 20,
+	},
 	listItem: {
 		flex: 1,
 		width: '100%',
@@ -13,28 +48,33 @@ export default StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 	},
-	deleteProductDescription: {
-		marginTop: 15,
-		textAlign: 'center',
-		justifyContent: 'center',
-		alignItems: 'center',
-		fontSize: 16,
-		fontFamily: 'Lato-Light',
-	},
 	leftElement: {
 		flex: 1,
 		flexDirection: 'row',
 		alignItems: 'center',
 	},
-	priceWrapper: {
-		flexDirection: 'row',
-		alignItems: 'center',
+	image: {
+		width: 80,
+		height: 80,
+		resizeMode: 'cover',
+		borderRadius: 100,
+		borderWidth: 2,
+		borderColor: '#4b8b1d',
+		marginRight: 12,
 	},
-	quantityText: {
-		marginLeft: 8,
-		fontSize: 14,
+	productDetails: {
+		flex: 1,
+		marginRight: 8,
+	},
+	productName: {
+		color: '#000',
+		fontSize: 16,
+		marginBottom: 8,
+	},
+	text: {
 		fontFamily: 'Lato-Light',
-		color: '#a4a4a4',
+		fontSize: 14,
+		color: '#000',
 	},
 	rightElement: {
 		flexDirection: 'column',
@@ -50,23 +90,7 @@ export default StyleSheet.create({
 	quantityMinusIcon: {
 		padding: 8,
 	},
-	priceContainer: {
-		flexDirection: 'row',
-		alignItems: 'center',
-	},
-	deleteProductIcon: {
-		marginRight: 12,
-	},
-	productName: {
-		color: '#000',
-		fontSize: 16,
-		marginBottom: 8,
-	},
-	productDetails: {
-		flex: 1,
-		marginRight: 8,
-	},
-	footer: {
+	itemListFooter: {
 		flex: 1,
 		flexDirection: 'row',
 		alignItems: 'center',
@@ -76,95 +100,34 @@ export default StyleSheet.create({
 		paddingTop: 8,
 		marginTop: 16,
 	},
-	leftHeaderIcon: {
-		marginTop: 5,
-		marginLeft: 20,
-	},
-	headerTitle: {
-		textAlign: 'center',
-		fontSize: 22,
-		color: '#fff',
+	priceContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
 	},
 	checkbox: {
 		color: '#fff',
 		padding: 0,
 	},
-	text: {
-		fontFamily: 'Lato-Light',
-		fontSize: 14,
-		color: '#000',
+	priceWrapper: {
+		flexDirection: 'row',
+		alignItems: 'center',
 	},
 	priceText: {
 		fontFamily: 'Lato-Bold',
 		color: '#000',
 		fontSize: 20,
 	},
-	swipeable: {
-		paddingLeft: 10,
-		paddingRight: 10,
+	quantityText: {
+		marginLeft: 8,
+		fontSize: 14,
+		fontFamily: 'Lato-Light',
+		color: '#a4a4a4',
 	},
-	delete: {
-		height: 75,
-		borderRadius: 5,
-		marginTop: 10,
-		marginBottom: 0,
-		flexDirection: 'row',
-		padding: 10,
-		justifyContent: 'flex-start',
-		marginLeft: 10,
-		alignItems: 'center',
-		backgroundColor: '#dc3545',
-	},
-	edit: {
-		height: 75,
-		borderRadius: 5,
-		marginTop: 10,
-		marginBottom: 10,
-		flexDirection: 'row',
-		padding: 10,
-		justifyContent: 'flex-start',
-		marginLeft: 10,
-		alignItems: 'center',
-		backgroundColor: '#f8aa24',
-	},
-	icon: {
-		marginLeft: 10,
-	},
-	checkboxWrapper: {
-		flex: 1,
-	},
-	imageWrapper: {
-		paddingBottom: 10,
-	},
-	image: {
-		width: 80,
-		height: 80,
-		resizeMode: 'cover',
-		borderRadius: 100,
-		borderWidth: 2,
-		borderColor: '#4b8b1d',
+	deleteProductIcon: {
 		marginRight: 12,
 	},
-	container: {
-		flex: 1,
-	},
-	containerColor: {
-		width: '200%',
-		height: heightWindow * 0.7,
-		left: '-30%',
-		top: '-25%',
-		backgroundColor: 'red',
-		transform: [{ skewY: '-30deg' }],
-		position: 'absolute',
-		zIndex: -1,
-	},
-	nameText: {
-		fontFamily: 'Lato-Bold',
-		fontSize: 20,
-		color: '#fff',
-		marginLeft: 10,
-		marginBottom: 5,
-		marginTop: -30,
+	listFooter: {
+		marginBottom: 90,
 	},
 	paymentButtonContainer: {
 		position: 'absolute',

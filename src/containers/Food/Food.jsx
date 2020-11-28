@@ -110,7 +110,7 @@ class Food extends Component {
 
 		this.setState({
 			modalContent: (
-				<View style={{ marginTop: 20, marginBottom: -20 }}>
+				<View style={styles.modalContentWrapper}>
 					<Input
 						keyboardType={type === 'name' ? 'default' : 'numeric'}
 						placeholder={`${this.state[type]}`}
@@ -230,149 +230,151 @@ class Food extends Component {
 		} = this.state
 		const { navigation, currency, translations } = this.props
 
+		if (loading) {
+			return <Spinner color='#000' size={64} />
+		}
+
+		if (showCamera) {
+			return (
+				<Camera
+					style={styles.camera}
+					ratio='16:9'
+					type={Camera.Constants.Type.back}
+					ref={(ref) => {
+						this.camera = ref
+					}}
+				>
+					<TouchableOpacity style={exitIcon} onPress={this.toggleCamera}>
+						<Icon size={30} name='close' type='antdesign' color='#fff' />
+					</TouchableOpacity>
+
+					<View style={{ ...styles.takePhotoButtonWrapper, ...shadow }}>
+						<Button
+							onPress={this.takePicture}
+							buttonStyle={styles.takeFoodButton}
+							titleStyle={styles.takeFoodButtonTitle}
+							title={translations.takePhoto}
+						/>
+					</View>
+				</Camera>
+			)
+		}
+
 		return (
-			<>
-				{loading ? (
-					<Spinner color='#000' size={64} />
-				) : (
-					<>
-						{showCamera ? (
-							<Camera
-								style={styles.camera}
-								ratio='16:9'
-								type={Camera.Constants.Type.back}
-								ref={(ref) => {
-									this.camera = ref
-								}}
-							>
-								<TouchableOpacity style={exitIcon} onPress={this.toggleCamera}>
-									<Icon size={30} name='close' type='antdesign' color='#fff' />
-								</TouchableOpacity>
-								<View style={{ ...styles.takePhotoButtonWrapper, ...shadow }}>
-									<Button
-										onPress={this.takePicture}
-										buttonStyle={styles.takeFoodButton}
-										titleStyle={styles.takeFoodButtonTitle}
-										title={translations.takePhoto}
-									/>
-								</View>
-							</Camera>
-						) : (
-							<LinearGradient
-								start={{ x: 0, y: 0 }}
-								end={{ x: 1, y: 1 }}
-								colors={['#f2f3f5', '#f2f3f5']}
-								style={styles.linearGradient1}
-							>
-								<LinearGradient colors={['#4b8b1d', '#6cd015']} style={styles.linearGradient2} />
+			<LinearGradient
+				start={{ x: 0, y: 0 }}
+				end={{ x: 1, y: 1 }}
+				colors={['#f2f3f5', '#f2f3f5']}
+				style={styles.linearGradient1}
+			>
+				<LinearGradient colors={['#4b8b1d', '#6cd015']} style={styles.linearGradient2} />
 
-								<Header
-									leftComponent={
-										<TouchableOpacity onPress={() => navigation.goBack()}>
-											<Icon
-												style={styles.backIcon}
-												size={25}
-												name='arrowleft'
-												type='antdesign'
-												color='#fff'
-											/>
-										</TouchableOpacity>
-									}
-									centerComponent={
-										<Text style={styles.headerTitle}>
-											{id ? translations.editFood : translations.newFood}
-										</Text>
+				<Header
+					leftComponent={
+						<TouchableOpacity onPress={() => navigation.goBack()}>
+							<Icon
+								style={styles.headerBackIcon}
+								size={25}
+								name='arrowleft'
+								type='antdesign'
+								color='#fff'
+							/>
+						</TouchableOpacity>
+					}
+					centerComponent={
+						<Text style={styles.headerTitle}>
+							{id ? translations.editFood : translations.newFood}
+						</Text>
+					}
+				/>
+
+				<Modal
+					visible={showModal}
+					toggleModal={this.toggleModal}
+					title={translations[type]}
+					content={modalContent}
+					buttons={[
+						{ text: translations.save, onPress: this.saveChange },
+						{ text: translations.cancel, onPress: this.cancelChange },
+					]}
+				/>
+
+				<View style={styles.contentWrapper}>
+					<ScrollView>
+						<View style={styles.imageContainer}>
+							<TouchableOpacity onPress={this.toggleCamera}>
+								<View style={styles.imageWrapper}>
+									<Image style={styles.image} source={image} />
+
+									<View style={styles.tapImage}>
+										<Text style={styles.tapImageText}>{translations.tapToChange}</Text>
+									</View>
+								</View>
+							</TouchableOpacity>
+						</View>
+
+						<View style={styles.infoWindowsContainer}>
+							<TouchableOpacity onPress={() => this.toggleModal('name')}>
+								<InfoWindow
+									color1='#f8f8f8'
+									color2={['#f2a91e', '#e95c17']}
+									title={translations.name}
+									val={savedDate.name}
+								/>
+							</TouchableOpacity>
+							<TouchableOpacity onPress={() => this.toggleModal('quantity')}>
+								<InfoWindow
+									color1='#f8f8f8'
+									color2={['#f2a91e', '#e95c17']}
+									title={translations.quantity}
+									val={
+										savedDate.quantity !== translations.noData
+											? savedDate.quantity
+											: savedDate.quantity
 									}
 								/>
-
-								<Modal
-									visible={showModal}
-									toggleModal={this.toggleModal}
-									title={translations[type]}
-									content={modalContent}
-									buttons={[
-										{ text: translations.save, onPress: this.saveChange },
-										{ text: translations.cancel, onPress: this.cancelChange },
-									]}
+							</TouchableOpacity>
+							<TouchableOpacity onPress={() => this.toggleModal('price')}>
+								<InfoWindow
+									color1='#f8f8f8'
+									color2={['#af3462', '#bf3741']}
+									title={translations.price}
+									val={`${savedDate.price} ${currency}`}
 								/>
+							</TouchableOpacity>
 
-								<View style={styles.contentWrapper}>
-									<ScrollView>
-										<View style={styles.imageContainer}>
-											<TouchableOpacity onPress={this.toggleCamera}>
-												<View style={styles.imageWrapper}>
-													<Image style={styles.image} source={image} />
+							<View style={styles.sliderContainer}>
+								<Text style={styles.percentInfo}>{translations.percentInfo}</Text>
+								<Slider
+									style={styles.slider}
+									thumbStyle={styles.sliderThumbStyle}
+									thumbTintColor='#292b2c'
+									minimumTrackTintColor='#3f3f3f'
+									maximumTrackTintColor='#b3b3b3'
+									minimumValue={1}
+									maximumValue={100}
+									value={percent}
+									onValueChange={(value) => this.setState({ percent: value })}
+								/>
+								<Text style={styles.percent}>{percent.toFixed(0)}%</Text>
+							</View>
+						</View>
 
-													<View style={styles.tapImage}>
-														<Text style={styles.tapImageText}>{translations.tapToChange}</Text>
-													</View>
-												</View>
-											</TouchableOpacity>
-										</View>
-										<View style={styles.infoWindowsContainer}>
-											<TouchableOpacity onPress={() => this.toggleModal('name')}>
-												<InfoWindow
-													color1='#f8f8f8'
-													color2={['#f2a91e', '#e95c17']}
-													title={translations.name}
-													val={savedDate.name}
-												/>
-											</TouchableOpacity>
-											<TouchableOpacity onPress={() => this.toggleModal('quantity')}>
-												<InfoWindow
-													color1='#f8f8f8'
-													color2={['#f2a91e', '#e95c17']}
-													title={translations.quantity}
-													val={
-														savedDate.quantity !== translations.noData
-															? savedDate.quantity
-															: savedDate.quantity
-													}
-												/>
-											</TouchableOpacity>
-											<TouchableOpacity onPress={() => this.toggleModal('price')}>
-												<InfoWindow
-													color1='#f8f8f8'
-													color2={['#af3462', '#bf3741']}
-													title={translations.price}
-													val={`${savedDate.price} ${currency}`}
-												/>
-											</TouchableOpacity>
-											<View style={styles.sliderContainer}>
-												<Text style={styles.percentInfo}>{translations.percentInfo}</Text>
-												<Slider
-													style={styles.slider}
-													thumbStyle={styles.sliderThumbStyle}
-													thumbTintColor='#292b2c'
-													minimumTrackTintColor='#3f3f3f'
-													maximumTrackTintColor='#b3b3b3'
-													minimumValue={1}
-													maximumValue={100}
-													value={percent}
-													onValueChange={(value) => this.setState({ percent: value })}
-												/>
-												<Text style={styles.percent}>{percent.toFixed(0)}%</Text>
-											</View>
-										</View>
-										<View style={styles.saveButtonContainer}>
-											<TouchableOpacity onPress={this.checkValid}>
-												<Button
-													buttonStyle={styles.saveButton}
-													disabled={savedDate.price === 0}
-													titleStyle={styles.saveButtonTitle}
-													onPress={this.saveFood}
-													type='outline'
-													title={translations.save}
-												/>
-											</TouchableOpacity>
-										</View>
-									</ScrollView>
-								</View>
-							</LinearGradient>
-						)}
-					</>
-				)}
-			</>
+						<View style={styles.saveButtonContainer}>
+							<TouchableOpacity onPress={this.checkValid}>
+								<Button
+									buttonStyle={styles.saveButton}
+									titleStyle={styles.saveButtonTitle}
+									disabled={savedDate.price === 0}
+									onPress={this.saveFood}
+									type='outline'
+									title={translations.save}
+								/>
+							</TouchableOpacity>
+						</View>
+					</ScrollView>
+				</View>
+			</LinearGradient>
 		)
 	}
 }

@@ -7,24 +7,6 @@ export default StyleSheet.create({
 		width: '100%',
 		height: '100%',
 	},
-	tapImage: {
-		position: 'absolute',
-		width: '100%',
-		justifyContent: 'center',
-		backgroundColor: 'rgba(0,0,0,0.3)',
-		borderRadius: 100,
-		alignItems: 'center',
-		height: '100%',
-		left: 0,
-		top: 0,
-	},
-	tapImageText: {
-		color: '#fff',
-		fontSize: 16,
-		padding: 24,
-		fontFamily: 'Lato-Light',
-		textAlign: 'center',
-	},
 	takePhotoButtonWrapper: {
 		position: 'absolute',
 		width: '100%',
@@ -57,7 +39,7 @@ export default StyleSheet.create({
 		position: 'absolute',
 		zIndex: 0,
 	},
-	backIcon: {
+	headerBackIcon: {
 		marginTop: 5,
 		marginLeft: 20,
 	},
@@ -65,6 +47,10 @@ export default StyleSheet.create({
 		textAlign: 'center',
 		fontSize: 22,
 		color: '#fff',
+	},
+	modalContentWrapper: {
+		marginTop: 20,
+		marginBottom: -20,
 	},
 	contentWrapper: {
 		flex: 1,
@@ -89,6 +75,24 @@ export default StyleSheet.create({
 		borderWidth: 4,
 		borderColor: '#4b8b1d',
 	},
+	tapImage: {
+		position: 'absolute',
+		width: '100%',
+		justifyContent: 'center',
+		backgroundColor: 'rgba(0,0,0,0.3)',
+		borderRadius: 100,
+		alignItems: 'center',
+		height: '100%',
+		left: 0,
+		top: 0,
+	},
+	tapImageText: {
+		color: '#fff',
+		fontSize: 16,
+		padding: 24,
+		fontFamily: 'Lato-Light',
+		textAlign: 'center',
+	},
 	infoWindowsContainer: {
 		flex: 1,
 		marginTop: 30,
@@ -102,18 +106,18 @@ export default StyleSheet.create({
 		marginRight: 30,
 		marginTop: 30,
 	},
+	percentInfo: {
+		textAlign: 'center',
+		color: '#292b2c',
+		fontFamily: 'Lato-Light',
+		fontSize: 16,
+	},
 	slider: {
 		width: '100%',
 	},
 	sliderThumbStyle: {
 		width: 28,
 		height: 28,
-	},
-	percentInfo: {
-		textAlign: 'center',
-		color: '#292b2c',
-		fontFamily: 'Lato-Light',
-		fontSize: 16,
 	},
 	percent: {
 		textAlign: 'center',

@@ -15,12 +15,12 @@ import Header from '../../components/Header/Header'
 import { getResizeMode } from '../../common/utility'
 import Spinner from '../../components/Spinner/Spinner'
 import EmptyList from './EmptyList/EmptyList'
+import Modal from '../../components/Modal/Modal'
+import { shadow } from '../../common/styles'
 import styles from './List.styles'
 
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions'
-import Modal from '../../components/Modal/Modal'
-import { shadow } from '../../common/styles'
 
 class List extends Component {
 	state = {
@@ -207,10 +207,8 @@ class List extends Component {
 		return (
 			<ListItem
 				containerStyle={{
+					...styles.listItemContainer,
 					...shadow,
-					marginRight: 20,
-					marginLeft: 20,
-					marginTop: 20,
 				}}
 			>
 				<ListItem.Content>
@@ -234,6 +232,7 @@ class List extends Component {
 											: { uri: item.image }
 									}
 								/>
+
 								<View style={styles.productDetails}>
 									<Text numberOfLines={2} style={styles.productName}>
 										{item.name}
@@ -248,22 +247,16 @@ class List extends Component {
 							</View>
 
 							<View style={styles.rightElement}>
-								<TouchableOpacity
-									onPress={() => this.addFoodQuantity(item, 1)}
-									style={styles.button}
-								>
+								<TouchableOpacity onPress={() => this.addFoodQuantity(item, 1)}>
 									<Icon size={22} style={styles.quantityAddIcon} name='add' type='material' />
 								</TouchableOpacity>
-								<TouchableOpacity
-									onPress={() => this.addFoodQuantity(item, -1)}
-									style={styles.button}
-								>
+								<TouchableOpacity onPress={() => this.addFoodQuantity(item, -1)}>
 									<Icon size={22} style={styles.quantityMinusIcon} name='minus' type='entypo' />
 								</TouchableOpacity>
 							</View>
 						</View>
 
-						<View style={styles.footer}>
+						<View style={styles.itemListFooter}>
 							<View style={styles.priceContainer}>
 								<CheckBox
 									checked={!!item.selected}
@@ -360,7 +353,7 @@ class List extends Component {
 						onRefresh={this.initWastedList}
 						refreshing={loading}
 						ListFooterComponent={
-							list.length > visibleData ? <Spinner /> : <View style={{ marginBottom: 90 }} />
+							list.length > visibleData ? <Spinner /> : <View style={styles.listFooter} />
 						}
 					/>
 				</View>
@@ -392,7 +385,6 @@ class List extends Component {
 const mapStateToProps = (state) => {
 	return {
 		currency: state.settings.currency,
-		refresh: state.settings.refresh,
 		translations: state.settings.translations,
 	}
 }

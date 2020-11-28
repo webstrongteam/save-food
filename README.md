@@ -38,7 +38,6 @@
 ## ToDo
 
 - create and add new screens in Start page
-- global cleanup styles
 - Update README
 - Add license
 - add new privacy policy
