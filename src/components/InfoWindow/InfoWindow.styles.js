@@ -4,7 +4,6 @@ export default StyleSheet.create({
 	container: {
 		width: '100%',
 		marginTop: 15,
-		justifyContent: 'center',
 		alignItems: 'center',
 	},
 	wrapper: {

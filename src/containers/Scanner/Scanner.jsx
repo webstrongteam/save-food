@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { TouchableOpacity, View, Platform } from 'react-native'
+import { showMessage } from 'react-native-flash-message'
+import { Button, Icon } from 'react-native-elements'
 import { BarCodeScanner } from 'expo-barcode-scanner'
 import * as Analytics from 'expo-firebase-analytics'
 import axios from 'axios'
 import Spinner from '../../components/Spinner/Spinner'
-import { Button, Icon } from 'react-native-elements'
 import { exitIcon, shadow } from '../../common/styles'
 import styles from './Scanner.styles'
 
@@ -16,8 +17,26 @@ class Scanner extends Component {
 		loading: false,
 	}
 
-	componentDidMount() {
-		BarCodeScanner.requestPermissionsAsync()
+	async componentDidMount() {
+		const { status } = await BarCodeScanner.requestPermissionsAsync()
+
+		if (status !== 'granted') {
+			this.showPermissionError('permissionError')
+		}
+	}
+
+	showPermissionError = () => {
+		const { translations } = this.props
+
+		const message = {
+			message: translations.permissionErrorTitle,
+			description: translations.permissionErrorCamera,
+			type: 'danger',
+			icon: { icon: 'danger', position: 'left' },
+			duration: 2500,
+		}
+
+		showMessage(message)
 	}
 
 	handleBarCodeScanned = ({ data }) => {

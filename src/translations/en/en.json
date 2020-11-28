@@ -57,5 +57,7 @@
 	"wrongEmail": "E-mail is incorrect",
 	"permission": "Wyrażam zgodę na przekazanie mojego adresu e-mail pośrednikowi płatności ",
 	"commissionTitle": "Commission",
-	"commission": "Remember that the commission for the payment intermediary will be deducted from the amount you have transferred. For this reason, we encourage you to manually donate on the selected organization."
+	"commission": "Remember that the commission for the payment intermediary will be deducted from the amount you have transferred. For this reason, we encourage you to manually donate on the selected organization.",
+	"permissionErrorTitle": "No permission",
+	"permissionErrorCamera": "The app does not have camera permissions."
 }

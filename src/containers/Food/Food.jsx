@@ -162,6 +162,8 @@ class Food extends Component {
 
 		if (status === 'granted') {
 			this.setState({ showCamera: !this.state.showCamera })
+		} else {
+			this.showSimpleMessage('permissionError')
 		}
 	}
 
@@ -178,15 +180,27 @@ class Food extends Component {
 		}
 	}
 
-	showSimpleMessage = () => {
+	showSimpleMessage = (type) => {
 		const { translations } = this.props
+		let message
 
-		const message = {
-			message: translations.noPriceTitle,
-			description: translations.noPriceDescription,
-			type: 'warning',
-			icon: { icon: 'warning', position: 'left' },
-			duration: 2500,
+		if (type === 'priceError') {
+			message = {
+				message: translations.noPriceTitle,
+				description: translations.noPriceDescription,
+				type: 'warning',
+				icon: { icon: 'warning', position: 'left' },
+				duration: 2500,
+			}
+		}
+		if (type === 'permissionError') {
+			message = {
+				message: translations.permissionErrorTitle,
+				description: translations.permissionErrorCamera,
+				type: 'danger',
+				icon: { icon: 'danger', position: 'left' },
+				duration: 2500,
+			}
 		}
 
 		showMessage(message)
@@ -194,7 +208,7 @@ class Food extends Component {
 
 	checkValid = () => {
 		if (this.state.price === 0) {
-			this.showSimpleMessage()
+			this.showSimpleMessage('priceError')
 		} else {
 			this.saveFood()
 		}
@@ -314,34 +328,31 @@ class Food extends Component {
 						</View>
 
 						<View style={styles.infoWindowsContainer}>
-							<TouchableOpacity onPress={() => this.toggleModal('name')}>
-								<InfoWindow
-									color1='#f8f8f8'
-									color2={['#f2a91e', '#e95c17']}
-									title={translations.name}
-									val={savedDate.name}
-								/>
-							</TouchableOpacity>
-							<TouchableOpacity onPress={() => this.toggleModal('quantity')}>
-								<InfoWindow
-									color1='#f8f8f8'
-									color2={['#f2a91e', '#e95c17']}
-									title={translations.quantity}
-									val={
-										savedDate.quantity !== translations.noData
-											? savedDate.quantity
-											: savedDate.quantity
-									}
-								/>
-							</TouchableOpacity>
-							<TouchableOpacity onPress={() => this.toggleModal('price')}>
-								<InfoWindow
-									color1='#f8f8f8'
-									color2={['#af3462', '#bf3741']}
-									title={translations.price}
-									val={`${savedDate.price} ${currency}`}
-								/>
-							</TouchableOpacity>
+							<InfoWindow
+								color1='#f8f8f8'
+								color2={['#f2a91e', '#e95c17']}
+								title={translations.name}
+								val={savedDate.name}
+								onPress={() => this.toggleModal('name')}
+							/>
+							<InfoWindow
+								color1='#f8f8f8'
+								color2={['#f2a91e', '#e95c17']}
+								title={translations.quantity}
+								val={
+									savedDate.quantity !== translations.noData
+										? savedDate.quantity
+										: savedDate.quantity
+								}
+								onPress={() => this.toggleModal('quantity')}
+							/>
+							<InfoWindow
+								color1='#f8f8f8'
+								color2={['#af3462', '#bf3741']}
+								title={translations.price}
+								val={`${savedDate.price} ${currency}`}
+								onPress={() => this.toggleModal('price')}
+							/>
 
 							<View style={styles.sliderContainer}>
 								<Text style={styles.percentInfo}>{translations.percentInfo}</Text>

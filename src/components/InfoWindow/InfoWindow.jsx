@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { shadow } from '../../common/styles'
 import styles from './InfoWindow.styles'
@@ -10,15 +10,17 @@ const InfoWindow = ({
 	title = 'none',
 	val = 'none',
 	colorTitle = '#000',
+	onPress,
 	height = 60,
 }) => (
 	<View
 		style={{
-			height: height,
+			height,
 			...styles.container,
 		}}
 	>
-		<View
+		<TouchableOpacity
+			onPress={onPress}
 			style={{
 				backgroundColor: color1,
 				...styles.wrapper,
@@ -47,7 +49,7 @@ const InfoWindow = ({
 					</Text>
 				</LinearGradient>
 			</View>
-		</View>
+		</TouchableOpacity>
 	</View>
 )
 

@@ -194,24 +194,22 @@ class Settings extends Component {
 				/>
 
 				<View style={styles.settingsWrapper}>
-					<TouchableOpacity onPress={() => this.toggleModal('language')}>
-						<InfoWindow
-							color1='#292b2c'
-							color2={['#f2a91e', '#e95c17']}
-							title={translations.language}
-							val={lang}
-							colorTitle='#fff'
-						/>
-					</TouchableOpacity>
-					<TouchableOpacity onPress={() => this.toggleModal('currency')}>
-						<InfoWindow
-							color1='#292b2c'
-							color2={['#af3462', '#bf3741']}
-							title={translations.currency}
-							val={currency}
-							colorTitle='#fff'
-						/>
-					</TouchableOpacity>
+					<InfoWindow
+						color1='#292b2c'
+						color2={['#f2a91e', '#e95c17']}
+						title={translations.language}
+						val={lang}
+						colorTitle='#fff'
+						onPress={() => this.toggleModal('language')}
+					/>
+					<InfoWindow
+						color1='#292b2c'
+						color2={['#af3462', '#bf3741']}
+						title={translations.currency}
+						val={currency}
+						colorTitle='#fff'
+						onPress={() => this.toggleModal('currency')}
+					/>
 					<TouchableOpacity
 						style={styles.clear}
 						onPress={() => this.toggleModal('clearTheDatabase')}
@@ -230,8 +228,8 @@ class Settings extends Component {
 					>
 						<Text style={styles.linkText}>API: https://world.openfoodfacts.org</Text>
 					</TouchableOpacity>
-					<TouchableOpacity onPress={() => WebBrowser.openBrowserAsync('https://webstrong.pl/')}>
-						<Text style={styles.linkText}>{translations.authors}: https://webstrong.pl/</Text>
+					<TouchableOpacity onPress={() => WebBrowser.openBrowserAsync('https://webstrong.pl')}>
+						<Text style={styles.linkText}>{translations.authors}: https://webstrong.pl</Text>
 					</TouchableOpacity>
 				</View>
 			</View>
