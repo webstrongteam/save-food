@@ -13,8 +13,9 @@ import { connect } from 'react-redux'
 
 class Scanner extends Component {
 	state = {
+		grantedPermission: false,
 		scanned: false,
-		loading: false,
+		loading: true,
 	}
 
 	async componentDidMount() {
@@ -22,6 +23,8 @@ class Scanner extends Component {
 
 		if (status !== 'granted') {
 			this.showPermissionError('permissionError')
+		} else {
+			this.setState({ grantedPermission: true, loading: false })
 		}
 	}
 
@@ -73,17 +76,19 @@ class Scanner extends Component {
 	}
 
 	render() {
-		const { scanned, loading } = this.state
+		const { scanned, grantedPermission, loading } = this.state
 		const { navigation } = this.props
 		const os = Platform.OS
 
 		return (
 			<View style={styles.container}>
-				<BarCodeScanner
-					ratio='16:9'
-					onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
-					style={styles.barCodeScanner}
-				/>
+				{grantedPermission && (
+					<BarCodeScanner
+						ratio='16:9'
+						onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
+						style={styles.barCodeScanner}
+					/>
+				)}
 
 				{loading && (
 					<View style={styles.loading}>
