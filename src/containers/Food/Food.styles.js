@@ -79,7 +79,7 @@ export default StyleSheet.create({
 	imageWrapper: {
 		width: 200,
 		height: 200,
-		marginTop: 30,
+		marginTop: 20,
 	},
 	image: {
 		width: 200,
@@ -87,7 +87,7 @@ export default StyleSheet.create({
 		resizeMode: 'cover',
 		borderRadius: 100,
 		borderWidth: 4,
-		borderColor: '#000',
+		borderColor: '#4b8b1d',
 	},
 	infoWindowsContainer: {
 		flex: 1,

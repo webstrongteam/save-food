@@ -262,6 +262,7 @@ class List extends Component {
 								</TouchableOpacity>
 							</View>
 						</View>
+
 						<View style={styles.footer}>
 							<View style={styles.priceContainer}>
 								<CheckBox
@@ -378,9 +379,7 @@ class List extends Component {
 								titleStyle={styles.paymentButtonTitle}
 								disabled={amount < 2}
 								onPress={this.startPayment}
-								title={`${translations.pay} ${amount} ${currency} ${
-									amount < 2 ? '(min. 2 ' + currency + ')' : ''
-								}`}
+								title={`${translations.pay} ${amount} ${currency}`}
 							/>
 						</TouchableOpacity>
 					</View>

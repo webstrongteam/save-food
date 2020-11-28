@@ -23,6 +23,7 @@ class Food extends Component {
 		price: 0.0,
 		percent: 100,
 		productQuantity: 1,
+		selected: 1,
 		savedDate: {},
 		showCamera: false,
 
@@ -78,17 +79,18 @@ class Food extends Component {
 			// Edit
 			const savedDate = {
 				image,
-				name: navigation.getParam('name', false),
-				paid: navigation.getParam('paid', false),
-				productQuantity: navigation.getParam('productQuantity', false),
-				quantity: navigation.getParam('quantity', false),
-				price: navigation.getParam('price', false),
-				percentage: navigation.getParam('percentage', false),
-				id: navigation.getParam('id', false),
+				id: navigation.getParam('id', null),
+				name: navigation.getParam('name', null),
+				paid: navigation.getParam('paid', 0),
+				productQuantity: navigation.getParam('productQuantity', 1),
+				quantity: navigation.getParam('quantity', 0),
+				price: navigation.getParam('price', 0),
+				percentage: navigation.getParam('percentage', 100),
+				selected: navigation.getParam('selected', 1),
 			}
 			this.setState({
 				...savedDate,
-				savedDate: savedDate,
+				savedDate,
 				loading: false,
 			})
 		} else {
@@ -199,15 +201,16 @@ class Food extends Component {
 	}
 
 	saveFood = () => {
-		const { image, name, quantity, price, percent, id, productQuantity } = this.state
+		const { image, name, quantity, price, percent, selected, id, productQuantity } = this.state
 		this.props.onSaveFood({
 			image: image.constructor.name !== 'Object' ? 'null' : image.uri,
-			name: name,
-			paid: 0,
-			id: id,
-			productQuantity: productQuantity,
-			quantity: quantity,
-			price: price,
+			name,
+			id,
+			productQuantity,
+			quantity,
+			selected,
+			paid: 0, // false
+			price: price.toFixed(2),
 			percentage: percent.toFixed(0),
 		})
 		this.props.navigation.navigate('List', {})

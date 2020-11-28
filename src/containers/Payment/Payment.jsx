@@ -1,5 +1,6 @@
 import React from 'react'
 import { ImageBackground, ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native'
+import { WebView } from 'react-native-webview'
 import openSocket from 'socket.io-client'
 import { showMessage } from 'react-native-flash-message'
 import { Button, CheckBox, Icon, Input } from 'react-native-elements'
@@ -29,6 +30,7 @@ class Payment extends React.Component {
 		socketID: null,
 		showModal: false,
 		errorEmail: '',
+		paymentUrl: undefined,
 		checkedStatus: false,
 		modalButtons: [],
 		loading: false,
@@ -124,13 +126,8 @@ class Payment extends React.Component {
 		axios
 			.post(`${config.API_URL}/payment`, data)
 			.then(async (result) => {
-				const url = `${config.PAYMENT_URL}/payment?session=${result.data.id}`
-
-				WebBrowser.openBrowserAsync(url)
-					.then(() => {
-						this.setState({ loading: false })
-					})
-					.catch((err) => this.showErrorMessage(err))
+				const paymentUrl = `${config.PAYMENT_URL}/payment?session=${result.data.id}`
+				this.setState({ paymentUrl })
 			})
 			.catch((err) => this.showErrorMessage(err))
 	}
@@ -144,11 +141,13 @@ class Payment extends React.Component {
 
 		socket.on('payment', (data) => {
 			if (data.status === 'success') {
-				WebBrowser.dismissBrowser()
-				this.paymentSuccess()
+				this.setState({ paymentUrl: undefined }, () => {
+					this.paymentSuccess()
+				})
 			} else {
-				WebBrowser.dismissBrowser()
-				this.showErrorMessage('dismiss')
+				this.setState({ paymentUrl: undefined }, () => {
+					this.showErrorMessage('dismiss')
+				})
 			}
 		})
 	}
@@ -172,22 +171,24 @@ class Payment extends React.Component {
 		WebBrowser.openBrowserAsync(config.PAJACYK_URL)
 	}
 
-	validationEmail = () => {
-		const { email } = this.state
+	validationEmail = (force = false) => {
+		const { email, errorEmail } = this.state
 		const { translations } = this.props
 
-		if (email.length < 1) {
-			this.setState({
-				errorEmail: translations.emptyEmail,
-			})
-		} else if (!validateEmail(email)) {
-			this.setState({
-				errorEmail: translations.wrongEmail,
-			})
-		} else {
-			this.setState({
-				errorEmail: '',
-			})
+		if (force || errorEmail !== '') {
+			if (email.length < 1) {
+				this.setState({
+					errorEmail: translations.emptyEmail,
+				})
+			} else if (!validateEmail(email)) {
+				this.setState({
+					errorEmail: translations.wrongEmail,
+				})
+			} else {
+				this.setState({
+					errorEmail: '',
+				})
+			}
 		}
 	}
 
@@ -199,11 +200,26 @@ class Payment extends React.Component {
 			amount,
 			currency,
 			email,
+			paymentUrl,
 			errorEmail,
 			checkedStatus,
 			loading,
 		} = this.state
 		const { translations, navigation } = this.props
+
+		if (paymentUrl) {
+			return (
+				<View style={{ flex: 1, backgroundColor: '#fff' }}>
+					<StatusBar barStyle='dark-content' />
+
+					<WebView
+						style={{ marginTop: 40 }}
+						mixedContentMode='never'
+						source={{ uri: paymentUrl }}
+					/>
+				</View>
+			)
+		}
 
 		return (
 			<View style={styles.container}>
@@ -258,8 +274,8 @@ class Payment extends React.Component {
 									autoCompleteType='email'
 									inputStyle={styles.inputStyle}
 									placeholder='E-mail'
-									onChangeText={(value) => this.setState({ email: value })}
-									onBlur={() => this.validationEmail()}
+									onChangeText={(value) => this.setState({ email: value }, this.validationEmail)}
+									onBlur={() => this.validationEmail(true)}
 									value={email}
 								/>
 							</View>
