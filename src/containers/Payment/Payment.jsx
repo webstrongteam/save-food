@@ -7,7 +7,6 @@ import { Button, CheckBox, Icon, Input } from 'react-native-elements'
 import axios from 'axios'
 import * as Analytics from 'expo-firebase-analytics'
 import * as WebBrowser from 'expo-web-browser'
-import { auth } from '../../config/auth'
 import config from '../../config/config'
 import { validateEmail } from '../../common/validation'
 import Header from '../../components/Header/Header'
@@ -104,7 +103,6 @@ class Payment extends React.Component {
 		}
 
 		const data = {
-			auth,
 			title: this.props.translations.paymentTitle,
 			lang: this.props.lang,
 			amount: this.state.amount,
@@ -154,7 +152,6 @@ class Payment extends React.Component {
 
 	paymentSuccess = () => {
 		const data = {
-			auth,
 			title: this.props.translations.paymentTitle,
 			lang: this.props.lang,
 			amount: this.state.amount,
@@ -295,15 +292,23 @@ class Payment extends React.Component {
 										checkedColor='#4b8b1d'
 										tintColors={{ true: '#ea6700', false: '#ea6700' }}
 										title={
-											<View style={styles.permission}>
-												<Text style={styles.permissionText}>{translations.permission}</Text>
-												<TouchableOpacity
-													onPress={() => WebBrowser.openBrowserAsync('https://stripe.com')}
+											<Text style={styles.permission}>
+												<Text style={styles.permissionText}>{translations.emailPermission} </Text>
+												<Text
+													onPress={() => WebBrowser.openBrowserAsync(config.STRIPE_URL)}
+													style={styles.href}
 												>
-													<Text style={styles.href}>Stripe</Text>
-												</TouchableOpacity>
+													Stripe{' '}
+												</Text>
+												<Text style={styles.permissionText}>{translations.termsPermission1} </Text>
+												<Text
+													onPress={() => WebBrowser.openBrowserAsync(config.STRIPE_TERMS)}
+													style={styles.href}
+												>
+													{translations.termsPermission2}
+												</Text>
 												<Text style={styles.permissionText}>.</Text>
-											</View>
+											</Text>
 										}
 									/>
 								</View>
