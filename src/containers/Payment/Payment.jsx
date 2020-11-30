@@ -1,17 +1,19 @@
 import React from 'react'
-import { ImageBackground, ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native'
+import { ImageBackground, ScrollView, StatusBar, Text, View } from 'react-native'
 import { WebView } from 'react-native-webview'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 import openSocket from 'socket.io-client'
 import { showMessage } from 'react-native-flash-message'
-import { Button, CheckBox, Icon, Input } from 'react-native-elements'
+import { Button, CheckBox, Icon } from 'react-native-elements'
+import { checkValid, validator } from '../../common/validation'
 import axios from 'axios'
 import * as Analytics from 'expo-firebase-analytics'
 import * as WebBrowser from 'expo-web-browser'
 import config from '../../config/config'
-import { validateEmail } from '../../common/validation'
 import Header from '../../components/Header/Header'
 import Modal from '../../components/Modal/Modal'
 import Spinner from '../../components/Spinner/Spinner'
+import Input from '../../components/Input/Input'
 import pajacyk from '../../assets/common/pajacyk.png'
 import styles from './Payment.styles'
 
@@ -23,16 +25,26 @@ class Payment extends React.Component {
 		ids: null,
 		amount: 0,
 		name: 'saveFood',
-		email: this.props.email,
+		email: this.props.email !== '' ? this.props.email : undefined,
 		currency: 'pln',
 		modalContent: null,
 		socketID: null,
 		showModal: false,
-		errorEmail: '',
 		paymentUrl: undefined,
 		checkedStatus: false,
 		modalButtons: [],
 		loading: false,
+
+		emailControl: {
+			label: this.props.translations.emailLabel,
+			keyboardType: 'email-address',
+			textContentType: 'emailAddress',
+			autoCompleteType: 'email',
+			autoCapitalize: 'none',
+			required: true,
+			email: true,
+			characterRestriction: 70,
+		},
 	}
 
 	componentDidMount() {
@@ -168,25 +180,23 @@ class Payment extends React.Component {
 		WebBrowser.openBrowserAsync(config.PAJACYK_URL)
 	}
 
-	validationEmail = (force = false) => {
-		const { email, errorEmail } = this.state
+	checkPaymentValidation = () => {
+		const { email, emailControl, checkedStatus } = this.state
+		return email && checkedStatus && checkValid(emailControl, email)
+	}
+
+	submitPayment = () => {
+		const { emailControl, email } = this.state
 		const { translations } = this.props
 
-		if (force || errorEmail !== '') {
-			if (email.length < 1) {
-				this.setState({
-					errorEmail: translations.emptyEmail,
-				})
-			} else if (!validateEmail(email)) {
-				this.setState({
-					errorEmail: translations.wrongEmail,
-				})
+		validator(emailControl, email, translations, (emailControl) => {
+			const { checkedStatus } = this.state
+			if (!emailControl.error && checkedStatus) {
+				this.showModal()
 			} else {
-				this.setState({
-					errorEmail: '',
-				})
+				this.setState({ emailControl })
 			}
-		}
+		})
 	}
 
 	render() {
@@ -194,11 +204,11 @@ class Payment extends React.Component {
 			showModal,
 			modalContent,
 			modalButtons,
+			emailControl,
 			amount,
 			currency,
 			email,
 			paymentUrl,
-			errorEmail,
 			checkedStatus,
 			loading,
 		} = this.state
@@ -255,32 +265,22 @@ class Payment extends React.Component {
 						<ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollViewContent}>
 							<View style={styles.inputContainer}>
 								<Input
-									leftIcon={{
-										name: 'email',
-										style: styles.leftIconInput,
-									}}
-									autoCapitalize='none'
-									labelStyle={styles.labelStyleInput}
-									label={translations.emailLabel}
-									keyboardType='email-address'
-									textContentType='emailAddress'
-									autoCompleteType='email'
-									inputStyle={styles.inputStyle}
-									placeholder='E-mail'
-									onChangeText={(value) => this.setState({ email: value }, this.validationEmail)}
-									onBlur={() => this.validationEmail(true)}
+									elementConfig={emailControl}
+									translations={translations}
+									focus={false}
 									value={email}
+									placeholder='E-mail'
+									changed={(value, control) => {
+										this.setState({ email: value, emailControl: control })
+									}}
 								/>
 							</View>
-							<Text style={{ marginBottom: errorEmail === '' ? 0 : 20, ...styles.errorEmail }}>
-								{errorEmail}
-							</Text>
 
-							<View>
+							<View style={styles.charityWrapper}>
 								<Text style={styles.charity}>{translations.charity}</Text>
-								<TouchableOpacity onPress={this.openCharityPage}>
-									<Text style={styles.charityText}>&quot;Pajacyk&quot;</Text>
-								</TouchableOpacity>
+								<Text onPress={this.openCharityPage} style={styles.charityText}>
+									&quot;Pajacyk&quot;
+								</Text>
 							</View>
 							<ImageBackground source={pajacyk} style={styles.charityImage} />
 
@@ -314,13 +314,14 @@ class Payment extends React.Component {
 								</View>
 							</View>
 							<View style={styles.buttonContainer}>
-								<Button
-									buttonStyle={styles.buttonStyle}
-									titleStyle={styles.buttonTitle}
-									disabled={errorEmail !== '' || !email || !checkedStatus}
-									title={translations.moveToPayment}
-									onPress={this.showModal}
-								/>
+								<TouchableOpacity onPress={this.submitPayment}>
+									<Button
+										buttonStyle={styles.buttonStyle}
+										titleStyle={styles.buttonTitle}
+										disabled={!this.checkPaymentValidation()}
+										title={translations.moveToPayment}
+									/>
+								</TouchableOpacity>
 							</View>
 						</ScrollView>
 					</>

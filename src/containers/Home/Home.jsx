@@ -46,14 +46,16 @@ class Home extends Component {
 			let unpaid = 0
 			let food = 0
 			let moderateWaste = 0
+
 			list.map((val) => {
 				if (val.paid === 0) {
-					unpaid += val.price * val.productQuantity
+					unpaid += +val.price * val.productQuantity
 				}
-				price += val.price * val.productQuantity
+				price += +val.price * val.productQuantity
 				food += 1
 				moderateWaste += val.percentage
 			})
+
 			if (list.length) moderateWaste = moderateWaste / list.length
 			this.setState({
 				food,

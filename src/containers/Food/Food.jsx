@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
-import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native'
-import { Button, Icon, Input, Slider } from 'react-native-elements'
+import { Image, ScrollView, Text, View } from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import { Button, Icon, Slider } from 'react-native-elements'
 import { LinearGradient } from 'expo-linear-gradient'
+import Input from '../../components/Input/Input'
+import Header from '../../components/Header/Header'
 import InfoWindow from '../../components/InfoWindow/InfoWindow'
 import Spinner from '../../components/Spinner/Spinner'
 import Modal from '../../components/Modal/Modal'
 import { Camera } from 'expo-camera'
 import { showMessage } from 'react-native-flash-message'
-import Header from '../../components/Header/Header'
+import { checkValid } from '../../common/validation'
 import { exitIcon, shadow } from '../../common/styles'
 import styles from './Food.styles'
 
@@ -16,21 +19,45 @@ import * as actions from '../../store/actions'
 
 class Food extends Component {
 	state = {
-		id: null,
-		image: '',
-		name: '',
-		quantity: '',
-		price: 0.0,
-		percent: 100,
-		productQuantity: 1,
-		selected: 1,
-		savedDate: {},
-		showCamera: false,
+		savedData: {
+			id: null,
+			image: null,
+			name: undefined,
+			quantity: undefined,
+			price: undefined,
+			percentage: 100,
+			productQuantity: 1,
+			selected: 1,
+		},
 
+		controls: {
+			name: {
+				label: this.props.translations.nameLabel,
+				required: true,
+				characterRestriction: 70,
+			},
+			quantity: {
+				label: this.props.translations.quantityLabel,
+				keyboardType: 'numeric',
+				required: true,
+				characterRestriction: 5,
+				number: true,
+				positiveNumber: true,
+			},
+			price: {
+				label: this.props.translations.priceLabel,
+				keyboardType: 'numeric',
+				required: true,
+				characterRestriction: 7,
+				number: true,
+				positiveNumber: true,
+			},
+		},
+
+		showCamera: false,
 		showModal: false,
 		modalContent: null,
 		type: '',
-
 		loading: true,
 	}
 
@@ -39,35 +66,16 @@ class Food extends Component {
 	}
 
 	componentDidUpdate(prevProps) {
-		if (this.props.translations !== prevProps.translations) {
-			if (this.state.name === 'No data') {
-				const { translations } = this.props
-				const { savedDate } = this.state
-				savedDate.name = translations.noData
-				this.setState({ savedDate, name: translations.noData })
-			}
-			if (this.state.quantity === 'No data') {
-				const { translations } = this.props
-				const { savedDate } = this.state
-				savedDate.quantity = translations.noData
-				this.setState({ savedDate, quantity: translations.noData })
-			}
-		}
 		if (this.props.navigation !== prevProps.navigation) {
 			this.setFood()
 		}
 	}
 
 	setFood = () => {
-		const { navigation, translations } = this.props
+		const { navigation } = this.props
 
-		let id = navigation.getParam('id', null)
+		const id = navigation.getParam('id', null)
 		let image = navigation.getParam('image', null)
-		let name = navigation.getParam('name', null)
-		let quantity = navigation.getParam('quantity', null)
-
-		if (!name) name = translations.noData
-		if (!quantity) quantity = translations.noData
 
 		if (!image || image === 'null') {
 			image = require('../../assets/common/dish.png')
@@ -75,58 +83,43 @@ class Food extends Component {
 			image = { uri: image }
 		}
 
-		if (id) {
-			// Edit
-			const savedDate = {
-				image,
-				id: navigation.getParam('id', null),
-				name: navigation.getParam('name', null),
-				paid: navigation.getParam('paid', 0),
-				productQuantity: navigation.getParam('productQuantity', 1),
-				quantity: navigation.getParam('quantity', 0),
-				price: navigation.getParam('price', 0),
-				percentage: navigation.getParam('percentage', 100),
-				selected: navigation.getParam('selected', 1),
-			}
-			this.setState({
-				...savedDate,
-				savedDate,
-				loading: false,
-			})
-		} else {
-			// New
-			this.setState({
-				savedDate: { name, image, quantity, price: 0.0, percent: 100 },
-				image,
-				name,
-				quantity,
-				loading: false,
-			})
+		const savedData = {
+			id,
+			image,
+			name: navigation.getParam('name', undefined),
+			quantity: navigation.getParam('quantity', undefined),
+			price: navigation.getParam('price', undefined),
+			paid: navigation.getParam('paid', 0),
+			productQuantity: navigation.getParam('productQuantity', 1),
+			percentage: navigation.getParam('percentage', 100),
+			selected: navigation.getParam('selected', 1),
 		}
+
+		this.setState({
+			...savedData,
+			savedData,
+			loading: false,
+		})
 	}
 
 	setContent = (type) => {
+		const { controls } = this.state
 		const { translations } = this.props
+
+		const hasValue = this.state[type] && this.state[type] !== translations.noData
 
 		this.setState({
 			modalContent: (
 				<View style={styles.modalContentWrapper}>
 					<Input
-						keyboardType={type === 'name' ? 'default' : 'numeric'}
-						placeholder={`${this.state[type]}`}
-						defaultValue={
-							this.state[type] && this.state[type] !== translations.noData
-								? `${this.state[type]}`
-								: undefined
-						}
-						onChangeText={(value) => {
-							if (type === 'price' && value.length > 4) {
-								return
-							}
-
-							this.setState({
-								[type]: type === 'price' ? Math.abs(+value.replace(',', '.')) : value,
-							})
+						elementConfig={controls[type]}
+						translations={translations}
+						focus={!hasValue}
+						value={this.state[type]}
+						changed={(value, control) => {
+							const { controls } = this.state
+							controls[type] = control
+							this.setState({ [type]: value, controls })
 						}}
 					/>
 				</View>
@@ -137,16 +130,18 @@ class Food extends Component {
 	}
 
 	saveChange = () => {
-		const { savedDate, type } = this.state
-		savedDate[type] = this.state[type]
+		const { savedData, controls, type } = this.state
 
-		this.setState({ savedDate, showModal: false })
+		if (checkValid(controls[type], this.state[type])) {
+			savedData[type] = this.state[type]
+			this.setState({ savedData, showModal: false })
+		}
 	}
 
 	cancelChange = () => {
-		const { savedDate, type } = this.state
+		const { savedData, type } = this.state
 
-		this.setState({ [type]: savedDate[type], showModal: false })
+		this.setState({ [type]: savedData[type], showModal: false })
 	}
 
 	toggleModal = (type) => {
@@ -206,16 +201,16 @@ class Food extends Component {
 		showMessage(message)
 	}
 
-	checkValid = () => {
-		if (this.state.price === 0) {
-			this.showSimpleMessage('priceError')
-		} else {
-			this.saveFood()
-		}
-	}
+	checkValid = () => this.state.price && !this.state.controls.price.error
 
 	saveFood = () => {
-		const { image, name, quantity, price, percent, selected, id, productQuantity } = this.state
+		if (!this.checkValid()) {
+			this.showSimpleMessage('priceError')
+			return
+		}
+
+		const { image, name, quantity, price, percentage, selected, id, productQuantity } = this.state
+
 		this.props.onSaveFood({
 			image: image.constructor.name !== 'Object' ? 'null' : image.uri,
 			name,
@@ -224,8 +219,8 @@ class Food extends Component {
 			quantity,
 			selected,
 			paid: 0, // false
-			price: price.toFixed(2),
-			percentage: percent.toFixed(0),
+			price: (+price).toFixed(2),
+			percentage: percentage.toFixed(0),
 		})
 		this.props.navigation.navigate('List', {})
 	}
@@ -236,9 +231,9 @@ class Food extends Component {
 			showCamera,
 			modalContent,
 			type,
-			savedDate,
+			savedData,
 			image,
-			percent,
+			percentage,
 			id,
 			loading,
 		} = this.state
@@ -332,25 +327,21 @@ class Food extends Component {
 								color1='#f8f8f8'
 								color2={['#f2a91e', '#e95c17']}
 								title={translations.name}
-								val={savedDate.name}
+								val={savedData.name ?? translations.noData}
 								onPress={() => this.toggleModal('name')}
 							/>
 							<InfoWindow
 								color1='#f8f8f8'
 								color2={['#f2a91e', '#e95c17']}
 								title={translations.quantity}
-								val={
-									savedDate.quantity !== translations.noData
-										? savedDate.quantity
-										: savedDate.quantity
-								}
+								val={savedData.quantity ? +savedData.quantity : 0}
 								onPress={() => this.toggleModal('quantity')}
 							/>
 							<InfoWindow
 								color1='#f8f8f8'
 								color2={['#af3462', '#bf3741']}
 								title={translations.price}
-								val={`${savedDate.price} ${currency}`}
+								val={`${savedData.price ? +savedData.price : 0} ${currency}`}
 								onPress={() => this.toggleModal('price')}
 							/>
 
@@ -364,20 +355,19 @@ class Food extends Component {
 									maximumTrackTintColor='#b3b3b3'
 									minimumValue={1}
 									maximumValue={100}
-									value={percent}
-									onValueChange={(value) => this.setState({ percent: value })}
+									value={percentage}
+									onValueChange={(value) => this.setState({ percentage: value })}
 								/>
-								<Text style={styles.percent}>{percent.toFixed(0)}%</Text>
+								<Text style={styles.percent}>{percentage.toFixed(0)}%</Text>
 							</View>
 						</View>
 
 						<View style={styles.saveButtonContainer}>
-							<TouchableOpacity onPress={this.checkValid}>
+							<TouchableOpacity onPress={this.saveFood}>
 								<Button
 									buttonStyle={styles.saveButton}
 									titleStyle={styles.saveButtonTitle}
-									disabled={savedDate.price === 0}
-									onPress={this.saveFood}
+									disabled={!this.checkValid()}
 									type='outline'
 									title={translations.save}
 								/>

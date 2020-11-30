@@ -53,13 +53,19 @@
 	"pajacyk": "Pajacyk is a program under which the Polish Humanitarian Organization has been helping malnourished children since 1998. Pajacyk finances meals in schools and community facilities. Our goal is for every child to have a full-fledged daily meal!",
 	"pajacykFooter": "Organization web page: ",
 	"authors": "Authors",
-	"emptyEmail": "E-mail is required",
-	"wrongEmail": "E-mail is incorrect",
 	"emailPermission": "I consent to the transfer of my e-mail address to the payment intermediary",
 	"termsPermission1": "and I accept",
 	"termsPermission2": "payment terms",
 	"commissionTitle": "Commission",
 	"commission": "Remember that the commission for the payment intermediary will be deducted from the amount you have transferred. For this reason, we encourage you to manually donate on the selected organization.",
 	"permissionErrorTitle": "No permission",
-	"permissionErrorCamera": "The app does not have camera permissions."
+	"permissionErrorCamera": "The app does not have camera permissions.",
+	"nameLabel": "Food name",
+	"quantityLabel": "Food quantity",
+	"priceLabel": "Food price",
+	"tooLongError": "Text is too long!",
+	"numberError": "Value must be a number!",
+	"greaterThanZeroError": "Value must be greater than zero!",
+	"requiredError": "Field is required!",
+	"emailError": "E-mail is incorrect"
 }

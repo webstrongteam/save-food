@@ -1,4 +1,6 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Platform } from 'react-native'
+
+const os = Platform.OS
 
 export default StyleSheet.create({
 	webviewContainer: {
@@ -6,7 +8,7 @@ export default StyleSheet.create({
 		backgroundColor: '#fff',
 	},
 	webview: {
-		marginTop: 40,
+		marginTop: os === 'ios' ? 20 : 40,
 	},
 	container: {
 		flex: 1,
@@ -42,7 +44,7 @@ export default StyleSheet.create({
 	inputContainer: {
 		width: '100%',
 		marginTop: 30,
-		marginBottom: -10,
+		marginBottom: 20,
 	},
 	leftIconInput: {
 		opacity: 0.5,
@@ -58,6 +60,9 @@ export default StyleSheet.create({
 		fontFamily: 'Lato-Light',
 		color: '#dc3545',
 	},
+	charityWrapper: {
+		alignItems: 'center',
+	},
 	charity: {
 		fontSize: 20,
 		fontFamily: 'Lato-Light',
@@ -68,7 +73,7 @@ export default StyleSheet.create({
 		fontSize: 20,
 		fontFamily: 'Lato-Bold',
 		color: '#4d6999',
-		textAlign: 'center',
+		width: '100%',
 		marginBottom: 20,
 		marginTop: 10,
 	},

@@ -15,7 +15,6 @@ class Settings extends Component {
 	state = {
 		lang: '',
 		currency: '',
-
 		languages: [
 			{ short: 'en', name: this.props.translations.english },
 			{ short: 'pl', name: this.props.translations.polish },

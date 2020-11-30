@@ -23,6 +23,7 @@
 	"dependencies": {
 		"@react-native-community/async-storage": "~1.12.0",
 		"@react-native-community/masked-view": "0.1.10",
+		"@ubaids/react-native-material-textfield": "^0.16.3",
 		"axios": "0.19.2",
 		"expo": "^39.0.0",
 		"expo-barcode-scanner": "~9.0.0",
@@ -45,13 +46,14 @@
 		"react-native-safe-area-context": "3.1.4",
 		"react-native-screens": "~2.10.1",
 		"react-native-swipeable": "^0.6.0",
+		"react-native-webview": "10.7.0",
 		"react-navigation": "4.4.2",
 		"react-navigation-stack": "2.8.4",
 		"react-redux": "7.2.1",
 		"redux": "4.0.4",
 		"redux-thunk": "2.3.0",
 		"socket.io-client": "^2.3.0",
-		"react-native-webview": "10.7.0"
+		"react-native-reanimated": "~1.13.0"
 	},
 	"devDependencies": {
 		"@typescript-eslint/eslint-plugin": "^4.7.0",

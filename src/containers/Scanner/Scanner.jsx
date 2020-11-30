@@ -18,14 +18,18 @@ class Scanner extends Component {
 		loading: true,
 	}
 
-	async componentDidMount() {
-		const { status } = await BarCodeScanner.requestPermissionsAsync()
-
-		if (status !== 'granted') {
-			this.showPermissionError('permissionError')
-		} else {
-			this.setState({ grantedPermission: true, loading: false })
-		}
+	componentDidMount() {
+		BarCodeScanner.requestPermissionsAsync()
+			.then(({ status }) => {
+				if (status !== 'granted') {
+					this.showPermissionError('permissionError')
+				} else {
+					this.setState({ grantedPermission: true, loading: false })
+				}
+			})
+			.catch(() => {
+				this.showPermissionError('permissionError')
+			})
 	}
 
 	showPermissionError = () => {
