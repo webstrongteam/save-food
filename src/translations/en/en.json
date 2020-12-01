@@ -67,5 +67,9 @@
 	"numberError": "Value must be a number!",
 	"greaterThanZeroError": "Value must be greater than zero!",
 	"requiredError": "Field is required!",
-	"emailError": "E-mail is incorrect"
+	"emailError": "E-mail is incorrect",
+	"grams": "grams",
+	"milliliters": "milliliters",
+	"gramsSuffix": "g",
+	"millilitersSuffix": "ml"
 }

@@ -1,10 +1,8 @@
 import { Platform } from 'react-native'
 
-const os = Platform.OS
-
 export const exitIcon = {
 	position: 'absolute',
-	top: os === 'ios' ? 40 : 50,
+	top: Platform.OS === 'ios' ? 40 : 50,
 	left: 20,
 	zIndex: 20,
 }

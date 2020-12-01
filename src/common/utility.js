@@ -13,3 +13,12 @@ export const getResizeMode = (image, callback) => {
 		}
 	})
 }
+
+export const getQuantitySuffix = (quantitySuffixIndex, translations) => {
+	if (quantitySuffixIndex === 0) {
+		return translations.gramsSuffix
+	}
+	if (quantitySuffixIndex === 1) {
+		return translations.millilitersSuffix
+	}
+}

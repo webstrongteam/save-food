@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Image, ScrollView, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { Button, Icon, Slider } from 'react-native-elements'
+import { Button, ButtonGroup, Icon, Slider } from 'react-native-elements'
 import { LinearGradient } from 'expo-linear-gradient'
 import Input from '../../components/Input/Input'
 import Header from '../../components/Header/Header'
@@ -11,6 +11,7 @@ import Modal from '../../components/Modal/Modal'
 import { Camera } from 'expo-camera'
 import { showMessage } from 'react-native-flash-message'
 import { checkValid } from '../../common/validation'
+import { getQuantitySuffix } from '../../common/utility'
 import { exitIcon, shadow } from '../../common/styles'
 import styles from './Food.styles'
 
@@ -27,6 +28,7 @@ class Food extends Component {
 			price: undefined,
 			percentage: 100,
 			productQuantity: 1,
+			quantitySuffixIndex: 0,
 			selected: 1,
 		},
 
@@ -54,6 +56,7 @@ class Food extends Component {
 			},
 		},
 
+		quantitySuffixes: [this.props.translations.grams, this.props.translations.milliliters],
 		showCamera: false,
 		showModal: false,
 		modalContent: null,
@@ -91,6 +94,7 @@ class Food extends Component {
 			price: navigation.getParam('price', undefined),
 			paid: navigation.getParam('paid', 0),
 			productQuantity: navigation.getParam('productQuantity', 1),
+			quantitySuffixIndex: navigation.getParam('quantitySuffixIndex', 1),
 			percentage: navigation.getParam('percentage', 100),
 			selected: navigation.getParam('selected', 1),
 		}
@@ -122,11 +126,27 @@ class Food extends Component {
 							this.setState({ [type]: value, controls })
 						}}
 					/>
+					{type === 'quantity' && this.quantitySuffixButtons()}
 				</View>
 			),
 			showModal: true,
 			type,
 		})
+	}
+
+	quantitySuffixButtons = () => {
+		const { quantitySuffixes, quantitySuffixIndex } = this.state
+
+		return (
+			<ButtonGroup
+				onPress={(index) =>
+					this.setState({ quantitySuffixIndex: index }, () => this.setContent('quantity'))
+				}
+				selectedIndex={quantitySuffixIndex}
+				buttons={quantitySuffixes}
+				selectedButtonStyle={styles.selectedButtonStyle}
+			/>
+		)
 	}
 
 	saveChange = () => {
@@ -209,13 +229,24 @@ class Food extends Component {
 			return
 		}
 
-		const { image, name, quantity, price, percentage, selected, id, productQuantity } = this.state
+		const {
+			id,
+			image,
+			name,
+			quantity,
+			price,
+			percentage,
+			selected,
+			quantitySuffixIndex,
+			productQuantity,
+		} = this.state
 
 		this.props.onSaveFood({
 			image: image.constructor.name !== 'Object' ? 'null' : image.uri,
 			name,
 			id,
 			productQuantity,
+			quantitySuffixIndex,
 			quantity,
 			selected,
 			paid: 0, // false
@@ -235,6 +266,7 @@ class Food extends Component {
 			image,
 			percentage,
 			id,
+			quantitySuffixIndex,
 			loading,
 		} = this.state
 		const { navigation, currency, translations } = this.props
@@ -334,7 +366,14 @@ class Food extends Component {
 								color1='#f8f8f8'
 								color2={['#f2a91e', '#e95c17']}
 								title={translations.quantity}
-								val={savedData.quantity ? +savedData.quantity : 0}
+								val={
+									savedData.quantity
+										? `${+savedData.quantity} ${getQuantitySuffix(
+												quantitySuffixIndex,
+												translations,
+										  )}`
+										: 0
+								}
 								onPress={() => this.toggleModal('quantity')}
 							/>
 							<InfoWindow

@@ -24,7 +24,7 @@ export const initDatabase = (callback) => {
 			//     'DROP TABLE IF EXISTS wasted_food;'
 			// );
 			tx.executeSql(
-				'create table if not exists wasted_food (id integer primary key not null, name text, image text, quantity integer, price integer, percentage integer, paid integer, productQuantity integer, selected integer DEFAULT 1);',
+				'create table if not exists wasted_food (id integer primary key not null, name text, image text, quantity integer, price integer, percentage integer, paid integer, productQuantity integer, quantitySuffixIndex integer DEFAULT 0, selected integer DEFAULT 1);',
 			)
 			tx.executeSql(
 				'create table if not exists settings (id integer primary key not null, lang text, currency text, notification_cycle integer, email text, version text);',

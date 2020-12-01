@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
-import { BackHandler, Dimensions } from 'react-native'
+import { BackHandler, Dimensions, Keyboard } from 'react-native'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import Modal, { ModalButton, ModalContent, ModalFooter, ModalTitle } from 'react-native-modals'
 
 const modal = ({ toggleModal, visible, title, buttons = [], bgColor = '#fff', content }) => {
@@ -26,7 +27,11 @@ const modal = ({ toggleModal, visible, title, buttons = [], bgColor = '#fff', co
 			onSwipeOut={toggleModal}
 			onTouchOutside={toggleModal}
 			modalStyle={{ backgroundColor: bgColor }}
-			modalTitle={<ModalTitle title={title} />}
+			modalTitle={
+				<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+					<ModalTitle title={title} />
+				</TouchableWithoutFeedback>
+			}
 			footer={
 				<ModalFooter>
 					{buttons.map((item, i) => (

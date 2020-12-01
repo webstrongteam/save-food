@@ -1,14 +1,12 @@
 import { StyleSheet, Platform } from 'react-native'
 
-const os = Platform.OS
-
 export default StyleSheet.create({
 	webviewContainer: {
 		flex: 1,
 		backgroundColor: '#fff',
 	},
 	webview: {
-		marginTop: os === 'ios' ? 20 : 40,
+		marginTop: Platform.OS ? 20 : 40,
 	},
 	container: {
 		flex: 1,

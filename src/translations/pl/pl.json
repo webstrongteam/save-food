@@ -66,5 +66,9 @@
 	"numberError": "Wartość musi być liczbą!",
 	"greaterThanZeroError": "Wartość musi być większę od zera!",
 	"requiredError": "Pole jest wymagane!",
-	"emailError": "Adres e-mail jest niepoprawny"
+	"emailError": "Adres e-mail jest niepoprawny",
+	"grams": "gramy",
+	"milliliters": "mililitry",
+	"gramsSuffix": "g",
+	"millilitersSuffix": "ml"
 }

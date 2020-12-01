@@ -12,7 +12,7 @@ import { showMessage } from 'react-native-flash-message'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Button, CheckBox, Icon, ListItem } from 'react-native-elements'
 import Header from '../../components/Header/Header'
-import { getResizeMode } from '../../common/utility'
+import { getQuantitySuffix, getResizeMode } from '../../common/utility'
 import Spinner from '../../components/Spinner/Spinner'
 import EmptyList from './EmptyList/EmptyList'
 import Modal from '../../components/Modal/Modal'
@@ -235,10 +235,16 @@ class List extends Component {
 
 								<View style={styles.productDetails}>
 									<Text numberOfLines={2} style={styles.productName}>
-										{item.name}
+										{item.name ?? translations.noData}
 									</Text>
 									<Text numberOfLines={1} style={styles.text}>
-										{translations.quantity}: {item.quantity}
+										{translations.quantity}:{' '}
+										{item.quantity
+											? `${item.quantity} ${getQuantitySuffix(
+													item.quantitySuffixIndex,
+													translations,
+											  )}`
+											: translations.noData}
 									</Text>
 									<Text numberOfLines={1} style={styles.text}>
 										{translations.percent}: {item.percentage}%

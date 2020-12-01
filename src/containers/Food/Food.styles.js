@@ -51,6 +51,11 @@ export default StyleSheet.create({
 	modalContentWrapper: {
 		marginTop: 10,
 		marginBottom: -10,
+		flexDirection: 'column',
+		justifyContent: 'center',
+	},
+	selectedButtonStyle: {
+		backgroundColor: '#4b8b1d',
 	},
 	contentWrapper: {
 		flex: 1,

@@ -44,6 +44,7 @@ export const saveFood = (food, callback = () => null) => {
                                        price           = ?,
                                        percentage      = ?,
                                        productQuantity = ?,
+                                       quantitySuffixIndex = ?,
 																			 paid            = ?,
                                        selected        = ?
                                    where id = ?;`,
@@ -54,6 +55,7 @@ export const saveFood = (food, callback = () => null) => {
 							food.price,
 							food.percentage,
 							food.productQuantity,
+							food.quantitySuffixIndex,
 							food.paid,
 							food.selected,
 							food.id,
@@ -74,7 +76,7 @@ export const saveFood = (food, callback = () => null) => {
 			db.transaction(
 				(tx) => {
 					tx.executeSql(
-						'insert into wasted_food (name, image, quantity, price, percentage, productQuantity, paid) values (?,?,?,?,?,?,?)',
+						'insert into wasted_food (name, image, quantity, price, percentage, productQuantity, quantitySuffixIndex, paid) values (?,?,?,?,?,?,?,?)',
 						[
 							food.name,
 							food.image,
@@ -82,6 +84,7 @@ export const saveFood = (food, callback = () => null) => {
 							food.price,
 							food.percentage,
 							food.productQuantity,
+							food.quantitySuffixIndex,
 							food.paid,
 						],
 						() => {

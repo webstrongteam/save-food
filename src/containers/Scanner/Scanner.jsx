@@ -50,23 +50,30 @@ class Scanner extends Component {
 		this.setState({ loading: true, scanned: true }, () => {
 			axios
 				.get(`https://world.openfoodfacts.org/api/v0/product/${data}.json`)
-				.then((res) => {
-					const image = res.data.product.image_url
-					const name = res.data.product.product_name
-					const quantity = res.data.product.product_quantity
-
+				.then(({ data }) => {
 					Analytics.logEvent('scannedFood', {
 						component: 'Scanner',
 					})
 
+					const { translations } = this.props
+					const image = data.product.image_url
+					const name = data.product.product_name
+					const quantity = data.product.product_quantity
+					let quantitySuffixIndex = 1 // default ml
+
+					const quantitySuffix = data.product.quantity.slice(-2) // get last two char (g, ml, l)
+					if (quantitySuffix.trim() === translations.gramsSuffix) {
+						quantitySuffixIndex = 0 // g
+					}
+
 					if (!image && !name && !quantity) {
-						Analytics.logEvent('missingProduct', {
+						Analytics.logEvent('missingProductData', {
 							component: 'Scanner',
 						})
 					}
 
 					this.setState({ loading: false })
-					this.props.navigation.replace('Food', { image, name, quantity })
+					this.props.navigation.replace('Food', { image, name, quantity, quantitySuffixIndex })
 				})
 				.catch(() => {
 					this.setState({ loading: false })
@@ -82,7 +89,6 @@ class Scanner extends Component {
 	render() {
 		const { scanned, grantedPermission, loading } = this.state
 		const { navigation } = this.props
-		const os = Platform.OS
 
 		return (
 			<View style={styles.container}>
@@ -106,7 +112,7 @@ class Scanner extends Component {
 					</TouchableOpacity>
 				</View>
 
-				{os === 'ios' && (
+				{Platform.OS === 'ios' && (
 					<View style={styles.scannerBoxContainer}>
 						<View style={styles.scannerBox}>
 							<View style={styles.scannerBoxBorder} />
