@@ -33,7 +33,7 @@ export const validator = (control, value, translations, callback) => {
 				control.error = translations.numberError
 				validStatus = false
 			} else if (control.positiveNumber) {
-				if (+value < 1) {
+				if (+value <= 0) {
 					control.error = translations.greaterThanZeroError
 					validStatus = false
 				}

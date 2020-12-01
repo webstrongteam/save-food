@@ -14,11 +14,7 @@ class Start extends Component {
 				image: (
 					<Image
 						style={styles.firstStepContainer}
-						source={
-							this.props.lang === 'pl'
-								? require('../../assets/icon-circle.png')
-								: require('../../assets/icon-circle.png')
-						}
+						source={require('../../assets/icon-transparent.png')}
 					/>
 				),
 				title: this.props.translations.startTitle,
