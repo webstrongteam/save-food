@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Image } from 'react-native'
+import { BackHandler, Image } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 import Onboarding from 'react-native-onboarding-swiper'
+import config from '../../config/config'
 import styles from './Start.styles'
 
 import { connect } from 'react-redux'
@@ -25,11 +26,10 @@ class Start extends Component {
 				image: (
 					<Image
 						style={styles.stepContainer}
-						source={
-							this.props.lang === 'pl'
-								? require('../../assets/steps_pl/1.jpg')
-								: require('../../assets/steps_en/1.jpg')
-						}
+						source={{
+							uri: `${config.ASSETS_URL}/promo-screens/android/${this.props.lang}/transparent/2.png`,
+							cache: 'reload',
+						}}
 					/>
 				),
 				title: '',
@@ -40,11 +40,10 @@ class Start extends Component {
 				image: (
 					<Image
 						style={styles.stepContainer}
-						source={
-							this.props.lang === 'pl'
-								? require('../../assets/steps_pl/2.jpg')
-								: require('../../assets/steps_en/2.jpg')
-						}
+						source={{
+							uri: `${config.ASSETS_URL}/promo-screens/android/${this.props.lang}/transparent/3.png`,
+							cache: 'reload',
+						}}
 					/>
 				),
 				title: '',
@@ -55,11 +54,10 @@ class Start extends Component {
 				image: (
 					<Image
 						style={styles.stepContainer}
-						source={
-							this.props.lang === 'pl'
-								? require('../../assets/steps_pl/3.jpg')
-								: require('../../assets/steps_en/3.jpg')
-						}
+						source={{
+							uri: `${config.ASSETS_URL}/promo-screens/android/${this.props.lang}/transparent/4.png`,
+							cache: 'reload',
+						}}
 					/>
 				),
 				title: '',
@@ -70,11 +68,10 @@ class Start extends Component {
 				image: (
 					<Image
 						style={styles.stepContainer}
-						source={
-							this.props.lang === 'pl'
-								? require('../../assets/steps_pl/4.jpg')
-								: require('../../assets/steps_en/4.jpg')
-						}
+						source={{
+							uri: `${config.ASSETS_URL}/promo-screens/android/${this.props.lang}/transparent/5.png`,
+							cache: 'reload',
+						}}
 					/>
 				),
 				title: '',
@@ -83,9 +80,17 @@ class Start extends Component {
 		],
 	}
 
+	componentDidMount() {
+		this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => true)
+	}
+
+	componentWillUnmount() {
+		this.backHandler.remove()
+	}
+
 	doneBtnHandle = async () => {
 		await AsyncStorage.removeItem('start')
-		this.props.navigation.navigate('Home', { ready: true })
+		this.props.navigation.replace('Home')
 	}
 
 	render() {

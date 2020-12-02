@@ -7,7 +7,7 @@
 
 **SaveFood** - application available on Android and iOS devices designed to help you save food. The purpose of this application is to tell the user how much food he wastes and how can help reduce world hunger.
 
-<p align="center"><img src="https://webstrong.pl/assets/SaveFood/promo/en/sf-promo-fullhd-en.jpg" width="500px" /></p>
+<p align="center"><img src="https://webstrong.pl/assets/SaveFood/promo-banners/en/sf-promo.png" width="500px" /></p>
 
 ## Basic features
 
@@ -36,6 +36,7 @@
 - React Native Screens <i>2.10.1</i>
 - React Native Webview <i>10.7.0</i>
 - Socket.io client <i>2.3.0</i>
+- Axios <i>0.19.2</i>
 
 <p>App version: <b>1.1.0</b></p>
 
@@ -53,7 +54,6 @@
 
 ## ToDo
 
-- create and add new screens in Start page
 - add new privacy policy
 - write unit and e2e tests
 

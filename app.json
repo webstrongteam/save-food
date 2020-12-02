@@ -18,7 +18,7 @@
 		"android": {
 			"permissions": ["CAMERA"],
 			"package": "com.webStrong.saveFood",
-			"versionCode": 1102,
+			"versionCode": 1105,
 			"googleServicesFile": "./firebase/google-services.json"
 		},
 		"platforms": ["ios", "android"],
