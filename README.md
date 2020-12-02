@@ -1,4 +1,4 @@
-<img align="right" width="145px" src="https://github.com/webstrongteam/save-food/blob/master/src/assets/icon-circle.png" alt="">
+<img align="right" width="145px" src="https://webstrong.pl/assets/SaveFood/icon-transparent.png" alt="">
 
 # SaveFood - Let's start saving food!
 
@@ -12,8 +12,8 @@
 ## Basic features
 
 - Scanning product barcode
-- Saving food with a name, quantity, price and percent of waste
-- Manually adding foods to waste list
+- Saving food with a photo, name, quantity, price and percent of waste
+- Manually adding foods to wasted list
 - Donating equivalent price of wasted food to charity organization
 - Support English and Polish languages
 - Support USD and PLN currency
