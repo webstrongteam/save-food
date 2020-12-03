@@ -27,7 +27,6 @@
 		"axios": "0.19.2",
 		"expo": "^39.0.0",
 		"expo-barcode-scanner": "~9.0.0",
-		"expo-blur": "~8.2.0",
 		"expo-camera": "~9.0.0",
 		"expo-firebase-analytics": "~2.5.0",
 		"expo-font": "~8.3.0",
@@ -71,6 +70,7 @@
 		"eslint-plugin-react-hooks": "^4.2.0",
 		"eslint-plugin-react-native": "^3.10.0",
 		"logkitty": ">=0.7.1",
+		"node-fetch": ">=2.6.1",
 		"mem": ">=4.0.0"
 	},
 	"private": true
