@@ -12,7 +12,6 @@ import { Camera } from 'expo-camera'
 import { showMessage } from 'react-native-flash-message'
 import { checkValid } from '../../common/validation'
 import { getQuantitySuffix } from '../../common/utility'
-import { exitIcon, shadow } from '../../common/styles'
 import styles from './Food.styles'
 
 import { connect } from 'react-redux'
@@ -57,7 +56,6 @@ class Food extends Component {
 		},
 
 		quantitySuffixes: [this.props.translations.grams, this.props.translations.milliliters],
-		showCamera: false,
 		showModal: false,
 		modalContent: null,
 		type: '',
@@ -176,23 +174,19 @@ class Food extends Component {
 		const { status } = await Camera.requestPermissionsAsync()
 
 		if (status === 'granted') {
-			this.setState({ showCamera: !this.state.showCamera })
+			const { navigation, translations } = this.props
+
+			navigation.navigate('Camera', {
+				buttonTitle: translations.takePhoto,
+				takePhoto: this.takePicture,
+			})
 		} else {
 			this.showSimpleMessage('permissionError')
 		}
 	}
 
-	takePicture = async () => {
-		if (this.camera) {
-			await this.camera.takePictureAsync({
-				onPictureSaved: (photo) => {
-					this.setState({
-						image: { uri: photo.uri },
-						showCamera: false,
-					})
-				},
-			})
-		}
+	takePicture = (uri) => {
+		this.setState({ image: { uri } })
 	}
 
 	showSimpleMessage = (type) => {
@@ -259,7 +253,6 @@ class Food extends Component {
 	render() {
 		const {
 			showModal,
-			showCamera,
 			modalContent,
 			type,
 			savedData,
@@ -273,32 +266,6 @@ class Food extends Component {
 
 		if (loading) {
 			return <Spinner color='#000' size={64} />
-		}
-
-		if (showCamera) {
-			return (
-				<Camera
-					style={styles.camera}
-					ratio='16:9'
-					type={Camera.Constants.Type.back}
-					ref={(ref) => {
-						this.camera = ref
-					}}
-				>
-					<TouchableOpacity style={exitIcon} onPress={this.toggleCamera}>
-						<Icon size={30} name='close' type='antdesign' color='#fff' />
-					</TouchableOpacity>
-
-					<View style={{ ...styles.takePhotoButtonWrapper, ...shadow }}>
-						<Button
-							onPress={this.takePicture}
-							buttonStyle={styles.takeFoodButton}
-							titleStyle={styles.takeFoodButtonTitle}
-							title={translations.takePhoto}
-						/>
-					</View>
-				</Camera>
-			)
 		}
 
 		return (

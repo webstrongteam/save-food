@@ -4,6 +4,7 @@ import { createStackNavigator } from 'react-navigation-stack'
 import Home from './containers/Home/Home'
 import Start from './containers/Start/Start'
 import Scanner from './containers/Scanner/Scanner'
+import Camera from './containers/Camera/Camera'
 import Food from './containers/Food/Food'
 import List from './containers/List/List'
 import Payment from './containers/Payment/Payment'
@@ -14,6 +15,7 @@ const MainNavigator = createStackNavigator(
 		Home: { screen: Home },
 		Start: { screen: Start },
 		Scanner: { screen: Scanner },
+		Camera: { screen: Camera },
 		Food: { screen: Food },
 		List: { screen: List },
 		Payment: { screen: Payment },
