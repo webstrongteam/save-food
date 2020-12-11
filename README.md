@@ -38,7 +38,7 @@
 - Socket.io client <i>2.3.0</i>
 - Axios <i>0.19.2</i>
 
-<p>App version: <b>1.1.0</b></p>
+<p>App version: <b>1.1.2</b></p>
 
 ## Available scripts
 
@@ -54,6 +54,7 @@
 
 ## ToDo
 
+- add reporting bugs form
 - add new privacy policy
 - write unit and e2e tests
 

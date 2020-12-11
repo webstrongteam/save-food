@@ -2,7 +2,7 @@ import { NativeModules, Platform } from 'react-native'
 import { openDatabase } from 'expo-sqlite'
 import AsyncStorage from '@react-native-community/async-storage'
 
-export const VERSION = '1.1.0' // APP VERSION
+export const VERSION = '1.1.2' // APP VERSION
 const db = openDatabase('savefood.db', VERSION)
 
 const getLocale = () => {
