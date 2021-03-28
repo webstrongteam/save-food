@@ -17,7 +17,7 @@
 	"percent": "Procent",
 	"pay": "Przekaż",
 	"name": "Nazwa",
-	"price": "Szacunkowa cena",
+	"price": "Szacowana wartość",
 	"percentInfo": "Jaki procent tego jedzenia zmarnowałeś/aś?",
 	"save": "Zapisz",
 	"confirm": "Ok",
@@ -70,5 +70,7 @@
 	"grams": "gramy",
 	"milliliters": "mililitry",
 	"gramsSuffix": "g",
-	"millilitersSuffix": "ml"
+	"millilitersSuffix": "ml",
+	"missingDataErrorTitle": "Produkt nie został znaleziony",
+	"missingDataErrorDescription": "Wprowadź dane ręcznie."
 }

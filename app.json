@@ -5,9 +5,9 @@
 		"description": "This application is created to help you saving food.",
 		"githubUrl": "https://github.com/webstrongteam/save-food",
 		"privacy": "public",
-		"version": "1.1.2",
+		"version": "1.2.0",
 		"ios": {
-			"buildNumber": "1.1.2",
+			"buildNumber": "1.2.0",
 			"bundleIdentifier": "com.webStrong.saveFood",
 			"supportsTablet": false,
 			"googleServicesFile": "./firebase/GoogleService-Info.plist",
@@ -29,6 +29,18 @@
 			"image": "./src/assets/splash.png",
 			"resizeMode": "cover",
 			"backgroundColor": "#4b8b1d"
+		},
+		"hooks": {
+			"postPublish": [
+				{
+					"file": "sentry-expo/upload-sourcemaps",
+					"config": {
+						"organization": "webstrongteam",
+						"project": "savefood",
+						"authToken": ""
+					}
+				}
+			]
 		},
 		"updates": {
 			"fallbackToCacheTimeout": 0
