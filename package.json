@@ -30,7 +30,7 @@
 		"expo-barcode-scanner": "~9.1.0",
 		"expo-camera": "~9.1.0",
 		"expo-firebase-analytics": "~2.6.0",
-		"expo-font": "~8.4.0",
+		"expo-font": "^9.1.0",
 		"expo-linear-gradient": "~8.4.0",
 		"expo-sqlite": "~8.5.0",
 		"expo-web-browser": "~8.6.0",
@@ -73,6 +73,7 @@
 		"logkitty": ">=0.7.1",
 		"mem": ">=4.0.0",
 		"node-fetch": ">=2.6.1",
+		"prettier": "^2.2.1",
 		"typescript": "~4.0.0"
 	},
 	"private": true
