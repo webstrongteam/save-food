@@ -329,7 +329,8 @@ const Food = ({ navigation }: Props) => {
 								maximumValue={100}
 								value={savedData.percentage}
 								onValueChange={(value: number) =>
-									setSavedData({ ...savedData, percentage: +value.toFixed(0) })}
+									setSavedData({ ...savedData, percentage: +value.toFixed(0) })
+								}
 							/>
 							<Text style={styles.percent}>{savedData.percentage}%</Text>
 						</View>

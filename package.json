@@ -20,6 +20,7 @@
 		"eject": "expo eject",
 		"cleanup": "prettier --config .prettierrc --write \"**/*.+(js|jsx|ts|tsx|json|md)\" && npm run eslint",
 		"lint-cleanup": "prettier --config .prettierrc --check \"**/*.+(js|jsx|ts|tsx|json|md)\" && npm run eslint",
+		"prettier": "prettier --config .prettierrc --write \"**/*.+(js|jsx|ts|tsx|json|md)\"",
 		"eslint": "eslint --fix ."
 	},
 	"dependencies": {
