@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { TouchableOpacity, View, Platform } from 'react-native'
+import { View, Platform } from 'react-native'
 import { MessageOptions, showMessage } from 'react-native-flash-message'
-import { Button, Icon } from 'react-native-elements'
+import { Button } from 'react-native-elements'
 import { BarCodeScanner } from 'expo-barcode-scanner'
 import * as Analytics from 'expo-firebase-analytics'
 import * as Sentry from 'sentry-expo'
 import Spinner from '../../components/Spinner/Spinner'
-import { exitIcon, shadow } from '../../common/styles'
+import { shadow } from '../../common/styles'
 import styles from './Scanner.styles'
 import { useSettingsContext } from '../../common/context/SettingsContext'
-import { ViewType } from '../../types/styles'
 import { NavigationScreenType } from '../../types/navigation'
+import Icon from '../../components/Icon/Icon'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -118,11 +118,7 @@ const Scanner = ({ navigation }: Props) => {
 				</View>
 			)}
 
-			<View style={exitIcon as ViewType}>
-				<TouchableOpacity onPress={() => navigation.goBack()}>
-					<Icon size={28} name='close' type='antdesign' color='#fff' />
-				</TouchableOpacity>
-			</View>
+			<Icon variant='exitIcon' onPress={() => navigation.goBack()} />
 
 			{Platform.OS === 'ios' && (
 				<View style={styles.scannerBoxContainer}>

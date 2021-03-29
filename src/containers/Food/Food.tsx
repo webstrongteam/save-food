@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useState } from 'react'
 import { Image, ScrollView, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { Button, ButtonGroup, Icon, Slider } from 'react-native-elements'
+import { Button, ButtonGroup, Slider } from 'react-native-elements'
 import { Camera } from 'expo-camera'
 import { MessageOptions, showMessage } from 'react-native-flash-message'
 import Input from '../../components/Input/Input'
@@ -18,6 +18,7 @@ import { NavigationScreenType } from '../../types/navigation'
 import { useSettingsContext } from '../../common/context/SettingsContext'
 import styles from './Food.styles'
 import Background from '../../components/Background/Background'
+import Icon from '../../components/Icon/Icon'
 
 type ModalType = keyof Omit<WastedFood, 'image'>
 
@@ -241,17 +242,7 @@ const Food = ({ navigation }: Props) => {
 	return (
 		<Background>
 			<Header
-				leftComponent={
-					<TouchableOpacity onPress={() => navigation.goBack()}>
-						<Icon
-							style={styles.headerBackIcon}
-							size={28}
-							name='arrowleft'
-							type='antdesign'
-							color='#fff'
-						/>
-					</TouchableOpacity>
-				}
+				leftComponent={<Icon onPress={() => navigation.goBack()} variant='backIcon' />}
 				centerComponent={
 					<Text style={styles.headerTitle}>
 						{savedData.id ? translations.editFood : translations.newFood}

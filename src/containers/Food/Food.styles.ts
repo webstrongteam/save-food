@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import { primaryColor } from '../../common/utility'
 
 export default StyleSheet.create({
 	camera: {
@@ -13,17 +14,13 @@ export default StyleSheet.create({
 		alignItems: 'center',
 	},
 	takeFoodButton: {
-		backgroundColor: '#4b8b1d',
+		backgroundColor: primaryColor,
 	},
 	takeFoodButtonTitle: {
 		color: '#fff',
 		fontSize: 18,
 		padding: 25,
 		fontFamily: 'Lato-Light',
-	},
-	headerBackIcon: {
-		marginTop: 5,
-		marginLeft: 20,
 	},
 	headerTitle: {
 		textAlign: 'center',
@@ -37,7 +34,7 @@ export default StyleSheet.create({
 		justifyContent: 'center',
 	},
 	selectedButtonStyle: {
-		backgroundColor: '#4b8b1d',
+		backgroundColor: primaryColor,
 	},
 	contentWrapper: {
 		flex: 1,
@@ -60,7 +57,7 @@ export default StyleSheet.create({
 		resizeMode: 'cover',
 		borderRadius: 100,
 		borderWidth: 4,
-		borderColor: '#4b8b1d',
+		borderColor: primaryColor,
 	},
 	tapImage: {
 		position: 'absolute',
@@ -119,11 +116,11 @@ export default StyleSheet.create({
 		justifyContent: 'center',
 	},
 	saveButton: {
-		borderColor: '#4b8b1d',
+		borderColor: primaryColor,
 		width: '100%',
 	},
 	saveButtonTitle: {
-		color: '#4b8b1d',
+		color: primaryColor,
 		fontSize: 18,
 		fontFamily: 'Lato-Light',
 	},

@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { View, TouchableOpacity } from 'react-native'
+import { View } from 'react-native'
 import { Camera as CameraComponent } from 'expo-camera'
-import { Button, Icon } from 'react-native-elements'
-import { exitIcon, shadow } from '../../common/styles'
+import { Button } from 'react-native-elements'
+import { shadow } from '../../common/styles'
 import { NavigationScreenType } from '../../types/navigation'
-import { ViewType } from '../../types/styles'
 import styles from './Camera.styles'
+import Icon from '../../components/Icon/Icon'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -46,9 +46,7 @@ const Camera = ({ navigation }: Props) => {
 			type={CameraComponent.Constants.Type.back}
 			ref={cameraRef}
 		>
-			<TouchableOpacity style={exitIcon as ViewType} onPress={() => navigation.goBack()}>
-				<Icon size={28} name='close' type='antdesign' color='#fff' />
-			</TouchableOpacity>
+			<Icon onPress={() => navigation.goBack()} variant='exitIcon' />
 
 			<View style={{ ...styles.takePhotoButtonWrapper, ...shadow }}>
 				<Button

@@ -15,7 +15,7 @@ const Template = ({ children }: Props) => {
 
 	return (
 		<View style={{ flex: 1 }}>
-			<StatusBar barStyle='light-content' backgroundColor='rgba(0, 0, 0, 0.2)' translucent />
+			<StatusBar barStyle='light-content' translucent backgroundColor='transparent' />
 			{children}
 		</View>
 	)

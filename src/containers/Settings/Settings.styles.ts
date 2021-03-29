@@ -1,10 +1,6 @@
 import { StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
-	leftHeaderIcon: {
-		marginTop: 5,
-		marginLeft: 20,
-	},
 	headerTitle: {
 		textAlign: 'center',
 		fontSize: 22,

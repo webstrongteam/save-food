@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 import { LinearGradient } from 'expo-linear-gradient'
-import { Icon } from 'react-native-elements'
 import Header from '../../components/Header/Header'
 import InfoWindow from '../../components/InfoWindow/InfoWindow'
 import Spinner from '../../components/Spinner/Spinner'
@@ -16,6 +15,8 @@ import { WastedFood } from '../../types/westedFood'
 import en_facts from '../../translations/en/facts.json'
 import pl_facts from '../../translations/pl/facts.json'
 import Background from '../../components/Background/Background'
+import Icon from '../../components/Icon/Icon'
+import { primaryColor } from '../../common/utility'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -95,20 +96,17 @@ const Home = ({ navigation }: Props) => {
 			<View style={styles.container}>
 				<Header
 					leftComponent={
-						<TouchableOpacity onPress={() => navigation.navigate('Settings')}>
-							<Icon
-								color='#fff'
-								size={28}
-								name='setting'
-								style={styles.leftHeaderIcon}
-								type='antdesign'
-							/>
-						</TouchableOpacity>
+						<Icon
+							name='setting'
+							style={styles.leftHeaderIcon}
+							type='antdesign'
+							onPress={() => navigation.navigate('Settings')}
+						/>
 					}
 					rightComponent={
 						<TouchableOpacity onPress={() => navigation.replace('List')}>
 							<View style={styles.rightHeaderContainer}>
-								<Icon size={28} name='trash-o' type='font-awesome' color='#fff' />
+								<Icon size={28} name='trash-o' type='font-awesome' />
 								<Text style={styles.rightHeaderText}>
 									({data.unpaid} {settings.currency})
 								</Text>
@@ -148,7 +146,7 @@ const Home = ({ navigation }: Props) => {
 						/>
 						<InfoWindow
 							color1='#f8f8f8'
-							color2={['#6cd015', '#4b8b1d']}
+							color2={['#6cd015', primaryColor]}
 							title={translations.moderateWaste}
 							value={`${data.moderateWaste} %`}
 						/>

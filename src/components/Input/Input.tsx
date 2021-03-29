@@ -4,7 +4,7 @@ import { Icon } from 'react-native-elements'
 // @ts-ignore
 import { TextField } from '@ubaids/react-native-material-textfield'
 import { validator } from '../../common/validation'
-import { replaceComma } from '../../common/utility'
+import { primaryColor, replaceComma } from '../../common/utility'
 import { InputControl, InputValue } from '../../types/common'
 import { Translations } from '../../types/settings'
 import { ViewType } from '../../types/styles'
@@ -67,7 +67,7 @@ const Input = ({
 					style={style}
 					textColor='#5e5e5e'
 					baseColor='#5e5e5e'
-					tintColor='#4b8b1d'
+					tintColor={primaryColor}
 					lineWidth={2}
 					placeholder={placeholder}
 					errorColor={error === true ? '#5e5e5e' : '#d9534f'}

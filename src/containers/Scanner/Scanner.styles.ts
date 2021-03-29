@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import { primaryColor } from '../../common/utility'
 
 export default StyleSheet.create({
 	container: {
@@ -46,7 +47,7 @@ export default StyleSheet.create({
 	scannerBoxBorder: {
 		borderWidth: 2,
 		borderStyle: 'dashed',
-		borderColor: '#4b8b1d',
+		borderColor: primaryColor,
 		width: '100%',
 		height: '100%',
 	},
@@ -65,6 +66,6 @@ export default StyleSheet.create({
 		fontFamily: 'Lato-Light',
 	},
 	addManuallyButton: {
-		backgroundColor: '#4b8b1d',
+		backgroundColor: primaryColor,
 	},
 })

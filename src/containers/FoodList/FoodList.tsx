@@ -9,9 +9,9 @@ import {
 	Animated,
 } from 'react-native'
 import { MessageOptions, showMessage } from 'react-native-flash-message'
-import { Button, CheckBox, Icon, ListItem } from 'react-native-elements'
+import { Button, CheckBox, ListItem } from 'react-native-elements'
 import Header from '../../components/Header/Header'
-import { getImage, getQuantitySuffix, getResizeMode } from '../../common/utility'
+import { getImage, getQuantitySuffix, getResizeMode, primaryColor } from '../../common/utility'
 import Spinner from '../../components/Spinner/Spinner'
 import Modal from '../../components/Modal/Modal'
 import { shadow } from '../../common/styles'
@@ -29,6 +29,7 @@ import { useSettingsContext } from '../../common/context/SettingsContext'
 import styles from './FoodList.styles'
 import EmptyList from '../../components/EmptyList/EmptyList'
 import Background from '../../components/Background/Background'
+import Icon from '../../components/Icon/Icon'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -228,12 +229,22 @@ const FoodList = ({ navigation }: Props) => {
 						</View>
 
 						<View style={styles.rightElement}>
-							<TouchableOpacity onPress={() => addFoodQuantity(item, 1)}>
-								<Icon size={22} style={styles.quantityAddIcon} name='add' type='material' />
-							</TouchableOpacity>
-							<TouchableOpacity onPress={() => addFoodQuantity(item, -1)}>
-								<Icon size={22} style={styles.quantityMinusIcon} name='minus' type='entypo' />
-							</TouchableOpacity>
+							<Icon
+								onPress={() => addFoodQuantity(item, 1)}
+								size={22}
+								style={styles.quantityAddIcon}
+								name='add'
+								type='material'
+								color='#000'
+							/>
+							<Icon
+								onPress={() => addFoodQuantity(item, -1)}
+								size={22}
+								style={styles.quantityMinusIcon}
+								name='minus'
+								type='entypo'
+								color='#000'
+							/>
 						</View>
 					</View>
 
@@ -243,7 +254,7 @@ const FoodList = ({ navigation }: Props) => {
 								checked={!!item.selected}
 								onPress={() => selectItem(item)}
 								containerStyle={styles.checkbox}
-								checkedColor='#4b8b1d'
+								checkedColor={primaryColor}
 							/>
 							<View style={styles.priceWrapper}>
 								<Text style={styles.priceText}>
@@ -294,18 +305,16 @@ const FoodList = ({ navigation }: Props) => {
 	return (
 		<Background>
 			<Header
-				leftComponent={
-					<TouchableOpacity onPress={() => navigation.replace('Home')}>
-						<Icon
-							style={styles.leftHeaderIcon}
-							size={28}
-							name='arrowleft'
-							type='antdesign'
-							color='#fff'
-						/>
-					</TouchableOpacity>
-				}
+				leftComponent={<Icon variant='backIcon' onPress={() => navigation.replace('Home')} />}
 				centerComponent={<Text style={styles.headerTitle}>{translations.foodList}</Text>}
+				rightComponent={
+					<Icon
+						style={styles.openScannerIcon}
+						name='plus'
+						type='antdesign'
+						onPress={() => navigation.navigate('Scanner')}
+					/>
+				}
 				centerSize={6}
 			/>
 

@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import styles from './Header.styles'
 
 type Props = {
@@ -28,7 +28,9 @@ const Header = ({
 		}}
 	>
 		<View style={{ flex: leftSize, alignItems: 'flex-start' }}>{leftComponent ?? <View />}</View>
-		<View style={{ flex: centerSize, alignItems: 'center', marginBottom: -3 }}>
+		<View
+			style={{ flex: centerSize, alignItems: 'center', marginTop: Platform.OS === 'ios' ? -2 : 0 }}
+		>
 			{centerComponent ?? <View />}
 		</View>
 		<View style={{ flex: rightSize, alignItems: 'flex-end' }}>{rightComponent ?? <View />}</View>

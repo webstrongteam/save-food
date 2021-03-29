@@ -2,7 +2,7 @@ import React, { ReactNode, useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
 import { MessageOptions, showMessage } from 'react-native-flash-message'
-import { Icon, ListItem } from 'react-native-elements'
+import { ListItem } from 'react-native-elements'
 import Header from '../../components/Header/Header'
 import InfoWindow from '../../components/InfoWindow/InfoWindow'
 import Modal from '../../components/Modal/Modal'
@@ -12,6 +12,8 @@ import { Currency, Language } from '../../types/settings'
 import { NavigationScreenType } from '../../types/navigation'
 import { useSettingsContext } from '../../common/context/SettingsContext'
 import { changeLang, changeCurrency, clearDatabase } from '../../../database/actions/settings'
+import Icon from '../../components/Icon/Icon'
+import { primaryColor } from '../../common/utility'
 
 type LanguageMap = Record<Language, string>
 
@@ -60,7 +62,7 @@ const Settings = ({ navigation }: Props) => {
 						<TouchableOpacity key={i} onPress={() => changeLanguageHandler(lang)}>
 							<ListItem bottomDivider>
 								<ListItem.Content>
-									<ListItem.Title style={{ color: lang === settings.lang ? '#4b8b1d' : '#000' }}>
+									<ListItem.Title style={{ color: lang === settings.lang ? primaryColor : '#000' }}>
 										{languageMap[lang]}
 									</ListItem.Title>
 								</ListItem.Content>
@@ -77,7 +79,7 @@ const Settings = ({ navigation }: Props) => {
 							<ListItem bottomDivider>
 								<ListItem.Content>
 									<ListItem.Title
-										style={{ color: item === settings.currency ? '#4b8b1d' : '#000' }}
+										style={{ color: item === settings.currency ? primaryColor : '#000' }}
 									>
 										{item}
 									</ListItem.Title>
@@ -122,17 +124,7 @@ const Settings = ({ navigation }: Props) => {
 	return (
 		<View style={styles.container}>
 			<Header
-				leftComponent={
-					<TouchableOpacity onPress={() => navigation.replace('Home')}>
-						<Icon
-							style={styles.leftHeaderIcon}
-							size={28}
-							name='arrowleft'
-							type='antdesign'
-							color='#fff'
-						/>
-					</TouchableOpacity>
-				}
+				leftComponent={<Icon onPress={() => navigation.replace('Home')} variant='backIcon' />}
 				centerComponent={<Text style={styles.headerTitle}>{translations.settings}</Text>}
 			/>
 
@@ -171,7 +163,7 @@ const Settings = ({ navigation }: Props) => {
 				/>
 				<TouchableOpacity style={styles.clear} onPress={() => toggleModal('clearTheDatabase')}>
 					<Text style={styles.clearText}>{`${translations.clearTheDatabase}  `}</Text>
-					<Icon size={28} name='trash-o' type='font-awesome' color='#fff' />
+					<Icon size={28} name='trash-o' type='font-awesome' />
 				</TouchableOpacity>
 			</View>
 

@@ -2,6 +2,7 @@ import React from 'react'
 import { ActivityIndicator, Platform, View } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import styles from './Spinner.styles'
+import { primaryColor } from '../../common/utility'
 
 type Props = {
 	size?: number | 'small' | 'large'
@@ -30,7 +31,7 @@ const Spinner = ({ size = 32, color = '#fff', bgColor }: Props) => {
 
 	return (
 		<View style={styles.spinner}>
-			<LinearGradient colors={['#4b8b1d', '#6cd015']} style={styles.containerColor} />
+			<LinearGradient colors={[primaryColor, '#6cd015']} style={styles.containerColor} />
 			<ActivityIndicator size={getSize()} color={color} />
 		</View>
 	)

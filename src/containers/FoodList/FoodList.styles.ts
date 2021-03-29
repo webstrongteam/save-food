@@ -1,14 +1,14 @@
 import { StyleSheet } from 'react-native'
+import { primaryColor } from '../../common/utility'
 
 export default StyleSheet.create({
-	leftHeaderIcon: {
-		marginTop: 5,
-		marginLeft: 20,
-	},
 	headerTitle: {
 		textAlign: 'center',
 		fontSize: 22,
 		color: '#fff',
+	},
+	openScannerIcon: {
+		marginRight: 20,
 	},
 	deleteProductDescription: {
 		marginTop: 15,
@@ -47,7 +47,7 @@ export default StyleSheet.create({
 		resizeMode: 'cover',
 		borderRadius: 100,
 		borderWidth: 2,
-		borderColor: '#4b8b1d',
+		borderColor: primaryColor,
 		marginRight: 12,
 	},
 	productDetails: {
@@ -127,7 +127,7 @@ export default StyleSheet.create({
 		alignItems: 'center',
 	},
 	paymentButton: {
-		backgroundColor: '#4b8b1d',
+		backgroundColor: primaryColor,
 	},
 	paymentButtonTitle: {
 		color: '#fff',
