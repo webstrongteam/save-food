@@ -6,6 +6,7 @@ import { shadow } from '../../common/styles'
 import { NavigationScreenType } from '../../types/navigation'
 import styles from './Camera.styles'
 import Icon from '../../components/Icon/Icon'
+import Spinner from '../../components/Spinner/Spinner'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -14,9 +15,11 @@ type Props = {
 const Camera = ({ navigation }: Props) => {
 	const cameraRef = useRef<any>()
 
+	const [loading, setLoading] = useState<boolean>(false)
 	const [buttonTitle, setButtonTitle] = useState<string>()
 
 	const takePhotoHandler = async () => {
+		setLoading(true)
 		const takePhoto = navigation.getParam('takePhoto', undefined)
 
 		if (cameraRef.current && takePhoto) {
@@ -37,6 +40,10 @@ const Camera = ({ navigation }: Props) => {
 		} else {
 			navigation.goBack()
 		}
+
+		return () => {
+			setLoading(false)
+		}
 	}, [])
 
 	return (
@@ -48,8 +55,15 @@ const Camera = ({ navigation }: Props) => {
 		>
 			<Icon onPress={() => navigation.goBack()} variant='exitIcon' />
 
+			{loading && (
+				<View style={styles.loading}>
+					<Spinner bgColor='transparency' color='#fff' size={64} />
+				</View>
+			)}
+
 			<View style={{ ...styles.takePhotoButtonWrapper, ...shadow }}>
 				<Button
+					disabled={loading}
 					onPress={takePhotoHandler}
 					buttonStyle={styles.takeFoodButton}
 					titleStyle={styles.takeFoodButtonTitle}

@@ -1,5 +1,7 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
 import { primaryColor } from '../../common/utility'
+
+const { width, height } = Dimensions.get('window')
 
 export default StyleSheet.create({
 	container: {
@@ -11,8 +13,8 @@ export default StyleSheet.create({
 		backgroundColor: '#292b2c',
 	},
 	barCodeScanner: {
-		width: '100%',
-		height: '100%',
+		width,
+		height,
 	},
 	loading: {
 		position: 'absolute',
@@ -20,6 +22,7 @@ export default StyleSheet.create({
 		height: '100%',
 		left: 0,
 		top: 0,
+		zIndex: 15,
 	},
 	backIcon: {
 		position: 'absolute',
@@ -29,25 +32,35 @@ export default StyleSheet.create({
 	},
 	scannerBoxContainer: {
 		position: 'absolute',
-		width: '100%',
-		height: '100%',
+		width,
+		height,
 		justifyContent: 'center',
 		alignItems: 'center',
 		zIndex: 10,
 	},
 	scannerBox: {
-		borderBottomWidth: 180,
-		borderTopWidth: 180,
-		borderLeftWidth: 45,
-		borderRightWidth: 45,
+		borderBottomWidth: (height / width) * 100,
+		borderTopWidth: (height / width) * 100,
+		borderLeftWidth: (width / height) * 100,
+		borderRightWidth: (width / height) * 100,
 		borderColor: 'rgba(0,0,0,0.7)',
 		width: '100%',
 		height: '100%',
 	},
+	scannerBoxLine: {
+		position: 'absolute',
+		width: width - (width / height) * 100 * 2 - 16,
+		height,
+		left: (width / height) * 100 + 8,
+		top: height / 2,
+		borderColor: '#f61e19',
+		opacity: 0.7,
+		borderTopWidth: 8,
+	},
 	scannerBoxBorder: {
-		borderWidth: 2,
-		borderStyle: 'dashed',
+		borderWidth: 8,
 		borderColor: primaryColor,
+		opacity: 0.7,
 		width: '100%',
 		height: '100%',
 	},

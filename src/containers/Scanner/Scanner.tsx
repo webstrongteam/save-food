@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { View, Platform } from 'react-native'
+import { View } from 'react-native'
+import { Audio } from 'expo-av'
+import { Sound } from 'expo-av/build/Audio/Sound'
 import { MessageOptions, showMessage } from 'react-native-flash-message'
 import { Button } from 'react-native-elements'
 import { BarCodeScanner } from 'expo-barcode-scanner'
@@ -11,6 +13,7 @@ import styles from './Scanner.styles'
 import { useSettingsContext } from '../../common/context/SettingsContext'
 import { NavigationScreenType } from '../../types/navigation'
 import Icon from '../../components/Icon/Icon'
+import useAsyncEffect from '../../common/hooks/useAsyncEffect'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -20,6 +23,7 @@ const Scanner = ({ navigation }: Props) => {
 	const { useSubscribe } = useSettingsContext()
 	const translations = useSubscribe((s) => s.translations)
 
+	const [sound, setSound] = useState<Sound>()
 	const [grantedPermission, setGrantedPermission] = useState(false)
 	const [scanned, setScanned] = useState(false)
 	const [loading, setLoading] = useState(false)
@@ -48,7 +52,30 @@ const Scanner = ({ navigation }: Props) => {
 		showMessage(message)
 	}
 
-	useEffect(() => {
+	const loadBarcodeEffect = async () => {
+		try {
+			const { sound } = await Audio.Sound.createAsync(
+				// eslint-disable-next-line @typescript-eslint/no-var-requires
+				require('../../assets/common/barcode_sound_effect.mp3'),
+			)
+
+			setSound(sound)
+		} catch (err) {
+			Sentry.Native.captureException(err)
+		}
+	}
+
+	const playBarcodeEffect = async () => {
+		if (sound) {
+			await sound.playAsync()
+		} else {
+			Sentry.Native.captureException('Missing sound object')
+		}
+	}
+
+	useAsyncEffect(async () => {
+		await loadBarcodeEffect()
+
 		BarCodeScanner.requestPermissionsAsync()
 			.then(({ status }) => {
 				if (status !== 'granted') {
@@ -63,9 +90,16 @@ const Scanner = ({ navigation }: Props) => {
 			})
 	}, [])
 
+	useEffect(() => {
+		return () => {
+			sound?.unloadAsync()
+		}
+	}, [sound])
+
 	const handleBarCodeScanned = async ({ data }: { data: string }) => {
 		setLoading(true)
 		setScanned(true)
+		await playBarcodeEffect()
 
 		await fetch(`https://world.openfoodfacts.org/api/v0/product/${data}.json`)
 			.then(async (response) => {
@@ -86,7 +120,7 @@ const Scanner = ({ navigation }: Props) => {
 				}
 
 				if (!image && !name && !quantity) {
-					Sentry.Native.captureEvent({ message: `Missing product data for barcode ${data.code}` })
+					Sentry.Native.captureMessage(`Missing product data for barcode ${data.code}`)
 					showMissingDataError()
 				}
 
@@ -120,16 +154,16 @@ const Scanner = ({ navigation }: Props) => {
 
 			<Icon variant='exitIcon' onPress={() => navigation.goBack()} />
 
-			{Platform.OS === 'ios' && (
-				<View style={styles.scannerBoxContainer}>
-					<View style={styles.scannerBox}>
-						<View style={styles.scannerBoxBorder} />
-					</View>
+			<View style={styles.scannerBoxContainer}>
+				<View style={styles.scannerBox}>
+					<View style={styles.scannerBoxBorder} />
 				</View>
-			)}
+				<View style={styles.scannerBoxLine} />
+			</View>
 
 			<View style={{ ...styles.addManuallyButtonWrapper, ...shadow }}>
 				<Button
+					disabled={loading}
 					onPress={() => navigation.replace('Food')}
 					buttonStyle={styles.addManuallyButton}
 					titleStyle={styles.addManuallyButtonTitle}

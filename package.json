@@ -28,6 +28,7 @@
 		"@react-native-community/masked-view": "0.1.10",
 		"@ubaids/react-native-material-textfield": "^0.16.3",
 		"expo": "^40.0.0",
+		"expo-av": "~8.7.0",
 		"expo-barcode-scanner": "~9.1.0",
 		"expo-camera": "~9.1.0",
 		"expo-firebase-analytics": "~2.6.0",

@@ -1,4 +1,6 @@
-import { Platform, StyleSheet } from 'react-native'
+import { StyleSheet, StatusBar } from 'react-native'
+
+const statusBarHeight = StatusBar.currentHeight ?? 20
 
 export default StyleSheet.create({
 	backIcon: {
@@ -6,7 +8,7 @@ export default StyleSheet.create({
 	},
 	exitIcon: {
 		position: 'absolute',
-		top: Platform.OS === 'ios' ? 40 : 50,
+		top: statusBarHeight + 20,
 		left: 20,
 		zIndex: 20,
 	},
