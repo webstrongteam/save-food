@@ -48,6 +48,7 @@
 		"react-native-reanimated": "~1.13.0",
 		"react-native-safe-area-context": "3.1.9",
 		"react-native-screens": "~2.15.2",
+		"react-native-snap-carousel": "^3.9.1",
 		"react-navigation": "4.4.2",
 		"react-navigation-stack": "2.8.4",
 		"sentry-expo": "^3.0.5"
@@ -57,6 +58,7 @@
 		"@types/react-native": "~0.63.2",
 		"@types/react-native-modals": "^0.19.0",
 		"@types/react-native-onboarding-swiper": "^1.1.1",
+		"@types/react-native-snap-carousel": "^3.8.2",
 		"@typescript-eslint/eslint-plugin": "^4.14.2",
 		"@typescript-eslint/parser": "^4.14.2",
 		"babel-eslint": "^10.1.0",

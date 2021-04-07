@@ -80,6 +80,7 @@ const FoodList = ({ navigation }: Props) => {
 		const ids = navigation.getParam('ids', undefined)
 		if (ids) {
 			setLoading(true)
+
 			await Promise.all(
 				ids.map(async (id: number) => {
 					await paidFood(id)
@@ -106,7 +107,6 @@ const FoodList = ({ navigation }: Props) => {
 		} else if (action === 'success') {
 			const message: MessageOptions = {
 				message: translations.paymentSuccessTitle,
-				description: translations.paymentSuccessDescription,
 				type: 'success',
 				icon: { icon: 'success', position: 'left' },
 				duration: 2500,

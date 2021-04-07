@@ -51,7 +51,7 @@ const Food = ({ navigation }: Props) => {
 	const [modalContent, setModalContent] = useState<ReactNode>()
 	const [controls, setControls] = useState<InputsControl>({
 		name: {
-			label: translations.nameLabel,
+			label: translations.foodNameLabel,
 			required: true,
 			characterRestriction: 70,
 		},
