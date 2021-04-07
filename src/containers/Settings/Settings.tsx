@@ -39,17 +39,17 @@ const Settings = ({ navigation }: Props) => {
 	}
 
 	const changeLanguageHandler = async (lang: Language) => {
-		toggleModal()
+		setShowModal(false)
 		setSettings(await changeLang(lang))
 	}
 
 	const changeCurrencyHandler = async (currency: Currency) => {
-		toggleModal()
+		setShowModal(false)
 		setSettings(await changeCurrency(currency))
 	}
 
 	const clearDatabaseHandler = async () => {
-		toggleModal()
+		setShowModal(false)
 		setSettings(await clearDatabase())
 		showSimpleMessage()
 	}

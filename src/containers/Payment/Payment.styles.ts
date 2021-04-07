@@ -1,4 +1,4 @@
-import { Platform, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { primaryColor } from '../../common/utility'
 
 export default StyleSheet.create({
@@ -9,32 +9,29 @@ export default StyleSheet.create({
 		width: 200,
 		height: 200,
 		flex: 1,
-		marginBottom: Platform.OS === 'ios' ? 0 : -1, // Prevent a random Android rendering issue
 		backgroundColor: '#fff',
-		borderTopLeftRadius: 5,
-		borderTopRightRadius: 5,
-		borderBottomLeftRadius: 5,
-		borderBottomRightRadius: 5,
+		marginTop: 12,
+		marginBottom: 12,
 	},
 	image: {
-		...StyleSheet.absoluteFillObject,
+		width: 200,
+		height: 200,
 		resizeMode: 'cover',
-		borderRadius: 5,
-		borderTopLeftRadius: 5,
-		borderTopRightRadius: 5,
-	},
-	imageHeading: {
-		fontSize: 18,
-		fontFamily: 'Lato-Bold',
-		color: '#fff',
-		position: 'absolute',
-		bottom: 16,
-		left: 16,
 	},
 	header: {
 		color: '#000',
 		fontSize: 21,
-		fontFamily: 'Lato-Bold',
+	},
+	infoIcon: {
+		marginRight: 20,
+	},
+	infoTextWrapper: {
+		marginTop: 12,
+	},
+	infoText: {
+		marginTop: 12,
+		fontSize: 16,
+		fontFamily: 'Lato-Light',
 	},
 	inputWrapper: {
 		marginLeft: 25,
@@ -59,8 +56,8 @@ export default StyleSheet.create({
 		fontFamily: 'Lato-Bold',
 	},
 	slider: {
-		marginTop: 32,
-		marginBottom: 32,
+		marginTop: 20,
+		marginBottom: 20,
 		overflow: 'visible',
 	},
 	paymentButtonContainer: {

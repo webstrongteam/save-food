@@ -45,8 +45,8 @@ const Food = ({ navigation }: Props) => {
 
 	const [savedData, setSavedData] = useState<WastedFood>(initialData)
 	const [templateData, setTemplateData] = useState<WastedFood>(initialData)
-	const [showModal, setShowModal] = useState(false)
 	const [loading, setLoading] = useState(true)
+	const [showModal, setShowModal] = useState(false)
 	const [modalType, setModalType] = useState<ModalType>('id')
 	const [modalContent, setModalContent] = useState<ReactNode>()
 	const [controls, setControls] = useState<InputsControl>({
@@ -142,6 +142,7 @@ const Food = ({ navigation }: Props) => {
 
 	const saveChange = () => {
 		if (checkValidation(controls[modalType], templateData[modalType] ?? '')) {
+			setShowModal(false)
 			setTemplateData(prepareData(templateData, controls))
 			setSavedData(
 				prepareData(
@@ -152,8 +153,6 @@ const Food = ({ navigation }: Props) => {
 					controls,
 				),
 			)
-
-			setShowModal(false)
 		}
 	}
 

@@ -34,6 +34,21 @@ export const fetchAllWastedFood = (): Promise<WastedFood[]> =>
 		)
 	})
 
+export const getPaidWastedFoods = (): Promise<WastedFood[]> =>
+	new Promise((resolve, reject) => {
+		db.transaction(
+			(tx) => {
+				tx.executeSql('select * from wasted_food where paid = 1;', [], (_, { rows }) => {
+					resolve(getAllResults<WastedFood>(rows))
+				})
+			},
+			(err) => {
+				Sentry.Native.captureException(err)
+				reject(err)
+			},
+		)
+	})
+
 export const saveFood = (food: Partial<WastedFood>): Promise<{}> =>
 	new Promise((resolve, reject) => {
 		if (food.id) {

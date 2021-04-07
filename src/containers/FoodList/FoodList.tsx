@@ -229,22 +229,25 @@ const FoodList = ({ navigation }: Props) => {
 						</View>
 
 						<View style={styles.rightElement}>
-							<Icon
-								onPress={() => addFoodQuantity(item, 1)}
-								size={22}
-								style={styles.quantityAddIcon}
-								name='add'
-								type='material'
-								color='#000'
-							/>
-							<Icon
-								onPress={() => addFoodQuantity(item, -1)}
-								size={22}
-								style={styles.quantityMinusIcon}
-								name='minus'
-								type='entypo'
-								color='#000'
-							/>
+							<TouchableOpacity onPress={() => addFoodQuantity(item, 1)}>
+								<Icon
+									size={22}
+									style={styles.quantityAddIcon}
+									name='add'
+									type='material'
+									color='#000'
+								/>
+							</TouchableOpacity>
+							<TouchableOpacity onPress={() => addFoodQuantity(item, -1)}>
+								<Icon
+									onPress={() => addFoodQuantity(item, -1)}
+									size={22}
+									style={styles.quantityMinusIcon}
+									name='minus'
+									type='entypo'
+									color='#000'
+								/>
+							</TouchableOpacity>
 						</View>
 					</View>
 

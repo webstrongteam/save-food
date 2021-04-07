@@ -30,7 +30,7 @@ export const validator: Validator = (control, value, translations) => {
 			}
 		}
 
-		if (control.email) {
+		if (value !== '' && control.email) {
 			if (!emailRegEx.test(String(value).toLowerCase())) {
 				control.error = translations.emailError
 				validStatus = false
