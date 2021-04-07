@@ -6,6 +6,7 @@
 <a href="https://apps.apple.com/us/app/id1520027228" target="_blank"><img src="https://webstrong.pl/assets/templates/app_store_en.png" height="50"/></a>
 
 **SaveFood** - mobile application available on Android and iOS devices created to help you save food. SaveFood draws attention to how much the user wasted food and how it can help in the fight with hunger in the world.
+
 Thanks to the built-in barcode scanner and integration with the international API, the user is able to scan wasted products and transfer their equivalent of money to chosen charity organization.
 
 <p align="center"><img src="https://webstrong.pl/assets/SaveFood/promo-banners/en/sf-promo.png" width="500px" /></p>
