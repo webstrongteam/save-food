@@ -70,6 +70,8 @@ export default StyleSheet.create({
 		alignItems: 'center',
 	},
 	paymentButton: {
+		width: 220,
+		height: 42,
 		backgroundColor: primaryColor,
 	},
 	paymentButtonTitle: {

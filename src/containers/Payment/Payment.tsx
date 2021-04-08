@@ -60,6 +60,7 @@ const Payment = ({ navigation }: Props) => {
 	const { useSubscribe, setSettings } = useSettingsContext()
 	const { settings, translations } = useSubscribe((s) => s)
 
+	const [loading, setLoading] = useState(false)
 	const [showModal, setShowModal] = useState(false)
 	const [amount, setAmount] = useState<number>()
 	const [email, setEmail] = useState<ReactText>(settings.email)
@@ -67,15 +68,21 @@ const Payment = ({ navigation }: Props) => {
 		email: {
 			label: translations.emailLabel,
 			characterRestriction: 70,
+			keyboardType: 'email-address',
 			email: true,
 		},
 	})
 
 	const payForFoodHandler = async () => {
+		setLoading(true)
 		if (email && !controls.email.error) {
-			await fetch(`${config.SAVE_FOOD_API}/send-emaigl`, {
+			await fetch(`${config.SAVE_FOOD_API}/send-email`, {
 				method: 'POST',
 				body: JSON.stringify({ email, lang: settings.lang }),
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+				},
 			})
 				.then(async (res) => {
 					if (res.status !== 200) {
@@ -85,16 +92,24 @@ const Payment = ({ navigation }: Props) => {
 					await Analytics.logEvent('sendEmail', {
 						component: 'Payment',
 					})
-					setSettings(await changeEmail(`${email}`))
 				})
 				.catch((err) => {
 					// eslint-disable-next-line no-console
 					console.warn(err)
 					Sentry.Native.captureException(err)
 				})
+
+			setSettings(await changeEmail(`${email}`))
 		}
 
 		const ids = navigation.getParam('ids', undefined)
+
+		if (!ids) {
+			// eslint-disable-next-line no-console
+			console.warn('Missing food ids for payment')
+			Sentry.Native.captureException('Missing food ids for payment')
+		}
+
 		navigation.navigate('List', { ids })
 	}
 
@@ -215,6 +230,7 @@ const Payment = ({ navigation }: Props) => {
 			>
 				<View style={styles.paymentButtonWrapper}>
 					<Button
+						loading={loading}
 						buttonStyle={styles.paymentButton}
 						titleStyle={styles.paymentButtonTitle}
 						onPress={payForFoodHandler}
