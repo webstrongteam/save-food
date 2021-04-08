@@ -148,7 +148,7 @@ const Home = ({ navigation }: Props) => {
 							color1='#f8f8f8'
 							color2={['#6cd015', primaryColor]}
 							title={translations.moderateWaste}
-							value={`${data.moderateWaste} %`}
+							value={`${data.moderateWaste.toFixed(0)} %`}
 						/>
 					</View>
 				</ScrollView>

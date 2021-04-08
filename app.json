@@ -36,8 +36,7 @@
 					"file": "sentry-expo/upload-sourcemaps",
 					"config": {
 						"organization": "webstrongteam",
-						"project": "savefood",
-						"authToken": ""
+						"project": "savefood"
 					}
 				}
 			]

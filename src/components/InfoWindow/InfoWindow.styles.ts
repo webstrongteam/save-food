@@ -19,6 +19,8 @@ export default StyleSheet.create({
 	title: {
 		fontFamily: 'Lato-Light',
 		fontSize: 20,
+		marginLeft: 4,
+		marginRight: 4,
 		textAlign: 'center',
 		justifyContent: 'center',
 		alignItems: 'center',
@@ -36,7 +38,7 @@ export default StyleSheet.create({
 	},
 	value: {
 		color: '#fff',
-		marginLeft: 5,
+		marginLeft: 6,
 		fontSize: 16,
 		textAlign: 'center',
 		fontFamily: 'Lato-Bold',

@@ -1,6 +1,6 @@
 import { Dimensions, StyleSheet } from 'react-native'
 
-const heightWindow = Dimensions.get('window').height
+const { height, width } = Dimensions.get('window')
 
 export default StyleSheet.create({
 	wrapper: {
@@ -8,10 +8,9 @@ export default StyleSheet.create({
 	},
 	container: {
 		width: '200%',
-		height: heightWindow * 0.7,
-		left: '-30%',
-		top: '-25%',
-		backgroundColor: 'red',
+		height: height * 0.7,
+		left: -width * 0.3,
+		top: -height * 0.25,
 		transform: [{ skewY: '-30deg' }],
 		position: 'absolute',
 		zIndex: -1,

@@ -31,6 +31,7 @@ const InfoWindow = ({
 	>
 		<TouchableOpacity
 			onPress={onPress}
+			activeOpacity={onPress ? 0.2 : 1}
 			style={{
 				backgroundColor: color1,
 				...styles.wrapper,
