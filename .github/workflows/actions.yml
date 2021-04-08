@@ -47,7 +47,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: Expo Publish Channel
-        run: expo publish --non-interactive --release-channel pr${{ github.event.number }}
+        run: SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }} expo publish --non-interactive --release-channel pr${{ github.event.number }}
 
       - name: Add QR code to PR
         uses: mshick/add-pr-comment@v1
