@@ -1,0 +1,184 @@
+name: SaveFood CI - Staging deploy
+
+on:
+  push:
+    branches: [staging]
+
+jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.3.0'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Test prettier and eslint
+        run: npm run lint-cleanup
+
+      - name: Cache Node Modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+  build-android:
+    needs: check
+    name: Build android (app-bundle)
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.3.0'
+
+      - name: Install dependencies
+        run: npm install
+
+      - uses: expo/expo-github-action@v5
+        with:
+          expo-packager: npm
+          expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
+          expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
+          expo-cache: true
+
+      - name: Get docs
+        uses: actions/checkout@v2
+        with:
+          repository: webstrongteam/docs
+          token: ${{ secrets.ACTION_TOKEN }}
+          path: docs
+
+      - name: Replace Google Service files
+        run: cp -r $GITHUB_WORKSPACE/docs/save-food/firebase $GITHUB_WORKSPACE/
+
+      - name: Expo Build - Android
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        run: expo build:android -t app-bundle --release-channel staging --non-interactive
+
+  build-ios:
+    needs: check
+    name: Build iOS (archive)
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.3.0'
+
+      - name: Install dependencies
+        run: npm install
+
+      - uses: expo/expo-github-action@v5
+        with:
+          expo-packager: npm
+          expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
+          expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
+          expo-cache: true
+
+      - name: Get docs
+        uses: actions/checkout@v2
+        with:
+          repository: webstrongteam/docs
+          token: ${{ secrets.ACTION_TOKEN }}
+          path: docs
+
+      - name: Replace Google Service files
+        run: cp -r $GITHUB_WORKSPACE/docs/save-food/firebase $GITHUB_WORKSPACE/
+
+      - name: Expo Build - iOS
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          EXPO_APPLE_PASSWORD: ${{ secrets.EXPO_APPLE_ID }}
+        run: expo build:ios -t archive --team-id ${{ secrets.APPLE_TEAM_ID }} --release-channel staging --non-interactive
+
+  deploy-android:
+    needs: build-android
+    name: Deploy android (internal)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: expo/expo-github-action@v5
+        with:
+          expo-packager: npm
+          expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
+          expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
+          expo-cache: true
+
+      - name: Get docs
+        uses: actions/checkout@v2
+        with:
+          repository: webstrongteam/docs
+          token: ${{ secrets.ACTION_TOKEN }}
+          path: docs
+
+      - name: Expo Upload - Android
+        run: expo upload:android --key $GITHUB_WORKSPACE/docs/save-food/google-play-store-key.json --type aab --track internal --latest --non-interactive
+
+  deploy-ios:
+    needs: build-ios
+    name: Deploy iOS (testflight)
+    runs-on: macos-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.3.0'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Cache Node Modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - uses: expo/expo-github-action@v5
+        with:
+          expo-packager: npm
+          expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
+          expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
+          expo-cache: true
+
+      - name: Download latest ipa file
+        run: wget $(expo url:ipa) -O $GITHUB_WORKSPACE/save-food.ipa
+
+      - name: Deploy ipa file
+        run: /usr/bin/xcrun altool --upload-app -f $GITHUB_WORKSPACE/save-food.ipa -u ${{ secrets.EXPO_APPLE_ID }} -p ${{ secrets.EXPO_APP_SPECIFIC_PASSWORD }}

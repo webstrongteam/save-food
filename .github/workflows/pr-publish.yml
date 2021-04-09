@@ -1,17 +1,16 @@
-name: SaveFood CI
+name: SaveFood CI - PR publish
 
 on:
   push:
-    branches: [1.2.0]
+    branches: [master]
   pull_request:
-    branches: [1.2.0]
-
-  workflow_dispatch:
+    branches: [master]
 
 jobs:
-  build-deploy:
+  qa-publish:
+    name: QA Publish
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 15
 
     steps:
       - uses: actions/checkout@v2
@@ -47,7 +46,9 @@ jobs:
             ${{ runner.os }}-
 
       - name: Expo Publish Channel
-        run: SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }} expo publish --non-interactive --release-channel pr${{ github.event.number }}
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        run: expo publish --non-interactive --release-channel pr${{ github.event.number }}
 
       - name: Add QR code to PR
         uses: mshick/add-pr-comment@v1
@@ -56,6 +57,6 @@ jobs:
           EXPO_PROJECT: "@mateuszpijanowski/save-food"
         with:
           message: |
-            ## Application
+            ## Application preview
             ![Expo QR](https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=exp://exp.host/${{ env.EXPO_PROJECT }}?release-channel=pr${{ github.event.number }})
             Published to https://exp.host/${{ env.EXPO_PROJECT }}?release-channel=pr${{ github.event.number }}
