@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react'
-import { BackHandler, Image } from 'react-native'
+import { BackHandler, Image, View } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 import Onboarding from 'react-native-onboarding-swiper'
-import config from '../../config/config'
 import styles from './Start.styles'
 import { NavigationScreenType } from '../../types/navigation'
 import { Language, Translations } from '../../types/settings'
@@ -33,7 +32,6 @@ const Start = ({ navigation }: Props) => {
 	return (
 		<Onboarding
 			showSkip={false}
-			containerStyles={styles.imageContainer}
 			onDone={doneBtnHandle}
 			pages={getPages(translations, settings.lang)}
 		/>
@@ -55,13 +53,16 @@ const getPages = (translations: Translations, lang: Language) => [
 	{
 		backgroundColor: primaryColor,
 		image: (
-			<Image
-				style={styles.stepContainer}
-				source={{
-					uri: `${config.ASSETS_URL}/promo-screens/android/${lang}/transparent/2.png`,
-					cache: 'reload',
-				}}
-			/>
+			<View style={styles.stepWrapper}>
+				<Image
+					style={styles.stepContainer}
+					source={
+						lang === 'pl'
+							? require('../../assets/screens/pl/1.png')
+							: require('../../assets/screens/en/1.png')
+					}
+				/>
+			</View>
 		),
 		title: '',
 		subtitle: '',
@@ -69,13 +70,16 @@ const getPages = (translations: Translations, lang: Language) => [
 	{
 		backgroundColor: primaryColor,
 		image: (
-			<Image
-				style={styles.stepContainer}
-				source={{
-					uri: `${config.ASSETS_URL}/promo-screens/android/${lang}/transparent/3.png`,
-					cache: 'reload',
-				}}
-			/>
+			<View style={styles.stepWrapper}>
+				<Image
+					style={styles.stepContainer}
+					source={
+						lang === 'pl'
+							? require('../../assets/screens/pl/2.png')
+							: require('../../assets/screens/en/2.png')
+					}
+				/>
+			</View>
 		),
 		title: '',
 		subtitle: '',
@@ -83,13 +87,16 @@ const getPages = (translations: Translations, lang: Language) => [
 	{
 		backgroundColor: primaryColor,
 		image: (
-			<Image
-				style={styles.stepContainer}
-				source={{
-					uri: `${config.ASSETS_URL}/promo-screens/android/${lang}/transparent/4.png`,
-					cache: 'reload',
-				}}
-			/>
+			<View style={styles.stepWrapper}>
+				<Image
+					style={styles.stepContainer}
+					source={
+						lang === 'pl'
+							? require('../../assets/screens/pl/3.png')
+							: require('../../assets/screens/en/3.png')
+					}
+				/>
+			</View>
 		),
 		title: '',
 		subtitle: '',
@@ -97,13 +104,16 @@ const getPages = (translations: Translations, lang: Language) => [
 	{
 		backgroundColor: primaryColor,
 		image: (
-			<Image
-				style={styles.stepContainer}
-				source={{
-					uri: `${config.ASSETS_URL}/promo-screens/android/${lang}/transparent/5.png`,
-					cache: 'reload',
-				}}
-			/>
+			<View style={styles.stepWrapper}>
+				<Image
+					style={styles.stepContainer}
+					source={
+						lang === 'pl'
+							? require('../../assets/screens/pl/4.png')
+							: require('../../assets/screens/en/4.png')
+					}
+				/>
+			</View>
 		),
 		title: '',
 		subtitle: '',

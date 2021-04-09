@@ -11,12 +11,12 @@ import useAsyncEffect from '../../common/hooks/useAsyncEffect'
 import { useSettingsContext } from '../../common/context/SettingsContext'
 import { fetchAllWastedFood } from '../../../database/actions/wastedFood'
 import { WastedFood } from '../../types/westedFood'
-
-import en_facts from '../../translations/en/facts.json'
-import pl_facts from '../../translations/pl/facts.json'
 import Background from '../../components/Background/Background'
 import Icon from '../../components/Icon/Icon'
 import { primaryColor } from '../../common/utility'
+
+import en_facts from '../../translations/en/facts.json'
+import pl_facts from '../../translations/pl/facts.json'
 
 type Props = {
 	navigation: NavigationScreenType
