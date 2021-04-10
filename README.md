@@ -5,7 +5,9 @@
 <a href="https://play.google.com/store/apps/details?id=com.webStrong.saveFood" target="_blank"><img src="https://webstrong.pl/assets/templates/google_play_en.png" height="50"/></a>
 <a href="https://apps.apple.com/us/app/id1520027228" target="_blank"><img src="https://webstrong.pl/assets/templates/app_store_en.png" height="50"/></a>
 
-**SaveFood** - application available on Android and iOS devices designed to help you save food. The purpose of this application is to tell the user how much food he wastes and how can help reduce world hunger.
+**SaveFood** - mobile application available on Android and iOS devices created to help you save food. SaveFood draws attention to how much the user wasted food and how it can help in the fight with hunger in the world.
+
+Thanks to the built-in barcode scanner and integration with the international API, the user is able to scan wasted products and transfer their equivalent of money to chosen charity organization.
 
 <p align="center"><img src="https://webstrong.pl/assets/SaveFood/promo-banners/en/sf-promo.png" width="500px" /></p>
 
@@ -15,30 +17,35 @@
 - Saving food with a photo, name, quantity, price and percent of waste
 - Manually adding foods to wasted list
 - Donating equivalent price of wasted food to charity organization
-- Support English and Polish languages
 - Support USD and PLN currency
+- Support English and Polish languages
 
 ## Technologies
 
-**SaveFood** was created together with:
+**SaveFood** was created with:
 
-- Expo <i>39.0.0</i>
-- React <i>16.13.1</i>
-- Redux <i>4.0.4</i>
-- React Redux <i>7.2.1</i>
-- Redux Thunk <i>2.3.0</i>
-- React Navigation <i>4.4.2</i>
-- React Native Elements <i>3.0.0</i>
-- React Native Flash Message <i>0.1.17</i>
-- React Native Global Props <i>1.1.5</i>
-- React Native Modals <i>0.19.9</i>
-- React Native Onboarding Swiper <i>1.1.4</i>
-- React Native Screens <i>2.10.1</i>
-- React Native Webview <i>10.7.0</i>
-- Socket.io client <i>2.3.0</i>
-- Axios <i>0.19.2</i>
+- Expo <i>40.0.0</i>
+- React Native <i>0.63</i>
+- Typescript <i>4.0.0</i>
+- Node.js server
 
-<p>App version: <b>1.1.2</b></p>
+Dev tools:
+
+- GitHub Actions
+- Google Analytics
+- Sentry
+- ESlint
+- Prettier
+
+<p>App version: <b>1.2.0</b></p>
+
+## How to run locally
+
+1. `git clone https://github.com/webstrongteam/save-food.git`
+2. `cd save-food/`
+3. `npm install`
+4. Set `SETUP_SENTRY=false` in `/src/config/config.ts`
+5. `expo start`
 
 ## Available scripts
 
@@ -48,15 +55,15 @@
 
 `npm run ios` - start app for ios
 
-`npm run cleanup` - run prettier and ESlint
-
 `npm run eject` - Ejecting from Managed Workflow
 
-## ToDo
+`npm run cleanup` - run prettier and ESlint
 
-- add reporting bugs form
-- add new privacy policy
-- write unit and e2e tests
+`npm run lint-cleanup` - run prettier and ESlint test
+
+`npm run prettier` - run prettier
+
+`npm run eslint` - run ESlint
 
 ### WebStrong &copy;
 

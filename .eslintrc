@@ -1,0 +1,30 @@
+{
+	"extends": ["webstrong/native", "webstrong/typescript", "plugin:@typescript-eslint/base"],
+	"parserOptions": {
+		"project": "./tsconfig.json",
+		"ecmaVersion": 2021,
+		"sourceType": "module"
+	},
+	"rules": {
+		"@typescript-eslint/object-curly-spacing": 0,
+		"@typescript-eslint/no-shadow": 0,
+		"react/jsx-props-no-spreading": 0,
+		"no-plusplus": 0,
+		"@typescript-eslint/no-floating-promises": 0,
+		"import/no-named-as-default-member": 0,
+		"react/require-default-props": 0,
+		"@typescript-eslint/ban-ts-comment": 0,
+		"react/no-array-index-key": 0,
+		"@typescript-eslint/no-redeclare": 0,
+		"no-import-assign": 0,
+		"no-redeclare": 0,
+		"global-require": 0,
+		"react/jsx-indent": 0,
+		"react/jsx-tag-spacing": 0,
+		"react/jsx-indent-props": 0,
+		"react/jsx-wrap-multilines": 0,
+		"react/no-unused-prop-types": 0,
+		"react/jsx-one-expression-per-line": 0,
+		"react/jsx-curly-newline": 0
+	}
+}
