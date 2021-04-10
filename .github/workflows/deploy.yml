@@ -1,8 +1,8 @@
-name: SaveFood CI - Staging deploy
+name: SaveFood CI - Deploy
 
 on:
   push:
-    branches: [staging]
+    branches: [deploy]
 
 jobs:
   check:
@@ -65,15 +65,15 @@ jobs:
         with:
           repository: webstrongteam/docs
           token: ${{ secrets.ACTION_TOKEN }}
-          path: docs
+          path: ./docs
 
       - name: Replace Google Service files
-        run: cp -r $GITHUB_WORKSPACE/docs/save-food/firebase $GITHUB_WORKSPACE/
+        run: cp -r ./docs/save-food/firebase ./
 
       - name: Expo Build - Android
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-        run: expo build:android -t app-bundle --release-channel staging --non-interactive
+        run: expo build:android -t app-bundle --non-interactive
 
   build-ios:
     needs: check
@@ -107,13 +107,13 @@ jobs:
           path: docs
 
       - name: Replace Google Service files
-        run: cp -r $GITHUB_WORKSPACE/docs/save-food/firebase $GITHUB_WORKSPACE/
+        run: cp -r ./docs/save-food/firebase ./
 
       - name: Expo Build - iOS
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           EXPO_APPLE_PASSWORD: ${{ secrets.EXPO_APPLE_ID }}
-        run: expo build:ios -t archive --team-id ${{ secrets.APPLE_TEAM_ID }} --release-channel staging --non-interactive
+        run: expo build:ios -t archive --team-id ${{ secrets.APPLE_TEAM_ID }} --non-interactive
 
   deploy-android:
     needs: build-android
@@ -136,10 +136,10 @@ jobs:
         with:
           repository: webstrongteam/docs
           token: ${{ secrets.ACTION_TOKEN }}
-          path: docs
+          path: ./docs
 
       - name: Expo Upload - Android
-        run: expo upload:android --key $GITHUB_WORKSPACE/docs/save-food/google-play-store-key.json --type aab --track internal --latest --non-interactive
+        run: expo upload:android --key ./docs/save-food/google-play-store-key.json --type aab --track internal --latest --non-interactive
 
   deploy-ios:
     needs: build-ios
@@ -178,7 +178,7 @@ jobs:
           expo-cache: true
 
       - name: Download latest ipa file
-        run: wget $(expo url:ipa) -O $GITHUB_WORKSPACE/save-food.ipa
+        run: wget $(expo url:ipa) -O ./save-food.ipa
 
       - name: Deploy ipa file
-        run: /usr/bin/xcrun altool --upload-app -f $GITHUB_WORKSPACE/save-food.ipa -u ${{ secrets.EXPO_APPLE_ID }} -p ${{ secrets.EXPO_APP_SPECIFIC_PASSWORD }}
+        run: /usr/bin/xcrun altool --upload-app -f ./save-food.ipa -u ${{ secrets.EXPO_APPLE_ID }} -p ${{ secrets.EXPO_APP_SPECIFIC_PASSWORD }}
