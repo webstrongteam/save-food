@@ -7,7 +7,7 @@
 		"privacy": "public",
 		"version": "1.2.0",
 		"ios": {
-			"buildNumber": "1.2.0",
+			"buildNumber": "1.2.0.1",
 			"bundleIdentifier": "com.webStrong.saveFood",
 			"supportsTablet": false,
 			"googleServicesFile": "./firebase/GoogleService-Info.plist",
