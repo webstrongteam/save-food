@@ -38,7 +38,6 @@ jobs:
 
   build-android:
     needs: check
-    if: ${{ secrets.DEPLOY_ANDROID == 'true' }}
     name: Build android (app-bundle)
     runs-on: ubuntu-latest
     timeout-minutes: 50
@@ -78,7 +77,6 @@ jobs:
 
   build-ios:
     needs: check
-    if: ${{ secrets.DEPLOY_IOS == 'true' }}
     name: Build iOS (archive)
     runs-on: ubuntu-latest
     timeout-minutes: 50
