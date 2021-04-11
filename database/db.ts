@@ -1,9 +1,9 @@
-import * as Analytics from 'expo-firebase-analytics'
 import * as Sentry from 'sentry-expo'
 import { openDatabase } from 'expo-sqlite'
 import AsyncStorage from '@react-native-community/async-storage'
 import { expo } from '../app.json'
 import { getLocale } from '../src/common/utility'
+import logEvent from '../src/common/logEvent'
 
 export const VERSION = expo.version
 export const db = openDatabase('savefood.db', VERSION)
@@ -46,7 +46,7 @@ export const setupDatabase = (callback: () => void) => {
 
 				if (version !== VERSION) {
 					if (version.includes('_INIT')) {
-						Analytics.logEvent('firstSetup', {
+						logEvent('firstSetup', {
 							name: 'startedApp',
 						})
 

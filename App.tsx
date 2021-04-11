@@ -1,7 +1,6 @@
 // @ts-ignore
 import { ModalPortal } from 'react-native-modals'
 import React, { useEffect, useState } from 'react'
-import * as Analytics from 'expo-firebase-analytics'
 import FlashMessage from 'react-native-flash-message'
 import { useFonts } from 'expo-font'
 import { setCustomText } from 'react-native-global-props'
@@ -11,6 +10,8 @@ import Template from './src/components/Template/Template'
 import { SettingsContextProvider } from './src/common/context/SettingsContext'
 import { setupDatabase } from './database/db'
 import sentryConfig from './src/config/sentry'
+import logEvent from './src/common/logEvent'
+import { logConfigStatus } from './src/common/utility'
 
 export default function App() {
 	const [loading, setLoading] = useState<boolean>(true)
@@ -35,9 +36,10 @@ export default function App() {
 		setCustomText(customTextProps)
 
 		sentryConfig()
+		logConfigStatus()
 
 		setupDatabase(() => {
-			Analytics.logEvent('successStartedApp', {
+			logEvent('successStartedApp', {
 				name: 'startedApp',
 			})
 

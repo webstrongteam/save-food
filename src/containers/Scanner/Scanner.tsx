@@ -5,7 +5,6 @@ import { Sound } from 'expo-av/build/Audio/Sound'
 import { MessageOptions, showMessage } from 'react-native-flash-message'
 import { Button } from 'react-native-elements'
 import { BarCodeScanner } from 'expo-barcode-scanner'
-import * as Analytics from 'expo-firebase-analytics'
 import * as Sentry from 'sentry-expo'
 import Spinner from '../../components/Spinner/Spinner'
 import { shadow } from '../../common/styles'
@@ -14,6 +13,7 @@ import { useSettingsContext } from '../../common/context/SettingsContext'
 import { NavigationScreenType } from '../../types/navigation'
 import Icon from '../../components/Icon/Icon'
 import useAsyncEffect from '../../common/hooks/useAsyncEffect'
+import logEvent from '../../common/logEvent'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -103,7 +103,7 @@ const Scanner = ({ navigation }: Props) => {
 
 		await fetch(`https://world.openfoodfacts.org/api/v0/product/${data}.json`)
 			.then(async (response) => {
-				await Analytics.logEvent('scannedFood', {
+				await logEvent('scannedFood', {
 					component: 'Scanner',
 				})
 
@@ -114,7 +114,7 @@ const Scanner = ({ navigation }: Props) => {
 				const quantity = data.product?.product_quantity
 				let quantitySuffixIndex = 1 // default ml
 
-				const quantitySuffix = data.product?.quantity.slice(-2) // get last two chars (g, ml, l)
+				const quantitySuffix = data.product?.quantity?.slice(-2) // get last two chars (g, ml, l)
 				if (quantitySuffix && quantitySuffix.trim() === translations.gramsSuffix) {
 					quantitySuffixIndex = 0 // g
 				}

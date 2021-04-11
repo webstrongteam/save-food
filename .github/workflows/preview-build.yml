@@ -1,12 +1,12 @@
-name: SaveFood CI - PR publish
+name: SaveFood CI - Preview build
 
 on:
-  pull_request:
+  push:
     branches: [master]
 
 jobs:
-  qa-publish:
-    name: QA Publish
+  check:
+    name: Check
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -24,13 +24,6 @@ jobs:
       - name: Test prettier and eslint
         run: npm run lint-cleanup
 
-      - uses: expo/expo-github-action@v5
-        with:
-          expo-packager: npm
-          expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
-          expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
-          expo-cache: true
-
       - name: Cache Node Modules
         uses: actions/cache@v2
         env:
@@ -43,12 +36,36 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
+  build-ios:
+    needs: check
+    name: Preview build (iOS)
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.3.0'
+
+      - name: Install dependencies
+        run: npm install
+
+      - uses: expo/expo-github-action@v5
+        with:
+          expo-packager: npm
+          expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
+          expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
+          expo-cache: true
+
       - name: Get docs
         uses: actions/checkout@v2
         with:
           repository: webstrongteam/docs
           token: ${{ secrets.ACTION_TOKEN }}
-          path: ./docs
+          path: docs
 
       - name: Add Google Service files
         run: cp -r ./docs/save-food/firebase ./
@@ -56,18 +73,8 @@ jobs:
       - name: Replace app.json
         run: cp -r ./docs/save-food/app.json ./
 
-      - name: Expo Publish Channel
+      - name: Expo Build - iOS
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-        run: expo publish --non-interactive --release-channel pr${{ github.event.number }}
-
-      - name: Add QR code to PR
-        uses: mshick/add-pr-comment@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
-          EXPO_PROJECT: "@mateuszpijanowski/save-food"
-        with:
-          message: |
-            ## Application preview
-            ![Expo QR](https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=exp://exp.host/${{ env.EXPO_PROJECT }}?release-channel=pr${{ github.event.number }})
-            Published to https://exp.host/${{ env.EXPO_PROJECT }}?release-channel=pr${{ github.event.number }}
+          EXPO_APPLE_PASSWORD: ${{ secrets.EXPO_APPLE_ID }}
+        run: expo build:ios -t archive --team-id ${{ secrets.APPLE_TEAM_ID }} --release-channel preview --non-interactive

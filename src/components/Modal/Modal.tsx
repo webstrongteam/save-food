@@ -38,6 +38,10 @@ const Modal = ({
 		}
 	}, [visible])
 
+	if (!visible) {
+		return <></>
+	}
+
 	return (
 		<ModalBase
 			width={Dimensions.get('window').width - 50}
