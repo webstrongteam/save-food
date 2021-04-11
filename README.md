@@ -44,8 +44,7 @@ Dev tools:
 1. `git clone https://github.com/webstrongteam/save-food.git`
 2. `cd save-food/`
 3. `npm install`
-4. Set `SETUP_SENTRY=false` in `/src/config/config.ts`
-5. `expo start`
+4. `expo start`
 
 ## Available scripts
 

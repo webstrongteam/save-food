@@ -7,10 +7,9 @@
 		"privacy": "public",
 		"version": "1.2.0",
 		"ios": {
-			"buildNumber": "1.2.0.1",
+			"buildNumber": "1.2.0.2",
 			"bundleIdentifier": "com.webStrong.saveFood",
 			"supportsTablet": false,
-			"googleServicesFile": "./firebase/GoogleService-Info.plist",
 			"infoPlist": {
 				"NSCameraUsageDescription": "This app uses the camera to scan products barcodes and taking photo of products."
 			}
@@ -18,8 +17,7 @@
 		"android": {
 			"permissions": ["CAMERA"],
 			"package": "com.webStrong.saveFood",
-			"versionCode": 1201,
-			"googleServicesFile": "./firebase/google-services.json"
+			"versionCode": 1202
 		},
 		"platforms": ["ios", "android"],
 		"primaryColor": "#4b8b1d",

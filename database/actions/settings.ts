@@ -1,8 +1,8 @@
-import * as Analytics from 'expo-firebase-analytics'
 import * as Sentry from 'sentry-expo'
 import { Currency, Language, Settings } from '../../src/types/settings'
 import { db } from '../db'
 import { getLocale } from '../../src/common/utility'
+import logEvent from '../../src/common/logEvent'
 
 export const getSettings = (): Promise<Settings> =>
 	new Promise((resolve, reject) => {
@@ -24,7 +24,7 @@ export const changeLang = (lang: Language): Promise<Settings> =>
 		db.transaction(
 			(tx) => {
 				tx.executeSql('update settings set lang = ? where id = 0;', [lang], () => {
-					Analytics.logEvent('changeLang', {
+					logEvent('changeLang', {
 						name: 'settingsAction',
 					})
 
@@ -48,7 +48,7 @@ export const changeCurrency = (currency: Currency): Promise<Settings> =>
 		db.transaction(
 			(tx) => {
 				tx.executeSql('update settings set currency = ? where id = 0;', [currency], () => {
-					Analytics.logEvent('changeCurrency', {
+					logEvent('changeCurrency', {
 						name: 'settingsAction',
 					})
 
@@ -72,7 +72,7 @@ export const changeEmail = (email: string): Promise<Settings> =>
 		db.transaction(
 			(tx) => {
 				tx.executeSql('update settings set email = ? where id = 0;', [email], () => {
-					Analytics.logEvent('changeEmail', {
+					logEvent('changeEmail', {
 						name: 'settingsAction',
 					})
 
@@ -104,7 +104,7 @@ export const clearDatabase = (): Promise<Settings> =>
 							'create table if not exists wasted_food (id integer primary key not null, name text, image text, quantity integer, price integer, percentage integer, paid integer, productQuantity integer, quantitySuffixIndex integer DEFAULT 0, selected integer DEFAULT 1);',
 						)
 
-						Analytics.logEvent('clearDatabase', {
+						logEvent('clearDatabase', {
 							name: 'settingsAction',
 						})
 

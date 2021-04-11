@@ -142,7 +142,6 @@ const Food = ({ navigation }: Props) => {
 
 	const saveChange = () => {
 		if (checkValidation(controls[modalType], templateData[modalType] ?? '')) {
-			setShowModal(false)
 			setTemplateData(prepareData(templateData, controls))
 			setSavedData(
 				prepareData(
@@ -153,6 +152,8 @@ const Food = ({ navigation }: Props) => {
 					controls,
 				),
 			)
+
+			setShowModal(false)
 		}
 	}
 

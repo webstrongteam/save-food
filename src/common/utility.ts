@@ -5,6 +5,7 @@ import { Translations } from '../types/settings'
 import { ResizeMode, WastedFood } from '../types/westedFood'
 import { expo } from '../../app.json'
 import { InputsControl } from '../types/common'
+import config from '../config/config'
 
 export const { primaryColor } = expo
 
@@ -70,4 +71,11 @@ export const prepareData = (data: WastedFood, controls: InputsControl): WastedFo
 	})
 
 	return preparedData
+}
+
+export const logConfigStatus = () => {
+	/* eslint-disable no-console */
+	console.info(`Sentry: ${config.SETUP_SENTRY}`)
+	console.info(`Google Analytics: ${config.SETUP_ANALYTICS}`)
+	console.info('To change this setup, edit config.ts file.')
 }

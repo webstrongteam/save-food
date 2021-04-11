@@ -4,7 +4,6 @@ import { Image, ScrollView, StatusBar, Text, View } from 'react-native'
 import { Button } from 'react-native-elements'
 import Carousel from 'react-native-snap-carousel'
 import * as WebBrowser from 'expo-web-browser'
-import * as Analytics from 'expo-firebase-analytics'
 import * as Sentry from 'sentry-expo'
 import { NavigationScreenType } from '../../types/navigation'
 import { InputsControl } from '../../types/common'
@@ -19,6 +18,7 @@ import Modal from '../../components/Modal/Modal'
 import useAsyncEffect from '../../common/hooks/useAsyncEffect'
 import { getPaidWastedFoods } from '../../../database/actions/wastedFood'
 import { changeEmail } from '../../../database/actions/settings'
+import logEvent from '../../common/logEvent'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -89,7 +89,7 @@ const Payment = ({ navigation }: Props) => {
 						throw new Error(`Response status: ${res.status}`)
 					}
 
-					await Analytics.logEvent('sendEmail', {
+					await logEvent('sendEmail', {
 						component: 'Payment',
 					})
 				})
@@ -114,7 +114,7 @@ const Payment = ({ navigation }: Props) => {
 	}
 
 	const itemOnPressHandler = async (item: Organization) => {
-		await Analytics.logEvent('itemOnPress', {
+		await logEvent('itemOnPress', {
 			component: 'Payment',
 			item,
 		})

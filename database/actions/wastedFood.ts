@@ -1,8 +1,8 @@
-import * as Analytics from 'expo-firebase-analytics'
 import * as Sentry from 'sentry-expo'
 import { WastedFood } from '../../src/types/westedFood'
 import { db } from '../db'
 import { getAllResults } from '../../src/common/utility'
+import logEvent from '../../src/common/logEvent'
 
 export const fetchWastedFood = (): Promise<WastedFood[]> =>
 	new Promise((resolve, reject) => {
@@ -79,7 +79,7 @@ export const saveFood = (food: Partial<WastedFood>): Promise<{}> =>
 							food.id,
 						],
 						() => {
-							Analytics.logEvent('updateFood', {
+							logEvent('updateFood', {
 								name: 'wastedFoodAction',
 							})
 
@@ -108,7 +108,7 @@ export const saveFood = (food: Partial<WastedFood>): Promise<{}> =>
 							food.paid,
 						],
 						() => {
-							Analytics.logEvent('createFood', {
+							logEvent('createFood', {
 								name: 'wastedFoodAction',
 							})
 
@@ -144,7 +144,7 @@ export const paidFood = (id: number): Promise<{}> =>
 		db.transaction(
 			(tx) => {
 				tx.executeSql('update wasted_food set paid = 1 where id = ?;', [id], () => {
-					Analytics.logEvent('paidFood', {
+					logEvent('paidFood', {
 						name: 'wastedFoodAction',
 					})
 
@@ -163,7 +163,7 @@ export const removeFood = (id: number): Promise<{}> =>
 		db.transaction(
 			(tx) => {
 				tx.executeSql('delete from wasted_food where id = ?;', [id], () => {
-					Analytics.logEvent('removeFood', {
+					logEvent('removeFood', {
 						name: 'wastedFoodAction',
 					})
 

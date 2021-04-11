@@ -67,8 +67,11 @@ jobs:
           token: ${{ secrets.ACTION_TOKEN }}
           path: docs
 
-      - name: Replace Google Service files
+      - name: Add Google Service files
         run: cp -r ./docs/save-food/firebase ./
+
+      - name: Replace app.json
+        run: cp -r ./docs/save-food/app.json ./
 
       - name: Expo Build - iOS
         env:

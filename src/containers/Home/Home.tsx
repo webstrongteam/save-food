@@ -61,6 +61,9 @@ const Home = ({ navigation }: Props) => {
 			data.moderateWaste /= allWestedFoods.length
 		}
 
+		data.totalPrice = +data.totalPrice.toFixed(2)
+		data.moderateWaste = +data.moderateWaste.toFixed(0)
+
 		setData(data)
 		setLoading(false)
 	}
@@ -148,7 +151,7 @@ const Home = ({ navigation }: Props) => {
 							color1='#f8f8f8'
 							color2={['#6cd015', primaryColor]}
 							title={translations.moderateWaste}
-							value={`${data.moderateWaste.toFixed(0)} %`}
+							value={`${data.moderateWaste} %`}
 						/>
 					</View>
 				</ScrollView>
