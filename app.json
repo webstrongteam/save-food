@@ -7,7 +7,7 @@
 		"privacy": "public",
 		"version": "1.2.0",
 		"ios": {
-			"buildNumber": "1.2.0.2",
+			"buildNumber": "1.2.0.3",
 			"bundleIdentifier": "com.webStrong.saveFood",
 			"supportsTablet": false,
 			"infoPlist": {
@@ -17,7 +17,7 @@
 		"android": {
 			"permissions": ["CAMERA"],
 			"package": "com.webStrong.saveFood",
-			"versionCode": 1202
+			"versionCode": 1203
 		},
 		"platforms": ["ios", "android"],
 		"primaryColor": "#4b8b1d",

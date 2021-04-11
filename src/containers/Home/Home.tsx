@@ -62,6 +62,7 @@ const Home = ({ navigation }: Props) => {
 		}
 
 		data.totalPrice = +data.totalPrice.toFixed(2)
+		data.unpaid = +data.unpaid.toFixed(2)
 		data.moderateWaste = +data.moderateWaste.toFixed(0)
 
 		setData(data)
