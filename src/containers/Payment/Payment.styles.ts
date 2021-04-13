@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { primaryColor } from '../../common/utility'
+import { blackColor, primaryColor, whiteColor } from '../../common/colors'
 
 export default StyleSheet.create({
 	flex: {
@@ -9,7 +9,7 @@ export default StyleSheet.create({
 		width: 200,
 		height: 200,
 		flex: 1,
-		backgroundColor: '#fff',
+		backgroundColor: whiteColor,
 		marginTop: 12,
 		marginBottom: 12,
 	},
@@ -19,7 +19,7 @@ export default StyleSheet.create({
 		resizeMode: 'cover',
 	},
 	header: {
-		color: '#000',
+		color: blackColor,
 		fontSize: 21,
 	},
 	infoIcon: {
@@ -75,7 +75,7 @@ export default StyleSheet.create({
 		backgroundColor: primaryColor,
 	},
 	paymentButtonTitle: {
-		color: '#fff',
+		color: whiteColor,
 		fontSize: 18,
 		padding: 25,
 		fontFamily: 'Lato-Light',

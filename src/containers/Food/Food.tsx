@@ -8,7 +8,7 @@ import Input from '../../components/Input/Input'
 import Header from '../../components/Header/Header'
 import InfoWindow from '../../components/InfoWindow/InfoWindow'
 import Spinner from '../../components/Spinner/Spinner'
-import Modal from '../../components/Modal/Modal'
+import Modal, { ModalButtonType } from '../../components/Modal/Modal'
 import { checkValidation } from '../../common/validation'
 import { getImage, getQuantitySuffix, prepareData } from '../../common/utility'
 import { WastedFood } from '../../types/westedFood'
@@ -19,8 +19,16 @@ import { useSettingsContext } from '../../common/context/SettingsContext'
 import styles from './Food.styles'
 import Background from '../../components/Background/Background'
 import Icon from '../../components/Icon/Icon'
+import {
+	blackColor,
+	darkColor,
+	grayColor,
+	orangeGradient,
+	redGradient,
+	whiteColor,
+} from '../../common/colors'
 
-type ModalType = keyof Omit<WastedFood, 'image'>
+type ModalType = keyof Omit<WastedFood, 'image'> | 'discardChanges'
 
 const initialData: WastedFood = {
 	id: 0,
@@ -46,6 +54,7 @@ const Food = ({ navigation }: Props) => {
 	const [savedData, setSavedData] = useState<WastedFood>(initialData)
 	const [templateData, setTemplateData] = useState<WastedFood>(initialData)
 	const [loading, setLoading] = useState(true)
+	const [hasChanges, setHasChanges] = useState(false)
 	const [showModal, setShowModal] = useState(false)
 	const [modalType, setModalType] = useState<ModalType>('id')
 	const [modalContent, setModalContent] = useState<ReactNode>()
@@ -116,31 +125,42 @@ const Food = ({ navigation }: Props) => {
 	}
 
 	const setContent = (type: ModalType) => {
-		setModalContent(
-			<View style={styles.modalContentWrapper}>
-				<Input
-					inputConfig={controls[type]}
-					translations={translations}
-					value={templateData[type]}
-					changed={(value, control) => {
-						setTemplateData({
-							...templateData,
-							[type]: value,
-						})
-						setControls({
-							...controls,
-							[type]: control,
-						})
-					}}
-				/>
-				{type === 'quantity' && <QuantitySuffixButtons />}
-			</View>,
-		)
+		if (type === 'discardChanges') {
+			setModalContent(
+				<Text style={styles.discardChanges}>{translations.discardChangesDescription}</Text>,
+			)
+		} else {
+			setModalContent(
+				<View style={styles.modalContentWrapper}>
+					<Input
+						inputConfig={controls[type]}
+						translations={translations}
+						value={templateData[type]}
+						changed={(value, control) => {
+							setTemplateData({
+								...templateData,
+								[type]: value,
+							})
+							setControls({
+								...controls,
+								[type]: control,
+							})
+						}}
+					/>
+					{type === 'quantity' && <QuantitySuffixButtons />}
+				</View>,
+			)
+		}
+
 		setShowModal(true)
 		setModalType(type)
 	}
 
 	const saveChange = () => {
+		if (modalType === 'discardChanges') {
+			return
+		}
+
 		if (checkValidation(controls[modalType], templateData[modalType] ?? '')) {
 			setTemplateData(prepareData(templateData, controls))
 			setSavedData(
@@ -153,11 +173,16 @@ const Food = ({ navigation }: Props) => {
 				),
 			)
 
+			setHasChanges(true)
 			setShowModal(false)
 		}
 	}
 
 	const cancelChange = () => {
+		if (modalType === 'discardChanges') {
+			return
+		}
+
 		setTemplateData({
 			...templateData,
 			[modalType]: savedData[modalType],
@@ -220,14 +245,42 @@ const Food = ({ navigation }: Props) => {
 
 	const checkPrice = (): boolean => !!(templateData.price && !controls.price.error)
 
+	const exitHandler = () => {
+		if (hasChanges && checkPrice()) {
+			setContent('discardChanges')
+		} else {
+			navigation.goBack()
+		}
+	}
+
+	const getModalButtons = (): ModalButtonType[] => {
+		if (modalType === 'discardChanges') {
+			return [
+				{
+					text: translations.yes,
+					onPress: () => {
+						setShowModal(false)
+						navigation.goBack()
+					},
+				},
+				{ text: translations.save, onPress: saveFoodHandler },
+				{ text: translations.cancel, onPress: () => setShowModal(false) },
+			]
+		}
+		return [
+			{ text: translations.save, onPress: saveChange },
+			{ text: translations.cancel, onPress: cancelChange },
+		]
+	}
+
 	const saveFoodHandler = async () => {
 		if (!checkPrice()) {
 			showSimpleMessage('priceError')
 			return
 		}
 
+		setShowModal(false)
 		await saveFood(savedData)
-
 		navigation.replace('List')
 	}
 
@@ -242,7 +295,7 @@ const Food = ({ navigation }: Props) => {
 	return (
 		<Background>
 			<Header
-				leftComponent={<Icon onPress={() => navigation.goBack()} variant='backIcon' />}
+				leftComponent={<Icon onPress={exitHandler} variant='backIcon' />}
 				centerComponent={
 					<Text style={styles.headerTitle}>
 						{savedData.id ? translations.editFood : translations.newFood}
@@ -254,10 +307,7 @@ const Food = ({ navigation }: Props) => {
 				visible={showModal}
 				toggleModal={toggleModal}
 				title={translations[modalType]}
-				buttons={[
-					{ text: translations.save, onPress: saveChange },
-					{ text: translations.cancel, onPress: cancelChange },
-				]}
+				buttons={getModalButtons()}
 			>
 				{modalContent}
 			</Modal>
@@ -278,8 +328,8 @@ const Food = ({ navigation }: Props) => {
 
 					<View style={styles.infoWindowsContainer}>
 						<InfoWindow
-							color1='#f8f8f8'
-							color2={['#f2a91e', '#e95c17']}
+							color1={whiteColor}
+							color2={orangeGradient}
 							title={translations.name}
 							value={
 								!savedData.name || savedData.name === '' ? translations.noData : savedData.name
@@ -287,8 +337,8 @@ const Food = ({ navigation }: Props) => {
 							onPress={() => toggleModal('name')}
 						/>
 						<InfoWindow
-							color1='#f8f8f8'
-							color2={['#f2a91e', '#e95c17']}
+							color1={whiteColor}
+							color2={orangeGradient}
 							title={translations.quantity}
 							value={
 								savedData.quantity
@@ -301,8 +351,8 @@ const Food = ({ navigation }: Props) => {
 							onPress={() => toggleModal('quantity')}
 						/>
 						<InfoWindow
-							color1='#f8f8f8'
-							color2={['#af3462', '#bf3741']}
+							color1={whiteColor}
+							color2={redGradient}
 							title={translations.price}
 							value={`${savedData.price ? +savedData.price : 0} ${settings.currency}`}
 							onPress={() => toggleModal('price')}
@@ -313,15 +363,16 @@ const Food = ({ navigation }: Props) => {
 							<Slider
 								style={styles.slider}
 								thumbStyle={styles.sliderThumbStyle}
-								thumbTintColor='#292b2c'
-								minimumTrackTintColor='#3f3f3f'
-								maximumTrackTintColor='#b3b3b3'
+								thumbTintColor={blackColor}
+								minimumTrackTintColor={darkColor}
+								maximumTrackTintColor={grayColor}
 								minimumValue={1}
 								maximumValue={100}
 								value={savedData.percentage}
-								onValueChange={(value: number) =>
+								onValueChange={(value: number) => {
+									setHasChanges(true)
 									setSavedData({ ...savedData, percentage: +value.toFixed(0) })
-								}
+								}}
 							/>
 							<Text style={styles.percent}>{savedData.percentage}%</Text>
 						</View>

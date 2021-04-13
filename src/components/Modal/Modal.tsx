@@ -3,25 +3,20 @@ import { BackHandler, Dimensions, Keyboard } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import ModalBase, { ModalButton, ModalContent, ModalFooter, ModalTitle } from 'react-native-modals'
 
+export type ModalButtonType = {
+	text: string
+	onPress: () => void
+}
+
 type Props = PropsWithChildren<{
 	toggleModal: () => void
 	visible: boolean
 	title: string
-	buttons?: {
-		text: string
-		onPress: () => void
-	}[]
+	buttons?: ModalButtonType[]
 	bgColor?: string
 }>
 
-const Modal = ({
-	toggleModal,
-	visible,
-	title,
-	buttons = [],
-	bgColor = '#fff',
-	children,
-}: Props) => {
+const Modal = ({ toggleModal, visible, title, buttons = [], children }: Props) => {
 	const backAction = () => {
 		if (visible) {
 			toggleModal()
@@ -48,7 +43,6 @@ const Modal = ({
 			visible={visible}
 			onSwipeOut={toggleModal}
 			onTouchOutside={toggleModal}
-			modalStyle={{ backgroundColor: bgColor }}
 			modalTitle={
 				<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 					<ModalTitle title={title} />
@@ -56,8 +50,8 @@ const Modal = ({
 			}
 			footer={
 				<ModalFooter>
-					{buttons.map((item, i) => (
-						<ModalButton key={i} text={item.text} onPress={item.onPress} />
+					{buttons.map((item) => (
+						<ModalButton key={item.text} text={item.text} onPress={item.onPress} />
 					))}
 				</ModalFooter>
 			}

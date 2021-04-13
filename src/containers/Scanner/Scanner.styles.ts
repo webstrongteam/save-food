@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native'
-import { primaryColor } from '../../common/utility'
+import { blackColor, primaryColor, redColor, whiteColor } from '../../common/colors'
 
 const { width, height } = Dimensions.get('window')
 
@@ -10,7 +10,7 @@ export default StyleSheet.create({
 		height: '100%',
 		flexDirection: 'column',
 		justifyContent: 'flex-end',
-		backgroundColor: '#292b2c',
+		backgroundColor: blackColor,
 	},
 	barCodeScanner: {
 		width,
@@ -53,7 +53,7 @@ export default StyleSheet.create({
 		height,
 		left: (width / height) * 100 + 8,
 		top: height / 2,
-		borderColor: '#f61e19',
+		borderColor: redColor,
 		opacity: 0.7,
 		borderTopWidth: 8,
 	},
@@ -73,7 +73,7 @@ export default StyleSheet.create({
 		alignItems: 'center',
 	},
 	addManuallyButtonTitle: {
-		color: '#fff',
+		color: whiteColor,
 		fontSize: 18,
 		padding: 25,
 		fontFamily: 'Lato-Light',

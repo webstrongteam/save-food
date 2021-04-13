@@ -6,7 +6,7 @@ import styles from './Start.styles'
 import { NavigationScreenType } from '../../types/navigation'
 import { Language, Translations } from '../../types/settings'
 import { useSettingsContext } from '../../common/context/SettingsContext'
-import { primaryColor } from '../../common/utility'
+import { primaryColor } from '../../common/colors'
 
 type Props = {
 	navigation: NavigationScreenType

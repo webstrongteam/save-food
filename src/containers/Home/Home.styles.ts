@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import { whiteColor } from '../../common/colors'
 
 export default StyleSheet.create({
 	leftHeaderIcon: {
@@ -12,7 +13,7 @@ export default StyleSheet.create({
 	rightHeaderText: {
 		fontSize: 16,
 		marginLeft: 5,
-		color: '#fff',
+		color: whiteColor,
 	},
 	circleOne: {
 		height: 200,
@@ -48,7 +49,7 @@ export default StyleSheet.create({
 		marginBottom: 30,
 		marginLeft: 50,
 		marginRight: 50,
-		color: '#fff',
+		color: whiteColor,
 		fontFamily: 'Lato-Light',
 	},
 	containerCenter: {
@@ -60,7 +61,7 @@ export default StyleSheet.create({
 		height: '100%',
 	},
 	textWhite: {
-		color: '#fff',
+		color: whiteColor,
 		fontFamily: 'Lato-Bold',
 		fontSize: 22,
 		textAlign: 'center',

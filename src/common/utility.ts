@@ -3,11 +3,8 @@ import { Dimensions, Image, NativeModules, Platform } from 'react-native'
 import { SQLResultSetRowList } from 'expo-sqlite'
 import { Translations } from '../types/settings'
 import { ResizeMode, WastedFood } from '../types/westedFood'
-import { expo } from '../../app.json'
 import { InputsControl } from '../types/common'
 import config from '../config/config'
-
-export const { primaryColor } = expo
 
 export const { width } = Dimensions.get('window')
 

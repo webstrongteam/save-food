@@ -19,6 +19,7 @@ import useAsyncEffect from '../../common/hooks/useAsyncEffect'
 import { getPaidWastedFoods } from '../../../database/actions/wastedFood'
 import { changeEmail } from '../../../database/actions/settings'
 import logEvent from '../../common/logEvent'
+import { blackColor } from '../../common/colors'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -149,7 +150,9 @@ const Payment = ({ navigation }: Props) => {
 		<View style={styles.flex}>
 			<StatusBar barStyle='dark-content' translucent backgroundColor='transparent' />
 			<Header
-				leftComponent={<Icon color='#000' onPress={() => navigation.goBack()} variant='backIcon' />}
+				leftComponent={
+					<Icon color={blackColor} onPress={() => navigation.goBack()} variant='backIcon' />
+				}
 				centerComponent={
 					<Text style={styles.header}>
 						{translations.amount} {amount} {settings.currency}
@@ -157,7 +160,7 @@ const Payment = ({ navigation }: Props) => {
 				}
 				rightComponent={
 					<Icon
-						color='#5e5e5e'
+						color={blackColor}
 						style={styles.infoIcon}
 						onPress={() => setShowModal(true)}
 						type='material'

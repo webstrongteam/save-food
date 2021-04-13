@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { primaryColor } from '../../common/utility'
+import { blackColor, primaryColor, whiteColor } from '../../common/colors'
 
 export default StyleSheet.create({
 	camera: {
@@ -13,11 +13,19 @@ export default StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
+	discardChanges: {
+		marginTop: 22,
+		textAlign: 'center',
+		justifyContent: 'center',
+		alignItems: 'center',
+		fontSize: 16,
+		fontFamily: 'Lato-Light',
+	},
 	takeFoodButton: {
 		backgroundColor: primaryColor,
 	},
 	takeFoodButtonTitle: {
-		color: '#fff',
+		color: whiteColor,
 		fontSize: 18,
 		padding: 25,
 		fontFamily: 'Lato-Light',
@@ -25,7 +33,7 @@ export default StyleSheet.create({
 	headerTitle: {
 		textAlign: 'center',
 		fontSize: 22,
-		color: '#fff',
+		color: whiteColor,
 	},
 	modalContentWrapper: {
 		marginTop: 10,
@@ -71,7 +79,7 @@ export default StyleSheet.create({
 		top: 0,
 	},
 	tapImageText: {
-		color: '#fff',
+		color: whiteColor,
 		fontSize: 16,
 		padding: 24,
 		fontFamily: 'Lato-Light',
@@ -92,7 +100,7 @@ export default StyleSheet.create({
 	},
 	percentInfo: {
 		textAlign: 'center',
-		color: '#292b2c',
+		color: blackColor,
 		fontFamily: 'Lato-Light',
 		fontSize: 16,
 	},
@@ -105,7 +113,7 @@ export default StyleSheet.create({
 	},
 	percent: {
 		textAlign: 'center',
-		color: '#292b2c',
+		color: blackColor,
 		fontFamily: 'Lato-Bold',
 		fontSize: 16,
 	},

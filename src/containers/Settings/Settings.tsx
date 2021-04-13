@@ -13,7 +13,13 @@ import { NavigationScreenType } from '../../types/navigation'
 import { useSettingsContext } from '../../common/context/SettingsContext'
 import { changeLang, changeCurrency, clearDatabase } from '../../../database/actions/settings'
 import Icon from '../../components/Icon/Icon'
-import { primaryColor } from '../../common/utility'
+import {
+	blackColor,
+	orangeGradient,
+	primaryColor,
+	redGradient,
+	whiteColor,
+} from '../../common/colors'
 
 type LanguageMap = Record<Language, string>
 
@@ -62,7 +68,9 @@ const Settings = ({ navigation }: Props) => {
 						<TouchableOpacity key={i} onPress={() => changeLanguageHandler(lang)}>
 							<ListItem bottomDivider>
 								<ListItem.Content>
-									<ListItem.Title style={{ color: lang === settings.lang ? primaryColor : '#000' }}>
+									<ListItem.Title
+										style={{ color: lang === settings.lang ? primaryColor : blackColor }}
+									>
 										{languageMap[lang]}
 									</ListItem.Title>
 								</ListItem.Content>
@@ -79,7 +87,7 @@ const Settings = ({ navigation }: Props) => {
 							<ListItem bottomDivider>
 								<ListItem.Content>
 									<ListItem.Title
-										style={{ color: item === settings.currency ? primaryColor : '#000' }}
+										style={{ color: item === settings.currency ? primaryColor : blackColor }}
 									>
 										{item}
 									</ListItem.Title>
@@ -91,9 +99,7 @@ const Settings = ({ navigation }: Props) => {
 			)
 		} else if (type === 'clearTheDatabase') {
 			setModalContent(
-				<View>
-					<Text style={styles.clearTheDatabase}>{translations.clearTheDatabaseModal}</Text>
-				</View>,
+				<Text style={styles.clearTheDatabase}>{translations.clearTheDatabaseModal}</Text>,
 			)
 		}
 
@@ -146,19 +152,19 @@ const Settings = ({ navigation }: Props) => {
 
 			<View style={styles.settingsWrapper}>
 				<InfoWindow
-					color1='#292b2c'
-					color2={['#f2a91e', '#e95c17']}
+					color1={blackColor}
+					color2={orangeGradient}
 					title={translations.language}
 					value={languageMap[settings.lang]}
-					colorTitle='#fff'
+					colorTitle={whiteColor}
 					onPress={() => toggleModal('language')}
 				/>
 				<InfoWindow
-					color1='#292b2c'
-					color2={['#af3462', '#bf3741']}
+					color1={blackColor}
+					color2={redGradient}
 					title={translations.currency}
 					value={settings.currency}
-					colorTitle='#fff'
+					colorTitle={whiteColor}
 					onPress={() => toggleModal('currency')}
 				/>
 				<TouchableOpacity style={styles.clear} onPress={() => toggleModal('clearTheDatabase')}>

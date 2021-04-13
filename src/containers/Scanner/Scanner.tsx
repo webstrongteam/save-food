@@ -148,7 +148,7 @@ const Scanner = ({ navigation }: Props) => {
 
 			{loading && (
 				<View style={styles.loading}>
-					<Spinner bgColor='transparency' color='#fff' size={64} />
+					<Spinner bgColor='transparency' size={64} />
 				</View>
 			)}
 

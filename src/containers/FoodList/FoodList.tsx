@@ -11,7 +11,7 @@ import {
 import { MessageOptions, showMessage } from 'react-native-flash-message'
 import { Button, CheckBox, ListItem } from 'react-native-elements'
 import Header from '../../components/Header/Header'
-import { getImage, getQuantitySuffix, getResizeMode, primaryColor } from '../../common/utility'
+import { getImage, getQuantitySuffix, getResizeMode } from '../../common/utility'
 import Spinner from '../../components/Spinner/Spinner'
 import Modal from '../../components/Modal/Modal'
 import { shadow } from '../../common/styles'
@@ -30,6 +30,7 @@ import styles from './FoodList.styles'
 import EmptyList from '../../components/EmptyList/EmptyList'
 import Background from '../../components/Background/Background'
 import Icon from '../../components/Icon/Icon'
+import { blackColor, primaryColor, redColor } from '../../common/colors'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -235,7 +236,7 @@ const FoodList = ({ navigation }: Props) => {
 									style={styles.quantityAddIcon}
 									name='add'
 									type='material'
-									color='#000'
+									color={blackColor}
 								/>
 							</TouchableOpacity>
 							<TouchableOpacity onPress={() => addFoodQuantity(item, -1)}>
@@ -245,7 +246,7 @@ const FoodList = ({ navigation }: Props) => {
 									style={styles.quantityMinusIcon}
 									name='minus'
 									type='entypo'
-									color='#000'
+									color={blackColor}
 								/>
 							</TouchableOpacity>
 						</View>
@@ -274,7 +275,7 @@ const FoodList = ({ navigation }: Props) => {
 							<Icon
 								size={22}
 								style={styles.deleteProductIcon}
-								color='#d9534f'
+								color={redColor}
 								name='trash'
 								type='font-awesome-5'
 							/>
@@ -330,11 +331,7 @@ const FoodList = ({ navigation }: Props) => {
 					{ text: translations.cancel, onPress: toggleModal },
 				]}
 			>
-				<View>
-					<Text style={styles.deleteProductDescription}>
-						{translations.deleteProductDescription}
-					</Text>
-				</View>
+				<Text style={styles.deleteProductDescription}>{translations.deleteProductDescription}</Text>
 			</Modal>
 
 			<View style={styles.container}>

@@ -13,7 +13,13 @@ import { fetchAllWastedFood } from '../../../database/actions/wastedFood'
 import { WastedFood } from '../../types/westedFood'
 import Background from '../../components/Background/Background'
 import Icon from '../../components/Icon/Icon'
-import { primaryColor } from '../../common/utility'
+import {
+	greenGradient,
+	orangeGradient,
+	redGradient,
+	whiteColor,
+	whiteGradient,
+} from '../../common/colors'
 
 import en_facts from '../../translations/en/facts.json'
 import pl_facts from '../../translations/pl/facts.json'
@@ -125,9 +131,9 @@ const Home = ({ navigation }: Props) => {
 
 					<View style={styles.containerCenter}>
 						<TouchableOpacity onPress={() => navigation.navigate('Scanner')}>
-							<LinearGradient colors={['#f2f3f5', '#c4bfc3']} style={styles.circleOne}>
-								<LinearGradient colors={['#f8aa24', '#ec4f18']} style={styles.circleTwo}>
-									<LinearGradient colors={['#f2f3f5', '#c4bfc3']} style={styles.circleThree}>
+							<LinearGradient colors={whiteGradient} style={styles.circleOne}>
+								<LinearGradient colors={orangeGradient} style={styles.circleTwo}>
+									<LinearGradient colors={whiteGradient} style={styles.circleThree}>
 										<Text style={styles.textScan}>{translations.scan}</Text>
 									</LinearGradient>
 								</LinearGradient>
@@ -137,20 +143,20 @@ const Home = ({ navigation }: Props) => {
 
 					<View style={styles.infoWindowWrapper}>
 						<InfoWindow
-							color1='#f8f8f8'
-							color2={['#af3462', '#bf3741']}
+							color1={whiteColor}
+							color2={redGradient}
 							title={translations.wastedFood}
 							value={`${data.foodAmount}`}
 						/>
 						<InfoWindow
-							color1='#f8f8f8'
-							color2={['#f2a91e', '#e95c17']}
+							color1={whiteColor}
+							color2={orangeGradient}
 							title={translations.wastedMoney}
 							value={`${data.totalPrice} ${settings.currency}`}
 						/>
 						<InfoWindow
-							color1='#f8f8f8'
-							color2={['#6cd015', primaryColor]}
+							color1={whiteColor}
+							color2={greenGradient}
 							title={translations.moderateWaste}
 							value={`${data.moderateWaste} %`}
 						/>

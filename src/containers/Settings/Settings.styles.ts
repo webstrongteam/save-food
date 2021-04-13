@@ -1,13 +1,14 @@
 import { StyleSheet } from 'react-native'
+import { blackColor, grayColor, whiteColor } from '../../common/colors'
 
 export default StyleSheet.create({
 	headerTitle: {
 		textAlign: 'center',
 		fontSize: 22,
-		color: '#fff',
+		color: whiteColor,
 	},
 	container: {
-		backgroundColor: '#292b2c',
+		backgroundColor: blackColor,
 		alignItems: 'center',
 		flex: 1,
 		flexDirection: 'column',
@@ -17,7 +18,7 @@ export default StyleSheet.create({
 		width: '100%',
 	},
 	text: {
-		color: '#fff',
+		color: whiteColor,
 		textAlign: 'center',
 		fontSize: 22,
 		margin: 5,
@@ -31,12 +32,12 @@ export default StyleSheet.create({
 	},
 	clearText: {
 		fontSize: 22,
-		color: '#ddd',
+		color: whiteColor,
 		textAlign: 'center',
 		fontFamily: 'Lato-Light',
 	},
 	clearTheDatabase: {
-		marginTop: 15,
+		marginTop: 22,
 		textAlign: 'center',
 		justifyContent: 'center',
 		alignItems: 'center',
@@ -49,13 +50,13 @@ export default StyleSheet.create({
 	},
 	versionText: {
 		fontSize: 12,
-		color: '#ddd',
+		color: grayColor,
 		textAlign: 'center',
 		fontFamily: 'Lato-Light',
 	},
 	linkText: {
 		fontSize: 12,
-		color: '#ddd',
+		color: grayColor,
 		textAlign: 'center',
 		fontFamily: 'Lato-Light',
 	},

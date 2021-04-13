@@ -3,6 +3,7 @@ import { Text, TouchableOpacity, View } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { shadow } from '../../common/styles'
 import styles from './InfoWindow.styles'
+import { blackColor, orangeGradient, whiteColor } from '../../common/colors'
 
 type Props = {
 	color1?: string
@@ -15,11 +16,11 @@ type Props = {
 }
 
 const InfoWindow = ({
-	color1 = '#f8f8f8',
-	color2 = ['#f2a91e', '#e95c17'],
+	color1 = whiteColor,
+	color2 = orangeGradient,
 	title,
 	value,
-	colorTitle = '#000',
+	colorTitle = blackColor,
 	onPress,
 	height = 60,
 }: Props) => (

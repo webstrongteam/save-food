@@ -2,6 +2,7 @@ import React from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Icon as IconBase, IconProps } from 'react-native-elements'
 import styles from './Icon.styles'
+import { whiteColor } from '../../common/colors'
 
 type Variant = 'backIcon' | 'exitIcon'
 
@@ -15,7 +16,7 @@ const Icon = ({
 	onPress,
 	variant,
 	size = 28,
-	color = '#fff',
+	color = whiteColor,
 	name = 'arrowleft',
 	...props
 }: Props) => {

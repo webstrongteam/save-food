@@ -76,5 +76,7 @@
 	"gramsSuffix": "g",
 	"millilitersSuffix": "ml",
 	"missingDataErrorTitle": "Product not found",
-	"missingDataErrorDescription": "Fill data manually."
+	"missingDataErrorDescription": "Fill data manually.",
+	"discardChanges": "Are you sure?",
+	"discardChangesDescription": "Quit without save?"
 }
