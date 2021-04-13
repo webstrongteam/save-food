@@ -1,6 +1,5 @@
 node_modules/**/*
 .expo
-.expo-shared
 /.idea/*
 /firebase/*
 npm-debug.*
