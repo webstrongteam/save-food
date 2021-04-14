@@ -343,10 +343,7 @@ const Food = ({ navigation }: Props) => {
 							title={translations.quantity}
 							value={
 								savedData.quantity
-									? `${+savedData.quantity} ${getQuantitySuffix(
-											savedData.quantitySuffixIndex,
-											translations,
-									  )}`
+									? `${+savedData.quantity} ${getQuantitySuffix(savedData.quantitySuffixIndex)}`
 									: '0'
 							}
 							onPress={() => toggleModal('quantity')}

@@ -1,7 +1,13 @@
 import React, { PropsWithChildren, useEffect } from 'react'
 import { BackHandler, Dimensions, Keyboard } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
-import ModalBase, { ModalButton, ModalContent, ModalFooter, ModalTitle } from 'react-native-modals'
+import ModalBase, {
+	ModalButton,
+	ModalContent,
+	ModalFooter,
+	ModalTitle,
+	SlideAnimation,
+} from 'react-native-modals'
 
 export type ModalButtonType = {
 	text: string
@@ -43,6 +49,11 @@ const Modal = ({ toggleModal, visible, title, buttons = [], children }: Props) =
 			visible={visible}
 			onSwipeOut={toggleModal}
 			onTouchOutside={toggleModal}
+			modalAnimation={
+				new SlideAnimation({
+					slideFrom: 'bottom',
+				})
+			}
 			modalTitle={
 				<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 					<ModalTitle title={title} />

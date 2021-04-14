@@ -24,7 +24,6 @@
 		"paymentFooterText2": "Ty wybierasz",
 		"paymentFooterText3": "na co przekazujesz dotację.",
 		"donationSent": "Dotacja wysłana!",
-		"paymentSuccessTitle": "Dziękujemy za wsparcie!",
 		"paymentInfoTitle": "Dotacje",
 		"paymentInfo1": "Wybierz i przyciśnij kafelek z organizacją charytatywną, na którą chcesz przekazać równowartość zmarnowanego jedzenia.",
 		"paymentInfo2": "Po wykonaniu przelewu wróć do aplikacji i kliknij przycisk „Dotacja wysłana!”, by opłacić produkty w aplikacji.",
@@ -43,7 +42,8 @@
 		"percent": "Procent",
 		"donate": "Przekaż",
 		"deleteProduct": "Usuń produkt",
-		"deleteProductDescription": "Czy na pewno chcesz usunąć ten produkt?"
+		"deleteProductDescription": "Czy na pewno chcesz usunąć ten produkt?",
+		"paymentSuccessTitle": "Dziękujemy za wsparcie!"
 	},
 	"Food": {
 		"newFood": "Nowy produkt",
@@ -61,8 +61,6 @@
 		"priceLabel": "Cena jedzenia",
 		"grams": "gramy",
 		"milliliters": "mililitry",
-		"missingDataErrorTitle": "Produkt nie został znaleziony",
-		"missingDataErrorDescription": "Wprowadź dane ręcznie.",
 		"discardChanges": "Jesteś pewien?",
 		"discardChangesDescription": "Wyjść bez zapisywania?"
 	},
@@ -77,6 +75,8 @@
 		"addManually": "Dodaj produkt ręcznie",
 		"permissionErrorTitle": "Brak uprawnień",
 		"permissionErrorCamera": "Aplikacja nie posiada uprawnień do aparatu.",
+		"missingDataErrorTitle": "Produkt nie został znaleziony",
+		"missingDataErrorDescription": "Wprowadź dane ręcznie.",
 		"tooLongError": "Tekst jest zbyt długi!",
 		"numberError": "Wartość musi być liczbą!",
 		"greaterThanZeroError": "Wartość musi być większę od zera!",

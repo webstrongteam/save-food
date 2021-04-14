@@ -115,7 +115,7 @@ const Scanner = ({ navigation }: Props) => {
 				let quantitySuffixIndex = 1 // default ml
 
 				const quantitySuffix = data.product?.quantity?.slice(-2) // get last two chars (g, ml, l)
-				if (quantitySuffix && quantitySuffix.trim() === translations.gramsSuffix) {
+				if (quantitySuffix && quantitySuffix.trim() === 'g') {
 					quantitySuffixIndex = 0 // g
 				}
 

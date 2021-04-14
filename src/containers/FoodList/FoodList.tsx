@@ -209,10 +209,7 @@ const FoodList = ({ navigation }: Props) => {
 								<Text numberOfLines={1} style={styles.text}>
 									{translations.quantity}:{' '}
 									{item.quantity
-										? `${item.quantity} ${getQuantitySuffix(
-												item.quantitySuffixIndex,
-												translations,
-										  )}`
+										? `${item.quantity} ${getQuantitySuffix(item.quantitySuffixIndex)}`
 										: translations.noData}
 								</Text>
 								<Text numberOfLines={1} style={styles.text}>

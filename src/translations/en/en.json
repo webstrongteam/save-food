@@ -24,7 +24,6 @@
 		"paymentFooterText2": "up to you to choose",
 		"paymentFooterText3": "what you donate.",
 		"donationSent": "Donation sent!",
-		"paymentSuccessTitle": "Thank you for support!",
 		"paymentInfoTitle": "Donate",
 		"paymentInfo1": "Select and tap the tile with the charity to which you want to donate the equivalent of wasted food.",
 		"paymentInfo2": "After making donation, return to the application and click the „Donation sent!” button to pay for the products in the application.",
@@ -43,7 +42,8 @@
 		"percent": "Percent",
 		"donate": "Donate",
 		"deleteProduct": "Delete product",
-		"deleteProductDescription": "Do you really want to delete this product?"
+		"deleteProductDescription": "Do you really want to delete this product?",
+		"paymentSuccessTitle": "Thank you for support!"
 	},
 	"Food": {
 		"newFood": "New food",
@@ -61,8 +61,6 @@
 		"priceLabel": "Food price",
 		"grams": "grams",
 		"milliliters": "milliliters",
-		"missingDataErrorTitle": "Product not found",
-		"missingDataErrorDescription": "Fill data manually.",
 		"discardChanges": "Are you sure?",
 		"discardChangesDescription": "Quit without save?"
 	},
@@ -77,6 +75,8 @@
 		"addManually": "Add product manually",
 		"permissionErrorTitle": "No permission",
 		"permissionErrorCamera": "The app does not have camera permissions.",
+		"missingDataErrorTitle": "Product not found",
+		"missingDataErrorDescription": "Fill data manually.",
 		"tooLongError": "Text is too long!",
 		"numberError": "Value must be a number!",
 		"greaterThanZeroError": "Value must be greater than zero!",

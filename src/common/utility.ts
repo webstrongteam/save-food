@@ -1,7 +1,6 @@
 import { ReactText } from 'react'
 import { Dimensions, Image, NativeModules, Platform } from 'react-native'
 import { SQLResultSetRowList } from 'expo-sqlite'
-import { Translation } from '../types/settings'
 import { ResizeMode, WastedFood } from '../types/westedFood'
 import { InputsControl } from '../types/common'
 import config from '../config/config'
@@ -20,15 +19,8 @@ export const getResizeMode = (image: string, callback: (type: ResizeMode) => voi
 	})
 }
 
-export const getQuantitySuffix = (
-	quantitySuffixIndex: number,
-	translations: Translation,
-): string => {
-	if (quantitySuffixIndex === 0) {
-		return translations.gramsSuffix
-	}
-	return translations.millilitersSuffix
-}
+export const getQuantitySuffix = (quantitySuffixIndex: number): 'g' | 'ml' =>
+	quantitySuffixIndex === 0 ? 'g' : 'ml'
 
 export const getAllResults = <T>(rows: SQLResultSetRowList): T[] => {
 	const results = []
