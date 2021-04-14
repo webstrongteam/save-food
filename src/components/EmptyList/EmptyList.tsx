@@ -10,7 +10,7 @@ type Props = {
 
 const EmptyList = ({ navigation }: Props) => {
 	const { useSubscribe } = useSettingsContext()
-	const translations = useSubscribe((s) => s.translations)
+	const translations = useSubscribe((s) => s.translations.common)
 
 	return (
 		<View style={styles.container}>

@@ -4,13 +4,13 @@ import { Icon as IconBase, IconProps } from 'react-native-elements'
 import styles from './Icon.styles'
 import { whiteColor } from '../../common/colors'
 
-type Variant = 'backIcon' | 'exitIcon'
-
 type Props = {
 	variant?: Variant
 	onPress?: () => void
 	name?: string
 } & Omit<IconProps, 'name'>
+
+type Variant = 'backIcon' | 'exitIcon'
 
 const Icon = ({
 	onPress,

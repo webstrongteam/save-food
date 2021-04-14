@@ -21,7 +21,7 @@ type Props = {
 
 const Scanner = ({ navigation }: Props) => {
 	const { useSubscribe } = useSettingsContext()
-	const translations = useSubscribe((s) => s.translations)
+	const translations = useSubscribe((s) => s.translations.common)
 
 	const [sound, setSound] = useState<Sound>()
 	const [grantedPermission, setGrantedPermission] = useState(false)

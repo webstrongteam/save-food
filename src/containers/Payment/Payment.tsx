@@ -59,7 +59,11 @@ const charityOrganizations: Organization[] = [
 
 const Payment = ({ navigation }: Props) => {
 	const { useSubscribe, setSettings } = useSettingsContext()
-	const { settings, translations } = useSubscribe((s) => s)
+	const settings = useSubscribe((s) => s.settings)
+	const translations = useSubscribe((s) => ({
+		...s.translations.Payment,
+		...s.translations.common,
+	}))
 
 	const [loading, setLoading] = useState(false)
 	const [showModal, setShowModal] = useState(false)

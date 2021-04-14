@@ -21,19 +21,22 @@ import {
 	whiteColor,
 } from '../../common/colors'
 
-type LanguageMap = Record<Language, string>
-
-type ModalType = 'language' | 'currency' | 'clearTheDatabase'
-
 type Props = {
 	navigation: NavigationScreenType
 }
+
+type LanguageMap = Record<Language, string>
+type ModalType = 'language' | 'currency' | 'clearTheDatabase'
 
 const currencyList: Currency[] = ['USD', 'PLN']
 
 const Settings = ({ navigation }: Props) => {
 	const { useSubscribe, setSettings } = useSettingsContext()
-	const { settings, translations } = useSubscribe((s) => s)
+	const settings = useSubscribe((s) => s.settings)
+	const translations = useSubscribe((s) => ({
+		...s.translations.Settings,
+		...s.translations.common,
+	}))
 
 	const [modalType, setModalType] = useState<ModalType>('language')
 	const [modalContent, setModalContent] = useState<ReactNode>()
@@ -57,7 +60,7 @@ const Settings = ({ navigation }: Props) => {
 	const clearDatabaseHandler = async () => {
 		setShowModal(false)
 		setSettings(await clearDatabase())
-		showSimpleMessage()
+		showSuccessMessage()
 	}
 
 	const setModalContentHandler = (type: ModalType) => {
@@ -115,10 +118,9 @@ const Settings = ({ navigation }: Props) => {
 		}
 	}
 
-	const showSimpleMessage = () => {
+	const showSuccessMessage = () => {
 		const message: MessageOptions = {
-			message: translations.clearTheDatabaseSuccessTitle,
-			description: translations.clearTheDatabaseSuccess,
+			message: translations.clearTheDatabaseSuccess,
 			type: 'success',
 			icon: { icon: 'success', position: 'left' },
 			duration: 2500,

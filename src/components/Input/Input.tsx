@@ -6,7 +6,7 @@ import { TextField } from '@ubaids/react-native-material-textfield'
 import { validator } from '../../common/validation'
 import { replaceComma } from '../../common/utility'
 import { InputControl, InputValue } from '../../types/common'
-import { Translations } from '../../types/settings'
+import { Translation } from '../../types/settings'
 import { ViewType } from '../../types/styles'
 import styles from './Input.styles'
 import { redColor, primaryColor, darkColor } from '../../common/colors'
@@ -15,7 +15,7 @@ type Props = {
 	inputConfig: InputControl
 	value?: InputValue
 	changed: (value: ReactText, control: InputControl) => void
-	translations: Translations
+	translations: Translation
 	hideClearIcon?: boolean
 	placeholder?: string
 	style?: ViewType

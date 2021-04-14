@@ -28,6 +28,10 @@ import {
 	whiteColor,
 } from '../../common/colors'
 
+type Props = {
+	navigation: NavigationScreenType
+}
+
 type ModalType = keyof Omit<WastedFood, 'image'> | 'discardChanges'
 
 const initialData: WastedFood = {
@@ -43,13 +47,10 @@ const initialData: WastedFood = {
 	paid: 0,
 }
 
-type Props = {
-	navigation: NavigationScreenType
-}
-
 const Food = ({ navigation }: Props) => {
 	const { useSubscribe } = useSettingsContext()
-	const { settings, translations } = useSubscribe((s) => s)
+	const settings = useSubscribe((s) => s.settings)
+	const translations = useSubscribe((s) => ({ ...s.translations.Food, ...s.translations.common }))
 
 	const [savedData, setSavedData] = useState<WastedFood>(initialData)
 	const [templateData, setTemplateData] = useState<WastedFood>(initialData)
@@ -214,11 +215,11 @@ const Food = ({ navigation }: Props) => {
 				takePhoto,
 			})
 		} else {
-			showSimpleMessage('permissionError')
+			showErrorMessage('permissionError')
 		}
 	}
 
-	const showSimpleMessage = (type: 'priceError' | 'permissionError') => {
+	const showErrorMessage = (type: 'priceError' | 'permissionError') => {
 		if (type === 'priceError') {
 			const message: MessageOptions = {
 				message: translations.noPriceTitle,
@@ -275,7 +276,7 @@ const Food = ({ navigation }: Props) => {
 
 	const saveFoodHandler = async () => {
 		if (!checkPrice()) {
-			showSimpleMessage('priceError')
+			showErrorMessage('priceError')
 			return
 		}
 

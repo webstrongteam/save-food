@@ -1,7 +1,7 @@
 import { ReactText } from 'react'
 import { Dimensions, Image, NativeModules, Platform } from 'react-native'
 import { SQLResultSetRowList } from 'expo-sqlite'
-import { Translations } from '../types/settings'
+import { Translation } from '../types/settings'
 import { ResizeMode, WastedFood } from '../types/westedFood'
 import { InputsControl } from '../types/common'
 import config from '../config/config'
@@ -22,7 +22,7 @@ export const getResizeMode = (image: string, callback: (type: ResizeMode) => voi
 
 export const getQuantitySuffix = (
 	quantitySuffixIndex: number,
-	translations: Translations,
+	translations: Translation,
 ): string => {
 	if (quantitySuffixIndex === 0) {
 		return translations.gramsSuffix

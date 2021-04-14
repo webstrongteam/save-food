@@ -36,13 +36,15 @@ type Props = {
 	navigation: NavigationScreenType
 }
 
-type Action = 'amountError' | 'success'
-
 const FoodList = ({ navigation }: Props) => {
 	const moveButton = useRef(new Animated.Value(100)).current
 
 	const { useSubscribe } = useSettingsContext()
-	const { settings, translations } = useSubscribe((s) => s)
+	const settings = useSubscribe((s) => s.settings)
+	const translations = useSubscribe((s) => ({
+		...s.translations.FoodList,
+		...s.translations.common,
+	}))
 
 	const [list, setList] = useState<WastedFood[]>()
 	const [amount, setAmount] = useState(0)
@@ -74,7 +76,7 @@ const FoodList = ({ navigation }: Props) => {
 		setLoading(false)
 		setWait(false)
 
-		if (showMessage) showSimpleMessage('success')
+		if (showMessage) showSuccessMessage()
 	}
 
 	const checkFood = async () => {
@@ -95,25 +97,15 @@ const FoodList = ({ navigation }: Props) => {
 		}
 	}
 
-	const showSimpleMessage = (action: Action) => {
-		if (action === 'amountError') {
-			const message: MessageOptions = {
-				message: translations.amountErrorTitle,
-				description: translations.amountErrorDescription + settings.currency,
-				type: 'warning',
-				icon: { icon: 'warning', position: 'left' },
-				duration: 2500,
-			}
-			showMessage(message)
-		} else if (action === 'success') {
-			const message: MessageOptions = {
-				message: translations.paymentSuccessTitle,
-				type: 'success',
-				icon: { icon: 'success', position: 'left' },
-				duration: 2500,
-			}
-			showMessage(message)
+	const showSuccessMessage = () => {
+		const message: MessageOptions = {
+			message: translations.paymentSuccessTitle,
+			type: 'success',
+			icon: { icon: 'success', position: 'left' },
+			duration: 2500,
 		}
+
+		showMessage(message)
 	}
 
 	const getAmount = (list: WastedFood[]): number =>
@@ -369,15 +361,12 @@ const FoodList = ({ navigation }: Props) => {
 				}}
 			>
 				<View style={styles.paymentButtonWrapper}>
-					<TouchableOpacity onPress={() => showSimpleMessage('amountError')}>
-						<Button
-							buttonStyle={styles.paymentButton}
-							titleStyle={styles.paymentButtonTitle}
-							disabled={amount < 2}
-							onPress={goToPayment}
-							title={`${translations.pay} ${amount} ${settings.currency}`}
-						/>
-					</TouchableOpacity>
+					<Button
+						buttonStyle={styles.paymentButton}
+						titleStyle={styles.paymentButtonTitle}
+						onPress={goToPayment}
+						title={`${translations.donate} ${amount} ${settings.currency}`}
+					/>
 				</View>
 			</Animated.View>
 		</Background>

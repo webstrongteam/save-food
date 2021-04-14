@@ -44,7 +44,8 @@ const initialData: Data = {
 
 const Home = ({ navigation }: Props) => {
 	const { useSubscribe } = useSettingsContext()
-	const { settings, translations } = useSubscribe((s) => s)
+	const settings = useSubscribe((s) => s.settings)
+	const translations = useSubscribe((s) => s.translations.Home)
 
 	const [loading, setLoading] = useState(true)
 	const [data, setData] = useState<Data>(initialData)
