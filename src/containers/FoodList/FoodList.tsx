@@ -11,7 +11,7 @@ import {
 import { MessageOptions, showMessage } from 'react-native-flash-message'
 import { Button, CheckBox, ListItem } from 'react-native-elements'
 import Header from '../../components/Header/Header'
-import { getImage, getQuantitySuffix, getResizeMode } from '../../common/utility'
+import { getImage, getPrice, getQuantitySuffix, getResizeMode } from '../../common/utility'
 import Spinner from '../../components/Spinner/Spinner'
 import Modal from '../../components/Modal/Modal'
 import { shadow } from '../../common/styles'
@@ -204,7 +204,7 @@ const FoodList = ({ navigation }: Props) => {
 
 							<View style={styles.productDetails}>
 								<Text numberOfLines={2} style={styles.productName}>
-									{item.name === '' ? translations.noData : item.name}
+									{!item.name || item.name === '' ? translations.noData : item.name}
 								</Text>
 								<Text numberOfLines={1} style={styles.text}>
 									{translations.quantity}:{' '}
@@ -219,30 +219,27 @@ const FoodList = ({ navigation }: Props) => {
 						</View>
 
 						<View style={styles.rightElement}>
-							<TouchableOpacity onPress={() => addFoodQuantity(item, 1)}>
-								<Icon
-									size={22}
-									style={styles.quantityAddIcon}
-									name='add'
-									type='material'
-									color={blackColor}
-								/>
-							</TouchableOpacity>
-							<TouchableOpacity onPress={() => addFoodQuantity(item, -1)}>
-								<Icon
-									onPress={() => addFoodQuantity(item, -1)}
-									size={22}
-									style={styles.quantityMinusIcon}
-									name='minus'
-									type='entypo'
-									color={blackColor}
-								/>
-							</TouchableOpacity>
+							<Icon
+								size={22}
+								style={styles.quantityAddIcon}
+								name='add'
+								type='material'
+								color={blackColor}
+								onPress={() => addFoodQuantity(item, 1)}
+							/>
+							<Icon
+								size={22}
+								style={styles.quantityMinusIcon}
+								name='minus'
+								type='entypo'
+								color={blackColor}
+								onPress={() => addFoodQuantity(item, -1)}
+							/>
 						</View>
 					</View>
 
 					<View style={styles.itemListFooter}>
-						<View style={styles.priceContainer}>
+						<TouchableOpacity onPress={() => selectItem(item)} style={styles.priceContainer}>
 							<CheckBox
 								checked={!!item.selected}
 								onPress={() => selectItem(item)}
@@ -251,7 +248,7 @@ const FoodList = ({ navigation }: Props) => {
 							/>
 							<View style={styles.priceWrapper}>
 								<Text style={styles.priceText}>
-									{item.price * item.productQuantity} {settings.currency}
+									{(item.price * item.productQuantity).toFixed(2)} {settings.currency}
 								</Text>
 								{item.productQuantity > 1 && (
 									<Text style={styles.quantityText}>
@@ -259,16 +256,15 @@ const FoodList = ({ navigation }: Props) => {
 									</Text>
 								)}
 							</View>
-						</View>
-						<TouchableOpacity onPress={() => toggleModal(item.id)}>
-							<Icon
-								size={22}
-								style={styles.deleteProductIcon}
-								color={redColor}
-								name='trash'
-								type='font-awesome-5'
-							/>
 						</TouchableOpacity>
+						<Icon
+							size={22}
+							onPress={() => toggleModal(item.id)}
+							style={styles.deleteProductIcon}
+							color={redColor}
+							name='trash'
+							type='font-awesome-5'
+						/>
 					</View>
 				</TouchableOpacity>
 			</ListItem.Content>
@@ -362,7 +358,7 @@ const FoodList = ({ navigation }: Props) => {
 						buttonStyle={styles.paymentButton}
 						titleStyle={styles.paymentButtonTitle}
 						onPress={goToPayment}
-						title={`${translations.donate} ${amount} ${settings.currency}`}
+						title={`${translations.donate} ${getPrice(amount)} ${settings.currency}`}
 					/>
 				</View>
 			</Animated.View>

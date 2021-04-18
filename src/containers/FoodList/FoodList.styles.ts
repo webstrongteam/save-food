@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native'
 import { blackColor, darkColor, grayColor, primaryColor, whiteColor } from '../../common/colors'
+import { width } from '../../common/utility'
 
 export default StyleSheet.create({
 	headerTitle: {
@@ -99,14 +100,16 @@ export default StyleSheet.create({
 	priceWrapper: {
 		flexDirection: 'row',
 		alignItems: 'center',
+		flexWrap: 'wrap',
+		maxWidth: width * 0.6,
 	},
 	priceText: {
 		fontFamily: 'Lato-Bold',
 		color: blackColor,
 		fontSize: 20,
+		marginRight: 8,
 	},
 	quantityText: {
-		marginLeft: 8,
 		fontSize: 14,
 		color: darkColor,
 	},
@@ -131,7 +134,11 @@ export default StyleSheet.create({
 	paymentButtonTitle: {
 		color: whiteColor,
 		fontSize: 18,
-		padding: 25,
+		paddingTop: 4,
+		paddingBottom: 4,
+		paddingRight: 12,
+		paddingLeft: 12,
+		maxWidth: width * 0.75,
 		fontFamily: 'Lato-Light',
 	},
 })

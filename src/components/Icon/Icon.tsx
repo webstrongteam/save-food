@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { TouchableOpacity } from 'react-native'
 import { Icon as IconBase, IconProps } from 'react-native-elements'
 import styles from './Icon.styles'
 import { whiteColor } from '../../common/colors'
@@ -37,7 +37,7 @@ const Icon = ({
 
 	if (variant === 'exitIcon') {
 		return (
-			<TouchableOpacity containerStyle={styles.exitIcon} onPress={onPress}>
+			<TouchableOpacity style={styles.exitIcon} onPress={onPress}>
 				<IconBase {...props} size={size} name='close' type='antdesign' color={color} />
 			</TouchableOpacity>
 		)

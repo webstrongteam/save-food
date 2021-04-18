@@ -23,6 +23,7 @@ import {
 
 import en_facts from '../../translations/en/facts.json'
 import pl_facts from '../../translations/pl/facts.json'
+import { getPrice } from '../../common/utility'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -117,9 +118,13 @@ const Home = ({ navigation }: Props) => {
 					rightComponent={
 						<TouchableOpacity onPress={() => navigation.replace('List')}>
 							<View style={styles.rightHeaderContainer}>
-								<Icon size={28} name='trash-o' type='font-awesome' />
+								<Icon
+									onPress={() => navigation.replace('List')}
+									name='trash-o'
+									type='font-awesome'
+								/>
 								<Text style={styles.rightHeaderText}>
-									({data.unpaid} {settings.currency})
+									({getPrice(data.unpaid)} {settings.currency})
 								</Text>
 							</View>
 						</TouchableOpacity>
@@ -153,7 +158,7 @@ const Home = ({ navigation }: Props) => {
 							color1={whiteColor}
 							color2={orangeGradient}
 							title={translations.wastedMoney}
-							value={`${data.totalPrice} ${settings.currency}`}
+							value={`${getPrice(data.totalPrice)} ${settings.currency}`}
 						/>
 						<InfoWindow
 							color1={whiteColor}

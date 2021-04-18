@@ -62,6 +62,10 @@ export const prepareData = (data: WastedFood, controls: InputsControl): WastedFo
 	return preparedData
 }
 
+export const getPrice = (price: number): string => {
+	return price > 10000 ? '>10000' : `${price}`
+}
+
 export const logConfigStatus = () => {
 	/* eslint-disable no-console */
 	console.info(`Sentry: ${config.SETUP_SENTRY}`)

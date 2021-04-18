@@ -158,7 +158,7 @@ const Payment = ({ navigation }: Props) => {
 					<Icon color={blackColor} onPress={() => navigation.goBack()} variant='backIcon' />
 				}
 				centerComponent={
-					<Text style={styles.header}>
+					<Text numberOfLines={1} style={styles.header}>
 						{translations.amount} {amount} {settings.currency}
 					</Text>
 				}

@@ -171,7 +171,12 @@ const Settings = ({ navigation }: Props) => {
 				/>
 				<TouchableOpacity style={styles.clear} onPress={() => toggleModal('clearTheDatabase')}>
 					<Text style={styles.clearText}>{`${translations.clearTheDatabase}  `}</Text>
-					<Icon size={28} name='trash-o' type='font-awesome' />
+					<Icon
+						onPress={() => toggleModal('clearTheDatabase')}
+						size={28}
+						name='trash-o'
+						type='font-awesome'
+					/>
 				</TouchableOpacity>
 			</View>
 
