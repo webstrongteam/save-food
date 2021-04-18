@@ -31,6 +31,10 @@ export const getAllResults = <T>(rows: SQLResultSetRowList): T[] => {
 }
 
 export const getLocale = () => {
+	if (Platform.OS === 'web') {
+		return { lang: 'en', currency: 'USD' }
+	}
+
 	const locale =
 		Platform.OS === 'ios'
 			? NativeModules.SettingsManager.settings.AppleLocale

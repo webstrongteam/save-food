@@ -22,7 +22,7 @@ const Spinner = ({ size = 32, color = '#fff', bgColor }: Props) => {
 
 	if (bgColor) {
 		return (
-			<View style={{ ...styles.spinner, backgroundColor: bgColor }}>
+			<View style={[styles.spinner, { backgroundColor: bgColor }]}>
 				<ActivityIndicator size={getSize()} color={color} />
 			</View>
 		)

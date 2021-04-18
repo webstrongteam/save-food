@@ -1,8 +1,7 @@
 import React, { ReactText, useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
 import { Icon } from 'react-native-elements'
-// @ts-ignore
-import { TextField } from '@ubaids/react-native-material-textfield'
+import { TextField } from 'react-native-material-textfield'
 import { validator } from '../../common/validation'
 import { replaceComma } from '../../common/utility'
 import { InputControl, InputValue } from '../../types/common'

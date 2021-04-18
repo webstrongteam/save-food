@@ -16,23 +16,13 @@ const EmptyList = ({ navigation }: Props) => {
 		<View style={styles.container}>
 			<Text style={styles.emptyList}>{translations.emptyList}</Text>
 			<TouchableOpacity onPress={() => navigation.navigate('Scanner')}>
-				<Text
-					style={{
-						...styles.emptyList,
-						fontFamily: 'Lato-Regular',
-					}}
-				>
+				<Text style={[styles.emptyList, { fontFamily: 'Lato-Regular' }]}>
 					{translations.scanProduct}
 				</Text>
 			</TouchableOpacity>
 			<Text style={styles.emptyList}>{translations.or}</Text>
 			<TouchableOpacity onPress={() => navigation.navigate('Food')}>
-				<Text
-					style={{
-						...styles.emptyList,
-						fontFamily: 'Lato-Regular',
-					}}
-				>
+				<Text style={[styles.emptyList, { fontFamily: 'Lato-Regular' }]}>
 					{translations.addManually}
 				</Text>
 			</TouchableOpacity>

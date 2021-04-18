@@ -177,12 +177,7 @@ const FoodList = ({ navigation }: Props) => {
 	}
 
 	const renderItemRow = ({ item }: { item: WastedFood }) => (
-		<ListItem
-			containerStyle={{
-				...styles.listItemContainer,
-				...shadow,
-			}}
-		>
+		<ListItem containerStyle={[styles.listItemContainer, shadow]}>
 			<ListItem.Content>
 				<TouchableOpacity
 					style={styles.listItem}
@@ -191,13 +186,12 @@ const FoodList = ({ navigation }: Props) => {
 					<View style={styles.details}>
 						<View style={styles.leftElement}>
 							<Image
-								style={{
-									...styles.image,
-									resizeMode: item.resizeMode,
-								}}
+								style={[styles.image, { resizeMode: item.resizeMode }]}
 								onError={(ev) => {
-									// @ts-ignore
-									ev.target.src = '../../assets/common/dish.png'
+									if (ev.target) {
+										// @ts-ignore
+										ev.target.src = '../../assets/common/dish.png'
+									}
 								}}
 								source={getImage(item.image)}
 							/>
@@ -347,11 +341,7 @@ const FoodList = ({ navigation }: Props) => {
 			</View>
 
 			<Animated.View
-				style={{
-					transform: [{ translateY: moveButton }],
-					...styles.paymentButtonContainer,
-					...shadow,
-				}}
+				style={[{ transform: [{ translateY: moveButton }] }, styles.paymentButtonContainer, shadow]}
 			>
 				<View style={styles.paymentButtonWrapper}>
 					<Button

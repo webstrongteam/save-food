@@ -1,8 +1,8 @@
-import * as Sentry from 'sentry-expo'
 import { openDatabase } from 'expo-sqlite'
 import AsyncStorage from '@react-native-community/async-storage'
 import { expo } from '../app.json'
 import { getLocale } from '../src/common/utility'
+import { sentryError } from '../src/common/sentryEvent'
 import logEvent from '../src/common/logEvent'
 
 export const VERSION = expo.version
@@ -29,7 +29,7 @@ export const initDatabase = (callback: () => void) => {
 			)
 		},
 		(err) => {
-			Sentry.Native.captureException(err)
+			sentryError(err)
 			// eslint-disable-next-line no-console
 			console.error(err)
 		},

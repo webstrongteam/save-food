@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 import { LinearGradient } from 'expo-linear-gradient'
 import Header from '../../components/Header/Header'
@@ -88,7 +88,7 @@ const Home = ({ navigation }: Props) => {
 	}
 
 	useAsyncEffect(async () => {
-		if ((await AsyncStorage.getItem('start')) === 'true') {
+		if ((await AsyncStorage.getItem('start')) === 'true' && Platform.OS !== 'web') {
 			navigation.navigate('Start')
 		} else {
 			await onSetData()

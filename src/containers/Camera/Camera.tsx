@@ -61,7 +61,7 @@ const Camera = ({ navigation }: Props) => {
 				</View>
 			)}
 
-			<View style={{ ...styles.takePhotoButtonWrapper, ...shadow }}>
+			<View style={[styles.takePhotoButtonWrapper, shadow]}>
 				<Button
 					disabled={loading}
 					onPress={takePhotoHandler}

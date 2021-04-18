@@ -24,30 +24,14 @@ const InfoWindow = ({
 	onPress,
 	height = 60,
 }: Props) => (
-	<View
-		style={{
-			height,
-			...styles.container,
-		}}
-	>
+	<View style={[{ height }, styles.container]}>
 		<TouchableOpacity
 			onPress={onPress}
 			activeOpacity={onPress ? 0.2 : 1}
-			style={{
-				backgroundColor: color1,
-				...styles.wrapper,
-				...shadow,
-			}}
+			style={[{ backgroundColor: color1 }, styles.wrapper, shadow]}
 		>
 			<View style={styles.titleWrapper}>
-				<Text
-					style={{
-						color: colorTitle,
-						...styles.title,
-					}}
-				>
-					{title}
-				</Text>
+				<Text style={[{ color: colorTitle }, styles.title]}>{title}</Text>
 			</View>
 			<View style={styles.valueWrapper}>
 				<LinearGradient

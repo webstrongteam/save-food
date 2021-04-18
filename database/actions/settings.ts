@@ -1,7 +1,7 @@
-import * as Sentry from 'sentry-expo'
 import { Currency, Language, Settings } from '../../src/types/settings'
 import { db } from '../db'
 import { getLocale } from '../../src/common/utility'
+import { sentryError } from '../../src/common/sentryEvent'
 import logEvent from '../../src/common/logEvent'
 
 export const getSettings = (): Promise<Settings> =>
@@ -13,7 +13,7 @@ export const getSettings = (): Promise<Settings> =>
 				})
 			},
 			(err) => {
-				Sentry.Native.captureException(err)
+				sentryError(err)
 				reject(err)
 			},
 		)
@@ -31,13 +31,13 @@ export const changeLang = (lang: Language): Promise<Settings> =>
 					try {
 						resolve(getSettings())
 					} catch (err) {
-						Sentry.Native.captureException(err)
+						sentryError(err)
 						reject(err)
 					}
 				})
 			},
 			(err) => {
-				Sentry.Native.captureException(err)
+				sentryError(err)
 				reject(err)
 			},
 		)
@@ -55,13 +55,13 @@ export const changeCurrency = (currency: Currency): Promise<Settings> =>
 					try {
 						resolve(getSettings())
 					} catch (err) {
-						Sentry.Native.captureException(err)
+						sentryError(err)
 						reject(err)
 					}
 				})
 			},
 			(err) => {
-				Sentry.Native.captureException(err)
+				sentryError(err)
 				reject(err)
 			},
 		)
@@ -79,13 +79,13 @@ export const changeEmail = (email: string): Promise<Settings> =>
 					try {
 						resolve(getSettings())
 					} catch (err) {
-						Sentry.Native.captureException(err)
+						sentryError(err)
 						reject(err)
 					}
 				})
 			},
 			(err) => {
-				Sentry.Native.captureException(err)
+				sentryError(err)
 				reject(err)
 			},
 		)
@@ -111,14 +111,14 @@ export const clearDatabase = (): Promise<Settings> =>
 						try {
 							resolve(getSettings())
 						} catch (err) {
-							Sentry.Native.captureException(err)
+							sentryError(err)
 							reject(err)
 						}
 					},
 				)
 			},
 			(err) => {
-				Sentry.Native.captureException(err)
+				sentryError(err)
 				reject(err)
 			},
 		)

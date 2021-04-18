@@ -24,12 +24,6 @@ export default StyleSheet.create({
 		top: 0,
 		zIndex: 15,
 	},
-	backIcon: {
-		position: 'absolute',
-		top: 40,
-		left: 20,
-		zIndex: 20,
-	},
 	scannerBoxContainer: {
 		position: 'absolute',
 		width,
@@ -49,6 +43,7 @@ export default StyleSheet.create({
 	},
 	scannerBoxLine: {
 		position: 'absolute',
+		zIndex: 10,
 		width: width - (width / height) * 100 * 2 - 16,
 		height,
 		left: (width / height) * 100 + 8,
@@ -71,6 +66,14 @@ export default StyleSheet.create({
 		bottom: 30,
 		justifyContent: 'center',
 		alignItems: 'center',
+		shadowColor: '#000',
+		shadowOffset: {
+			width: 0,
+			height: 0,
+		},
+		shadowOpacity: 0.3,
+		shadowRadius: 5,
+		elevation: 7,
 	},
 	addManuallyButtonTitle: {
 		color: whiteColor,

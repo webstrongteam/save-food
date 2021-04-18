@@ -391,6 +391,7 @@ const Food = ({ navigation }: Props) => {
 								disabled={!checkPrice()}
 								type='outline'
 								title={translations.save}
+								onPress={saveFoodHandler}
 							/>
 						</TouchableOpacity>
 					</View>

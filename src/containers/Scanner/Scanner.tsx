@@ -5,7 +5,6 @@ import { Sound } from 'expo-av/build/Audio/Sound'
 import { MessageOptions, showMessage } from 'react-native-flash-message'
 import { Button } from 'react-native-elements'
 import { BarCodeScanner } from 'expo-barcode-scanner'
-import * as Sentry from 'sentry-expo'
 import Spinner from '../../components/Spinner/Spinner'
 import { shadow } from '../../common/styles'
 import styles from './Scanner.styles'
@@ -14,6 +13,7 @@ import { NavigationScreenType } from '../../types/navigation'
 import Icon from '../../components/Icon/Icon'
 import useAsyncEffect from '../../common/hooks/useAsyncEffect'
 import logEvent from '../../common/logEvent'
+import { sentryError, sentryMsg } from '../../common/sentryEvent'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -61,7 +61,7 @@ const Scanner = ({ navigation }: Props) => {
 
 			setSound(sound)
 		} catch (err) {
-			Sentry.Native.captureException(err)
+			sentryError(err)
 		}
 	}
 
@@ -69,7 +69,7 @@ const Scanner = ({ navigation }: Props) => {
 		if (sound) {
 			await sound.playAsync()
 		} else {
-			Sentry.Native.captureException('Missing sound object')
+			sentryError('Missing sound object')
 		}
 	}
 
@@ -120,7 +120,7 @@ const Scanner = ({ navigation }: Props) => {
 				}
 
 				if (!image && !name && !quantity) {
-					Sentry.Native.captureMessage(`Missing product data for barcode ${data.code}`)
+					sentryMsg(`Missing product data for barcode ${data.code}`)
 					showMissingDataError()
 				}
 
@@ -130,7 +130,7 @@ const Scanner = ({ navigation }: Props) => {
 			.catch((err) => {
 				// eslint-disable-next-line no-console
 				console.warn(err)
-				Sentry.Native.captureException(err)
+				sentryError(err)
 
 				setLoading(false)
 				navigation.replace('Food')
@@ -154,14 +154,7 @@ const Scanner = ({ navigation }: Props) => {
 
 			<Icon variant='exitIcon' onPress={() => navigation.goBack()} />
 
-			<View style={styles.scannerBoxContainer}>
-				<View style={styles.scannerBox}>
-					<View style={styles.scannerBoxBorder} />
-				</View>
-				<View style={styles.scannerBoxLine} />
-			</View>
-
-			<View style={{ ...styles.addManuallyButtonWrapper, ...shadow }}>
+			<View style={[styles.addManuallyButtonWrapper, shadow]}>
 				<Button
 					disabled={loading}
 					onPress={() => navigation.replace('Food')}
@@ -169,6 +162,13 @@ const Scanner = ({ navigation }: Props) => {
 					titleStyle={styles.addManuallyButtonTitle}
 					title={translations.addManually}
 				/>
+			</View>
+
+			<View style={styles.scannerBoxContainer}>
+				<View style={styles.scannerBox}>
+					<View style={styles.scannerBoxBorder} />
+				</View>
+				<View style={styles.scannerBoxLine} />
 			</View>
 		</View>
 	)

@@ -4,7 +4,6 @@ import { Image, ScrollView, StatusBar, Text, View } from 'react-native'
 import { Button } from 'react-native-elements'
 import Carousel from 'react-native-snap-carousel'
 import * as WebBrowser from 'expo-web-browser'
-import * as Sentry from 'sentry-expo'
 import { NavigationScreenType } from '../../types/navigation'
 import { InputsControl } from '../../types/common'
 import { useSettingsContext } from '../../common/context/SettingsContext'
@@ -20,6 +19,7 @@ import { getPaidWastedFoods } from '../../../database/actions/wastedFood'
 import { changeEmail } from '../../../database/actions/settings'
 import logEvent from '../../common/logEvent'
 import { blackColor } from '../../common/colors'
+import { sentryError } from '../../common/sentryEvent'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -101,7 +101,7 @@ const Payment = ({ navigation }: Props) => {
 				.catch((err) => {
 					// eslint-disable-next-line no-console
 					console.warn(err)
-					Sentry.Native.captureException(err)
+					sentryError(err)
 				})
 
 			setSettings(await changeEmail(`${email}`))
@@ -112,7 +112,7 @@ const Payment = ({ navigation }: Props) => {
 		if (!ids) {
 			// eslint-disable-next-line no-console
 			console.warn('Missing food ids for payment')
-			Sentry.Native.captureException('Missing food ids for payment')
+			sentryError('Missing food ids for payment')
 		}
 
 		navigation.navigate('List', { ids })
@@ -130,7 +130,7 @@ const Payment = ({ navigation }: Props) => {
 	const renderItem = ({ item }: { item: Organization }) => (
 		<TouchableOpacity
 			activeOpacity={1}
-			style={{ ...styles.imageContainer, ...shadow }}
+			style={[styles.imageContainer, shadow]}
 			onPress={() => itemOnPressHandler(item)}
 		>
 			<Image style={styles.image} source={item.image} />
@@ -229,12 +229,7 @@ const Payment = ({ navigation }: Props) => {
 				</View>
 			</ScrollView>
 
-			<View
-				style={{
-					...styles.paymentButtonContainer,
-					...shadow,
-				}}
-			>
+			<View style={[styles.paymentButtonContainer, shadow]}>
 				<View style={styles.paymentButtonWrapper}>
 					<Button
 						loading={loading}
