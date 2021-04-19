@@ -5,7 +5,7 @@ describe('test', () => {
 		cy.visit('/')
 	})
 
-	it('should test', () => {
+	it('should change languages and go to food list', () => {
 		atLocation('/')
 		cy.e2eSelector('go-to-settings').click()
 		cy.e2eSelector('open-lang-modal').click()
