@@ -28,6 +28,7 @@
 	"dependencies": {
 		"@react-native-community/async-storage": "~1.12.0",
 		"@react-native-community/masked-view": "0.1.10",
+		"react-native-material-textfield": "https://github.com/mateuszpijanowski/react-native-material-textfield#master",
 		"expo": "^40.0.0",
 		"expo-av": "~8.7.0",
 		"expo-barcode-scanner": "~9.1.0",
@@ -44,9 +45,8 @@
 		"react-native-flash-message": "0.1.23",
 		"react-native-gesture-handler": "~1.8.0",
 		"react-native-global-props": "https://github.com/TuNguyenThanh/react-native-global-props#master",
-		"react-native-material-textfield": "https://github.com/mateuszpijanowski/react-native-material-textfield#master",
 		"react-native-modals": "^0.22.3",
-		"react-native-onboarding-swiper": "https://github.com/mateuszpijanowski/react-native-onboarding-swiper#master",
+		"react-native-onboarding-swiper": "1.1.4",
 		"react-native-reanimated": "~1.13.0",
 		"react-native-safe-area-context": "3.1.9",
 		"react-native-screens": "~2.15.2",

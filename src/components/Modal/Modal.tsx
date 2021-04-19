@@ -60,11 +60,13 @@ const Modal = ({ toggleModal, visible, title, buttons = [], children }: Props) =
 				</TouchableWithoutFeedback>
 			}
 			footer={
-				<ModalFooter>
-					{buttons.map((item) => (
-						<ModalButton key={item.text} text={item.text} onPress={item.onPress} />
-					))}
-				</ModalFooter>
+				buttons?.length ? (
+					<ModalFooter>
+						{buttons.map((item) => (
+							<ModalButton key={item.text} text={item.text} onPress={item.onPress} />
+						))}
+					</ModalFooter>
+				) : undefined
 			}
 		>
 			<ModalContent>{children}</ModalContent>
