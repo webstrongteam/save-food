@@ -109,6 +109,7 @@ const Home = ({ navigation }: Props) => {
 				<Header
 					leftComponent={
 						<Icon
+							testID='go-to-settings'
 							name='setting'
 							style={styles.leftHeaderIcon}
 							type='antdesign'
@@ -116,7 +117,7 @@ const Home = ({ navigation }: Props) => {
 						/>
 					}
 					rightComponent={
-						<TouchableOpacity onPress={() => navigation.replace('List')}>
+						<TouchableOpacity testID='go-to-food-list' onPress={() => navigation.replace('List')}>
 							<View style={styles.rightHeaderContainer}>
 								<Icon
 									onPress={() => navigation.replace('List')}

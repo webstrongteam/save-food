@@ -68,7 +68,11 @@ const Settings = ({ navigation }: Props) => {
 			setModalContent(
 				<View>
 					{(Object.keys(languageMap) as Array<keyof LanguageMap>).map((lang, i) => (
-						<TouchableOpacity key={i} onPress={() => changeLanguageHandler(lang)}>
+						<TouchableOpacity
+							key={i}
+							testID={`set-${lang}-lang`}
+							onPress={() => changeLanguageHandler(lang)}
+						>
 							<ListItem bottomDivider>
 								<ListItem.Content>
 									<ListItem.Title
@@ -154,6 +158,7 @@ const Settings = ({ navigation }: Props) => {
 
 			<View style={styles.settingsWrapper}>
 				<InfoWindow
+					testID='open-lang-modal'
 					color1={blackColor}
 					color2={orangeGradient}
 					title={translations.language}

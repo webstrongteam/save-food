@@ -1,0 +1,11 @@
+{
+	"name": "e2e",
+	"version": "1.0.0",
+	"private": true,
+	"scripts": {
+		"test": "cypress run --spec 'integration/**/*'"
+	},
+	"devDependencies": {
+		"cypress": "^7.1.0"
+	}
+}

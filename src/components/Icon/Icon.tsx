@@ -22,7 +22,7 @@ const Icon = ({
 }: Props) => {
 	if (variant === 'backIcon') {
 		return (
-			<TouchableOpacity onPress={onPress}>
+			<TouchableOpacity testID='btn-back' onPress={onPress}>
 				<IconBase
 					{...props}
 					style={styles.backIcon}
@@ -37,7 +37,7 @@ const Icon = ({
 
 	if (variant === 'exitIcon') {
 		return (
-			<TouchableOpacity style={styles.exitIcon} onPress={onPress}>
+			<TouchableOpacity testID='btn-exit' style={styles.exitIcon} onPress={onPress}>
 				<IconBase {...props} size={size} name='close' type='antdesign' color={color} />
 			</TouchableOpacity>
 		)

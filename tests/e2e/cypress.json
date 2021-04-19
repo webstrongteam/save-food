@@ -1,0 +1,16 @@
+{
+	"numTestsKeptInMemory": 10,
+	"video": false,
+	"baseUrl": "http://localhost:19006",
+	"viewportWidth": 375,
+	"viewportHeight": 812,
+	"scrollBehavior": "center",
+	"supportFile": "commands/index.js",
+	"screenshotsFolder": "screenshots",
+	"integrationFolder": "integration",
+	"chromeWebSecurity": false,
+	"retries": {
+		"runMode": 2,
+		"openMode": 0
+	}
+}

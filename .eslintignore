@@ -1,3 +1,4 @@
 babel.config.js
 /firebase/*
 .expo*
+tests/e2e

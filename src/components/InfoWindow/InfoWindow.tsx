@@ -13,6 +13,7 @@ type Props = {
 	colorTitle?: string
 	onPress?: () => void
 	height?: number
+	testID?: string
 }
 
 const InfoWindow = ({
@@ -23,9 +24,11 @@ const InfoWindow = ({
 	colorTitle = blackColor,
 	onPress,
 	height = 60,
+	testID,
 }: Props) => (
 	<View style={[{ height }, styles.container]}>
 		<TouchableOpacity
+			testID={testID}
 			onPress={onPress}
 			activeOpacity={onPress ? 0.2 : 1}
 			style={[{ backgroundColor: color1 }, styles.wrapper, shadow]}

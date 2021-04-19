@@ -1,0 +1,5 @@
+node_modules/**/*
+screenshots/**/*
+/.idea/*
+npm-debug.*
+package-lock.json
