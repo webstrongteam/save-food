@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect, useState } from 'react'
-import { Image, Keyboard, ScrollView, Text, View } from 'react-native'
+import { Image, ScrollView, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Button, ButtonGroup, Slider } from 'react-native-elements'
 import { Camera } from 'expo-camera'
@@ -157,11 +157,6 @@ const Food = ({ navigation }: Props) => {
 		setModalType(type)
 	}
 
-	const closeModalWithKeyboard = () => {
-		Keyboard.dismiss()
-		setShowModal(false)
-	}
-
 	const saveChange = () => {
 		if (modalType === 'discardChanges') {
 			return
@@ -180,12 +175,11 @@ const Food = ({ navigation }: Props) => {
 			)
 
 			setHasChanges(true)
-			closeModalWithKeyboard()
+			setShowModal(false)
 		}
 	}
 
 	const cancelChange = () => {
-		Keyboard.dismiss()
 		if (modalType === 'discardChanges') {
 			return
 		}
@@ -195,7 +189,7 @@ const Food = ({ navigation }: Props) => {
 			[modalType]: savedData[modalType],
 		})
 
-		closeModalWithKeyboard()
+		setShowModal(false)
 	}
 
 	const toggleModal = (type?: ModalType) => {

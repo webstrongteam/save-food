@@ -25,9 +25,6 @@ export default StyleSheet.create({
 	infoIcon: {
 		marginRight: 20,
 	},
-	infoTextWrapper: {
-		marginTop: 12,
-	},
 	infoText: {
 		marginTop: 12,
 		fontSize: 16,

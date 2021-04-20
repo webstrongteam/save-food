@@ -179,7 +179,7 @@ const Payment = ({ navigation }: Props) => {
 				title={translations.paymentInfoTitle}
 				buttons={[{ text: 'Ok', onPress: () => setShowModal(false) }]}
 			>
-				<View style={styles.infoTextWrapper}>
+				<View>
 					<Text style={styles.infoText}>{translations.paymentInfo1}</Text>
 					<Text style={styles.infoText}>{translations.paymentInfo2}</Text>
 					<Text style={styles.infoText}>{translations.paymentInfo3}</Text>

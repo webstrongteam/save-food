@@ -48,18 +48,18 @@ const Settings = ({ navigation }: Props) => {
 	}
 
 	const changeLanguageHandler = async (lang: Language) => {
-		setShowModal(false)
 		setSettings(await changeLang(lang))
+		setShowModal(false)
 	}
 
 	const changeCurrencyHandler = async (currency: Currency) => {
-		setShowModal(false)
 		setSettings(await changeCurrency(currency))
+		setShowModal(false)
 	}
 
 	const clearDatabaseHandler = async () => {
-		setShowModal(false)
 		setSettings(await clearDatabase())
+		setShowModal(false)
 		showSuccessMessage()
 	}
 
@@ -67,8 +67,8 @@ const Settings = ({ navigation }: Props) => {
 		if (type === 'language') {
 			setModalContent(
 				<View>
-					{(Object.keys(languageMap) as Array<keyof LanguageMap>).map((lang, i) => (
-						<TouchableOpacity key={i} onPress={() => changeLanguageHandler(lang)}>
+					{(Object.keys(languageMap) as Array<keyof LanguageMap>).map((lang) => (
+						<TouchableOpacity key={lang} onPress={() => changeLanguageHandler(lang)}>
 							<ListItem bottomDivider>
 								<ListItem.Content>
 									<ListItem.Title
@@ -85,8 +85,8 @@ const Settings = ({ navigation }: Props) => {
 		} else if (type === 'currency') {
 			setModalContent(
 				<View>
-					{currencyList.map((item, i) => (
-						<TouchableOpacity key={i} onPress={() => changeCurrencyHandler(item)}>
+					{currencyList.map((item) => (
+						<TouchableOpacity key={item} onPress={() => changeCurrencyHandler(item)}>
 							<ListItem bottomDivider>
 								<ListItem.Content>
 									<ListItem.Title

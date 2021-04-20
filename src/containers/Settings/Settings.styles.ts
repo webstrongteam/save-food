@@ -37,7 +37,7 @@ export default StyleSheet.create({
 		fontFamily: 'Lato-Light',
 	},
 	clearTheDatabase: {
-		marginTop: 22,
+		marginTop: 12,
 		textAlign: 'center',
 		justifyContent: 'center',
 		alignItems: 'center',

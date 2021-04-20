@@ -1,13 +1,8 @@
-import React, { PropsWithChildren, useEffect } from 'react'
-import { BackHandler, Dimensions, Keyboard } from 'react-native'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
-import ModalBase, {
-	ModalButton,
-	ModalContent,
-	ModalFooter,
-	ModalTitle,
-	SlideAnimation,
-} from 'react-native-modals'
+import React, { PropsWithChildren } from 'react'
+import { Text, View, Keyboard, TouchableWithoutFeedback } from 'react-native'
+import { Button } from 'react-native-elements'
+import ModalBase from 'react-native-modal'
+import styles from './Modal.styles'
 
 export type ModalButtonType = {
 	text: string
@@ -22,54 +17,49 @@ type Props = PropsWithChildren<{
 	bgColor?: string
 }>
 
+const MODAL_WIDTH = 328
+
 const Modal = ({ toggleModal, visible, title, buttons = [], children }: Props) => {
-	const backAction = () => {
-		if (visible) {
-			toggleModal()
-			return true
-		}
-		return false
-	}
-
-	useEffect(() => {
-		BackHandler.addEventListener('hardwareBackPress', backAction)
-
-		return () => {
-			BackHandler.removeEventListener('hardwareBackPress', backAction)
-		}
-	}, [visible])
-
-	if (!visible) {
-		return <></>
-	}
-
 	return (
 		<ModalBase
-			width={Dimensions.get('window').width - 50}
-			visible={visible}
-			onSwipeOut={toggleModal}
-			onTouchOutside={toggleModal}
-			modalAnimation={
-				new SlideAnimation({
-					slideFrom: 'bottom',
-				})
-			}
-			modalTitle={
-				<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-					<ModalTitle title={title} />
-				</TouchableWithoutFeedback>
-			}
-			footer={
-				buttons?.length ? (
-					<ModalFooter>
-						{buttons.map((item) => (
-							<ModalButton key={item.text} text={item.text} onPress={item.onPress} />
-						))}
-					</ModalFooter>
-				) : undefined
-			}
+			avoidKeyboard
+			statusBarTranslucent
+			isVisible={visible}
+			onModalWillHide={Keyboard.dismiss}
+			onBackButtonPress={() => {
+				Keyboard.dismiss()
+				toggleModal()
+			}}
+			onBackdropPress={() => {
+				Keyboard.dismiss()
+				toggleModal()
+			}}
 		>
-			<ModalContent>{children}</ModalContent>
+			<View style={styles.contentWrapper}>
+				<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+					<View style={styles.header}>
+						<Text style={styles.title}>{title}</Text>
+					</View>
+				</TouchableWithoutFeedback>
+
+				<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+					<View style={styles.content}>{children}</View>
+				</TouchableWithoutFeedback>
+
+				{!!buttons?.length && (
+					<View style={styles.buttons}>
+						{buttons.map((item) => (
+							<Button
+								buttonStyle={[styles.button, { width: MODAL_WIDTH / buttons.length }]}
+								titleStyle={styles.buttonText}
+								key={item.text}
+								onPress={item.onPress}
+								title={item.text}
+							/>
+						))}
+					</View>
+				)}
+			</View>
 		</ModalBase>
 	)
 }

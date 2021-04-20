@@ -14,7 +14,7 @@ export default StyleSheet.create({
 		alignItems: 'center',
 	},
 	discardChanges: {
-		marginTop: 22,
+		marginTop: 12,
 		textAlign: 'center',
 		justifyContent: 'center',
 		alignItems: 'center',
@@ -36,8 +36,6 @@ export default StyleSheet.create({
 		color: whiteColor,
 	},
 	modalContentWrapper: {
-		marginTop: 10,
-		marginBottom: -10,
 		flexDirection: 'column',
 		justifyContent: 'center',
 	},
