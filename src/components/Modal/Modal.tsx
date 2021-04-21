@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react'
-import { Text, View, Keyboard, TouchableWithoutFeedback } from 'react-native'
+import { Text, View, Keyboard, TouchableWithoutFeedback, Platform } from 'react-native'
 import { Button } from 'react-native-elements'
 import ModalBase from 'react-native-modal'
 import styles from './Modal.styles'
@@ -25,7 +25,7 @@ const Modal = ({ toggleModal, visible, title, buttons = [], children }: Props) =
 		<ModalBase
 			avoidKeyboard
 			statusBarTranslucent
-			useNativeDriver
+			useNativeDriver={Platform.OS === 'android'}
 			isVisible={visible}
 			deviceHeight={height + STATUS_BAR_HEIGHT}
 			onModalWillHide={Keyboard.dismiss}
