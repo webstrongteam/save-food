@@ -13,7 +13,7 @@ export default StyleSheet.create({
 	},
 	deleteProductDescription: {
 		fontFamily: 'Lato-Light',
-		marginTop: 22,
+		marginTop: 12,
 		textAlign: 'center',
 		justifyContent: 'center',
 		alignItems: 'center',

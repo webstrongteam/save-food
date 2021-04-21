@@ -1,11 +1,12 @@
 import { ReactText } from 'react'
-import { Dimensions, Image, NativeModules, Platform } from 'react-native'
+import { Image, NativeModules, Platform, StatusBar, Dimensions } from 'react-native'
 import { SQLResultSetRowList } from 'expo-sqlite'
 import { ResizeMode, WastedFood } from '../types/westedFood'
 import { InputsControl } from '../types/common'
 import config from '../config/config'
 
-export const { width } = Dimensions.get('window')
+export const { width, height } = Dimensions.get('window')
+export const STATUS_BAR_HEIGHT = StatusBar.currentHeight ?? 20
 
 export const replaceComma = (value: ReactText): string => `${value}`.replace(/,/g, '.')
 
