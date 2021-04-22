@@ -16,11 +16,12 @@ type Props = PropsWithChildren<{
 	title: string
 	buttons?: ModalButtonType[]
 	bgColor?: string
+	onModalHide?: () => void
 }>
 
 const MODAL_WIDTH = 328
 
-const Modal = ({ toggleModal, visible, title, buttons = [], children }: Props) => {
+const Modal = ({ toggleModal, visible, title, onModalHide, buttons = [], children }: Props) => {
 	return (
 		<ModalBase
 			avoidKeyboard
@@ -29,6 +30,7 @@ const Modal = ({ toggleModal, visible, title, buttons = [], children }: Props) =
 			isVisible={visible}
 			deviceHeight={height + STATUS_BAR_HEIGHT}
 			onModalWillHide={Keyboard.dismiss}
+			onModalHide={onModalHide}
 			onBackButtonPress={() => {
 				Keyboard.dismiss()
 				toggleModal()

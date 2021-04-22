@@ -55,6 +55,7 @@ const Food = ({ navigation }: Props) => {
 	const [savedData, setSavedData] = useState<WastedFood>(initialData)
 	const [templateData, setTemplateData] = useState<WastedFood>(initialData)
 	const [loading, setLoading] = useState(true)
+	const [saveFoodBeforeModalHide, setSaveFoodBeforeModalHide] = useState(false)
 	const [hasChanges, setHasChanges] = useState(false)
 	const [showModal, setShowModal] = useState(false)
 	const [modalType, setModalType] = useState<ModalType>('id')
@@ -245,10 +246,10 @@ const Food = ({ navigation }: Props) => {
 		}
 	}
 
-	const checkPrice = (): boolean => !!(templateData.price && !controls.price.error)
+	const correctPrice = !!(templateData.price && !controls.price.error)
 
 	const exitHandler = () => {
-		if (hasChanges && checkPrice()) {
+		if (hasChanges && correctPrice) {
 			setContent('discardChanges')
 		} else {
 			navigation.goBack()
@@ -265,7 +266,13 @@ const Food = ({ navigation }: Props) => {
 						navigation.goBack()
 					},
 				},
-				{ text: translations.save, onPress: saveFoodHandler },
+				{
+					text: translations.save,
+					onPress: () => {
+						setSaveFoodBeforeModalHide(true)
+						setShowModal(false)
+					},
+				},
 				{ text: translations.cancel, onPress: () => setShowModal(false) },
 			]
 		}
@@ -275,13 +282,13 @@ const Food = ({ navigation }: Props) => {
 		]
 	}
 
-	const saveFoodHandler = async () => {
-		if (!checkPrice()) {
+	const showErrorHandler = () => {
+		if (!correctPrice) {
 			showErrorMessage('priceError')
-			return
 		}
+	}
 
-		setShowModal(false)
+	const saveFoodHandler = async () => {
 		await saveFood(savedData)
 		navigation.replace('List')
 	}
@@ -310,6 +317,11 @@ const Food = ({ navigation }: Props) => {
 				toggleModal={toggleModal}
 				title={translations[modalType]}
 				buttons={getModalButtons()}
+				onModalHide={async () => {
+					if (saveFoodBeforeModalHide) {
+						await saveFoodHandler()
+					}
+				}}
 			>
 				{modalContent}
 			</Modal>
@@ -378,11 +390,11 @@ const Food = ({ navigation }: Props) => {
 					</View>
 
 					<View style={styles.saveButtonContainer}>
-						<TouchableOpacity onPress={saveFoodHandler}>
+						<TouchableOpacity onPress={showErrorHandler}>
 							<Button
 								buttonStyle={styles.saveButton}
 								titleStyle={styles.saveButtonTitle}
-								disabled={!checkPrice()}
+								disabled={!correctPrice}
 								type='outline'
 								title={translations.save}
 								onPress={saveFoodHandler}
