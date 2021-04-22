@@ -21,12 +21,7 @@ const Header = ({
 	rightSize = 1,
 	bgColor,
 }: Props) => (
-	<View
-		style={{
-			backgroundColor: bgColor ?? 'transparency',
-			...styles.container,
-		}}
-	>
+	<View style={[{ backgroundColor: bgColor ?? 'transparency' }, styles.container]}>
 		<View style={{ flex: leftSize, alignItems: 'flex-start' }}>{leftComponent ?? <View />}</View>
 		<View
 			style={{ flex: centerSize, alignItems: 'center', marginTop: Platform.OS === 'ios' ? -2 : 0 }}

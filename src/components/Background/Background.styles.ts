@@ -1,6 +1,5 @@
-import { Dimensions, StyleSheet } from 'react-native'
-
-const { height, width } = Dimensions.get('window')
+import { StyleSheet } from 'react-native'
+import { height, width } from '../../common/utility'
 
 export default StyleSheet.create({
 	wrapper: {

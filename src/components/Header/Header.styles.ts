@@ -1,6 +1,5 @@
-import { StatusBar, StyleSheet } from 'react-native'
-
-const statusBarHeight = StatusBar.currentHeight ?? 20
+import { StyleSheet } from 'react-native'
+import { STATUS_BAR_HEIGHT } from '../../common/utility'
 
 export default StyleSheet.create({
 	container: {
@@ -12,7 +11,7 @@ export default StyleSheet.create({
 		width: '100%',
 		flexDirection: 'row',
 		alignItems: 'center',
-		marginTop: statusBarHeight + 12,
+		marginTop: STATUS_BAR_HEIGHT + 12,
 		marginBottom: 10,
 		justifyContent: 'space-between',
 	},

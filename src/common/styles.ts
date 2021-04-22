@@ -1,12 +1,3 @@
-import { Platform } from 'react-native'
-
-export const exitIcon = {
-	position: 'absolute',
-	top: Platform.OS === 'ios' ? 40 : 50,
-	left: 20,
-	zIndex: 20,
-}
-
 export const shadow = {
 	shadowColor: '#000',
 	shadowOffset: {

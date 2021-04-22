@@ -57,11 +57,11 @@ const Camera = ({ navigation }: Props) => {
 
 			{loading && (
 				<View style={styles.loading}>
-					<Spinner bgColor='transparency' color='#fff' size={64} />
+					<Spinner bgColor='transparency' size={64} />
 				</View>
 			)}
 
-			<View style={{ ...styles.takePhotoButtonWrapper, ...shadow }}>
+			<View style={[styles.takePhotoButtonWrapper, shadow]}>
 				<Button
 					disabled={loading}
 					onPress={takePhotoHandler}

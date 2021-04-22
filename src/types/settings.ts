@@ -8,5 +8,15 @@ export interface Settings {
 }
 
 export type Currency = 'PLN' | 'USD'
-export type Translations = Record<string, string>
 export type Language = 'pl' | 'en'
+
+export type Translation = Record<string, string>
+export type Translations = {
+	Start: Record<string, string>
+	Settings: Record<string, string>
+	Payment: Record<string, string>
+	Home: Record<string, string>
+	FoodList: Record<string, string>
+	Food: Record<string, string>
+	common: Record<string, string>
+}

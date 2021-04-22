@@ -11,7 +11,7 @@ import {
 import { MessageOptions, showMessage } from 'react-native-flash-message'
 import { Button, CheckBox, ListItem } from 'react-native-elements'
 import Header from '../../components/Header/Header'
-import { getImage, getQuantitySuffix, getResizeMode, primaryColor } from '../../common/utility'
+import { getImage, getPrice, getQuantitySuffix, getResizeMode } from '../../common/utility'
 import Spinner from '../../components/Spinner/Spinner'
 import Modal from '../../components/Modal/Modal'
 import { shadow } from '../../common/styles'
@@ -30,18 +30,21 @@ import styles from './FoodList.styles'
 import EmptyList from '../../components/EmptyList/EmptyList'
 import Background from '../../components/Background/Background'
 import Icon from '../../components/Icon/Icon'
+import { blackColor, primaryColor, redColor } from '../../common/colors'
 
 type Props = {
 	navigation: NavigationScreenType
 }
 
-type Action = 'amountError' | 'success'
-
 const FoodList = ({ navigation }: Props) => {
 	const moveButton = useRef(new Animated.Value(100)).current
 
 	const { useSubscribe } = useSettingsContext()
-	const { settings, translations } = useSubscribe((s) => s)
+	const settings = useSubscribe((s) => s.settings)
+	const translations = useSubscribe((s) => ({
+		...s.translations.FoodList,
+		...s.translations.common,
+	}))
 
 	const [list, setList] = useState<WastedFood[]>()
 	const [amount, setAmount] = useState(0)
@@ -73,7 +76,7 @@ const FoodList = ({ navigation }: Props) => {
 		setLoading(false)
 		setWait(false)
 
-		if (showMessage) showSimpleMessage('success')
+		if (showMessage) showSuccessMessage()
 	}
 
 	const checkFood = async () => {
@@ -94,25 +97,15 @@ const FoodList = ({ navigation }: Props) => {
 		}
 	}
 
-	const showSimpleMessage = (action: Action) => {
-		if (action === 'amountError') {
-			const message: MessageOptions = {
-				message: translations.amountErrorTitle,
-				description: translations.amountErrorDescription + settings.currency,
-				type: 'warning',
-				icon: { icon: 'warning', position: 'left' },
-				duration: 2500,
-			}
-			showMessage(message)
-		} else if (action === 'success') {
-			const message: MessageOptions = {
-				message: translations.paymentSuccessTitle,
-				type: 'success',
-				icon: { icon: 'success', position: 'left' },
-				duration: 2500,
-			}
-			showMessage(message)
+	const showSuccessMessage = () => {
+		const message: MessageOptions = {
+			message: translations.paymentSuccessTitle,
+			type: 'success',
+			icon: { icon: 'success', position: 'left' },
+			duration: 2500,
 		}
+
+		showMessage(message)
 	}
 
 	const getAmount = (list: WastedFood[]): number =>
@@ -184,12 +177,7 @@ const FoodList = ({ navigation }: Props) => {
 	}
 
 	const renderItemRow = ({ item }: { item: WastedFood }) => (
-		<ListItem
-			containerStyle={{
-				...styles.listItemContainer,
-				...shadow,
-			}}
-		>
+		<ListItem containerStyle={[styles.listItemContainer, shadow]}>
 			<ListItem.Content>
 				<TouchableOpacity
 					style={styles.listItem}
@@ -198,28 +186,24 @@ const FoodList = ({ navigation }: Props) => {
 					<View style={styles.details}>
 						<View style={styles.leftElement}>
 							<Image
-								style={{
-									...styles.image,
-									resizeMode: item.resizeMode,
-								}}
+								style={[styles.image, { resizeMode: item.resizeMode }]}
 								onError={(ev) => {
-									// @ts-ignore
-									ev.target.src = '../../assets/common/dish.png'
+									if (ev.target) {
+										// @ts-ignore
+										ev.target.src = '../../assets/common/dish.png'
+									}
 								}}
 								source={getImage(item.image)}
 							/>
 
 							<View style={styles.productDetails}>
 								<Text numberOfLines={2} style={styles.productName}>
-									{item.name === '' ? translations.noData : item.name}
+									{!item.name || item.name === '' ? translations.noData : item.name}
 								</Text>
 								<Text numberOfLines={1} style={styles.text}>
 									{translations.quantity}:{' '}
 									{item.quantity
-										? `${item.quantity} ${getQuantitySuffix(
-												item.quantitySuffixIndex,
-												translations,
-										  )}`
+										? `${item.quantity} ${getQuantitySuffix(item.quantitySuffixIndex)}`
 										: translations.noData}
 								</Text>
 								<Text numberOfLines={1} style={styles.text}>
@@ -229,30 +213,27 @@ const FoodList = ({ navigation }: Props) => {
 						</View>
 
 						<View style={styles.rightElement}>
-							<TouchableOpacity onPress={() => addFoodQuantity(item, 1)}>
-								<Icon
-									size={22}
-									style={styles.quantityAddIcon}
-									name='add'
-									type='material'
-									color='#000'
-								/>
-							</TouchableOpacity>
-							<TouchableOpacity onPress={() => addFoodQuantity(item, -1)}>
-								<Icon
-									onPress={() => addFoodQuantity(item, -1)}
-									size={22}
-									style={styles.quantityMinusIcon}
-									name='minus'
-									type='entypo'
-									color='#000'
-								/>
-							</TouchableOpacity>
+							<Icon
+								size={22}
+								style={styles.quantityAddIcon}
+								name='add'
+								type='material'
+								color={blackColor}
+								onPress={() => addFoodQuantity(item, 1)}
+							/>
+							<Icon
+								size={22}
+								style={styles.quantityMinusIcon}
+								name='minus'
+								type='entypo'
+								color={blackColor}
+								onPress={() => addFoodQuantity(item, -1)}
+							/>
 						</View>
 					</View>
 
 					<View style={styles.itemListFooter}>
-						<View style={styles.priceContainer}>
+						<TouchableOpacity onPress={() => selectItem(item)} style={styles.priceContainer}>
 							<CheckBox
 								checked={!!item.selected}
 								onPress={() => selectItem(item)}
@@ -261,7 +242,7 @@ const FoodList = ({ navigation }: Props) => {
 							/>
 							<View style={styles.priceWrapper}>
 								<Text style={styles.priceText}>
-									{item.price * item.productQuantity} {settings.currency}
+									{(item.price * item.productQuantity).toFixed(2)} {settings.currency}
 								</Text>
 								{item.productQuantity > 1 && (
 									<Text style={styles.quantityText}>
@@ -269,16 +250,15 @@ const FoodList = ({ navigation }: Props) => {
 									</Text>
 								)}
 							</View>
-						</View>
-						<TouchableOpacity onPress={() => toggleModal(item.id)}>
-							<Icon
-								size={22}
-								style={styles.deleteProductIcon}
-								color='#d9534f'
-								name='trash'
-								type='font-awesome-5'
-							/>
 						</TouchableOpacity>
+						<Icon
+							size={22}
+							onPress={() => toggleModal(item.id)}
+							style={styles.deleteProductIcon}
+							color={redColor}
+							name='trash'
+							type='font-awesome-5'
+						/>
 					</View>
 				</TouchableOpacity>
 			</ListItem.Content>
@@ -330,11 +310,7 @@ const FoodList = ({ navigation }: Props) => {
 					{ text: translations.cancel, onPress: toggleModal },
 				]}
 			>
-				<View>
-					<Text style={styles.deleteProductDescription}>
-						{translations.deleteProductDescription}
-					</Text>
-				</View>
+				<Text style={styles.deleteProductDescription}>{translations.deleteProductDescription}</Text>
 			</Modal>
 
 			<View style={styles.container}>
@@ -365,22 +341,15 @@ const FoodList = ({ navigation }: Props) => {
 			</View>
 
 			<Animated.View
-				style={{
-					transform: [{ translateY: moveButton }],
-					...styles.paymentButtonContainer,
-					...shadow,
-				}}
+				style={[{ transform: [{ translateY: moveButton }] }, styles.paymentButtonContainer, shadow]}
 			>
 				<View style={styles.paymentButtonWrapper}>
-					<TouchableOpacity onPress={() => showSimpleMessage('amountError')}>
-						<Button
-							buttonStyle={styles.paymentButton}
-							titleStyle={styles.paymentButtonTitle}
-							disabled={amount < 2}
-							onPress={goToPayment}
-							title={`${translations.pay} ${amount} ${settings.currency}`}
-						/>
-					</TouchableOpacity>
+					<Button
+						buttonStyle={styles.paymentButton}
+						titleStyle={styles.paymentButtonTitle}
+						onPress={goToPayment}
+						title={`${translations.donate} ${getPrice(amount)} ${settings.currency}`}
+					/>
 				</View>
 			</Animated.View>
 		</Background>

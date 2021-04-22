@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { primaryColor } from '../../common/utility'
+import { primaryColor, whiteColor } from '../../common/colors'
 
 export default StyleSheet.create({
 	camera: {
@@ -17,7 +17,7 @@ export default StyleSheet.create({
 		backgroundColor: primaryColor,
 	},
 	takeFoodButtonTitle: {
-		color: '#fff',
+		color: whiteColor,
 		fontSize: 18,
 		padding: 25,
 		fontFamily: 'Lato-Light',

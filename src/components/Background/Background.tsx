@@ -1,14 +1,14 @@
 import { LinearGradient } from 'expo-linear-gradient'
 import React, { PropsWithChildren } from 'react'
 import { View } from 'react-native'
-import { primaryColor } from '../../common/utility'
 import styles from './Background.styles'
+import { greenGradient } from '../../common/colors'
 
 type Props = PropsWithChildren<{
 	colors?: string[]
 }>
 
-const Background = ({ children, colors = [primaryColor, '#6cd015'] }: Props) => (
+const Background = ({ children, colors = greenGradient }: Props) => (
 	<View style={styles.wrapper}>
 		<LinearGradient colors={colors} style={styles.container} />
 		{children}

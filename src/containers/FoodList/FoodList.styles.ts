@@ -1,22 +1,23 @@
 import { StyleSheet } from 'react-native'
-import { primaryColor } from '../../common/utility'
+import { blackColor, darkColor, grayColor, primaryColor, whiteColor } from '../../common/colors'
+import { width } from '../../common/utility'
 
 export default StyleSheet.create({
 	headerTitle: {
 		textAlign: 'center',
 		fontSize: 22,
-		color: '#fff',
+		color: whiteColor,
 	},
 	openScannerIcon: {
 		marginRight: 20,
 	},
 	deleteProductDescription: {
-		marginTop: 15,
+		fontFamily: 'Lato-Light',
+		marginTop: 12,
 		textAlign: 'center',
 		justifyContent: 'center',
 		alignItems: 'center',
 		fontSize: 16,
-		fontFamily: 'Lato-Light',
 	},
 	container: {
 		flex: 1,
@@ -55,25 +56,25 @@ export default StyleSheet.create({
 		marginRight: 8,
 	},
 	productName: {
-		color: '#000',
+		fontFamily: 'Lato-Bold',
+		color: blackColor,
 		fontSize: 16,
 		marginBottom: 8,
 	},
 	text: {
-		fontFamily: 'Lato-Light',
 		fontSize: 14,
-		color: '#000',
+		color: blackColor,
 	},
 	rightElement: {
 		flexDirection: 'column',
 		borderWidth: 1,
-		borderColor: '#ddd',
+		borderColor: grayColor,
 		borderRadius: 12,
 	},
 	quantityAddIcon: {
 		padding: 8,
 		borderBottomWidth: 1,
-		borderBottomColor: '#ddd',
+		borderBottomColor: grayColor,
 	},
 	quantityMinusIcon: {
 		padding: 8,
@@ -84,7 +85,7 @@ export default StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'space-between',
 		borderTopWidth: 1,
-		borderTopColor: '#ddd',
+		borderTopColor: grayColor,
 		paddingTop: 8,
 		marginTop: 16,
 	},
@@ -93,23 +94,24 @@ export default StyleSheet.create({
 		alignItems: 'center',
 	},
 	checkbox: {
-		color: '#fff',
+		color: whiteColor,
 		padding: 0,
 	},
 	priceWrapper: {
 		flexDirection: 'row',
 		alignItems: 'center',
+		flexWrap: 'wrap',
+		maxWidth: width * 0.6,
 	},
 	priceText: {
 		fontFamily: 'Lato-Bold',
-		color: '#000',
+		color: blackColor,
 		fontSize: 20,
+		marginRight: 8,
 	},
 	quantityText: {
-		marginLeft: 8,
 		fontSize: 14,
-		fontFamily: 'Lato-Light',
-		color: '#a4a4a4',
+		color: darkColor,
 	},
 	deleteProductIcon: {
 		marginRight: 12,
@@ -130,9 +132,13 @@ export default StyleSheet.create({
 		backgroundColor: primaryColor,
 	},
 	paymentButtonTitle: {
-		color: '#fff',
+		color: whiteColor,
 		fontSize: 18,
-		padding: 25,
+		paddingTop: 4,
+		paddingBottom: 4,
+		paddingRight: 12,
+		paddingLeft: 12,
+		maxWidth: width * 0.75,
 		fontFamily: 'Lato-Light',
 	},
 })

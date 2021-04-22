@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import { whiteColor } from '../../common/colors'
 
 export default StyleSheet.create({
 	container: {
@@ -37,7 +38,7 @@ export default StyleSheet.create({
 		alignItems: 'center',
 	},
 	value: {
-		color: '#fff',
+		color: whiteColor,
 		marginLeft: 6,
 		fontSize: 16,
 		textAlign: 'center',

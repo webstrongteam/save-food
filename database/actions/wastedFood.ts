@@ -1,7 +1,7 @@
-import * as Sentry from 'sentry-expo'
 import { WastedFood } from '../../src/types/westedFood'
 import { db } from '../db'
 import { getAllResults } from '../../src/common/utility'
+import { sentryError } from '../../src/common/sentryEvent'
 import logEvent from '../../src/common/logEvent'
 
 export const fetchWastedFood = (): Promise<WastedFood[]> =>
@@ -13,7 +13,7 @@ export const fetchWastedFood = (): Promise<WastedFood[]> =>
 				})
 			},
 			(err) => {
-				Sentry.Native.captureException(err)
+				sentryError(err)
 				reject(err)
 			},
 		)
@@ -28,7 +28,7 @@ export const fetchAllWastedFood = (): Promise<WastedFood[]> =>
 				})
 			},
 			(err) => {
-				Sentry.Native.captureException(err)
+				sentryError(err)
 				reject(err)
 			},
 		)
@@ -43,7 +43,7 @@ export const getPaidWastedFoods = (): Promise<WastedFood[]> =>
 				})
 			},
 			(err) => {
-				Sentry.Native.captureException(err)
+				sentryError(err)
 				reject(err)
 			},
 		)
@@ -88,7 +88,7 @@ export const saveFood = (food: Partial<WastedFood>): Promise<{}> =>
 					)
 				},
 				(err) => {
-					Sentry.Native.captureException(err)
+					sentryError(err)
 					reject(err)
 				},
 			)
@@ -117,7 +117,7 @@ export const saveFood = (food: Partial<WastedFood>): Promise<{}> =>
 					)
 				},
 				(err) => {
-					Sentry.Native.captureException(err)
+					sentryError(err)
 					reject(err)
 				},
 			)
@@ -133,7 +133,7 @@ export const selectFood = (id: number, selected: number): Promise<{}> =>
 				})
 			},
 			(err) => {
-				Sentry.Native.captureException(err)
+				sentryError(err)
 				reject(err)
 			},
 		)
@@ -152,7 +152,7 @@ export const paidFood = (id: number): Promise<{}> =>
 				})
 			},
 			(err) => {
-				Sentry.Native.captureException(err)
+				sentryError(err)
 				reject(err)
 			},
 		)
@@ -171,7 +171,7 @@ export const removeFood = (id: number): Promise<{}> =>
 				})
 			},
 			(err) => {
-				Sentry.Native.captureException(err)
+				sentryError(err)
 				reject(err)
 			},
 		)
