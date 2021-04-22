@@ -1,6 +1,5 @@
 import React, { ReactNode, useEffect, useState } from 'react'
-import { Image, ScrollView, Text, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { Image, ScrollView, Text, View, TouchableOpacity } from 'react-native'
 import { Button, ButtonGroup, Slider } from 'react-native-elements'
 import { Camera } from 'expo-camera'
 import { MessageOptions, showMessage } from 'react-native-flash-message'
