@@ -1,14 +1,14 @@
 import { ReactText } from 'react'
 import { replaceComma } from './utility'
 import { InputControl } from '../types/common'
-import { Translations } from '../types/settings'
+import { Translation } from '../types/settings'
 
 export const emailRegEx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
 type Validator = (
 	control: InputControl,
 	value: ReactText,
-	translations: Translations,
+	translations: Translation,
 ) => InputControl
 
 export const validator: Validator = (control, value, translations) => {

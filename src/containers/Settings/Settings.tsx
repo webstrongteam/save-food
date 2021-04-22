@@ -13,21 +13,30 @@ import { NavigationScreenType } from '../../types/navigation'
 import { useSettingsContext } from '../../common/context/SettingsContext'
 import { changeLang, changeCurrency, clearDatabase } from '../../../database/actions/settings'
 import Icon from '../../components/Icon/Icon'
-import { primaryColor } from '../../common/utility'
-
-type LanguageMap = Record<Language, string>
-
-type ModalType = 'language' | 'currency' | 'clearTheDatabase'
+import {
+	blackColor,
+	orangeGradient,
+	primaryColor,
+	redGradient,
+	whiteColor,
+} from '../../common/colors'
 
 type Props = {
 	navigation: NavigationScreenType
 }
 
+type LanguageMap = Record<Language, string>
+type ModalType = 'language' | 'currency' | 'clearTheDatabase'
+
 const currencyList: Currency[] = ['USD', 'PLN']
 
 const Settings = ({ navigation }: Props) => {
 	const { useSubscribe, setSettings } = useSettingsContext()
-	const { settings, translations } = useSubscribe((s) => s)
+	const settings = useSubscribe((s) => s.settings)
+	const translations = useSubscribe((s) => ({
+		...s.translations.Settings,
+		...s.translations.common,
+	}))
 
 	const [modalType, setModalType] = useState<ModalType>('language')
 	const [modalContent, setModalContent] = useState<ReactNode>()
@@ -39,30 +48,32 @@ const Settings = ({ navigation }: Props) => {
 	}
 
 	const changeLanguageHandler = async (lang: Language) => {
-		setShowModal(false)
 		setSettings(await changeLang(lang))
+		setShowModal(false)
 	}
 
 	const changeCurrencyHandler = async (currency: Currency) => {
-		setShowModal(false)
 		setSettings(await changeCurrency(currency))
+		setShowModal(false)
 	}
 
 	const clearDatabaseHandler = async () => {
-		setShowModal(false)
 		setSettings(await clearDatabase())
-		showSimpleMessage()
+		setShowModal(false)
+		showSuccessMessage()
 	}
 
 	const setModalContentHandler = (type: ModalType) => {
 		if (type === 'language') {
 			setModalContent(
 				<View>
-					{(Object.keys(languageMap) as Array<keyof LanguageMap>).map((lang, i) => (
-						<TouchableOpacity key={i} onPress={() => changeLanguageHandler(lang)}>
+					{(Object.keys(languageMap) as Array<keyof LanguageMap>).map((lang) => (
+						<TouchableOpacity key={lang} onPress={() => changeLanguageHandler(lang)}>
 							<ListItem bottomDivider>
 								<ListItem.Content>
-									<ListItem.Title style={{ color: lang === settings.lang ? primaryColor : '#000' }}>
+									<ListItem.Title
+										style={{ color: lang === settings.lang ? primaryColor : blackColor }}
+									>
 										{languageMap[lang]}
 									</ListItem.Title>
 								</ListItem.Content>
@@ -74,12 +85,12 @@ const Settings = ({ navigation }: Props) => {
 		} else if (type === 'currency') {
 			setModalContent(
 				<View>
-					{currencyList.map((item, i) => (
-						<TouchableOpacity key={i} onPress={() => changeCurrencyHandler(item)}>
+					{currencyList.map((item) => (
+						<TouchableOpacity key={item} onPress={() => changeCurrencyHandler(item)}>
 							<ListItem bottomDivider>
 								<ListItem.Content>
 									<ListItem.Title
-										style={{ color: item === settings.currency ? primaryColor : '#000' }}
+										style={{ color: item === settings.currency ? primaryColor : blackColor }}
 									>
 										{item}
 									</ListItem.Title>
@@ -91,9 +102,7 @@ const Settings = ({ navigation }: Props) => {
 			)
 		} else if (type === 'clearTheDatabase') {
 			setModalContent(
-				<View>
-					<Text style={styles.clearTheDatabase}>{translations.clearTheDatabaseModal}</Text>
-				</View>,
+				<Text style={styles.clearTheDatabase}>{translations.clearTheDatabaseModal}</Text>,
 			)
 		}
 
@@ -109,10 +118,9 @@ const Settings = ({ navigation }: Props) => {
 		}
 	}
 
-	const showSimpleMessage = () => {
+	const showSuccessMessage = () => {
 		const message: MessageOptions = {
-			message: translations.clearTheDatabaseSuccessTitle,
-			description: translations.clearTheDatabaseSuccess,
+			message: translations.clearTheDatabaseSuccess,
 			type: 'success',
 			icon: { icon: 'success', position: 'left' },
 			duration: 2500,
@@ -146,24 +154,29 @@ const Settings = ({ navigation }: Props) => {
 
 			<View style={styles.settingsWrapper}>
 				<InfoWindow
-					color1='#292b2c'
-					color2={['#f2a91e', '#e95c17']}
+					color1={blackColor}
+					color2={orangeGradient}
 					title={translations.language}
 					value={languageMap[settings.lang]}
-					colorTitle='#fff'
+					colorTitle={whiteColor}
 					onPress={() => toggleModal('language')}
 				/>
 				<InfoWindow
-					color1='#292b2c'
-					color2={['#af3462', '#bf3741']}
+					color1={blackColor}
+					color2={redGradient}
 					title={translations.currency}
 					value={settings.currency}
-					colorTitle='#fff'
+					colorTitle={whiteColor}
 					onPress={() => toggleModal('currency')}
 				/>
 				<TouchableOpacity style={styles.clear} onPress={() => toggleModal('clearTheDatabase')}>
 					<Text style={styles.clearText}>{`${translations.clearTheDatabase}  `}</Text>
-					<Icon size={28} name='trash-o' type='font-awesome' />
+					<Icon
+						onPress={() => toggleModal('clearTheDatabase')}
+						size={28}
+						name='trash-o'
+						type='font-awesome'
+					/>
 				</TouchableOpacity>
 			</View>
 

@@ -1,7 +1,6 @@
-import { StyleSheet, Dimensions } from 'react-native'
-import { primaryColor } from '../../common/utility'
-
-const { width, height } = Dimensions.get('window')
+import { StyleSheet } from 'react-native'
+import { blackColor, primaryColor, redColor, whiteColor } from '../../common/colors'
+import { height, width } from '../../common/utility'
 
 export default StyleSheet.create({
 	container: {
@@ -10,7 +9,7 @@ export default StyleSheet.create({
 		height: '100%',
 		flexDirection: 'column',
 		justifyContent: 'flex-end',
-		backgroundColor: '#292b2c',
+		backgroundColor: blackColor,
 	},
 	barCodeScanner: {
 		width,
@@ -23,12 +22,6 @@ export default StyleSheet.create({
 		left: 0,
 		top: 0,
 		zIndex: 15,
-	},
-	backIcon: {
-		position: 'absolute',
-		top: 40,
-		left: 20,
-		zIndex: 20,
 	},
 	scannerBoxContainer: {
 		position: 'absolute',
@@ -49,11 +42,12 @@ export default StyleSheet.create({
 	},
 	scannerBoxLine: {
 		position: 'absolute',
+		zIndex: 10,
 		width: width - (width / height) * 100 * 2 - 16,
 		height,
 		left: (width / height) * 100 + 8,
 		top: height / 2,
-		borderColor: '#f61e19',
+		borderColor: redColor,
 		opacity: 0.7,
 		borderTopWidth: 8,
 	},
@@ -73,7 +67,7 @@ export default StyleSheet.create({
 		alignItems: 'center',
 	},
 	addManuallyButtonTitle: {
-		color: '#fff',
+		color: whiteColor,
 		fontSize: 18,
 		padding: 25,
 		fontFamily: 'Lato-Light',

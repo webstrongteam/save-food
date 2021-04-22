@@ -1,15 +1,12 @@
 import { ReactText } from 'react'
-import { Dimensions, Image, NativeModules, Platform } from 'react-native'
+import { Image, NativeModules, Platform, StatusBar, Dimensions } from 'react-native'
 import { SQLResultSetRowList } from 'expo-sqlite'
-import { Translations } from '../types/settings'
 import { ResizeMode, WastedFood } from '../types/westedFood'
-import { expo } from '../../app.json'
 import { InputsControl } from '../types/common'
 import config from '../config/config'
 
-export const { primaryColor } = expo
-
-export const { width } = Dimensions.get('window')
+export const { width, height } = Dimensions.get('window')
+export const STATUS_BAR_HEIGHT = StatusBar.currentHeight ?? 20
 
 export const replaceComma = (value: ReactText): string => `${value}`.replace(/,/g, '.')
 
@@ -23,15 +20,8 @@ export const getResizeMode = (image: string, callback: (type: ResizeMode) => voi
 	})
 }
 
-export const getQuantitySuffix = (
-	quantitySuffixIndex: number,
-	translations: Translations,
-): string => {
-	if (quantitySuffixIndex === 0) {
-		return translations.gramsSuffix
-	}
-	return translations.millilitersSuffix
-}
+export const getQuantitySuffix = (quantitySuffixIndex: number): 'g' | 'ml' =>
+	quantitySuffixIndex === 0 ? 'g' : 'ml'
 
 export const getAllResults = <T>(rows: SQLResultSetRowList): T[] => {
 	const results = []
@@ -42,6 +32,10 @@ export const getAllResults = <T>(rows: SQLResultSetRowList): T[] => {
 }
 
 export const getLocale = () => {
+	if (Platform.OS === 'web') {
+		return { lang: 'en', currency: 'USD' }
+	}
+
 	const locale =
 		Platform.OS === 'ios'
 			? NativeModules.SettingsManager.settings.AppleLocale
@@ -71,6 +65,10 @@ export const prepareData = (data: WastedFood, controls: InputsControl): WastedFo
 	})
 
 	return preparedData
+}
+
+export const getPrice = (price: number): string => {
+	return price > 10000 ? '>10000' : `${price}`
 }
 
 export const logConfigStatus = () => {

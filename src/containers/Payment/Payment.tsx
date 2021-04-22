@@ -4,7 +4,6 @@ import { Image, ScrollView, StatusBar, Text, View } from 'react-native'
 import { Button } from 'react-native-elements'
 import Carousel from 'react-native-snap-carousel'
 import * as WebBrowser from 'expo-web-browser'
-import * as Sentry from 'sentry-expo'
 import { NavigationScreenType } from '../../types/navigation'
 import { InputsControl } from '../../types/common'
 import { useSettingsContext } from '../../common/context/SettingsContext'
@@ -19,6 +18,8 @@ import useAsyncEffect from '../../common/hooks/useAsyncEffect'
 import { getPaidWastedFoods } from '../../../database/actions/wastedFood'
 import { changeEmail } from '../../../database/actions/settings'
 import logEvent from '../../common/logEvent'
+import { blackColor } from '../../common/colors'
+import { sentryError } from '../../common/sentryEvent'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -58,7 +59,11 @@ const charityOrganizations: Organization[] = [
 
 const Payment = ({ navigation }: Props) => {
 	const { useSubscribe, setSettings } = useSettingsContext()
-	const { settings, translations } = useSubscribe((s) => s)
+	const settings = useSubscribe((s) => s.settings)
+	const translations = useSubscribe((s) => ({
+		...s.translations.Payment,
+		...s.translations.common,
+	}))
 
 	const [loading, setLoading] = useState(false)
 	const [showModal, setShowModal] = useState(false)
@@ -96,7 +101,7 @@ const Payment = ({ navigation }: Props) => {
 				.catch((err) => {
 					// eslint-disable-next-line no-console
 					console.warn(err)
-					Sentry.Native.captureException(err)
+					sentryError(err)
 				})
 
 			setSettings(await changeEmail(`${email}`))
@@ -107,7 +112,7 @@ const Payment = ({ navigation }: Props) => {
 		if (!ids) {
 			// eslint-disable-next-line no-console
 			console.warn('Missing food ids for payment')
-			Sentry.Native.captureException('Missing food ids for payment')
+			sentryError('Missing food ids for payment')
 		}
 
 		navigation.navigate('List', { ids })
@@ -125,7 +130,7 @@ const Payment = ({ navigation }: Props) => {
 	const renderItem = ({ item }: { item: Organization }) => (
 		<TouchableOpacity
 			activeOpacity={1}
-			style={{ ...styles.imageContainer, ...shadow }}
+			style={[styles.imageContainer, shadow]}
 			onPress={() => itemOnPressHandler(item)}
 		>
 			<Image style={styles.image} source={item.image} />
@@ -149,15 +154,17 @@ const Payment = ({ navigation }: Props) => {
 		<View style={styles.flex}>
 			<StatusBar barStyle='dark-content' translucent backgroundColor='transparent' />
 			<Header
-				leftComponent={<Icon color='#000' onPress={() => navigation.goBack()} variant='backIcon' />}
+				leftComponent={
+					<Icon color={blackColor} onPress={() => navigation.goBack()} variant='backIcon' />
+				}
 				centerComponent={
-					<Text style={styles.header}>
+					<Text numberOfLines={1} style={styles.header}>
 						{translations.amount} {amount} {settings.currency}
 					</Text>
 				}
 				rightComponent={
 					<Icon
-						color='#5e5e5e'
+						color={blackColor}
 						style={styles.infoIcon}
 						onPress={() => setShowModal(true)}
 						type='material'
@@ -172,7 +179,7 @@ const Payment = ({ navigation }: Props) => {
 				title={translations.paymentInfoTitle}
 				buttons={[{ text: 'Ok', onPress: () => setShowModal(false) }]}
 			>
-				<View style={styles.infoTextWrapper}>
+				<View>
 					<Text style={styles.infoText}>{translations.paymentInfo1}</Text>
 					<Text style={styles.infoText}>{translations.paymentInfo2}</Text>
 					<Text style={styles.infoText}>{translations.paymentInfo3}</Text>
@@ -222,12 +229,7 @@ const Payment = ({ navigation }: Props) => {
 				</View>
 			</ScrollView>
 
-			<View
-				style={{
-					...styles.paymentButtonContainer,
-					...shadow,
-				}}
-			>
+			<View style={[styles.paymentButtonContainer, shadow]}>
 				<View style={styles.paymentButtonWrapper}>
 					<Button
 						loading={loading}

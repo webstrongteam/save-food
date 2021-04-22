@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import { whiteColor } from '../../common/colors'
 
 export default StyleSheet.create({
 	container: {
@@ -7,7 +8,7 @@ export default StyleSheet.create({
 	emptyList: {
 		opacity: 0.75,
 		fontFamily: 'Lato-Light',
-		color: '#fff',
+		color: whiteColor,
 		fontSize: 22,
 		textAlign: 'center',
 	},

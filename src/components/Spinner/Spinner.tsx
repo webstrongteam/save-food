@@ -1,8 +1,7 @@
 import React from 'react'
 import { ActivityIndicator, Platform, View } from 'react-native'
-import { LinearGradient } from 'expo-linear-gradient'
 import styles from './Spinner.styles'
-import { primaryColor } from '../../common/utility'
+import Background from '../Background/Background'
 
 type Props = {
 	size?: number | 'small' | 'large'
@@ -23,17 +22,16 @@ const Spinner = ({ size = 32, color = '#fff', bgColor }: Props) => {
 
 	if (bgColor) {
 		return (
-			<View style={{ ...styles.spinner, backgroundColor: bgColor }}>
+			<View style={[styles.spinner, { backgroundColor: bgColor }]}>
 				<ActivityIndicator size={getSize()} color={color} />
 			</View>
 		)
 	}
 
 	return (
-		<View style={styles.spinner}>
-			<LinearGradient colors={[primaryColor, '#6cd015']} style={styles.containerColor} />
-			<ActivityIndicator size={getSize()} color={color} />
-		</View>
+		<Background>
+			<ActivityIndicator style={styles.spinner} size={getSize()} color={color} />
+		</Background>
 	)
 }
 

@@ -1,9 +1,8 @@
 import React from 'react'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { TouchableOpacity } from 'react-native'
 import { Icon as IconBase, IconProps } from 'react-native-elements'
 import styles from './Icon.styles'
-
-type Variant = 'backIcon' | 'exitIcon'
+import { whiteColor } from '../../common/colors'
 
 type Props = {
 	variant?: Variant
@@ -11,11 +10,13 @@ type Props = {
 	name?: string
 } & Omit<IconProps, 'name'>
 
+type Variant = 'backIcon' | 'exitIcon'
+
 const Icon = ({
 	onPress,
 	variant,
 	size = 28,
-	color = '#fff',
+	color = whiteColor,
 	name = 'arrowleft',
 	...props
 }: Props) => {
@@ -36,7 +37,7 @@ const Icon = ({
 
 	if (variant === 'exitIcon') {
 		return (
-			<TouchableOpacity containerStyle={styles.exitIcon} onPress={onPress}>
+			<TouchableOpacity style={styles.exitIcon} onPress={onPress}>
 				<IconBase {...props} size={size} name='close' type='antdesign' color={color} />
 			</TouchableOpacity>
 		)

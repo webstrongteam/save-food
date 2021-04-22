@@ -1,68 +1,70 @@
-import React, { PropsWithChildren, useEffect } from 'react'
-import { BackHandler, Dimensions, Keyboard } from 'react-native'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
-import ModalBase, { ModalButton, ModalContent, ModalFooter, ModalTitle } from 'react-native-modals'
+import React, { PropsWithChildren } from 'react'
+import { Text, View, Keyboard, TouchableWithoutFeedback, Platform } from 'react-native'
+import { Button } from 'react-native-elements'
+import ModalBase from 'react-native-modal'
+import styles from './Modal.styles'
+import { height, STATUS_BAR_HEIGHT } from '../../common/utility'
+
+export type ModalButtonType = {
+	text: string
+	onPress: () => void
+}
 
 type Props = PropsWithChildren<{
 	toggleModal: () => void
 	visible: boolean
 	title: string
-	buttons?: {
-		text: string
-		onPress: () => void
-	}[]
+	buttons?: ModalButtonType[]
 	bgColor?: string
+	onModalHide?: () => void
 }>
 
-const Modal = ({
-	toggleModal,
-	visible,
-	title,
-	buttons = [],
-	bgColor = '#fff',
-	children,
-}: Props) => {
-	const backAction = () => {
-		if (visible) {
-			toggleModal()
-			return true
-		}
-		return false
-	}
+const MODAL_WIDTH = 328
 
-	useEffect(() => {
-		BackHandler.addEventListener('hardwareBackPress', backAction)
-
-		return () => {
-			BackHandler.removeEventListener('hardwareBackPress', backAction)
-		}
-	}, [visible])
-
-	if (!visible) {
-		return <></>
-	}
-
+const Modal = ({ toggleModal, visible, title, onModalHide, buttons = [], children }: Props) => {
 	return (
 		<ModalBase
-			width={Dimensions.get('window').width - 50}
-			visible={visible}
-			onSwipeOut={toggleModal}
-			onTouchOutside={toggleModal}
-			modalStyle={{ backgroundColor: bgColor }}
-			modalTitle={
-				<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-					<ModalTitle title={title} />
-				</TouchableWithoutFeedback>
-			}
-			footer={
-				<ModalFooter>
-					{buttons.map((item, i) => (
-						<ModalButton key={i} text={item.text} onPress={item.onPress} />
-					))}
-				</ModalFooter>
-			}
+			avoidKeyboard
+			statusBarTranslucent
+			useNativeDriver={Platform.OS === 'android'}
+			isVisible={visible}
+			deviceHeight={height + STATUS_BAR_HEIGHT}
+			onModalWillHide={Keyboard.dismiss}
+			onModalHide={onModalHide}
+			onBackButtonPress={() => {
+				Keyboard.dismiss()
+				toggleModal()
+			}}
+			onBackdropPress={() => {
+				Keyboard.dismiss()
+				toggleModal()
+			}}
 		>
-			<ModalContent>{children}</ModalContent>
+			<View style={styles.contentWrapper}>
+				<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+					<View style={styles.header}>
+						<Text style={styles.title}>{title}</Text>
+					</View>
+				</TouchableWithoutFeedback>
+
+				<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+					<View style={styles.content}>{children}</View>
+				</TouchableWithoutFeedback>
+
+				{!!buttons?.length && (
+					<View style={styles.buttons}>
+						{buttons.map((item) => (
+							<Button
+								buttonStyle={[styles.button, { width: MODAL_WIDTH / buttons.length }]}
+								titleStyle={styles.buttonText}
+								key={item.text}
+								onPress={item.onPress}
+								title={item.text}
+							/>
+						))}
+					</View>
+				)}
+			</View>
 		</ModalBase>
 	)
 }

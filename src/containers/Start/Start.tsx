@@ -4,9 +4,9 @@ import AsyncStorage from '@react-native-community/async-storage'
 import Onboarding from 'react-native-onboarding-swiper'
 import styles from './Start.styles'
 import { NavigationScreenType } from '../../types/navigation'
-import { Language, Translations } from '../../types/settings'
+import { Language, Translation } from '../../types/settings'
 import { useSettingsContext } from '../../common/context/SettingsContext'
-import { primaryColor } from '../../common/utility'
+import { primaryColor } from '../../common/colors'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -14,7 +14,8 @@ type Props = {
 
 const Start = ({ navigation }: Props) => {
 	const { useSubscribe } = useSettingsContext()
-	const { settings, translations } = useSubscribe((s) => s)
+	const settings = useSubscribe((s) => s.settings)
+	const translations = useSubscribe((s) => s.translations.Start)
 
 	useEffect(() => {
 		BackHandler.addEventListener('hardwareBackPress', () => true)
@@ -38,7 +39,7 @@ const Start = ({ navigation }: Props) => {
 	)
 }
 
-const getPages = (translations: Translations, lang: Language) => [
+const getPages = (translations: Translation, lang: Language) => [
 	{
 		backgroundColor: primaryColor,
 		image: (
