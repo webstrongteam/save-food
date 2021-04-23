@@ -27,7 +27,7 @@
 		"paymentInfoTitle": "Dotacje",
 		"paymentInfo1": "Wybierz i przyciśnij kafelek z organizacją charytatywną, na którą chcesz przekazać równowartość zmarnowanego jedzenia.",
 		"paymentInfo2": "Po wykonaniu przelewu wróć do aplikacji i kliknij przycisk „Dotacja wysłana!”, by opłacić produkty w aplikacji.",
-		"paymentInfo3": "Opcjonalnie możesz także wypełnić pole z e-mailem, na który prześlemy podziękowania.",
+		"paymentInfo3": "Opcjonalnie możesz wypełnić pole z e-mailem, na który prześlemy podziękowania.",
 		"amount": "Razem:",
 		"emailLabel": "Adres e-mail (opcjonalne)"
 	},
