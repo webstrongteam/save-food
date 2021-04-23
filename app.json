@@ -5,9 +5,9 @@
 		"description": "This application is created to help you saving food.",
 		"githubUrl": "https://github.com/webstrongteam/save-food",
 		"privacy": "public",
-		"version": "1.2.1",
+		"version": "1.2.2",
 		"ios": {
-			"buildNumber": "1.2.1.0",
+			"buildNumber": "1.2.2.0",
 			"bundleIdentifier": "com.webStrong.saveFood",
 			"supportsTablet": false,
 			"infoPlist": {
@@ -17,7 +17,7 @@
 		"android": {
 			"permissions": ["CAMERA"],
 			"package": "com.webStrong.saveFood",
-			"versionCode": 1210
+			"versionCode": 1220
 		},
 		"platforms": ["ios", "android"],
 		"primaryColor": "#4b8b1d",

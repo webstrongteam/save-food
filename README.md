@@ -37,7 +37,7 @@ Dev tools:
 - ESlint
 - Prettier
 
-<p>App version: <b>1.2.1</b></p>
+<p>App version: <b>1.2.2</b></p>
 
 ## How to run locally
 
