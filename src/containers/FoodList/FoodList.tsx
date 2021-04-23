@@ -348,6 +348,7 @@ const FoodList = ({ navigation }: Props) => {
 						buttonStyle={styles.paymentButton}
 						titleStyle={styles.paymentButtonTitle}
 						onPress={goToPayment}
+						disabled={amount === 0}
 						title={`${translations.donate} ${getPrice(amount)} ${settings.currency}`}
 					/>
 				</View>
