@@ -38,7 +38,7 @@
 		"react": "16.13.1",
 		"react-dom": "16.13.1",
 		"react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
-		"react-native-elements": "3.4.0",
+		"react-native-elements": "3.3.2",
 		"react-native-flash-message": "0.1.23",
 		"react-native-gesture-handler": "~1.10.2",
 		"react-native-global-props": "https://github.com/TuNguyenThanh/react-native-global-props#master",

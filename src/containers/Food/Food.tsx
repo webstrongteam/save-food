@@ -85,6 +85,7 @@ const Food = ({ navigation }: Props) => {
 		},
 	})
 
+	const correctPrice = !!(savedData.price && !controls.price.error)
 	const quantitySuffixes = [translations.grams, translations.milliliters]
 
 	const setFood = () => {
@@ -163,20 +164,22 @@ const Food = ({ navigation }: Props) => {
 		}
 
 		if (checkValidation(controls[modalType], templateData[modalType] ?? '')) {
-			setTemplateData(prepareData(templateData, controls))
-			setSavedData(
-				prepareData(
-					{
-						...savedData,
-						[modalType]: templateData[modalType],
-					},
-					controls,
-				),
+			const preparedData = prepareData(
+				{ ...savedData, [modalType]: templateData[modalType] },
+				controls,
 			)
+
+			setTemplateData(preparedData)
+			setSavedData(preparedData)
 
 			setHasChanges(true)
 			setShowModal(false)
 		}
+	}
+
+	const changePercentageHandler = (percent: number) => {
+		setSavedData({ ...savedData, percentage: +percent.toFixed(0) })
+		setHasChanges(true)
 	}
 
 	const cancelChange = () => {
@@ -184,11 +187,7 @@ const Food = ({ navigation }: Props) => {
 			return
 		}
 
-		setTemplateData({
-			...templateData,
-			[modalType]: savedData[modalType],
-		})
-
+		setTemplateData(savedData)
 		setShowModal(false)
 	}
 
@@ -202,7 +201,7 @@ const Food = ({ navigation }: Props) => {
 
 	const takePhoto = (uri: string) => {
 		setSavedData({
-			...templateData,
+			...savedData,
 			image: uri,
 		})
 		setHasChanges(true)
@@ -246,8 +245,6 @@ const Food = ({ navigation }: Props) => {
 		}
 	}
 
-	const correctPrice = !!(templateData.price && !controls.price.error)
-
 	const exitHandler = () => {
 		if (hasChanges && correctPrice) {
 			setContent('discardChanges')
@@ -282,7 +279,7 @@ const Food = ({ navigation }: Props) => {
 		]
 	}
 
-	const showErrorHandler = () => {
+	const checkErrorHandler = () => {
 		if (!correctPrice) {
 			showErrorMessage('priceError')
 		}
@@ -380,17 +377,14 @@ const Food = ({ navigation }: Props) => {
 								minimumValue={1}
 								maximumValue={100}
 								value={savedData.percentage}
-								onValueChange={(value: number) => {
-									setSavedData({ ...savedData, percentage: +value.toFixed(0) })
-									setHasChanges(true)
-								}}
+								onValueChange={(value: number) => changePercentageHandler(value)}
 							/>
 							<Text style={styles.percent}>{savedData.percentage}%</Text>
 						</View>
 					</View>
 
 					<View style={styles.saveButtonContainer}>
-						<TouchableOpacity onPress={showErrorHandler}>
+						<TouchableOpacity onPress={checkErrorHandler}>
 							<Button
 								buttonStyle={styles.saveButton}
 								titleStyle={styles.saveButtonTitle}
