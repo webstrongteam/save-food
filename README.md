@@ -5,6 +5,9 @@
 <a href="https://play.google.com/store/apps/details?id=com.webStrong.saveFood" target="_blank"><img src="https://webstrong.pl/assets/templates/google_play_en.png" height="50"/></a>
 <a href="https://apps.apple.com/us/app/id1520027228" target="_blank"><img src="https://webstrong.pl/assets/templates/app_store_en.png" height="50"/></a>
 
+[![SaveFood CI - Deploy](https://github.com/webstrongteam/save-food/actions/workflows/deploy.yml/badge.svg?branch=deploy)](https://github.com/webstrongteam/save-food/actions/workflows/deploy.yml)
+[![SaveFood CI - Preview build](https://github.com/webstrongteam/save-food/actions/workflows/preview-build.yml/badge.svg)](https://github.com/webstrongteam/save-food/actions/workflows/preview-build.yml)
+
 **SaveFood** - mobile application available on Android and iOS devices created to help you save food. SaveFood draws attention to how much the user wasted food and how it can help in the fight with hunger in the world.
 
 Thanks to the built-in barcode scanner and integration with the international API, the user is able to scan wasted products and transfer their equivalent of money to chosen charity organization.
