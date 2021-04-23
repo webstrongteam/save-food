@@ -205,6 +205,7 @@ const Food = ({ navigation }: Props) => {
 			...templateData,
 			image: uri,
 		})
+		setHasChanges(true)
 	}
 
 	const toggleCamera = async () => {
@@ -380,8 +381,8 @@ const Food = ({ navigation }: Props) => {
 								maximumValue={100}
 								value={savedData.percentage}
 								onValueChange={(value: number) => {
-									setHasChanges(true)
 									setSavedData({ ...savedData, percentage: +value.toFixed(0) })
+									setHasChanges(true)
 								}}
 							/>
 							<Text style={styles.percent}>{savedData.percentage}%</Text>
