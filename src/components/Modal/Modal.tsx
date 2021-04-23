@@ -3,7 +3,7 @@ import { Text, View, Keyboard, TouchableWithoutFeedback, Platform } from 'react-
 import { Button } from 'react-native-elements'
 import ModalBase from 'react-native-modal'
 import styles from './Modal.styles'
-import { height, STATUS_BAR_HEIGHT, width } from "../../common/utility";
+import { height, STATUS_BAR_HEIGHT, width } from '../../common/utility'
 
 export type ModalButtonType = {
 	text: string

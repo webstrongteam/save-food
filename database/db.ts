@@ -1,5 +1,5 @@
 import { openDatabase } from 'expo-sqlite'
-import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { expo } from '../app.json'
 import { getLocale } from '../src/common/utility'
 import { sentryError } from '../src/common/sentryEvent'

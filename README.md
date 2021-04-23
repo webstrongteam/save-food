@@ -24,7 +24,7 @@ Thanks to the built-in barcode scanner and integration with the international AP
 
 **SaveFood** was created with:
 
-- Expo <i>40.0.0</i>
+- Expo <i>41.0.0</i>
 - React Native <i>0.63</i>
 - Typescript <i>4.0.0</i>
 - Node.js server
