@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native'
-import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { LinearGradient } from 'expo-linear-gradient'
 import Header from '../../components/Header/Header'
 import InfoWindow from '../../components/InfoWindow/InfoWindow'
@@ -13,6 +13,7 @@ import { fetchAllWastedFood } from '../../../database/actions/wastedFood'
 import { WastedFood } from '../../types/westedFood'
 import Background from '../../components/Background/Background'
 import Icon from '../../components/Icon/Icon'
+import { getPrice } from '../../common/utility'
 import {
 	greenGradient,
 	orangeGradient,
@@ -23,7 +24,6 @@ import {
 
 import en_facts from '../../translations/en/facts.json'
 import pl_facts from '../../translations/pl/facts.json'
-import { getPrice } from '../../common/utility'
 
 type Props = {
 	navigation: NavigationScreenType

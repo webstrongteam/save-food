@@ -3,7 +3,7 @@ import { Text, View, Keyboard, TouchableWithoutFeedback, Platform } from 'react-
 import { Button } from 'react-native-elements'
 import ModalBase from 'react-native-modal'
 import styles from './Modal.styles'
-import { height, STATUS_BAR_HEIGHT } from '../../common/utility'
+import { height, STATUS_BAR_HEIGHT, width } from '../../common/utility'
 
 export type ModalButtonType = {
 	text: string
@@ -19,7 +19,7 @@ type Props = PropsWithChildren<{
 	onModalHide?: () => void
 }>
 
-const MODAL_WIDTH = 328
+const MODAL_WIDTH = width - 64
 
 const Modal = ({ toggleModal, visible, title, onModalHide, buttons = [], children }: Props) => {
 	return (
@@ -27,6 +27,7 @@ const Modal = ({ toggleModal, visible, title, onModalHide, buttons = [], childre
 			avoidKeyboard
 			statusBarTranslucent
 			useNativeDriver={Platform.OS === 'android'}
+			useNativeDriverForBackdrop={Platform.OS === 'android'}
 			isVisible={visible}
 			deviceHeight={height + STATUS_BAR_HEIGHT}
 			onModalWillHide={Keyboard.dismiss}

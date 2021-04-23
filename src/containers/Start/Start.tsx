@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { BackHandler, Image, View } from 'react-native'
-import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import Onboarding from 'react-native-onboarding-swiper'
 import styles from './Start.styles'
 import { NavigationScreenType } from '../../types/navigation'
